@@ -1,9 +1,10 @@
 #include "Text.h"
 
 #include <typeindex>
-#include "../GameObject/GameObject.h"
-#include "../Manager/ResourceManager.h"
-#include "../Resource/FontResource.h"
+#include "../../GameObject/GameObject.h"
+#include "../../Manager/ResourceManager.h"
+#include "../../Resource/FontResource.h"
+#include "../../Event/Event.h"
 
 Text::Text(GameObject* owner) : GraphicsComponent(owner), string_(), fontName_() {}
 

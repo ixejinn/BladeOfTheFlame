@@ -1,7 +1,7 @@
 #pragma once
 #include "AEEngine.h"
-#include "LogicComponent.h"
-#include "../Manager/ComponentManager.h"
+#include "../LogicComponent.h"
+#include "../../Manager/ComponentManager.h"
 
 class PlayerController : public LogicComponent
 {

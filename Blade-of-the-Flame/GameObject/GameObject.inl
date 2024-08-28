@@ -3,17 +3,7 @@
 #include <iostream>
 #include <type_traits>	// std::is_base_of<Base, Derived>
 #include "../Manager/ComponentManager.h"
-#include "../Component/Audio.h"
-#include "../Component/Transform.h"
-#include "../Component/RigidBody.h"
-#include "../Component/Sprite.h"
-#include "../Component/Text.h"
-#include "../Component/PlayerController.h"
-#include "../Component/Collider.h"
-#include "../Component/Racket.h"
-#include "../Component/Wall.h"
-#include "../Component/Ball.h"
-#include "../Component/Score.h"
+#include "../Components.h"
 
 template<typename T>
 inline bool GameObject::AddComponent()

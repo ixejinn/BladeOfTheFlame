@@ -1,9 +1,9 @@
 #include "Score.h"
 
 #include <typeindex>
-#include "../Manager/EventManager.h"
-#include "../GameObject/GameObject.h"
-#include "../Event/Event.h"
+#include "../../Manager/EventManager.h"
+#include "../../GameObject/GameObject.h"
+#include "../../Event/Event.h"
 
 Score::Score(GameObject* owner) : LogicComponent(owner) {}
 

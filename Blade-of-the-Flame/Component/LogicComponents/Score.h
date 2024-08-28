@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "LogicComponent.h"
-#include "../Event/EventEntity.h"
-#include "../Manager/ComponentManager.h"
+#include "../LogicComponent.h"
+#include "../../Event/EventEntity.h"
+#include "../../Manager/ComponentManager.h"
 
 class Score : public LogicComponent, public EventEntity
 {

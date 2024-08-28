@@ -2,10 +2,10 @@
 
 #include <string>
 #include "AEEngine.h"
-#include "GraphicsComponent.h"
-#include "../Event/EventEntity.h"
-#include "../Manager/ComponentManager.h"
-#include "../Utils/Utils.h"
+#include "../GraphicsComponent.h"
+#include "../../Event/EventEntity.h"
+#include "../../Manager/ComponentManager.h"
+#include "../../Utils/Utils.h"
 
 class Text : public GraphicsComponent, public EventEntity
 {

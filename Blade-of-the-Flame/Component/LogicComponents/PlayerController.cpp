@@ -1,6 +1,6 @@
 #include "PlayerController.h"
 
-#include "../GameObject/GameObject.h"
+#include "../../GameObject/GameObject.h"
 
 PlayerController::PlayerController(GameObject* owner) : LogicComponent(owner) {}
 

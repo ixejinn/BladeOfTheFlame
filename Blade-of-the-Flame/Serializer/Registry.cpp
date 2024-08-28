@@ -5,7 +5,7 @@
 #include "../Component/Transform.h"
 #include "../Component/RigidBody.h"
 #include "../Component/Sprite.h"
-#include "../Component/PlayerController.h"
+#include "../Component/LogicComponents/PlayerController.h"
 
 Registry::Registry()
 {

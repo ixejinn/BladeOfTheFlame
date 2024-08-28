@@ -6,7 +6,6 @@ class GameObject;
 class SampleSave : public State
 {
 private:
-	GameObject* obj;
 
 public:
 	void Init() override;

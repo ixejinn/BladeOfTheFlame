@@ -9,7 +9,6 @@
 #include "Manager/EventManager.h"
 #include "State/SampleSave.h"
 #include "State/SampleLoad.h"
-#include "State/Pong.h"
 
 // ---------------------------------------------------------------------------
 // main
@@ -40,9 +39,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	SampleSave sampleSave;
 	SampleLoad sampleLoad;
-	Pong pong;
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&pong);
+	gsm.ChangeState(&sampleSave);
 
 	// Game Loop
 	while (gGameRunning)

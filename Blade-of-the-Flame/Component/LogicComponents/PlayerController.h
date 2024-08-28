@@ -15,7 +15,7 @@ private:
 	uint8_t rotKeys_[2] = { 0x00, 0x00 };
 	uint8_t stopKey_ = 0x00;
 
-	float moveSpeed_ = 20.f;
+	float moveSpeed_ = 10.f;
 	float rotSpeed_ = 0.5f;
 
 	PlayerController(GameObject* owner);
@@ -32,6 +32,8 @@ public:
 	void SetStopKey(uint8_t key) { stopKey_ = key; }
 	void SetMoveSpeed(float speed) { moveSpeed_ = speed; }
 	void SetRotSpeed(float speed) { rotSpeed_ = speed; }
+
+	void MultiplyMoveSpeed(float scale) { moveSpeed_ *= scale; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "PlayerController";

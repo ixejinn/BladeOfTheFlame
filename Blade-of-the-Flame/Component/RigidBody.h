@@ -13,7 +13,7 @@ private:
 	bool useAcceleration_ = true;
 	AEVec2 acceleration_;
 
-	float dragCoefficient_ = 1.3f;
+	float dragCoefficient_ = 5.f;
 
 	RigidBody(GameObject* owner);
 

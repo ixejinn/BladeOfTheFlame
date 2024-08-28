@@ -15,6 +15,7 @@ void SampleSave::Init()
 	obj->GetComponent<Sprite>()->SetTexture("Assets/PlanetTexture.png");
 
 	obj->AddComponent<RigidBody>();
+	obj->GetComponent<RigidBody>()->SetUseAcceleration(false);
 
 	obj->AddComponent<PlayerController>();
 	PlayerController* pCtrl = obj->GetComponent<PlayerController>();

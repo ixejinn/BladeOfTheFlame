@@ -25,6 +25,16 @@ void SampleSave::Init()
 
 	obj->AddComponent<Audio>();
 	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
+
+	obj->AddComponent<Player>();
+
+	GameObject* square = GameObjectManager::GetInstance().CreateObject("square");
+
+	square->AddComponent<Transform>();
+	square->GetComponent<Transform>()->SetScale({ 100, 100 });
+
+	square->AddComponent<Sprite>();
+	square->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
 }
 
 void SampleSave::Update()

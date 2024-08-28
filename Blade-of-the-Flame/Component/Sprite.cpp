@@ -61,6 +61,7 @@ void Sprite::Update()
 
 	// Draw mesh
 	AEGfxMeshDraw(mesh, AE_GFX_MDM_TRIANGLES);
+	//AEGfxMeshDraw(mesh, AE_GFX_MDM_LINES);
 
 	AEGfxMeshFree(mesh);
 }

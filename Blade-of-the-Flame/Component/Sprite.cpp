@@ -1,0 +1,113 @@
+#include "Sprite.h"
+
+#include "Transform.h"
+#include "../Manager/ResourceManager.h"
+#include "../GameObject/GameObject.h"
+#include "../Resource/TextureResource.h"
+
+Sprite::Sprite(GameObject* owner) : GraphicsComponent(owner), color_(), texture_(nullptr), textureName_() {}
+
+Sprite::~Sprite()
+{
+	if (texture_ != nullptr && !textureName_.empty())
+		ResourceManager::GetInstance().Unload(textureName_);
+}
+
+void Sprite::Update()
+{
+	// Set mesh
+	AEGfxMeshStart();
+
+	Transform* trans = owner_->GetComponent<Transform>();
+	AEVec2 halfLength = { trans->GetLocalScale().x / 2, trans->GetLocalScale().y / 2 };
+
+	AEGfxTriAdd(
+		-halfLength.x, -halfLength.y, 0xFFFFFFFF, 0.0f, 1.0f,
+		 halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		-halfLength.x,  halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+	AEGfxTriAdd(
+		 halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		 halfLength.x,  halfLength.y, 0xFFFFFFFF, 1.0f, 0.0f,
+		-halfLength.x,  halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+
+	AEGfxVertexList* mesh = AEGfxMeshEnd();
+
+	// Set background color
+	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+
+	// Set render mode
+	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
+
+	// Set color to multiply
+	AEGfxSetColorToMultiply(1, 1, 1, 1);
+
+	// Set color to add
+	AEGfxSetColorToAdd(color_.red / 255.f, color_.green / 255.f, color_.blue / 255.f, 0);
+
+	// Set blend mode
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+
+	// Set transparency
+	AEGfxSetTransparency(1);
+
+	// Set texture
+	AEGfxTextureSet(texture_, 0, 0);
+
+	// Set transform
+	AEMtx33 transf = (owner_->GetComponent<Transform>())->GetMatrix();
+	AEGfxSetTransform(transf.m);
+
+	// Draw mesh
+	AEGfxMeshDraw(mesh, AE_GFX_MDM_TRIANGLES);
+
+	AEGfxMeshFree(mesh);
+}
+
+void Sprite::LoadFromJson(const json& data)
+{
+	auto compData = data.find("compData");
+	if (compData != data.end())
+	{
+		auto it = compData->find("color");
+		color_.red = it->begin().value();
+		color_.green = (it->begin() + 1).value();
+		color_.blue = (it->begin() + 2).value();
+
+		it = compData->find("textureName");
+		textureName_ = it.value();
+		SetTexture(textureName_);
+	}
+}
+
+json Sprite::SaveToJson()
+{
+	json data, compData;
+	data["type"] = TypeName;
+
+	compData["color"] = { color_.red, color_.green, color_.blue };
+	compData["textureName"] = textureName_;
+
+	data["compData"] = compData;
+	return data;
+}
+
+void Sprite::SetColor(const Color& col)
+{
+	color_ = col;
+}
+
+void Sprite::SetTexture(const std::string& name)
+{
+	textureName_ = name;
+	texture_ = ResourceManager::GetInstance().Get<TextureResource>(name)->GetData();
+}
+
+ComponentSerializer* Sprite::CreateComponent(GameObject* owner)
+{
+	if (!owner->AddComponent<Sprite>())
+		std::cout << "Sprite::CreateComponent() Component already exists" << std::endl;
+
+	return owner->GetComponent<Sprite>();
+}

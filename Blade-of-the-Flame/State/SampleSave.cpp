@@ -24,8 +24,6 @@ void SampleSave::Init()
 
 	obj->AddComponent<Audio>();
 	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
-
-
 }
 
 void SampleSave::Update()

@@ -18,6 +18,11 @@ protected:
 
 	float phase1Time_ = 0.f;
 
+	bool phase1_;
+	bool phase2_;
+	bool phase3_;
+	bool phaseStart_;
+
 	AEVec2 pos_;
 	AEVec2 scale_;
 

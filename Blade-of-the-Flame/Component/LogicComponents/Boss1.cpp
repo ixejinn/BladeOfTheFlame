@@ -5,13 +5,19 @@
 Boss1::Boss1(GameObject* owner) : BossComp(owner)
 {
 	hp_		    = 500;
-	moveSpeed_  =   5;
+	moveSpeed_  =   3;
 	chaseSpeed_ =   3;
 	baseDmg_    =   5;
 	skillDmg_   =  10;
 	range_		= 1.5;
+
 	phaseTime_  = 0.0;
 	phase1Time_ = 0.0;
+
+	phase1_ = false;
+	phase2_ = false;
+	phase3_ = false;
+	phaseStart_ = true;
 }
 
 void Boss1::Update()
@@ -23,28 +29,29 @@ void Boss1::Update()
 	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
 	if (!bossRb)
 		return;
-	//if
-	phaseTime_+= 0.1;
 
-	BaseChase();
-
-	if (hp_ >= 350)
-	{
-		Phase1();
-	}
-	if (hp_ <= 350 && hp_ >= 150)
-	{
-		Phase2();
-	}
-	if (hp_ <= 150)
-	{
-		Phase3();
-	}
+	BossState();
 }
 
 void Boss1::BossState()
 {
+	if (phaseStart_)
+	{
+		BaseChase();
 
+		if (!phase1_ && phaseTime_ < 3.f)
+		{
+			Phase1();
+			phaseTime_ += 0.1f;
+			phase1_ = true;
+		}
+		else if(phase1_ && phaseTime_ < 6.f)
+		{
+			moveSpeed_ = 1.f;
+			phaseTime_ = 0;
+			phase1_ = false;
+		}
+	}
 }
 
 void Boss1::BaseChase()
@@ -73,20 +80,26 @@ void Boss1::Phase1()
 	AEVec2	   bossPos = bossTrans->GetPosition();
 
 	AEVec2	   chaseVec = playerPos - bossPos;
-
 	AEVec2	   unitChaseVec;
+	
+	AEVec2Normalize(&unitChaseVec, &chaseVec);
+
+	moveSpeed_ = 6.f;
+	bossRb->AddVelocity(unitChaseVec * moveSpeed_);
 }
 
 void Boss1::Phase2()
 {
 	Transform* bossTrans = owner_->GetComponent<Transform>();
 	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
+
 }
 
 void Boss1::Phase3()
 {
 	Transform* bossTrans = owner_->GetComponent<Transform>();
 	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
+
 }
 
 void Boss1::LoadFromJson(const json&)

@@ -9,7 +9,10 @@
 #include "Manager/EventManager.h"
 #include "State/SampleSave.h"
 #include "State/SampleLoad.h"
-
+// ---------------------------------------------------------------------------
+//BOSS_TEST
+#include "State/BossSample/BossSampleSave.h"
+#include "State/BossSample/BossSampleLoad.h"
 // ---------------------------------------------------------------------------
 // main
 
@@ -39,9 +42,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	SampleSave sampleSave;
 	SampleLoad sampleLoad;
-	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&sampleSave);
+	//GameStateManager& gsm = GameStateManager::GetInstance();
+	//gsm.ChangeState(&sampleSave);
+	// ---------------------------------------------------------------------------
+	//BOSS_TEST
+	BossSampleSave bossSampleSave;
+	BossSampleLoad bossSampleLoad;
 
+	GameStateManager& gsm = GameStateManager::GetInstance();
+	gsm.ChangeState(&bossSampleSave);
+	// ---------------------------------------------------------------------------
+	
 	// Game Loop
 	while (gGameRunning)
 	{

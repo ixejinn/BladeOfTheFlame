@@ -7,3 +7,5 @@
 #include "Component/LogicComponents/Text.h"
 #include "Component/LogicComponents/PlayerController.h"
 #include "Component/LogicComponents/Score.h"
+
+#include "Component/LogicComponents/Boss1.h"

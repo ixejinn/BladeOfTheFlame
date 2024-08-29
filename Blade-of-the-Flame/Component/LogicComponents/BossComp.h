@@ -6,6 +6,7 @@
 
 class BossComp : public LogicComponent
 {
+
 protected:
 	float hp_         = 0.f;
 	float moveSpeed_  = 0.f;
@@ -13,9 +14,14 @@ protected:
 	float baseDmg_    = 0.f;
 	float skillDmg_   = 0.f;
 	float range_      = 0.f;
-	
+	float phaseTime_  = 0.f;
+
+	float phase1Time_ = 0.f;
+
 	AEVec2 pos_;
 	AEVec2 scale_;
+
+	GameObject* player;
 
 	BossComp(GameObject* owner);
 
@@ -27,12 +33,13 @@ public:
 		return "BossComp";
 	}
 
-	virtual void baseAttack() = 0;
+	virtual void BossState() = 0;
+
+	virtual void BaseChase() = 0;
 	
 	virtual void Phase1() = 0;
 
 	virtual void Phase2() = 0;
 
 	virtual void Phase3() = 0;
-
 };

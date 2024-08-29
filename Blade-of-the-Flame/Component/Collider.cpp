@@ -12,6 +12,11 @@ Collider::Collider(GameObject* owner, ColliderType type)
 	CollisionManager::GetInstance().AddCollider(this);
 }
 
+void Collider::RemoveFromManager()
+{
+	ComponentManager<EngineComponent>::GetInstance().DeleteComponent(static_cast<EngineComponent*>(this));
+}
+
 void Collider::LoadFromJson(const json& data)
 {
 	auto compData = data.find("compData");

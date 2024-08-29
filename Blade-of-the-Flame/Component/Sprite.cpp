@@ -13,6 +13,11 @@ Sprite::~Sprite()
 		ResourceManager::GetInstance().Unload(textureName_);
 }
 
+void Sprite::RemoveFromManager()
+{
+	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
+}
+
 void Sprite::Update()
 {
 	// Set mesh

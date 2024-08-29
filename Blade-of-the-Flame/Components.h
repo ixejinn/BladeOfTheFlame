@@ -4,8 +4,7 @@
 #include "Component/RigidBody.h"
 #include "Component/Sprite.h"
 #include "Component/Collider.h"
-#include "Component/LogicComponents/Text.h"
+#include "Component/Text.h"
 #include "Component/LogicComponents/PlayerController.h"
-#include "Component/LogicComponents/Score.h"
 
 #include "Component/LogicComponents/Player.h"

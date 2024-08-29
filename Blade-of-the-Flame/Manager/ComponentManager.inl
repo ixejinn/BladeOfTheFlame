@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <type_traits>	// std::is_base_of<Base, Derived>
+#include "../GameObject/GameObject.h"
 
 template<typename T>
 template<typename U>

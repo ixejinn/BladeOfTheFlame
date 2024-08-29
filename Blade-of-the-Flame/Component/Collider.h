@@ -25,6 +25,8 @@ protected:
 	Collider(GameObject* owner, ColliderType type);
 
 public:
+	void RemoveFromManager() override;
+
 	void LoadFromJson(const json&) override;
 
 	const ColliderType& GetColliderType() const { return type_; }

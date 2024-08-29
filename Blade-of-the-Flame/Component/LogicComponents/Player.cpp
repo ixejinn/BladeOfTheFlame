@@ -18,6 +18,11 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	pc->MultiplyMoveSpeed(moveSpeed_);
 }
 
+void Player::RemoveFromManager()
+{
+	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
+}
+
 void Player::Update()
 {
 	/* CHECK */

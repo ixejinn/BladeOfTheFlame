@@ -4,6 +4,11 @@
 
 PlayerController::PlayerController(GameObject* owner) : LogicComponent(owner) {}
 
+void PlayerController::RemoveFromManager()
+{
+	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
+}
+
 void PlayerController::Update()
 {
 	Transform* trans = owner_->GetComponent<Transform>();

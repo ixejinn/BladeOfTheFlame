@@ -30,6 +30,11 @@ void Transform::UpdateMatrix()
 	AEMtx33Concat(&transformMatrix_, &tranMtx, &transformMatrix_);
 }
 
+void Transform::RemoveFromManager()
+{
+	ComponentManager<EngineComponent>::GetInstance().DeleteComponent(static_cast<EngineComponent*>(this));
+}
+
 void Transform::Update()
 {
 	UpdateMatrix();

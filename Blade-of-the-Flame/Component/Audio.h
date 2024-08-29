@@ -22,6 +22,8 @@ private:
 	~Audio();
 
 public:
+	void RemoveFromManager() override;
+
 	void Update() override;
 
 	void LoadFromJson(const json&) override;

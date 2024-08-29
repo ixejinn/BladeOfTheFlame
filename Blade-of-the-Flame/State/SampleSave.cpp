@@ -35,6 +35,8 @@ void SampleSave::Init()
 
 	square->AddComponent<Sprite>();
 	square->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
+
+	//GameObjectManager::GetInstance().RemoveObject("square");
 }
 
 void SampleSave::Update()

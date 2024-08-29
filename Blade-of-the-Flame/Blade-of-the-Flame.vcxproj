@@ -103,6 +103,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
   <ItemGroup>
     <ClCompile Include="Component\Audio.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
+    <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
@@ -131,6 +132,8 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\AudioComponent.h" />
     <ClInclude Include="Component\Collider.h" />
     <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Component\LogicComponents\Attack.h" />
+    <ClInclude Include="Component\LogicComponents\MeleeAttack.h" />
     <ClInclude Include="Component\LogicComponents\Player.h" />
     <ClInclude Include="Component\LogicComponents\PlayerController.h" />
     <ClInclude Include="Component\EngineComponent.h" />

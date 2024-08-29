@@ -18,10 +18,3 @@ struct GameOverEvent : public BaseEvent
 {
 
 };
-
-/* PONG */
-
-struct ScoreEvent : public BaseEvent
-{
-	bool scoreTeam = 0;	// Left: 0, Right: 1
-};

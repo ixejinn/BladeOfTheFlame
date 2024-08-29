@@ -12,8 +12,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	timeStart_ = std::chrono::system_clock::now();
 
 	/* Set Player component */
-	owner_->AddComponent<Transform>();
-	owner_->AddComponent<RigidBody>();
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
@@ -64,8 +62,8 @@ void Player::Update()
 		//std::cout << x << ", " << y << std::endl;
 		curAttack_->AttackObject();
 	}
-	else
-		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
+	//else
+		//GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
 }
 
 void Player::LoadFromJson(const json& data)

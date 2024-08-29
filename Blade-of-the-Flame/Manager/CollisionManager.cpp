@@ -93,7 +93,7 @@ bool CollisionManager::CheckCircleAABB(CircleCollider* circle, BoxCollider* aabb
 
 bool CollisionManager::CheckCircleOBB(CircleCollider* colA, BoxCollider* colB)
 {
-	
+	//// TODO
 
 	return false;
 }
@@ -176,7 +176,8 @@ void CollisionManager::CheckAllCollision()
 		for (int j = i + 1; j < colliders_.size(); j++)
 		{
 			AEVec2 collisionPoint;
-			if (CheckCollision(colliders_[i], colliders_[j], collisionPoint))
+			if (colliders_[i]->owner_->active_ && colliders_[j]->owner_->active_ &&
+				CheckCollision(colliders_[i], colliders_[j], collisionPoint))
 			{
 				std::cout << "collision" << std::endl;
 

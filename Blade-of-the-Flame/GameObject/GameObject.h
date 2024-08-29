@@ -21,6 +21,8 @@ private:
 	GameObject(const std::string& name) : components_(), name_(name) {}
 
 public:
+	bool active_ = true;
+
 	~GameObject();
 
 	const std::string& GetName() const { return name_; }

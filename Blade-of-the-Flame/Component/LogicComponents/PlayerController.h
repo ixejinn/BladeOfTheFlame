@@ -15,7 +15,7 @@ private:
 	uint8_t rotKeys_[2] = { 0x00, 0x00 };
 	uint8_t stopKey_ = 0x00;
 
-	float moveSpeed_ = 10.f;
+	float moveSpeed_ = 5.f;
 	float rotSpeed_ = 0.5f;
 
 	PlayerController(GameObject* owner);

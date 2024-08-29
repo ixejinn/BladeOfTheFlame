@@ -8,3 +8,4 @@
 #include "Component/LogicComponents/PlayerController.h"
 
 #include "Component/LogicComponents/Player.h"
+#include "Component/LogicComponents/MeleeAttack.h"

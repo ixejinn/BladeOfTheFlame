@@ -25,7 +25,10 @@ template <typename T>
 inline void ComponentManager<T>::UpdateComponent()
 {
 	for (auto it = components_.begin(); it != components_.end(); ++it)
-		(*it)->Update();
+	{
+		if ((*it)->GetOwner()->active_)
+			(*it)->Update();
+	}
 }
 
 template <typename T>

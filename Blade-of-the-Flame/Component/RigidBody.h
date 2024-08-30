@@ -13,13 +13,15 @@ private:
 	bool useAcceleration_ = true;
 	AEVec2 acceleration_;
 
-	float dragCoefficient_ = 1.3f;
+	float dragCoefficient_ = 5.f;
 
 	RigidBody(GameObject* owner);
 
 	bool CheckEpsilon(float val, float EP = EPSILON);
 
 public:
+	void RemoveFromManager() override;
+
 	void Update() override;
 
 	void LoadFromJson(const json&) override;

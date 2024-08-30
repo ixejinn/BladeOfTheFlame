@@ -13,6 +13,11 @@ Sprite::~Sprite()
 		ResourceManager::GetInstance().Unload(textureName_);
 }
 
+void Sprite::RemoveFromManager()
+{
+	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
+}
+
 void Sprite::Update()
 {
 	// Set mesh
@@ -61,6 +66,7 @@ void Sprite::Update()
 
 	// Draw mesh
 	AEGfxMeshDraw(mesh, AE_GFX_MDM_TRIANGLES);
+	//AEGfxMeshDraw(mesh, AE_GFX_MDM_LINES);
 
 	AEGfxMeshFree(mesh);
 }

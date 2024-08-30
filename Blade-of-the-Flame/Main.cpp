@@ -35,7 +35,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, 1, 60, true, NULL);
 	
 	// Changing the window title
-	AESysSetWindowTitle("Project A");
+	AESysSetWindowTitle("Blade of the Flame");
 
 	// reset the system modules
 	AESysReset();

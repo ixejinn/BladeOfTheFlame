@@ -1,17 +1,25 @@
 #include "Text.h"
 
 #include <typeindex>
-#include "../../GameObject/GameObject.h"
-#include "../../Manager/ResourceManager.h"
-#include "../../Resource/FontResource.h"
-#include "../../Event/Event.h"
+#include "../GameObject/GameObject.h"
+#include "../Manager/ResourceManager.h"
+#include "../Manager/EventManager.h"
+#include "../Resource/FontResource.h"
+#include "../Event/Event.h"
 
-Text::Text(GameObject* owner) : GraphicsComponent(owner), string_(), fontName_() {}
+Text::Text(GameObject* owner) : GraphicsComponent(owner), string_(), fontName_()
+{
+}
 
 Text::~Text()
 {
 	if (fontId_ < 0)
 		ResourceManager::GetInstance().Unload(fontName_);
+}
+
+void Text::RemoveFromManager()
+{
+	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
 }
 
 void Text::Update()
@@ -37,17 +45,6 @@ json Text::SaveToJson()
 
 void Text::OnEvent(BaseEvent* event)
 {
-	if (std::type_index(typeid(*event)) == std::type_index(typeid(ScoreEvent)))
-	{
-		Score* score = owner_->GetComponent<Score>();
-		if (!score)
-		{
-			std::cerr << "Text::OnEvent() Score not found" << std::endl;
-			return;
-		}
-
-		string_ = std::to_string(score->GetScore());
-	}
 }
 
 void Text::SetFont(const std::string& name)

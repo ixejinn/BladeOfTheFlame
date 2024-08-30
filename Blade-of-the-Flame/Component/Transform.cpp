@@ -1,6 +1,7 @@
 #include "Transform.h"
 
 #include <iostream>
+#include <cmath>
 #include "../GameObject/GameObject.h"
 
 Transform::Transform(GameObject* owner) : EngineComponent(owner), position_(), scale_(), rotation_(0), transformMatrix_()
@@ -28,6 +29,11 @@ void Transform::UpdateMatrix()
 	// Concatenate trnasform, rotation, scaling matrix
 	AEMtx33Concat(&transformMatrix_, &rotMtx, &sclMtx);
 	AEMtx33Concat(&transformMatrix_, &tranMtx, &transformMatrix_);
+}
+
+void Transform::RemoveFromManager()
+{
+	ComponentManager<EngineComponent>::GetInstance().DeleteComponent(static_cast<EngineComponent*>(this));
 }
 
 void Transform::Update()
@@ -96,6 +102,11 @@ void Transform::SetScale(const AEVec2& scl)
 {
 	scale_ = scl;
 	UpdateMatrix();
+}
+
+void Transform::SetRotation(const AEVec2& pos)
+{
+	SetRotation(std::atan2(pos.y, pos.x));
 }
 
 void Transform::SetRotation(const float& rot)

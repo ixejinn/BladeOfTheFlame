@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <type_traits>	// std::is_base_of<Base, Derived>
+#include "../GameObject/GameObject.h"
 
 template<typename T>
 template<typename U>
@@ -24,7 +25,10 @@ template <typename T>
 inline void ComponentManager<T>::UpdateComponent()
 {
 	for (auto it = components_.begin(); it != components_.end(); ++it)
-		(*it)->Update();
+	{
+		if ((*it)->GetOwner()->active_)
+			(*it)->Update();
+	}
 }
 
 template <typename T>

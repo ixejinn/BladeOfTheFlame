@@ -2,7 +2,7 @@
 
 #include <string>
 #include "AEEngine.h"
-#include "../GraphicsComponent.h"
+#include "GraphicsComponent.h"
 #include "../../Event/EventEntity.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Utils/Utils.h"
@@ -23,6 +23,8 @@ private:
 	~Text();
 
 public:
+	void RemoveFromManager() override;
+	
 	void Update() override;
 
 	void LoadFromJson(const json&) override;

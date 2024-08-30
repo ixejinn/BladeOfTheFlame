@@ -16,7 +16,24 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 
 void BulletComp::Update()
 {
-	owner_->GetComponent<RigidBody>()->AddVelocity(unitDir * bulletSpeed);
+	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
+
+	bulletRigd->AddVelocity(unitDir * bulletSpeed);
+}
+
+void BulletComp::InitBullet()
+{
+	Transform* bulletTrans = owner_ ->GetComponent<Transform>();
+	Transform* playerTrans = player ->GetComponent<Transform>();
+	RigidBody* bulletRigd  = owner_ ->GetComponent<RigidBody>();
+
+	bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
+
+	AEVec2 dir = playerTrans->GetPosition() - bulletTrans->GetPosition();
+
+	AEVec2Normalize(&unitDir, &dir);
+
+	bulletRigd->AddVelocity(unitDir * bulletSpeed);
 }
 
 void BulletComp::LoadFromJson(const json&)
@@ -26,18 +43,6 @@ void BulletComp::LoadFromJson(const json&)
 json BulletComp::SaveToJson()
 {
 	return json();
-}
-
-void BulletComp::InitBullet()
-{
-	owner_->GetComponent<Transform>()->SetPosition(boss->GetComponent<Transform>()->GetPosition());
-
-	AEVec2 dir = player->GetComponent<Transform>()->GetPosition() - owner_->GetComponent<Transform>()->GetPosition();
-	
-	AEVec2Normalize(&unitDir, &dir);
-
-	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
-	bulletRigd->AddVelocity(unitDir * bulletSpeed);
 }
 
 ComponentSerializer* BulletComp::CreateComponent(GameObject* owner)

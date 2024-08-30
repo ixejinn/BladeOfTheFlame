@@ -42,14 +42,16 @@ void BossSampleSave::Init()
 
 	boss1->GetComponent<Sprite>	  ()->SetTexture("Assets/yee.png");
 
+	// -----------------------------------------------------------------------------------------
+	//BULLET_TEST
 	GameObject* bullet = GameObjectManager::GetInstance().CreateObject("bullet");
-	bullet->AddComponent<Transform>();
-	bullet->AddComponent<Sprite>();
-	bullet->AddComponent<RigidBody>();
+	bullet->AddComponent<Transform> ();
+	bullet->AddComponent<Sprite>    ();
+	bullet->AddComponent<RigidBody> ();
 	bullet->AddComponent<BulletComp>();
 
 	bullet->GetComponent<Transform>()->SetScale({ 50, 50 });
-	bullet->GetComponent<Sprite>()->SetTexture("Assets/YeeHead.png");
+	bullet->GetComponent<Sprite>   ()->SetTexture("Assets/YeeHead.png");
 }
 
 void BossSampleSave::Update()

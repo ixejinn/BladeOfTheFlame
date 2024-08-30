@@ -1,4 +1,5 @@
 #include "Boss1.h"
+#include "Bullet.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
 
@@ -95,9 +96,6 @@ void Boss1::Phase1()
 
 void Boss1::Phase2()
 {
-	Transform* bossTrans = owner_->GetComponent<Transform>();
-	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
-	AEVec2     playerPos = player->GetComponent<Transform>()->GetPosition();
 	
 }
 

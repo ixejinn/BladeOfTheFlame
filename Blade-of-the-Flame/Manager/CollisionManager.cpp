@@ -138,7 +138,7 @@ bool CollisionManager::CheckOBBOBB(BoxCollider* colA, BoxCollider* colB)
 				vB.x - colA->vertices_[in].x, vB.y - colA->vertices_[in].y
 			};
 
-			f32 dotProduct = AEVec2DotProduct(&normal, &vecAB);
+			f32 dotProduct = normal.x * vecAB.x + normal.y * vecAB.y;
 			if (minDotProduct > dotProduct)
 				minDotProduct = dotProduct;
 		}
@@ -196,11 +196,15 @@ void CollisionManager::CheckAllCollision()
 		CollisionEvent* collision1{ new CollisionEvent() };
 		collision1->from_ = colliders_[pair.first]->owner_;
 		collision1->to_ = colliders_[pair.second]->owner_;
+		if (collision1->to_->GetComponent<Monster>())
+			collision1->attackMonster = true;
 		EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(collision1));
 
 		CollisionEvent* collision2{ new CollisionEvent() };
 		collision2->from_ = colliders_[pair.second]->owner_;
 		collision2->to_ = colliders_[pair.first]->owner_;
+		if (collision2->to_->GetComponent<Monster>())
+			collision2->attackMonster = true;
 		EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(collision2));
 
 		collisionPairs_.pop();

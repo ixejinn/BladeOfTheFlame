@@ -2,9 +2,12 @@
 
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
+#include "../../Manager/GameObjectManager.h"
 
 MeleeAttack::MeleeAttack(GameObject* owner) : Attack(owner)
 {
+	player_ = GameObjectManager::GetInstance().GetObjectA("player");
+
 	owner_->active_ = false;
 
 	/* SET COMPONENTS */
@@ -58,7 +61,7 @@ void MeleeAttack::AttackObject()
 
 	Transform* trans = owner_->GetComponent<Transform>();
 	trans->SetPosition(playerPos + attackDir / 2.f);
-	trans->SetScale({ range_ * 10.f, range_ * 10.f });
+	trans->SetScale({ range_ * 20.f, range_ * 20.f });
 	trans->SetRotation(unitDir);
 }
 

@@ -22,6 +22,7 @@ protected:
 
 public:
 	double GetCooldown() { return cooldown_; }
+	int GetDmg() { return dmg_; }
 
 	void SetPlayer(GameObject* player) { player_ = player; }
 

@@ -1,15 +1,17 @@
 #include "SampleSave.h"
 
+#include <string>
 #include "../Utils/Utils.h"
+#include "../Utils/RandomEngine.h"
 #include "../Manager/GameObjectManager.h"
 #include "../Serializer/StateSerializer.h"
 
 void SampleSave::Init()
 {
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("TestObj");
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
 
 	obj->AddComponent<Transform>();
-	obj->GetComponent<Transform>()->SetScale({ 100, 100 });
+	obj->GetComponent<Transform>()->SetScale({ 30, 100 });
 
 	obj->AddComponent<Sprite>();
 	obj->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
@@ -28,36 +30,20 @@ void SampleSave::Init()
 
 	obj->AddComponent<Player>();
 
-	//GameObject* square1 = GameObjectManager::GetInstance().CreateObject("square1");
+	auto& engine = RandomEngine::GetInstance().GetEngine();
+	std::uniform_int_distribution<int> coord{ -300, 300 };
 
-	//square1->AddComponent<Transform>();
-	//square1->GetComponent<Transform>()->SetScale({ 100, 100 });
+	GameObject* monster[5];
+	for (int i = 0; i < 5; i++)
+	{
+		monster[i] = GameObjectManager::GetInstance().CreateObject("monster" + std::to_string(i));
 
-	//square1->AddComponent<Sprite>();
-	//square1->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
-
-	//square1->AddComponent<PlayerController>();
-	//PlayerController* pCtrl = square1->GetComponent<PlayerController>();
-	//pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	//pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
-
-	//square1->AddComponent<RigidBody>();
-
-	//square1->AddComponent<BoxCollider>();
-	//square1->GetComponent<BoxCollider>()->SetType(Collider::OBB_TYPE);
-
-	//GameObject* square2 = GameObjectManager::GetInstance().CreateObject("square2");
-
-	//square2->AddComponent<Transform>();
-	//square2->GetComponent<Transform>()->SetScale({ 100, 100 });
-	//square2->GetComponent<Transform>()->SetPosition({ 300, 300 });
-
-	//square2->AddComponent<Sprite>();
-	//square2->GetComponent<Sprite>()->SetColor({ 50, 100, 150 });
-
-	//square2->AddComponent<RigidBody>();
-
-	//square2->AddComponent<BoxCollider>();
+		monster[i]->AddComponent<Monster>();
+		monster[i]->GetComponent<Transform>()->SetScale({ 100, 100 });
+		int x = coord(engine), y = coord(engine);
+		monster[i]->GetComponent<Transform>()->SetPosition(x, y);
+		monster[i]->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
+	}
 }
 
 void SampleSave::Update()

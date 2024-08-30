@@ -24,8 +24,9 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
 
-	//// TODO: GameObject에 Component 담는 순서 주의, Serializer 부분 수정 필요
 	owner_->GetComponent<PlayerController>()->MultiplyMoveSpeed(moveSpeed_);
+
+	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(CollisionEvent)), static_cast<EventEntity*>(this));
 }
 
 void Player::RemoveFromManager()
@@ -82,8 +83,11 @@ void Player::OnEvent(BaseEvent* event)
 	// Collision event
 	if (eventType == std::type_index(typeid(CollisionEvent)))
 	{
+		CollisionEvent* colEvent = static_cast<CollisionEvent*>(event);
+
 		//// TODO: 해당 부분 Collision system 수정 필요
-		if (dynamic_cast<CollisionEvent*>(event)->to_ != owner_)
+		if (colEvent->to_ != owner_ ||
+			colEvent->attackMonster)
 			return;
 
 

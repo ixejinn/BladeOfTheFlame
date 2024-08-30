@@ -12,6 +12,7 @@ struct BaseEvent
 struct CollisionEvent : public BaseEvent
 {
 	GameObject* to_ = nullptr;
+	bool attackMonster = false;	// Event to attack monster
 };
 
 struct GameOverEvent : public BaseEvent

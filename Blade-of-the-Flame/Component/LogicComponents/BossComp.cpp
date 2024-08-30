@@ -11,3 +11,8 @@ void BossComp::Update()
 {
 
 }
+
+void BossComp::RemoveFromManager()
+{
+	//TODO::
+}

@@ -104,7 +104,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\Audio.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
-    <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
     <ClCompile Include="Component\LogicComponents\Bullet.cpp" />
     <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
     <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
@@ -140,7 +139,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\Collider.h" />
     <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Component\LogicComponents\Boss1.h" />
-    <ClInclude Include="Component\LogicComponents\BossComp.h" />
     <ClInclude Include="Component\LogicComponents\Bullet.h" />
     <ClInclude Include="Component\LogicComponents\BossComp.h" />
     <ClInclude Include="Component\LogicComponents\Attack.h" />

@@ -35,6 +35,8 @@ protected:
 
 public:
 	void Update() override;
+	
+	void RemoveFromManager() override;
 
 	static std::string GetType()
 	{

@@ -23,6 +23,8 @@ class BulletComp : public LogicComponent
 public:
 	void Update() override;
 
+	void RemoveFromManager() override;
+
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
 

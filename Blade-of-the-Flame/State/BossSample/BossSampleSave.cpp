@@ -4,6 +4,8 @@
 #include "../../Serializer/StateSerializer.h"
 //TEST_PLAYER
 #include "../SampleSave.h"
+#include "../../Component/LogicComponents/Bullet.h"
+#include "../../Component/LogicComponents/Boss1.h"
 
 void BossSampleSave::Init()
 {

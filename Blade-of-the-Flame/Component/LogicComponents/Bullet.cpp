@@ -21,6 +21,11 @@ void BulletComp::Update()
 	bulletRigd->AddVelocity(unitDir * bulletSpeed);
 }
 
+void BulletComp::RemoveFromManager()
+{
+	//TODO::
+}
+
 void BulletComp::InitBullet()
 {
 	Transform* bulletTrans = owner_ ->GetComponent<Transform>();

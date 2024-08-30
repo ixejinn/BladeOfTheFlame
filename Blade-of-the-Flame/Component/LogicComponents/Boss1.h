@@ -19,8 +19,8 @@ public:
 
 	void Phase3() override;
 
-	void LoadFromJson(const json&) override;
-	json SaveToJson() override;
+	void LoadFromJson(const json&);
+	json SaveToJson();
 
 	friend class ComponentManager<LogicComponent>;
 };

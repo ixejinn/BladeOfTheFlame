@@ -6,8 +6,8 @@
 Boss1::Boss1(GameObject* owner) : BossComp(owner)
 {
 	hp_		     = 500;
-	moveSpeed_   =   1;
-	chaseSpeed_  =  10;
+	moveSpeed_   =   5;
+	chaseSpeed_  =  30;
 	baseDmg_     =   5;
 	skillDmg_    =  10;
 	range_		 = 1.5;
@@ -28,7 +28,8 @@ void Boss1::Update()
 
 	// change current state accordingly
 	BossState();
-
+	Phase2();
+	
 	if (current_state == Normal)
 	{
 		BaseChase();
@@ -37,19 +38,17 @@ void Boss1::Update()
 	{
 		Phase1();
 	}
-	else if (current_state == RangeAttack)
-	{
-		Phase2();
-	}
 }
 
 void Boss1::BossState()
 {
-	const float normal_phase_time = 3;
-	const float fastchase_phase_time = 6;
+	const float normal_phase_time = 1;
+	const float fastchase_phase_time = 2;
 	const float faastchase_end_time = normal_phase_time + fastchase_phase_time;
 
 	phaseTime_ += 0.016f; //delta time
+
+	current_state = RangeAttack;
 
 	if (phaseTime_ < normal_phase_time)
 	{
@@ -96,11 +95,12 @@ void Boss1::Phase1()
 	AEVec2Normalize(&unitChaseVec, &chaseVec);
 
 	bossRb->AddVelocity(unitChaseVec * chaseSpeed_);
+
 }
 
 void Boss1::Phase2()
 {
-	
+	owner_->GetComponent<BulletComp>()->fire = true;
 }
 
 void Boss1::Phase3()

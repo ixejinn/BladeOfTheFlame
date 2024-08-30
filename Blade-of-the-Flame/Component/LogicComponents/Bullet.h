@@ -18,10 +18,12 @@ class BulletComp : public LogicComponent
 	GameObject* player;
 	GameObject* boss;
 
-	BulletComp(GameObject* ower); 
-
+	BulletComp(GameObject* ower);
+	
 public:
 	void Update() override;
+
+	bool fire = false;
 
 	void RemoveFromManager() override;
 

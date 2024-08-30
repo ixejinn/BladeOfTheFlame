@@ -38,6 +38,7 @@ public:
 	
 	void RemoveFromManager() override;
 
+	
 	static std::string GetType()
 	{
 		return "BossComp";

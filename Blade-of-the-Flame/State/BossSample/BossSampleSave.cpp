@@ -51,7 +51,7 @@ void BossSampleSave::Init()
 	bullet->AddComponent<Sprite>    ();
 	bullet->AddComponent<RigidBody> ();
 	bullet->AddComponent<BulletComp>();
-
+	
 	bullet->GetComponent<Transform>()->SetScale({ 50, 50 });
 	bullet->GetComponent<Sprite>   ()->SetTexture("Assets/YeeHead.png");
 }

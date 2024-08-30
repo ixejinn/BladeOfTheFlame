@@ -3,6 +3,12 @@
 #include <iostream>
 #include "../Component/RigidBody.h"
 
+GameObject::~GameObject()
+{
+    for (auto it = components_.begin(); it != components_.end(); ++it)
+        (it->second)->RemoveFromManager();
+}
+
 void GameObject::DeleteComponent(std::type_index type)
 {
     if (components_.find(type) == components_.end())

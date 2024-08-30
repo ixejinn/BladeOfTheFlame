@@ -23,6 +23,8 @@ private:
 	void UpdateMatrix();
 
 public:
+	void RemoveFromManager() override;
+
 	void Update() override;
 
 	void LoadFromJson(const json&) override;
@@ -37,6 +39,7 @@ public:
 	void SetPosition(const AEVec2& pos);
 	void SetPosition(const float& x, const float& y);
 	void SetScale(const AEVec2& scl);
+	void SetRotation(const AEVec2& pos);
 	void SetRotation(const float& rot);
 	void SetLimit(const AEVec2& limit);
 	void SetLimit(const float& x, const float& y);

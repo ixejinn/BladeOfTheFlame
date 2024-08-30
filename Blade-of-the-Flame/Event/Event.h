@@ -12,6 +12,7 @@ struct BaseEvent
 struct CollisionEvent : public BaseEvent
 {
 	GameObject* to_ = nullptr;
+	bool attackMonster = false;	// Event to attack monster
 };
 
 struct GameOverEvent : public BaseEvent
@@ -19,9 +20,7 @@ struct GameOverEvent : public BaseEvent
 
 };
 
-/* PONG */
-
-struct ScoreEvent : public BaseEvent
+struct MonsterAttackPlayer : public BaseEvent
 {
-	bool scoreTeam = 0;	// Left: 0, Right: 1
+	int dmg = 0;
 };

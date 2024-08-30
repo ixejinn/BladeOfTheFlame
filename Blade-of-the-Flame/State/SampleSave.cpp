@@ -1,35 +1,49 @@
 #include "SampleSave.h"
 
+#include <string>
 #include "../Utils/Utils.h"
+#include "../Utils/RandomEngine.h"
 #include "../Manager/GameObjectManager.h"
 #include "../Serializer/StateSerializer.h"
 
 void SampleSave::Init()
 {
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("TestObj");
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
+	obj->AddComponent<Player>();
 
-	obj->AddComponent<Transform>();
-	obj->GetComponent<Transform>()->SetScale({ 100, 100 });
+	auto& engine = RandomEngine::GetInstance().GetEngine();
+	std::uniform_int_distribution<int> coord{ -300, 300 };
 
-	obj->AddComponent<Sprite>();
-	obj->GetComponent<Sprite>()->SetTexture("Assets/PlanetTexture.png");
+	for (int i = 0; i < 5; i++)
+	{
+		monster[i] = GameObjectManager::GetInstance().CreateObject("monster" + std::to_string(i));
+		monster[i]->AddComponent<Monster>();
+		
+		int x = coord(engine), y = coord(engine);
+		monster[i]->GetComponent<Transform>()->SetPosition(x, y);
+	}
 
-	obj->AddComponent<RigidBody>();
-
-	obj->AddComponent<PlayerController>();
-	PlayerController* pCtrl = obj->GetComponent<PlayerController>();
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
-	pCtrl->SetStopKey(AEVK_SPACE);
-
-	obj->AddComponent<Audio>();
-	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
-
-
+	// boss ¸¸µé°í inactive
 }
 
 void SampleSave::Update()
 {
+	bool allKill = true;
+	for (int i = 0; i < 5; i++)
+	{  
+		if (monster[i]->active_ == true)
+		{
+			allKill = false;
+			break;
+		}
+	}
+
+	if (allKill)
+	{
+		std::cout << "BOSS!!!!!" << std::endl;
+
+		// boss active
+	}
 }
 
 void SampleSave::Exit()

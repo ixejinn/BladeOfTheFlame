@@ -21,7 +21,9 @@ private:
 	GameObject(const std::string& name) : components_(), name_(name) {}
 
 public:
-	//void OnCollision(GameObject* obj, const AEVec2& reflection);
+	bool active_ = true;
+
+	~GameObject();
 
 	const std::string& GetName() const { return name_; }
 	const std::map<std::type_index, Component*>& GetAllComponents() const { return components_; }

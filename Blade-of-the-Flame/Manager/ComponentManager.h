@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include <list>
 #include <memory>
 
 class GameObject;
@@ -12,7 +12,7 @@ template <typename T>
 class ComponentManager
 {
 private:
-	std::vector<std::unique_ptr<T>> components_;
+	std::list<std::unique_ptr<T>> components_;
 
 	ComponentManager() = default;
 	~ComponentManager() = default;

@@ -2,8 +2,7 @@
 #include <vector>
 #include <queue>
 #include "AEVec2.h"
-
-class Collider;
+#include "../Component/Collider.h"
 
 class CollisionManager
 {
@@ -11,6 +10,12 @@ private:
 	std::vector<Collider*> colliders_;
 
 	std::queue<std::pair<int, int>> collisionPairs_;
+
+	bool CheckCircleCircle(CircleCollider* colA, CircleCollider* colB);
+	bool CheckCircleAABB(CircleCollider* colA, BoxCollider* colB, AEVec2& collisionPoint);
+	bool CheckCircleOBB(CircleCollider* colA, BoxCollider* colB);
+	bool CheckAABBAABB(BoxCollider* colA, BoxCollider* colB);
+	bool CheckOBBOBB(BoxCollider* colA, BoxCollider* colB);
 
 	CollisionManager() = default;
 	~CollisionManager() = default;

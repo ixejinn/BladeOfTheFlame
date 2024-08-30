@@ -4,25 +4,40 @@
 
 PlayerController::PlayerController(GameObject* owner) : LogicComponent(owner) {}
 
+void PlayerController::RemoveFromManager()
+{
+	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
+}
+
 void PlayerController::Update()
 {
 	Transform* trans = owner_->GetComponent<Transform>();
 	RigidBody* rb = owner_->GetComponent<RigidBody>();
 
+	AEVec2 moveVec{ 0.f, 0.f };
+
 	if (!onlyUpDown)
 	{
 		if (AEInputCheckCurr(moveKeys_[LEFT]))
-			rb->AddVelocity(-moveSpeed_, 0);
+			moveVec.x--;
 
 		if (AEInputCheckCurr(moveKeys_[RIGHT]))
-			rb->AddVelocity(moveSpeed_, 0);
+			moveVec.x++;
 	}
 
 	if (AEInputCheckCurr(moveKeys_[UP]))
-		rb->AddVelocity(0, moveSpeed_);
+		moveVec.y++;
 
 	if (AEInputCheckCurr(moveKeys_[DOWN]))
-		rb->AddVelocity(0, -moveSpeed_);
+		moveVec.y--;
+
+	float squareLen = AEVec2SquareLength(&moveVec);
+	if (squareLen >= 1.2f)
+	{
+		AEVec2 moveVecCopy = moveVec;
+		AEVec2Normalize(&moveVec, &moveVecCopy);
+	}
+	rb->AddVelocity(moveVec * moveSpeed_);
 
 	if (rotKeys_[LEFT] != 0x00 && AEInputCheckCurr(rotKeys_[LEFT]))
 		trans->SetRotation(trans->GetRotation() + rotSpeed_);

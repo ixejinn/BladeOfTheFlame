@@ -5,7 +5,6 @@
 BossComp::BossComp(GameObject* owner) : LogicComponent(owner)
 {
 	player = GameObjectManager::GetInstance().GetObjectA("TestObj");
-
 }
 
 void BossComp::Update()

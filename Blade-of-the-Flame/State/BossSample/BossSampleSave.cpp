@@ -30,7 +30,7 @@ void BossSampleSave::Init()
 	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
-	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("TestBoss");
+	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");
 
 	boss1->AddComponent<Transform>();
 	boss1->AddComponent<Sprite>	  ();
@@ -41,6 +41,15 @@ void BossSampleSave::Init()
 	boss1->GetComponent<Transform>()->SetPosition({ 400,400 });
 
 	boss1->GetComponent<Sprite>	  ()->SetTexture("Assets/yee.png");
+
+	GameObject* bullet = GameObjectManager::GetInstance().CreateObject("bullet");
+	bullet->AddComponent<Transform>();
+	bullet->AddComponent<Sprite>();
+	bullet->AddComponent<RigidBody>();
+	bullet->AddComponent<BulletComp>();
+
+	bullet->GetComponent<Transform>()->SetScale({ 50, 50 });
+	bullet->GetComponent<Sprite>()->SetTexture("Assets/YeeHead.png");
 }
 
 void BossSampleSave::Update()

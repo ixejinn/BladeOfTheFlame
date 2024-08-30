@@ -8,26 +8,29 @@ class BossComp : public LogicComponent
 {
 
 protected:
-	float hp_         = 0.f;
-	float moveSpeed_  = 0.f;
-	float chaseSpeed_ = 0.f;
-	float baseDmg_    = 0.f;
-	float skillDmg_   = 0.f;
-	float range_      = 0.f;
-	float phaseTime_  = 0.f;
 
-	float phase1Time_ = 0.f;
+	enum BossState
+	{
+		Normal,
+		FastChase,
+		RangeAttack,
+		Barrage,
+	};
+	BossState current_state;
 
-	bool phase1_;
-	bool phase2_;
-	bool phase3_;
-	bool phaseStart_;
-
+	float hp_          = 0.f;
+	float moveSpeed_   = 0.f;
+	float chaseSpeed_  = 0.f;
+	float baseDmg_     = 0.f;
+	float skillDmg_    = 0.f;
+	float range_       = 0.f;
+	float phaseTime_   = 0.f;
+	
 	AEVec2 pos_;
 	AEVec2 scale_;
-
+	
 	GameObject* player;
-
+	
 	BossComp(GameObject* owner);
 
 public:

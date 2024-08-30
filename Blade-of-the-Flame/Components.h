@@ -8,3 +8,4 @@
 #include "Component/LogicComponents/PlayerController.h"
 #include "Component/LogicComponents/Score.h"
 #include "Component/LogicComponents/Boss1.h"
+#include "Component/LogicComponents/Bullet.h"

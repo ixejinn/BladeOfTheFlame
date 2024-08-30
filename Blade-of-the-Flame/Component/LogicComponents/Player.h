@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include "AEVec2.h"
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
@@ -24,9 +25,11 @@ private:
 	float expRequirement_ = 3.3f;
 	float hpGrowthRate_ = 2.f;
 
-	Attack* curAttack_ = nullptr;		// Current basic attack
+	Attack* curAttack_ = nullptr;			// Current basic attack
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
 	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
+
+	std::chrono::system_clock::time_point timeStart_;
 
 	Player(GameObject* owner);
 

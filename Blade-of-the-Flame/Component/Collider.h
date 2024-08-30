@@ -5,37 +5,46 @@
 #include "../Utils/MathUtils.h"
 #include "../Event/EventEntity.h"
 
+class Transform;
+
 class Collider : public EngineComponent
 {
 public:
 	enum ColliderType
 	{
-		CIRCLE,	// circle
-		AABB	// box
+		CIRCLE_TYPE,	// circle
+		AABB_TYPE,		// box
+		OBB_TYPE
 	};
 
 protected:
-	const ColliderType type_;
+	ColliderType type_ = AABB_TYPE;
 
-	AEVec2 center_;	// Transform의 position으로부터 얼마나 이동했는지를 나타냄 (기본 값: 0.0f, 0.0f)
-	AEVec2 scale_;	// Collider의 local scale
+	Transform* trans_ = nullptr;
+	AEVec2 center_ = { 0.0f, 0.0f };	// Transform의 position으로부터 얼마나 이동했는지를 나타냄
+	AEVec2 scale_ = { 1.f, 1.f };		// Collider의 local scale
 
-	AEVec2 collisionPoint_;
+	AEVec2 collisionPoint_;	// 충돌 지점
 
-	Collider(GameObject* owner, ColliderType type);
+	Vec3 vertices_[4];
+	Vec3 bottomLeft_;
+	Vec3 topRight_;
+
+	Collider(GameObject* owner);
 
 public:
 	void RemoveFromManager() override;
 
+	void Update() override;
+
 	void LoadFromJson(const json&) override;
 
-	const ColliderType& GetColliderType() const { return type_; }
-	const AEVec2& GetCenter() const { return center_; }
-	const AEVec2& GetScale() const { return scale_; }
-	const AEVec2& GetCollisionPoint() const { return collisionPoint_; }
-
+	void SetType(const ColliderType& type) { type_ = type; }
 	void SetScale(const AEVec2& scale) { scale_ = scale; }
 	void SetCenter(const AEVec2& center) { center_ = center; }
+
+	const AEVec2& GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
+	const AEVec2& GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
 
 	friend class CollisionManager;
 };
@@ -46,21 +55,12 @@ public:
 class BoxCollider : public Collider
 {
 private:
-	Vec3 bottomLeft_;
-	Vec3 topRight_;
-
-	// Set bottomLeft, topRight
-	void SetBounds();
-
 	BoxCollider(GameObject* owner);
 
 public:
 	void Update() override;
 
 	json SaveToJson() override;
-
-	const AEVec2& GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
-	const AEVec2& GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
 	
 	// for StateSerializer
 	static constexpr const char* TypeName = "BoxCollider";

@@ -1,7 +1,6 @@
 #include "Player.h"
 
 #include <typeindex>
-#include <chrono>
 #include "AEGraphics.h"
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
@@ -10,9 +9,9 @@
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
+	timeStart_ = std::chrono::system_clock::now();
+
 	/* Set Player component */
-	owner_->AddComponent<Transform>();
-	owner_->AddComponent<RigidBody>();
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
@@ -55,18 +54,16 @@ void Player::Update()
 	AEGfxSetCamPosition(pos.x, pos.y);
 
 	/* ATTACK */
-	static std::chrono::system_clock::time_point start = std::chrono::system_clock::now();
-	std::chrono::duration<double> sec = std::chrono::system_clock::now() - start;
-	AEInputInit();
-	if (AEInputCheckCurr(AEVK_LBUTTON))
+	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+	if (dt.count() >= curAttack_->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON))
 	{
-		s32 x, y;
-		AEInputGetCursorPosition(&x, &y);
+		timeStart_ = std::chrono::system_clock::now();
+
 		//std::cout << x << ", " << y << std::endl;
-		curAttack_->AttackObject(x, y);
+		curAttack_->AttackObject();
 	}
-	else
-		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
+	//else
+		//GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
 }
 
 void Player::LoadFromJson(const json& data)

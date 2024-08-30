@@ -1,16 +1,18 @@
 #include "MeleeAttack.h"
 
+#include "../../Event/Event.h"
+#include "../../Manager/EventManager.h"
+
 MeleeAttack::MeleeAttack(GameObject* owner) : Attack(owner)
 {
 	owner_->active_ = false;
 
-	/* Set Attack component */
-	owner_->AddComponent<Transform>();
-	owner_->AddComponent<RigidBody>();
+	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
 
-	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
+	owner_->GetComponent<Transform>()->SetScale({ range_ * 10, range_ * 10 });
+	owner_->GetComponent<BoxCollider>()->SetType(Collider::OBB_TYPE);
 	owner_->GetComponent<Sprite>()->SetColor({ 100, 200, 100 });
 }
 
@@ -21,7 +23,6 @@ void MeleeAttack::RemoveFromManager()
 
 void MeleeAttack::Update()
 {
-	
 }
 
 void MeleeAttack::LoadFromJson(const json&)
@@ -40,10 +41,13 @@ void MeleeAttack::LevelUp()
 	
 }
 
-void MeleeAttack::AttackObject(s32 x, s32 y)
+void MeleeAttack::AttackObject()
 {
 	owner_->active_ = true;
 
+	AEInputInit();
+	s32 x, y;
+	AEInputGetCursorPosition(&x, &y);
 	AEVec2 attackDir{ x - windowWidth / 2, windowHeight / 2 - y }, unitDir;
 	AEVec2Normalize(&unitDir, &attackDir);
 
@@ -51,7 +55,11 @@ void MeleeAttack::AttackObject(s32 x, s32 y)
 
 	// collider 설정하고
 	AEVec2 playerPos = player_->GetComponent<Transform>()->GetPosition();
-	owner_->GetComponent<Transform>()->SetPosition(playerPos + attackDir);
+
+	Transform* trans = owner_->GetComponent<Transform>();
+	trans->SetPosition(playerPos + attackDir / 2.f);
+	trans->SetScale({ range_ * 10.f, range_ * 10.f });
+	trans->SetRotation(unitDir);
 }
 
 ComponentSerializer* MeleeAttack::CreateComponent(GameObject* owner)

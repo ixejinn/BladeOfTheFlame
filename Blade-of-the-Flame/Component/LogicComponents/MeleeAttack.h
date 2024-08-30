@@ -17,7 +17,7 @@ public:
 
 	void LevelUp() override;
 
-	void AttackObject(s32 x, s32 y) override;
+	void AttackObject() override;
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "MeleeAttack";

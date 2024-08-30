@@ -15,6 +15,11 @@ Audio::~Audio()
 	AEAudioUnloadAudioGroup(group_);
 }
 
+void Audio::RemoveFromManager()
+{
+	ComponentManager<AudioComponent>::GetInstance().DeleteComponent(static_cast<AudioComponent*>(this));
+}
+
 void Audio::Update()
 {
 	if (!playing_)

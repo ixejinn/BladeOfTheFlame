@@ -25,6 +25,11 @@ bool RigidBody::CheckEpsilon(float val, float EP)
 	return false;
 }
 
+void RigidBody::RemoveFromManager()
+{
+	ComponentManager<EngineComponent>::GetInstance().DeleteComponent(static_cast<EngineComponent*>(this));
+}
+
 void RigidBody::Update()
 {
 	Transform* trans = owner_->GetComponent<Transform>();

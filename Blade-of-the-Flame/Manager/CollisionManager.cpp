@@ -244,6 +244,7 @@ bool CollisionManager::CheckCollision(Collider* colA, Collider* colB, AEVec2& co
 		case Collider::OBB_TYPE:
 			return CheckCircleOBB(static_cast<CircleCollider*>(cA), static_cast<BoxCollider*>(cB));
 		}
+		break;
 	}
 
 	case Collider::AABB_TYPE:
@@ -257,6 +258,7 @@ bool CollisionManager::CheckCollision(Collider* colA, Collider* colB, AEVec2& co
 			return CheckOBBOBB(static_cast<BoxCollider*>(cA), static_cast<BoxCollider*>(cB)) &&
 				CheckOBBOBB(static_cast<BoxCollider*>(cB), static_cast<BoxCollider*>(cA));
 		}
+		break;
 	}
 
 	case Collider::OBB_TYPE:

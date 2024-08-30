@@ -63,8 +63,8 @@ void Player::Update()
 		//std::cout << x << ", " << y << std::endl;
 		curAttack_->AttackObject();
 	}
-	//else
-		//GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
+	/*else
+		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;*/
 }
 
 void Player::LoadFromJson(const json& data)

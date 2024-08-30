@@ -12,7 +12,7 @@ protected:
 
 	float range_ = 3.f;
 
-	double cooldown_ = 1.75;
+	double cooldown_ = 1.0;
 
 	float dmgGrowthRate_ = 3.f;
 

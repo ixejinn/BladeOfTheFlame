@@ -27,8 +27,8 @@ void Collider::Update()
 
 	vertices_[0] = { center_.x - ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 1.f };
 	vertices_[1] = { center_.x + ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 1.f };
-	vertices_[2] = { center_.x - ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 1.f };
-	vertices_[3] = { center_.x + ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 1.f };
+	vertices_[2] = { center_.x + ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 1.f };
+	vertices_[3] = { center_.x - ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 1.f };
 	for (int i = 0; i < 4; i++)
 		vertices_[i] = transformMatrix * vertices_[i];
 

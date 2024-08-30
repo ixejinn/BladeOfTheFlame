@@ -8,6 +8,8 @@
 
 //// TODO: 기본 공격, 
 
+class Text;
+
 class Player : public LogicComponent, public EventEntity
 {
 private:
@@ -31,6 +33,9 @@ private:
 
 	std::chrono::system_clock::time_point timeStart_;
 
+	Text* text_;
+	Transform* trans_;
+
 	Player(GameObject* owner);
 
 public:
@@ -44,6 +49,7 @@ public:
 	void OnEvent(BaseEvent* event) override;
 
 	//// TODO: getter, setter
+	int GetLevel() { return level_; }
 
 	void LevelUp();
 

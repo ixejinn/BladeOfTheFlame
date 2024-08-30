@@ -19,3 +19,8 @@ struct GameOverEvent : public BaseEvent
 {
 
 };
+
+struct MonsterAttackPlayer : public BaseEvent
+{
+	int dmg = 0;
+};

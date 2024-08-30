@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <typeindex>
+#include <string>
 #include "AEGraphics.h"
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
@@ -15,6 +16,26 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
+	owner_->AddComponent<Audio>();
+	owner_->AddComponent<Text>();
+
+	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
+	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
+	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
+	pCtrl->SetStopKey(AEVK_SPACE);
+
+	trans_ = owner_->GetComponent<Transform>();
+	trans_->SetScale({ 30, 100 });
+	owner_->GetComponent<PlayerController>()->MultiplyMoveSpeed(moveSpeed_);
+	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
+	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
+	owner_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
+
+	text_ = owner_->GetComponent<Text>();
+	text_->SetFont("Assets/Roboto-Bold.ttf");
+	text_->SetSize(1.f);
+	text_->SetColor({ 255, 0, 0 });
+	text_->SetPosition({ -0.05f, 0.1f });
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
@@ -24,9 +45,8 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
 
-	owner_->GetComponent<PlayerController>()->MultiplyMoveSpeed(moveSpeed_);
-
 	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(CollisionEvent)), static_cast<EventEntity*>(this));
+	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(MonsterAttackPlayer)), static_cast<EventEntity*>(this));
 }
 
 void Player::RemoveFromManager()
@@ -44,9 +64,11 @@ void Player::Update()
 	// Death
 	if (hp_ <= 0)
 	{
+		std::cout << "Game over" << std::endl;
 		GameOverEvent* event{ new GameOverEvent() };
 		event->from_ = owner_;
 		EventManager::GetInstance().AddEvent(event);
+		owner_->active_ = false;
 	}
 
 	/* SET CAMERA */
@@ -63,8 +85,10 @@ void Player::Update()
 		//std::cout << x << ", " << y << std::endl;
 		curAttack_->AttackObject();
 	}
-	/*else
-		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;*/
+	else
+		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
+
+	text_->SetString(std::to_string(hp_) + "/" + std::to_string(maxHp_));
 }
 
 void Player::LoadFromJson(const json& data)
@@ -90,7 +114,12 @@ void Player::OnEvent(BaseEvent* event)
 			colEvent->attackMonster)
 			return;
 
-
+		//hp -= colEvent->from_->GetComponent<Monster>()->
+	}
+	else if (eventType == std::type_index(typeid(MonsterAttackPlayer)))
+	{
+		MonsterAttackPlayer* ev = static_cast<MonsterAttackPlayer*>(event);
+		hp_ -= ev->dmg;
 	}
 }
 

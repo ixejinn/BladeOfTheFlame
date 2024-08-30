@@ -10,7 +10,7 @@ protected:
 
 	int dmg_ = 10;
 
-	float range_ = 3.f;
+	float range_ = 100.f;
 
 	double cooldown_ = 1.0;
 

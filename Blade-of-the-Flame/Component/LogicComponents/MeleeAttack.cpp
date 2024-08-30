@@ -14,7 +14,7 @@ MeleeAttack::MeleeAttack(GameObject* owner) : Attack(owner)
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
 
-	owner_->GetComponent<Transform>()->SetScale({ range_ * 10, range_ * 10 });
+	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
 	owner_->GetComponent<BoxCollider>()->SetType(Collider::OBB_TYPE);
 	owner_->GetComponent<Sprite>()->SetColor({ 100, 200, 100 });
 }
@@ -54,14 +54,14 @@ void MeleeAttack::AttackObject()
 	AEVec2 attackDir{ x - windowWidth / 2, windowHeight / 2 - y }, unitDir;
 	AEVec2Normalize(&unitDir, &attackDir);
 
-	attackDir = unitDir * range_ * 10.f;
+	attackDir = unitDir * range_;
 
 	// collider 설정하고
 	AEVec2 playerPos = player_->GetComponent<Transform>()->GetPosition();
 
 	Transform* trans = owner_->GetComponent<Transform>();
 	trans->SetPosition(playerPos + attackDir / 2.f);
-	trans->SetScale({ range_ * 20.f, range_ * 20.f });
+	trans->SetScale({ range_, range_ });
 	trans->SetRotation(unitDir);
 }
 

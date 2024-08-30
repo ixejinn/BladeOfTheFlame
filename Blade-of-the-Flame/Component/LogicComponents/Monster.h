@@ -10,8 +10,10 @@ class Monster : public LogicComponent, public EventEntity
 {
 private:
 	int hp_ = 20;
+	int dmg_ = 5;
 	float moveSpeed_ = 2.5f;
 
+	double cooldown_ = 1.0;
 	std::chrono::system_clock::time_point timeStart_;
 
 	Transform* transPlayer = nullptr;

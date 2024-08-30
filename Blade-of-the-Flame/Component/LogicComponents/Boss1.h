@@ -4,6 +4,7 @@
 class Boss1 : public BossComp
 {
 	Boss1(GameObject* owner);
+	GameObject* bossBullet;
 
 public:
 	void Update() override;

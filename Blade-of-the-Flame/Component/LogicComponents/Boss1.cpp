@@ -37,6 +37,10 @@ void Boss1::Update()
 	{
 		Phase1();
 	}
+	else if (current_state == RangeAttack)
+	{
+		Phase2();
+	}
 }
 
 void Boss1::BossState()
@@ -103,7 +107,6 @@ void Boss1::Phase3()
 {
 	Transform* bossTrans = owner_->GetComponent<Transform>();
 	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
-
 }
 
 void Boss1::LoadFromJson(const json&)

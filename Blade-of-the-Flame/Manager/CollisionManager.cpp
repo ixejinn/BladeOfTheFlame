@@ -162,14 +162,20 @@ void CollisionManager::CheckAllCollision()
 	{
 		auto pair = collisionPairs_.front();
 
-		CollisionEvent* event1to2 = new CollisionEvent();
-		event1to2->from_ = pair.first->owner_;
-		pair.first->CallHandler(event1to2);
-
-		CollisionEvent* event2to1 = new CollisionEvent();
-		event2to1->from_ = pair.second->owner_;
-		pair.second->CallHandler(event2to1);
-
+		if (pair.second->collisionHandler_)
+		{
+			CollisionEvent* event1to2 = new CollisionEvent();
+			event1to2->from_ = pair.first->owner_;
+			pair.second->CallHandler(event1to2);
+		}
+		
+		if (pair.first->collisionHandler_)
+		{
+			CollisionEvent* event2to1 = new CollisionEvent();
+			event2to1->from_ = pair.second->owner_;
+			pair.first->CallHandler(event2to1);
+		}
+		
 		collisionPairs_.pop();
 	}
 }
@@ -178,7 +184,7 @@ bool CollisionManager::CheckCollision(Collider* colA, Collider* colB)
 {
 	bool objActive = colA->owner_->active_ && colB->owner_->active_;				// 활성 오브젝트 확인
 	bool checkLayer = layerCollisionMatrix_[colA->GetLayer()][colB->GetLayer()];	// 충돌 레이어 확인
-	if (objActive && checkLayer == false)
+	if (!objActive || !checkLayer)
 		return false;
 
 	// 1차 충돌 검사 (AABB - AABB)
@@ -219,6 +225,7 @@ bool CollisionManager::CheckCollision(Collider* colA, Collider* colB)
 		default:
 			std::cerr << "CollisionManager::CheckCollision() Unknown Collider type" << std::endl;
 		}
+		break;
 	}
 
 	case Collider::AABB_TYPE:

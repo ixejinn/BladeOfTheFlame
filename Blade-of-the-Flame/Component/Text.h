@@ -31,6 +31,7 @@ public:
 	json SaveToJson() override;
 
 	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent*) {}
 
 	void SetFont(const std::string& name);
 	void SetString(const std::string& str) { string_ = str; }

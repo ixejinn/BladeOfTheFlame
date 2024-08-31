@@ -13,9 +13,12 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<Sprite>();
 
 	owner_->GetComponent<Transform>()->SetScale({ 30, 30 });
-	
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(CollisionEvent)), static_cast<EventEntity*>(this));
 
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetLayer(Collider::E_BODY);
+	col->SetHandler(static_cast<EventEntity*>(this));
+	
+	/* Set pointer */
 	transPlayer = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 	trans = owner_->GetComponent<Transform>();
 	rb = owner_->GetComponent<RigidBody>();
@@ -56,35 +59,6 @@ void Monster::OnEvent(BaseEvent* event)
 {
 	std::type_index eventType = std::type_index(typeid(*event));
 
-	// Collision event
-	if (eventType == std::type_index(typeid(CollisionEvent)))
-	{
-		CollisionEvent* colEvent = static_cast<CollisionEvent*>(event);
-
-		if (colEvent->from_ == owner_ && colEvent->to_->GetComponent<Player>())
-		{
-			std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-			if (dt.count() >= cooldown_)
-			{
-				timeStart_ = std::chrono::system_clock::now();
-
-				MonsterAttackPlayer* event{ new MonsterAttackPlayer() };
-				event->from_ = owner_;
-				event->dmg = dmg_;
-				EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(event));
-			}
-		}
-
-
-		if (colEvent->to_ != owner_)
-			return;
-
-		if (colEvent->attackMonster)
-		{
-			if (colEvent->from_->GetComponent<MeleeAttack>())
-				hp_ -= colEvent->from_->GetComponent<MeleeAttack>()->GetDmg();
-		}
-	}
 }
 
 void Monster::OnCollision(CollisionEvent* event)

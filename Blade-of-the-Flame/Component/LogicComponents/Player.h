@@ -6,8 +6,6 @@
 #include "../../Event/EventEntity.h"
 #include "Attack.h"
 
-//// TODO: 기본 공격, 
-
 class Text;
 
 class Player : public LogicComponent, public EventEntity

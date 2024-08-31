@@ -3,7 +3,8 @@
 #include "../GameObject/GameObject.h"
 #include "../Manager/CollisionManager.h"
 
-Collider::Collider(GameObject* owner) : EngineComponent(owner), layer_(), collisionPoint_(), bottomLeft_(), topRight_()
+Collider::Collider(GameObject* owner)
+	: EngineComponent(owner), layer_(), collisionHandler_(nullptr), vertices_(), bottomLeft_(), topRight_()
 {
 	CollisionManager::GetInstance().AddCollider(this);
 
@@ -70,6 +71,11 @@ void Collider::LoadFromJson(const json& data)
 		scale_.x = p->begin().value();
 		scale_.y = (p->begin() + 1).value();
 	}
+}
+
+void Collider::CallHandler(CollisionEvent* event)
+{
+	collisionHandler_->OnCollision(event);
 }
 
 BoxCollider::BoxCollider(GameObject* owner) : Collider(owner) {}

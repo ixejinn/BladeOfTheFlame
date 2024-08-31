@@ -37,15 +37,5 @@ public:
 	void RemoveObject(const GameObject* const obj);
 	void RemoveObject(const std::string& name);
 
-	// @tparam T	Audio, Transform, RigidBody, ...
-	template <typename T>
-	void PutComponent(GameObject* obj, Component* comp);
-
 	void Clear();
 };
-
-template<typename T>
-inline void GameObjectManager::PutComponent(GameObject* obj, Component* comp)
-{
-	obj->AddComponent<T>(comp);
-}

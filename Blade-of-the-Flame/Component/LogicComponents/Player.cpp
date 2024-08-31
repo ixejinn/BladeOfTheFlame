@@ -19,6 +19,10 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<Audio>();
 	owner_->AddComponent<Text>();
 
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetLayer(Collider::P_AABB);
+	col->SetHandler(static_cast<EventEntity*>(this));
+
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
 	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
@@ -44,9 +48,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	//rangedAttack_ = GameObjectManager::GetInstance().CreateObject("playerRangedAttack");
 
 	curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
-
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(CollisionEvent)), static_cast<EventEntity*>(this));
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(MonsterAttackPlayer)), static_cast<EventEntity*>(this));
 }
 
 void Player::RemoveFromManager()
@@ -77,6 +78,7 @@ void Player::Update()
 	AEGfxSetCamPosition(pos.x, pos.y);
 
 	/* ATTACK */
+	static unsigned int cnt = 0;
 	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
 	if (dt.count() >= curAttack_->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON))
 	{
@@ -84,9 +86,12 @@ void Player::Update()
 
 		//std::cout << x << ", " << y << std::endl;
 		curAttack_->AttackObject();
+		cnt = 0;
 	}
-	else
+	else if (cnt >= 2)
 		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
+
+	cnt++;
 
 	text_->SetString(std::to_string(hp_) + "/" + std::to_string(maxHp_));
 }
@@ -104,20 +109,10 @@ void Player::OnEvent(BaseEvent* event)
 {
 	std::type_index eventType = std::type_index(typeid(*event));
 
-	if (eventType == std::type_index(typeid(MonsterAttackPlayer)))
-	{
-		MonsterAttackPlayer* ev = static_cast<MonsterAttackPlayer*>(event);
-		hp_ -= ev->dmg;
-	}
 }
 
 void Player::OnCollision(CollisionEvent* event)
 {
-	Monster* monster = event->from_->GetComponent<Monster>();
-	if (monster)
-	{
-		hp_ -= monster->GetDmg();
-	}
 }
 
 void Player::LevelUp()

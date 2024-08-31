@@ -15,7 +15,9 @@ MeleeAttack::MeleeAttack(GameObject* owner) : Attack(owner)
 	owner_->AddComponent<Sprite>();
 
 	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
-	owner_->GetComponent<BoxCollider>()->SetType(Collider::OBB_TYPE);
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetType(Collider::OBB_TYPE);
+	col->SetLayer(Collider::P_ATTACK);
 	owner_->GetComponent<Sprite>()->SetColor({ 100, 200, 100 });
 }
 

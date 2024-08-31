@@ -64,7 +64,7 @@ public:
 	const AEVec2& GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
 	const AEVec2& GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
 
-	void CallHandler(CollisionEvent*) { }
+	void CallHandler(CollisionEvent* event);
 
 	friend class CollisionManager;
 };

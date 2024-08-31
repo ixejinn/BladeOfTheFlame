@@ -29,6 +29,7 @@ public:
 
 	const AEVec2& GetVelocity() { return velocity_; }
 
+	void SetVelocity(AEVec2 vel) { velocity_ = vel; }
 	void SetUseAcceleration(bool b) { useAcceleration_ = b; }
 	void SetDragCoefficient(float x) { dragCoefficient_ = x; }
 

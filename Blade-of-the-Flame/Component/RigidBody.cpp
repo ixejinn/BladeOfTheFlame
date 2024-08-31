@@ -89,6 +89,11 @@ void RigidBody::LoadFromJson(const json& data)
 	}
 }
 
+void RigidBody::SetVeolcity(AEVec2 vel)
+{
+	velocity_ = vel;
+}
+
 json RigidBody::SaveToJson()
 {
 	json data, compData;

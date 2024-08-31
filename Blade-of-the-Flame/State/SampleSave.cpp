@@ -5,6 +5,7 @@
 #include "../Utils/RandomEngine.h"
 #include "../Manager/GameObjectManager.h"
 #include "../Serializer/StateSerializer.h"
+#include "../Manager/ParticleSystem.h"
 
 void SampleSave::Init()
 {
@@ -23,6 +24,7 @@ void SampleSave::Init()
 		monster[i]->GetComponent<Transform>()->SetPosition(x, y);
 	}
 
+	ParticleSystem::getPtr()->SetParticleCount(3);
 	// boss ¸¸µé°í inactive
 }
 
@@ -30,14 +32,17 @@ void SampleSave::Update()
 {
 	bool allKill = true;
 	for (int i = 0; i < 5; i++)
-	{  
+	{
+		ParticleSystem::getPtr()->Update(monster[i]);
+	}
+	for (int i = 0; i < 5; i++)
+	{
 		if (monster[i]->active_ == true)
 		{
 			allKill = false;
 			break;
 		}
 	}
-
 	if (allKill)
 	{
 		std::cout << "BOSS!!!!!" << std::endl;

@@ -31,7 +31,7 @@ public:
 
 	void SetUseAcceleration(bool b) { useAcceleration_ = b; }
 	void SetDragCoefficient(float x) { dragCoefficient_ = x; }
-
+	void SetVeolcity(AEVec2 vel);
 	void AddVelocity(const AEVec2& other);
 	void AddVelocity(float x, float y);
 

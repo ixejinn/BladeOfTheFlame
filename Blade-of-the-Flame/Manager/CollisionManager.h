@@ -9,12 +9,23 @@ class CollisionManager
 private:
 	std::vector<Collider*> colliders_;
 
-	std::queue<std::pair<int, int>> collisionPairs_;
+	std::queue<std::pair<Collider*, Collider*>> collisionPairs_;
+
+	bool layerCollisionMatrix_[LAYER_NUM][LAYER_NUM]{
+		//				P_AABB,	P_CIRCLE,	P_ATTACK,	E_BODY,	E_ATTACK,	ITEM,	EXP_ITEM
+		/* P_AABB */ {	false,	false,		false,		true,	true,		true,	true	},
+		/* P_CIRC */ {	false,	false,		false,		false,	false,		false,	true	},
+		/* P_ATCK */ {  false,	false,		false,		true,	false,		false,	false	},
+		/* E_BODY */ {  true,	false,		true,		false,	false,		false,	false	},
+		/* E_ATCK */ {  true,	false,		false,		false,	false,		false,	false	},
+		/* ITEM   */ {	true,	false,		false,		false,	false,		false,	false	},
+		/* EXP_IT */ {  true,	true,		false,		false,	false,		false,	false	}
+	};
 
 	bool CheckCircleCircle(CircleCollider* colA, CircleCollider* colB);
-	bool CheckCircleAABB(CircleCollider* colA, BoxCollider* colB, AEVec2& collisionPoint);
+	bool CheckCircleAABB(CircleCollider* colA, BoxCollider* colB);
 	bool CheckCircleOBB(CircleCollider* colA, BoxCollider* colB);
-	bool CheckAABBAABB(BoxCollider* colA, BoxCollider* colB);
+	bool CheckAABBAABB(Collider* colA, Collider* colB);
 	bool CheckOBBOBB(BoxCollider* colA, BoxCollider* colB);
 
 	CollisionManager() = default;
@@ -39,7 +50,7 @@ public:
 
 	// 같은 GameObject 내의 Collider는 서로 충돌을 검사하지 않음
 	// 현재 AABB - Circle의 경우만 collisionPoint 설정
-	bool CheckCollision(Collider* colA, Collider* colB, AEVec2& collisionPoint);
+	bool CheckCollision(Collider* colA, Collider* colB);
 
 	void Clear();
 };

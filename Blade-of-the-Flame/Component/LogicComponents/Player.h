@@ -47,11 +47,13 @@ public:
 	json SaveToJson() override;
 
 	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent*) override;
 
 	//// TODO: getter, setter
 	int GetLevel() { return level_; }
 
 	void LevelUp();
+	void AddHp(int hp) { hp_ += hp; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Player";

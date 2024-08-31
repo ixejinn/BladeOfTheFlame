@@ -3,7 +3,7 @@
 #include "../GameObject/GameObject.h"
 #include "../Manager/CollisionManager.h"
 
-Collider::Collider(GameObject* owner) : EngineComponent(owner), collisionPoint_(), bottomLeft_(), topRight_()
+Collider::Collider(GameObject* owner) : EngineComponent(owner), layer_(), collisionPoint_(), bottomLeft_(), topRight_()
 {
 	CollisionManager::GetInstance().AddCollider(this);
 

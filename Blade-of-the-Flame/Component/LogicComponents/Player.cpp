@@ -104,22 +104,19 @@ void Player::OnEvent(BaseEvent* event)
 {
 	std::type_index eventType = std::type_index(typeid(*event));
 
-	// Collision event
-	if (eventType == std::type_index(typeid(CollisionEvent)))
-	{
-		CollisionEvent* colEvent = static_cast<CollisionEvent*>(event);
-
-		//// TODO: 해당 부분 Collision system 수정 필요
-		if (colEvent->to_ != owner_ ||
-			colEvent->attackMonster)
-			return;
-
-		//hp -= colEvent->from_->GetComponent<Monster>()->
-	}
-	else if (eventType == std::type_index(typeid(MonsterAttackPlayer)))
+	if (eventType == std::type_index(typeid(MonsterAttackPlayer)))
 	{
 		MonsterAttackPlayer* ev = static_cast<MonsterAttackPlayer*>(event);
 		hp_ -= ev->dmg;
+	}
+}
+
+void Player::OnCollision(CollisionEvent* event)
+{
+	Monster* monster = event->from_->GetComponent<Monster>();
+	if (monster)
+	{
+		hp_ -= monster->GetDmg();
 	}
 }
 

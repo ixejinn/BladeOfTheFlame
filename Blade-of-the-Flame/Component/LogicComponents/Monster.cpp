@@ -87,6 +87,29 @@ void Monster::OnEvent(BaseEvent* event)
 	}
 }
 
+void Monster::OnCollision(CollisionEvent* event)
+{
+	Player* player = event->from_->GetComponent<Player>();
+	if (player)
+	{
+		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+		if (dt.count() >= cooldown_)
+		{
+			timeStart_ = std::chrono::system_clock::now();
+
+			player->AddHp(-dmg_);
+		}
+		return;
+	}
+
+	MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
+	if (melee)
+	{
+		hp_ -= melee->GetDmg();
+		return;
+	}
+}
+
 ComponentSerializer* Monster::CreateComponent(GameObject* owner)
 {
 	return nullptr;

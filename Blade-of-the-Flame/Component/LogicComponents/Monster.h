@@ -31,6 +31,9 @@ public:
 	json SaveToJson() override;
 
 	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent* event) override;
+
+	const int GetDmg() const { return dmg_; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Monster";

@@ -51,7 +51,7 @@ public:
 	int GetLevel() { return level_; }
 
 	void LevelUp();
-	void AddHp(int hp) { hp_ += hp; }
+	void AddHp(int hp);
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Player";

@@ -117,6 +117,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Manager\EventManager.cpp" />
     <ClCompile Include="Manager\GameObjectManager.cpp" />
     <ClCompile Include="Manager\GameStateManager.cpp" />
+    <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
     <ClCompile Include="Resource\FontResource.cpp" />
     <ClCompile Include="Utils\MathUtils.cpp" />
@@ -153,6 +154,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\EventManager.h" />
     <ClInclude Include="Manager\GameObjectManager.h" />
     <ClInclude Include="Manager\GameStateManager.h" />
+    <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
     <ClInclude Include="Resource\FontResource.h" />
     <ClInclude Include="Utils\MathUtils.h" />

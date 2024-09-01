@@ -3,6 +3,7 @@
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Utils/Utils.h"
 
 Monster::Monster(GameObject* owner) : LogicComponent(owner)
 {
@@ -19,9 +20,9 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner)
 	col->SetHandler(static_cast<EventEntity*>(this));
 	
 	/* Set pointer */
-	transPlayer = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
-	trans = owner_->GetComponent<Transform>();
-	rb = owner_->GetComponent<RigidBody>();
+	transPlayer_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
+	trans_ = owner_->GetComponent<Transform>();
+	rb_ = owner_->GetComponent<RigidBody>();
 }
 
 void Monster::RemoveFromManager()
@@ -31,19 +32,24 @@ void Monster::RemoveFromManager()
 
 void Monster::Update()
 {
-	if (hp_ <= 0)
-		owner_->active_ = false;
+	AEVec2 playerPos = transPlayer_->GetPosition();
+	AEVec2 pos = trans_->GetPosition();
+	AEVec2 moveDir = playerPos - pos, unitMoveDir;
+	f32 tmp = AEVec2SquareLength(&moveDir);
+
+	if (hp_ <= 0 || tmp > 9 * windowHeight * windowHeight)
+	{
+		hp_ = maxHp_;
+		owner_->SetActive(false);
+	}
 	else if (hp_ <= 10)
 		owner_->GetComponent<Sprite>()->SetColor({ 200, 10, 10 });
 	else
 		owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
 
-	AEVec2 playerPos = transPlayer->GetPosition();
-	AEVec2 pos = trans->GetPosition();
-	AEVec2 moveDir = playerPos - pos, unitMoveDir;
 	AEVec2Normalize(&unitMoveDir, &moveDir);
 
-	rb->AddVelocity(unitMoveDir * moveSpeed_);
+	rb_->AddVelocity(unitMoveDir * moveSpeed_);
 }
 
 void Monster::LoadFromJson(const json&)

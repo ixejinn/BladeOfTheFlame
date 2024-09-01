@@ -29,6 +29,7 @@ public:
 	const std::map<std::type_index, Component*>& GetAllComponents() const { return components_; }
 
 	void SetName(const std::string& name) { name_ = name; }
+	void SetActive(bool b);
 
 	// Component 생성 + GameObject에 부착 한번에 가능
 	// @tparam T	Transform, Sprite, ...

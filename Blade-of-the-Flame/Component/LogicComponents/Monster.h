@@ -10,15 +10,17 @@ class Monster : public LogicComponent, public EventEntity
 {
 private:
 	int hp_ = 20;
+	const int maxHp_ = 20;
+
 	int dmg_ = 5;
-	float moveSpeed_ = 2.5f;
+	float moveSpeed_ = 4.0f;
 
 	double cooldown_ = 1.0;
 	std::chrono::system_clock::time_point timeStart_;
 
-	Transform* transPlayer = nullptr;
-	Transform* trans = nullptr;
-	RigidBody* rb = nullptr;
+	Transform* transPlayer_ = nullptr;
+	Transform* trans_ = nullptr;
+	RigidBody* rb_ = nullptr;
 
 	Monster(GameObject* owner);
 

@@ -39,11 +39,6 @@ void Transform::RemoveFromManager()
 void Transform::Update()
 {
 	UpdateMatrix();
-
-	float x = AEClamp(position_.x, -limit_.x, limit_.x);
-	float y = AEClamp(position_.y, -limit_.y, limit_.y);
-
-	SetPosition({ x, y });
 }
 
 void Transform::LoadFromJson(const json& data)
@@ -81,20 +76,14 @@ json Transform::SaveToJson()
 
 void Transform::SetPosition(const AEVec2& pos)
 {
-	float x = AEClamp(pos.x, -limit_.x, limit_.x);
-	float y = AEClamp(pos.y, -limit_.y, limit_.y);
-
 	position_ = pos;
 	UpdateMatrix();
 }
 
 void Transform::SetPosition(const float& x, const float& y)
 {
-	float validX = AEClamp(x, -limit_.x, limit_.x);
-	float validY = AEClamp(y, -limit_.y, limit_.y);
-
-	position_.x = validX;
-	position_.y = validY;
+	position_.x = x;
+	position_.y = y;
 	UpdateMatrix();
 }
 

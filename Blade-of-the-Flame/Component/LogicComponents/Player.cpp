@@ -130,6 +130,13 @@ void Player::LevelUp()
 	//	curAttack_ = rangedAttack_;
 }
 
+void Player::AddHp(int hp)
+{
+	hp_ += hp;
+	AEVec2 pos = trans_->GetPosition();
+	std::cout << pos.x << ", " << pos.y << std::endl;
+}
+
 ComponentSerializer* Player::CreateComponent(GameObject* owner)
 {
 	if (!owner->AddComponent<Player>())

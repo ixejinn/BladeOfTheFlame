@@ -26,7 +26,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
 	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
-	pCtrl->SetStopKey(AEVK_SPACE);
+	pCtrl->SetDashKey(AEVK_SPACE);
 
 	trans_ = owner_->GetComponent<Transform>();
 	trans_->SetScale({ 30, 100 });

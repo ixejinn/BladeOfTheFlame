@@ -14,9 +14,13 @@ private:
 	uint8_t moveKeys_[4] = { AEVK_A, AEVK_D, AEVK_W, AEVK_S };
 	uint8_t rotKeys_[2] = { 0x00, 0x00 };
 	uint8_t stopKey_ = 0x00;
+	uint8_t dashKey_ = 0x00;
 
 	float moveSpeed_ = 5.f;
 	float rotSpeed_ = 0.5f;
+
+	double dashCooldown_ = 1.0;
+	std::chrono::system_clock::time_point timeStart_;
 
 	PlayerController(GameObject* owner);
 
@@ -32,6 +36,7 @@ public:
 	void SetMoveKeys(Direction dir, uint8_t key) { moveKeys_[dir] = key; }
 	void SetRotKeys(Direction dir, uint8_t key) { rotKeys_[dir] = key; }
 	void SetStopKey(uint8_t key) { stopKey_ = key; }
+	void SetDashKey(uint8_t key);
 	void SetMoveSpeed(float speed) { moveSpeed_ = speed; }
 	void SetRotSpeed(float speed) { rotSpeed_ = speed; }
 

@@ -2,13 +2,13 @@
 
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
-#include "../../Manager/GameObjectManager.h"
 
 MeleeAttack::MeleeAttack(GameObject* owner) : Attack(owner)
 {
-	player_ = GameObjectManager::GetInstance().GetObjectA("player");
-
-	owner_->active_ = false;
+	dmg_ = 5;
+	range_ = 100.f;
+	cooldown_ = 0.5;
+	dmgGrowthRate_ = 3.f;
 
 	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();

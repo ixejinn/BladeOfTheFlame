@@ -8,21 +8,18 @@ class Attack : public LogicComponent
 protected:
 	GameObject* player_ = nullptr;
 
-	int dmg_ = 10;
+	int dmg_ = 0;
+	float range_ = 0.f;
 
-	float range_ = 100.f;
+	double cooldown_ = 0.0;
 
-	double cooldown_ = 1.0;
+	float dmgGrowthRate_ = 0.f;
 
-	float dmgGrowthRate_ = 3.f;
-
-	std::chrono::system_clock::time_point timeStart_;
-
-	Attack(GameObject* owner) : LogicComponent(owner) {}
+	Attack(GameObject* owner);
 
 public:
-	double GetCooldown() { return cooldown_; }
-	int GetDmg() { return dmg_; }
+	const int GetDmg() const { return dmg_; }
+	const double GetCooldown() const { return cooldown_; }
 
 	void SetPlayer(GameObject* player) { player_ = player; }
 

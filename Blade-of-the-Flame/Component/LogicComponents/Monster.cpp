@@ -5,8 +5,14 @@
 #include "../../Manager/GameObjectManager.h"
 #include "../../Utils/Utils.h"
 
-Monster::Monster(GameObject* owner) : LogicComponent(owner)
+Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 {
+	hp_ = 20;
+	maxHp_ = 20;
+	dmg_ = 5;
+	moveSpeed_ = 10.f;
+	knockback_ = 10.f;
+	cooldown_ = 1.0f;
 	timeStart_ = std::chrono::system_clock::now();
 
 	/* Set Monster component */
@@ -47,8 +53,12 @@ void Monster::Update()
 	else
 		owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
 
-	AEVec2Normalize(&unitMoveDir, &moveDir);
+	AEVec2 velocity = rb_->GetVelocity();
+	f32 dotProduct = moveDir.x * velocity.x + moveDir.y * velocity.y;
+	if (dotProduct < 0)
+		rb_->ClearVelocity();
 
+	AEVec2Normalize(&unitMoveDir, &moveDir);
 	rb_->AddVelocity(unitMoveDir * moveSpeed_);
 }
 
@@ -86,6 +96,12 @@ void Monster::OnCollision(CollisionEvent* event)
 	if (melee)
 	{
 		hp_ -= melee->GetDmg();
+
+		RigidBody* rb = owner_->GetComponent<RigidBody>();
+		AEVec2 velocity = rb->GetVelocity();
+		rb->ClearVelocity();
+		rb->AddVelocity(velocity * -knockback_);
+
 		return;
 	}
 }

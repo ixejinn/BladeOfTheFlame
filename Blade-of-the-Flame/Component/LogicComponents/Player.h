@@ -48,7 +48,7 @@ public:
 	void OnCollision(CollisionEvent*) override;
 
 	//// TODO: getter, setter
-	int GetLevel() { return level_; }
+	const int GetLevel() const { return level_; }
 
 	void LevelUp();
 	void AddHp(int hp);

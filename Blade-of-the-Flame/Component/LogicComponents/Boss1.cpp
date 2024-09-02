@@ -17,6 +17,10 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
 	phase2Count_ = 0;
 	shootCount_  = 0;
 
+	phase1_cool = 0;
+	phase2_cool = 0;
+	phase3_cool = 0;
+
 	current_state = Normal;
 	phaseOn = false;
 	needShoot = true;
@@ -25,9 +29,9 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
 void Boss1::Update()
 {
 	BaseChase();
-	//Phase1();
+	Phase1();
 	//Phase2();
-	Phase3();
+	Phase4();
 	//Phase3();
 
 	/*BossState();
@@ -48,7 +52,10 @@ void Boss1::Update()
 	{
 		Phase3();
 	}*/
+
+	
 }
+
 
 void Boss1::BossState()
 {
@@ -151,17 +158,80 @@ void Boss1::Phase2()
 
 void Boss1::Phase3()
 {
-	if (needShoot)
+	if (phase3_cool < 150)
 	{
-		AEVec2 resultUnitDir;
-		AEMtx33 transMtx;
-
-	    AEMtx33Rot(&transMtx, 1);
-
-		CreateBulletObj()->GetComponent<BulletComp>()->unitDir = resultUnitDir;
-		CreateBulletObj()->GetComponent<BulletComp>()->BarrageBullet();
-		needShoot = false;
+		phase3_cool += 1;
+		return;
 	}
+	
+	phase3_cool = 0;
+
+	std::vector<f32> dir_x(4);
+	std::vector<f32> dir_y(4);
+
+	int count = 30;
+
+	float intervalAngle = 360 / count;
+
+
+	for (int i = 0; i < count; i++)
+	{
+		GameObject* temp = CreateBulletObj();
+
+		float angle = intervalAngle * i;
+
+		float radian = angle * PI / 180.0f;
+
+		AEVec2 tempDir;
+
+		tempDir.x = cos(radian);
+		tempDir.y = sin(radian);
+
+		temp->GetComponent<BulletComp>()->unitDir = tempDir;
+		temp->GetComponent<BulletComp>()->BarrageBullet(false);
+
+	}
+
+	needShoot = false;
+}
+
+void Boss1::Phase4()
+{
+	if (phase3_cool < 150)
+	{
+		phase3_cool += 1;
+		return;
+	}
+
+	phase3_cool = 0;
+
+	std::vector<f32> dir_x(4);
+	std::vector<f32> dir_y(4);
+
+	int count = 30;
+
+	float intervalAngle = 360 / count;
+
+
+	for (int i = 0; i < count; i++)
+	{
+		GameObject* temp = CreateBulletObj();
+
+		float angle = intervalAngle * i;
+
+		float radian = angle * PI / 180.0f;
+
+		AEVec2 tempDir;
+
+		tempDir.x = cos(radian);
+		tempDir.y = sin(radian);
+
+		temp->GetComponent<BulletComp>()->unitDir = tempDir;
+		temp->GetComponent<BulletComp>()->BarrageBullet(true);
+
+	}
+
+	needShoot = false;
 }
 
 void Boss1::LoadFromJson(const json&)

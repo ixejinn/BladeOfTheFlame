@@ -22,6 +22,19 @@ void BulletComp::Update()
 {	
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
+
+	if (returnBullet)
+	{
+		time++;
+		if (time == 40)
+		{
+			f32 a = -1;
+			unitDir.x = unitDir.x * a;
+			unitDir.y = unitDir.y * a;
+			time = 0;
+			returnBullet = false;
+		}
+	}
 }
 
 void BulletComp::RemoveFromManager()
@@ -45,21 +58,24 @@ void BulletComp::FireBullet()
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }
 
-void BulletComp::BarrageBullet()
+void BulletComp::BarrageBullet(bool _bool = false)
 {
+	returnBullet = _bool;
+
 	Transform* bulletTrans = owner_->GetComponent<Transform>();
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 
 	bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
 
-	AEVec2 nonDir;
-	AEVec2 result;
-	AEVec2Add(&result,&unitDir,&nonDir);
+	//AEVec2 nonDir;
+	/*AEVec2 result;
+	AEVec2Add(&result,&unitDir,&nonDir);*/
 
-	AEVec2Normalize(&unitDir, &nonDir);
+	//AEVec2Normalize(&unitDir, &unitDir);
 
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }
+
 
 void BulletComp::LoadFromJson(const json&)
 {

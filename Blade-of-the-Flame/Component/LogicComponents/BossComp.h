@@ -33,6 +33,11 @@ protected:
 	int phase1Count_ = 0;
 	int phase2Count_ = 0;
 	int shootCount_ = 0;
+
+	float phase1_cool = 0;
+	float phase2_cool = 0;
+	float phase3_cool = 0;
+
 	bool phaseOn = false;
 
 	AEVec2 pos_;
@@ -66,6 +71,8 @@ public:
 	virtual void Phase2() = 0;
 
 	virtual void Phase3() = 0;
+
+	virtual void Phase4() = 0;
 	// for StateSerializer
 
 	static constexpr const char* TypeName = "BossComp";

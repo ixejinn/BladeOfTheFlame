@@ -20,6 +20,9 @@ public:
 
 	void Phase3() override;
 
+	void Phase4() override;
+
+
 	void LoadFromJson(const json&);
 	json SaveToJson();
 

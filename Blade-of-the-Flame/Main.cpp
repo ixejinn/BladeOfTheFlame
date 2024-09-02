@@ -57,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	MenuScene menuScene;
 
 
-	gsm.ChangeState(&bossSampleSave);
+	gsm.ChangeState(&sampleSave);
 	
 	// Game Loop
 	while (gGameRunning)

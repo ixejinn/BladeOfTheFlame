@@ -18,6 +18,8 @@ protected:
 	BaseAttack(GameObject* owner);
 
 public:
+	void RemoveFromManager() override;
+
 	const int GetDmg() const { return dmg_; }
 	const double GetCooldown() const { return cooldown_; }
 

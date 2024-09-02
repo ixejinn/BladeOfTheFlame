@@ -21,11 +21,6 @@ MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 	owner_->GetComponent<Sprite>()->SetColor({ 100, 200, 100 });
 }
 
-void MeleeAttack::RemoveFromManager()
-{
-	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
-}
-
 void MeleeAttack::Update()
 {
 }

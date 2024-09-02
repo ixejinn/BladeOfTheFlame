@@ -74,8 +74,6 @@ void MonsterManager::SpawnMonster()
 		x += playerPos.x;
 		y += playerPos.y;
 
-		std::cout << zone << " " << x << ", " << y << std::endl;
-
 		monster->GetComponent<Transform>()->SetPosition(x, y);
 		monster->active_ = true;
 	}

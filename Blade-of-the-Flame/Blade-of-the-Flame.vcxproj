@@ -104,6 +104,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\Audio.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseAttack.cpp" />
+    <ClCompile Include="Component\LogicComponents\BaseItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\Monster.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />

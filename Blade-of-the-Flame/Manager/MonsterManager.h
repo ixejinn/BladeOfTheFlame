@@ -12,7 +12,7 @@ private:
 
 	int maxNum_ = 0;
 	int activeNum_ = 0;
-	int maxActiveNum_ = 100;
+	int maxActiveNum_ = 300;
 
 	std::uniform_int_distribution<int> spawnZone_{ 0, 3 };
 	std::uniform_int_distribution<int> spawnX_{ -windowWidth / 2, windowWidth / 2 };
@@ -21,7 +21,7 @@ private:
 
 	std::chrono::system_clock::time_point timeStart_;
 	double spawnPeriod_ = 2.0;
-	int spawnNumPerWave = 5;
+	int spawnNumPerWave = 10;
 
 	MonsterManager() = default;
 	~MonsterManager() = default;

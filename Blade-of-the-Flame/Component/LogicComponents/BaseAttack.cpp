@@ -9,3 +9,8 @@ BaseAttack::BaseAttack(GameObject* owner) : LogicComponent(owner)
 	player_ = GameObjectManager::GetInstance().GetObjectA("player");
 
 }
+
+void BaseAttack::RemoveFromManager()
+{
+	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
+}

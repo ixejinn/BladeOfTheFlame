@@ -20,6 +20,7 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	owner_->AddComponent<Sprite>();
 
 	owner_->GetComponent<Transform>()->SetScale({ 30, 30 });
+	//owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetLayer(Collider::E_BODY);

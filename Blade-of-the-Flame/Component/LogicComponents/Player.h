@@ -34,6 +34,8 @@ private:
 	Text* text_;
 	Transform* trans_;
 
+	AEGfxVertexList* mesh_;
+
 	Player(GameObject* owner);
 
 public:

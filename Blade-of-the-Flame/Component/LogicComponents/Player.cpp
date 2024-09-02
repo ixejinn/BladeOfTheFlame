@@ -73,8 +73,7 @@ void Player::Update()
 	}
 
 	/* SET CAMERA */
-	Transform* trans = owner_->GetComponent<Transform>();
-	AEVec2 pos = trans->GetPosition();
+	AEVec2 pos = trans_->GetPosition();
 	AEGfxSetCamPosition(pos.x, pos.y);
 
 	/* ATTACK */
@@ -84,7 +83,6 @@ void Player::Update()
 	{
 		timeStart_ = std::chrono::system_clock::now();
 
-		//std::cout << x << ", " << y << std::endl;
 		curAttack_->AttackObject();
 		cnt = 0;
 	}
@@ -133,8 +131,6 @@ void Player::LevelUp()
 void Player::AddHp(int hp)
 {
 	hp_ += hp;
-	AEVec2 pos = trans_->GetPosition();
-	std::cout << pos.x << ", " << pos.y << std::endl;
 }
 
 ComponentSerializer* Player::CreateComponent(GameObject* owner)

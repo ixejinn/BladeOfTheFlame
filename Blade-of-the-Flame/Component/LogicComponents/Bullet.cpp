@@ -45,11 +45,21 @@ void BulletComp::FireBullet()
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }
 
-void BulletComp::testBullet()
+void BulletComp::BarrageBullet()
 {
-	FireBullet();
-}
+	Transform* bulletTrans = owner_->GetComponent<Transform>();
+	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 
+	bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
+
+	AEVec2 nonDir;
+	AEVec2 result;
+	AEVec2Add(&result,&unitDir,&nonDir);
+
+	AEVec2Normalize(&unitDir, &nonDir);
+
+	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
+}
 
 void BulletComp::LoadFromJson(const json&)
 {

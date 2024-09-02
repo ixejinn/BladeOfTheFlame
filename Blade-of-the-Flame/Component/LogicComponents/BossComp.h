@@ -26,11 +26,13 @@ protected:
 	float skillDmg_    = 0.f;
 	float range_       = 0.f;
 
-	float nomalphaseTime_	 = 0.f;
+	float nomalphaseTime_ = 0.f;
+	float DelayTime_ = 0.f;
+	float shootTime_ = AEFrameRateControllerGetFrameTime();
 
 	int phase1Count_ = 0;
 	int phase2Count_ = 0;
-
+	int shootCount_ = 0;
 	bool phaseOn = false;
 
 	AEVec2 pos_;
@@ -38,6 +40,7 @@ protected:
 	
 	GameObject* player;
 	GameObject* boss;
+
 	std::vector<GameObject*> bullet;
 
 	BossComp(GameObject* owner);

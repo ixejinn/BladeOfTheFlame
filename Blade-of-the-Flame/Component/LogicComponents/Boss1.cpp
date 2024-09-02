@@ -11,48 +11,43 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
 	range_		 = 1.5;
 
 	nomalphaseTime_    = 0.0;
+	DelayTime_		   = 0.0;
 
 	phase1Count_ = 0;
 	phase2Count_ = 0;
+	shootCount_  = 0;
 
 	current_state = Normal;
 	phaseOn = false;
 	needShoot = true;
-	
-
 }
 
 void Boss1::Update()
 {
-	//Transform* bossTrans = owner_->GetComponent<Transform>();
-	//if (!bossTrans)
-	//	return;
-	//
-	//RigidBody* bossRb = owner_->GetComponent<RigidBody>();
-	//if (!bossRb)
-	//	return;
-	//BaseChase();
+	BaseChase();
+	//Phase1();
+	//Phase2();
+	Phase3();
+	//Phase3();
 
-	Phase2();	
-
-	//BossState();
+	/*BossState();
 	
-	//if (current_state == Normal)
-	//{
-	//	BaseChase();
-	//}
-	//else if (current_state == FastChase)
-	//{
-	//	Phase1();
-	//}
-	//else if (current_state == RangeAttack)
-	//{
-	//	Phase2();
-	//}
-	//else if (current_state == Barrage)
-	//{
-	//	Phase3();
-	//}
+	if (current_state == Normal)
+	{
+		BaseChase();
+	}
+	else if (current_state == FastChase)
+	{
+		Phase1();
+	}
+	else if (current_state == RangeAttack)
+	{
+		Phase2();
+	}
+	else if (current_state == Barrage)
+	{
+		Phase3();
+	}*/
 }
 
 void Boss1::BossState()
@@ -61,7 +56,7 @@ void Boss1::BossState()
 	const float fastchase_phase_time = 1;
 	const float fastchase_end_time = normal_phase_time + fastchase_phase_time;
 
-	nomalphaseTime_ += AEFrameRateControllerGetFrameTime(); //delta time
+	nomalphaseTime_ += shootTime_; //delta time
 
 	if (nomalphaseTime_ < normal_phase_time)
 	{
@@ -131,31 +126,42 @@ void Boss1::Phase1()
 
 void Boss1::Phase2()
 {
-	//if (phase2Count_ > 1)
-	//{
-	//	phase2Count_ = 0;
-	//}
-	//else
-	//{
-	//	phase2Count_ += 1;
-	//}
-	// 
-	//Transform* bossTrans = owner_->GetComponent<Transform>();
-	//RigidBody* bossRb = owner_->GetComponent<RigidBody>();
-	//bullet->GetComponent<BulletComp>()->
-	//if()
-	
-	if (needShoot || AEInputCheckCurr(AEVK_SPACE))
+	if (needShoot && shootCount_ < 3)
 	{
-		CreateBulletObj()->GetComponent<BulletComp>()->FireBullet();
+		if(DelayTime_ > 1)
+		{ 
+			CreateBulletObj()->GetComponent<BulletComp>()->FireBullet();
+			shootCount_ += 1;
+			DelayTime_   = 0;
+		}
+		DelayTime_  += 0.1;
+	}
+	else if (shootTime_ > 20)
+	{
+		needShoot = true;
+		shootCount_ = 0;
+		shootTime_  = 0;
+	}
+	else
+	{
 		needShoot = false;
+		shootTime_ += 1;
 	}
 }
 
 void Boss1::Phase3()
 {
-	Transform* bossTrans = owner_->GetComponent<Transform>();
-	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
+	if (needShoot)
+	{
+		AEVec2 resultUnitDir;
+		AEMtx33 transMtx;
+
+	    AEMtx33Rot(&transMtx, 1);
+
+		CreateBulletObj()->GetComponent<BulletComp>()->unitDir = resultUnitDir;
+		CreateBulletObj()->GetComponent<BulletComp>()->BarrageBullet();
+		needShoot = false;
+	}
 }
 
 void Boss1::LoadFromJson(const json&)

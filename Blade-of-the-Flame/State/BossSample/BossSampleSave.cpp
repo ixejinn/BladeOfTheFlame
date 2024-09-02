@@ -12,7 +12,7 @@ void BossSampleSave::Init()
 	// -----------------------------------------------------------------------------------------
 	//PLAYER_TEST
 	GameObject* obj = GameObjectManager::GetInstance().CreateObject("TestObj");
-
+	
 	obj->AddComponent<Transform>();
 	obj->GetComponent<Transform>()->SetScale({ 50, 50 });
 	
@@ -27,6 +27,8 @@ void BossSampleSave::Init()
 	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
 	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
 	pCtrl->SetStopKey(AEVK_SPACE);
+
+	pCtrl->SetMoveSpeed(10.f);
 
 	obj->AddComponent<Audio>();
 	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
@@ -46,14 +48,7 @@ void BossSampleSave::Init()
 
 	// -----------------------------------------------------------------------------------------
 	//BULLET_TEST
-	GameObject* bullet = GameObjectManager::GetInstance().CreateObject("bullet");
-	bullet->AddComponent<Transform> ();
-	bullet->AddComponent<Sprite>    ();
-	bullet->AddComponent<RigidBody> ();
-	bullet->AddComponent<BulletComp>();
 	
-	bullet->GetComponent<Transform>()->SetScale({ 50, 50 });
-	bullet->GetComponent<Sprite>   ()->SetTexture("Assets/YeeHead.png");
 }
 
 void BossSampleSave::Update()

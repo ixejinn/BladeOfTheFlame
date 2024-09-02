@@ -14,6 +14,8 @@
 #include "State/BossSample/BossSampleSave.h"
 #include "State/BossSample/BossSampleLoad.h"
 // ---------------------------------------------------------------------------
+//MENU TEST
+#include "State/UISample/MenuScene.h"
 // main
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -50,8 +52,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	BossSampleLoad bossSampleLoad;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&bossSampleSave);
 	// ---------------------------------------------------------------------------
+	//MENU_TEST
+	MenuScene menuScene;
+
+
+	gsm.ChangeState(&bossSampleSave);
 	
 	// Game Loop
 	while (gGameRunning)
@@ -73,8 +79,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		if (AEInputCheckTriggered(AEVK_ESCAPE) || 0 == AESysDoesWindowExist())
 			gGameRunning = 0;
 	}
-
-
 	// free the system
 	AESysExit();
 }

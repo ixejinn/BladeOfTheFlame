@@ -6,7 +6,8 @@
 class RigidBody : public EngineComponent
 {
 private:
-	AEVec2 velocity_;
+	AEVec2 velocity_ = { 30.f,40.f };
+	//AEVec2 velocity_;
 	AEVec2 preVelocity_;
 	AEVec2 maxVelocity_;
 
@@ -31,6 +32,7 @@ public:
 
 	void SetUseAcceleration(bool b) { useAcceleration_ = b; }
 	void SetDragCoefficient(float x) { dragCoefficient_ = x; }
+	void SetVelocity(AEVec2 setvleocity) { velocity_ = setvleocity; }
 
 	void AddVelocity(const AEVec2& other);
 	void AddVelocity(float x, float y);

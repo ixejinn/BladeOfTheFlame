@@ -4,30 +4,24 @@
 
 BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 {
-	bulletSpeed = 10.f;
-	bulletDmg	= 3.f;
-
+	bulletSpeed_ = 100.f;
+	bulletDmg_	 = 3.f;
+	
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<RigidBody>();
 	owner_->AddComponent<Sprite>();
 	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
 	owner_->GetComponent<Sprite>   ()->SetTexture("Assets/YeeHead.png");
 
-	boss = GameObjectManager::GetInstance().GetObjectA("boss");
+	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
 	player = GameObjectManager::GetInstance().GetObjectA("TestObj");
+
 }
 
 void BulletComp::Update()
-{
-	if (fire == true)
-	{
-		InitBullet();
-	}
-
+{	
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
-
-	bulletRigd->AddVelocity(unitDir * bulletSpeed);
-	
+	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }
 
 void BulletComp::RemoveFromManager()
@@ -35,11 +29,12 @@ void BulletComp::RemoveFromManager()
 	//TODO::
 }
 
-void BulletComp::InitBullet()
+void BulletComp::FireBullet()
 {
 	Transform* bulletTrans = owner_ ->GetComponent<Transform>();
-	Transform* playerTrans = player ->GetComponent<Transform>();
 	RigidBody* bulletRigd  = owner_ ->GetComponent<RigidBody>();
+
+	Transform* playerTrans = player ->GetComponent<Transform>();
 
 	bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
 
@@ -47,9 +42,14 @@ void BulletComp::InitBullet()
 
 	AEVec2Normalize(&unitDir, &dir);
 
-	bulletRigd->AddVelocity(unitDir * bulletSpeed);
-	fire = false;
+	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }
+
+void BulletComp::testBullet()
+{
+	FireBullet();
+}
+
 
 void BulletComp::LoadFromJson(const json&)
 {

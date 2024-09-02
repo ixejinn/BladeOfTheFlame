@@ -1,8 +1,6 @@
 #include "Boss1.h"
-#include "Bullet.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
-
 Boss1::Boss1(GameObject* owner) : BossComp(owner)
 {
 	hp_		     = 500;
@@ -11,56 +9,81 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
 	baseDmg_     =   5;
 	skillDmg_    =  10;
 	range_		 = 1.5;
-	phaseTime_   = 0.0;
+
+	nomalphaseTime_    = 0.0;
+
+	phase1Count_ = 0;
+	phase2Count_ = 0;
 
 	current_state = Normal;
+	phaseOn = false;
+	needShoot = true;
+	
+
 }
 
 void Boss1::Update()
 {
-	Transform* bossTrans = owner_->GetComponent<Transform>();
-	if (!bossTrans)
-		return;
+	//Transform* bossTrans = owner_->GetComponent<Transform>();
+	//if (!bossTrans)
+	//	return;
+	//
+	//RigidBody* bossRb = owner_->GetComponent<RigidBody>();
+	//if (!bossRb)
+	//	return;
+	//BaseChase();
 
-	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
-	if (!bossRb)
-		return;
+	Phase2();	
 
-	// change current state accordingly
-	BossState();
-	Phase2();
+	//BossState();
 	
-	if (current_state == Normal)
-	{
-		BaseChase();
-	}
-	else if (current_state == FastChase)
-	{
-		Phase1();
-	}
+	//if (current_state == Normal)
+	//{
+	//	BaseChase();
+	//}
+	//else if (current_state == FastChase)
+	//{
+	//	Phase1();
+	//}
+	//else if (current_state == RangeAttack)
+	//{
+	//	Phase2();
+	//}
+	//else if (current_state == Barrage)
+	//{
+	//	Phase3();
+	//}
 }
 
 void Boss1::BossState()
 {
-	const float normal_phase_time = 1;
-	const float fastchase_phase_time = 2;
-	const float faastchase_end_time = normal_phase_time + fastchase_phase_time;
+	const float normal_phase_time = 5;
+	const float fastchase_phase_time = 1;
+	const float fastchase_end_time = normal_phase_time + fastchase_phase_time;
 
-	phaseTime_ += 0.016f; //delta time
+	nomalphaseTime_ += AEFrameRateControllerGetFrameTime(); //delta time
 
-	current_state = RangeAttack;
-
-	if (phaseTime_ < normal_phase_time)
+	if (nomalphaseTime_ < normal_phase_time)
 	{
 		current_state = Normal;
 	}
-	else if (phaseTime_ >= normal_phase_time && phaseTime_ < faastchase_end_time)
+	else if (nomalphaseTime_ >= normal_phase_time && 
+		     nomalphaseTime_ < fastchase_end_time && phaseOn == false) //phase1
 	{
 		current_state = FastChase;
+		phaseOn = true;
 	}
-	else if (phaseTime_ >= faastchase_end_time)
+	else if (phase1Count_ == 1 && phaseOn == true) //phase2
 	{
-		phaseTime_ = 0;
+		current_state = RangeAttack;
+	}
+	else if (phase2Count_ == 2) //phase3
+	{
+		current_state = Barrage;
+	}
+	else if (nomalphaseTime_ >= fastchase_end_time)
+	{
+		nomalphaseTime_ = 0;
 	}
 }
 
@@ -83,6 +106,15 @@ void Boss1::BaseChase()
 
 void Boss1::Phase1()
 {
+	if (phase1Count_ > 3)
+	{
+		phase1Count_ = 0; 
+	}
+	else
+	{
+		phase1Count_ += 1;
+	}
+
 	Transform* bossTrans = owner_->GetComponent<Transform>();
 	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
 
@@ -95,12 +127,29 @@ void Boss1::Phase1()
 	AEVec2Normalize(&unitChaseVec, &chaseVec);
 
 	bossRb->AddVelocity(unitChaseVec * chaseSpeed_);
-
 }
 
 void Boss1::Phase2()
 {
-	owner_->GetComponent<BulletComp>()->fire = true;
+	//if (phase2Count_ > 1)
+	//{
+	//	phase2Count_ = 0;
+	//}
+	//else
+	//{
+	//	phase2Count_ += 1;
+	//}
+	// 
+	//Transform* bossTrans = owner_->GetComponent<Transform>();
+	//RigidBody* bossRb = owner_->GetComponent<RigidBody>();
+	//bullet->GetComponent<BulletComp>()->
+	//if()
+	
+	if (needShoot || AEInputCheckCurr(AEVK_SPACE))
+	{
+		CreateBulletObj()->GetComponent<BulletComp>()->FireBullet();
+		needShoot = false;
+	}
 }
 
 void Boss1::Phase3()

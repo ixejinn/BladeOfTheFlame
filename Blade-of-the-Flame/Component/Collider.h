@@ -107,6 +107,9 @@ public:
 
 	const float& GetRadius() const { return radius_; }
 
+	void SetRadius(float r) { radius_ = r; }
+	void ResetRadius();
+
 	// for StateSerializer
 	static constexpr const char* TypeName = "CircleCollider";
 	static ComponentSerializer* CreateComponent(GameObject* owner);

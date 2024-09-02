@@ -16,14 +16,14 @@ void SampleSave::Init()
 	//monster->AddComponent<Monster>();
 	//monster->GetComponent<Transform>()->SetPosition(0.1, 0.1);
 	
-	MonsterManager::GetInstance().Initialize(300);
+	MonsterManager::GetInstance().Initialize(5);
 
 	// boss ¸¸µé°í inactive
 }
 
 void SampleSave::Update()
 {
-	MonsterManager::GetInstance().SpawnMonster();
+	MonsterManager::GetInstance().Spawn();
 }
 
 void SampleSave::Exit()

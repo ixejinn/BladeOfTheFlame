@@ -166,6 +166,7 @@ void CollisionManager::CheckAllCollision()
 		{
 			CollisionEvent* event1to2 = new CollisionEvent();
 			event1to2->from_ = pair.first->owner_;
+			event1to2->fromType_ = pair.first->type_;
 			pair.second->CallHandler(event1to2);
 		}
 		
@@ -173,6 +174,7 @@ void CollisionManager::CheckAllCollision()
 		{
 			CollisionEvent* event2to1 = new CollisionEvent();
 			event2to1->from_ = pair.second->owner_;
+			event2to1->fromType_ = pair.second->type_;
 			pair.first->CallHandler(event2to1);
 		}
 		

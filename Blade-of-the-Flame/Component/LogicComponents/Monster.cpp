@@ -4,6 +4,12 @@
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
 #include "../../Utils/Utils.h"
+#include "../../Manager/MonsterManager.h"
+
+namespace
+{
+	MonsterManager& manager_ = MonsterManager::GetInstance();
+}
 
 Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 {
@@ -27,7 +33,7 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	col->SetHandler(static_cast<EventEntity*>(this));
 	
 	/* Set pointer */
-	transPlayer_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
+	playerTrans_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 	trans_ = owner_->GetComponent<Transform>();
 	rb_ = owner_->GetComponent<RigidBody>();
 }
@@ -39,15 +45,15 @@ void Monster::RemoveFromManager()
 
 void Monster::Update()
 {
-	AEVec2 playerPos = transPlayer_->GetPosition();
+	AEVec2 playerPos = playerTrans_->GetPosition();
 	AEVec2 pos = trans_->GetPosition();
 	AEVec2 moveDir = playerPos - pos, unitMoveDir;
-	f32 tmp = AEVec2SquareLength(&moveDir);
+	f32 squareDist = AEVec2SquareLength(&moveDir);
 
-	if (hp_ <= 0 || tmp > 9 * windowHeight * windowHeight)
+	if (hp_ <= 0 || squareDist > 9 * windowHeight * windowHeight)
 	{
 		hp_ = maxHp_;
-		owner_->SetActive(false);
+		manager_.Release(owner_);
 	}
 	else if (hp_ <= 10)
 		owner_->GetComponent<Sprite>()->SetColor({ 200, 10, 10 });
@@ -109,5 +115,8 @@ void Monster::OnCollision(CollisionEvent* event)
 
 ComponentSerializer* Monster::CreateComponent(GameObject* owner)
 {
-	return nullptr;
+	if (!owner->AddComponent<Monster>())
+		std::cout << "Monster::CreateComponent() Component already exists" << std::endl;
+
+	return owner->GetComponent<Monster>();
 }

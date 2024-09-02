@@ -111,18 +111,13 @@ ComponentSerializer* BoxCollider::CreateComponent(GameObject* owner)
 CircleCollider::CircleCollider(GameObject* owner) : Collider(owner), radius_()
 {
 	type_ = CIRCLE_TYPE;
+
+	ResetRadius();
 }
 
 void CircleCollider::Update()
 {
 	Collider::Update();
-
-	AEVec2 localScale = trans_->GetLocalScale();
-	AEVec2 scale = trans_->GetScale();
-
-	// localScale (오브젝트 로컬 스케일) * scale (스케일 변환) * scale_ (콜라이더 스케일)
-	radius_ = max(localScale.x * scale.x * scale_.x, localScale.y * scale.y * scale_.y);
-	radius_ /= 2.f;
 }
 
 json CircleCollider::SaveToJson()
@@ -135,6 +130,16 @@ json CircleCollider::SaveToJson()
 
 	data["compData"] = compData;
 	return data;
+}
+
+void CircleCollider::ResetRadius()
+{
+	AEVec2 localScale = trans_->GetLocalScale();
+	AEVec2 scale = trans_->GetScale();
+
+	// localScale (오브젝트 로컬 스케일) * scale (스케일 변환) * scale_ (콜라이더 스케일)
+	radius_ = max(localScale.x * scale.x * scale_.x, localScale.y * scale.y * scale_.y);
+	radius_ /= 2.f;
 }
 
 ComponentSerializer* CircleCollider::CreateComponent(GameObject* owner)

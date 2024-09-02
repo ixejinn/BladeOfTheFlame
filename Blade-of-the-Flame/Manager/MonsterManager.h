@@ -1,29 +1,10 @@
 #pragma once
-#include <stack>
-#include <chrono>
-#include "GameObjectManager.h"
-#include "../Utils/RandomEngine.h"
-#include "../Utils/Utils.h"
+#include "SpawnManager.h"
 
-class MonsterManager
+class MonsterManager : public SpawnManager
 {
 private:
-	std::stack<GameObject*> pool_;
-
-	int maxNum_ = 0;
-	int activeNum_ = 0;
-	int maxActiveNum_ = 300;
-
-	std::uniform_int_distribution<int> spawnZone_{ 0, 3 };
-	std::uniform_int_distribution<int> spawnX_{ -windowWidth / 2, windowWidth / 2 };
-	std::uniform_int_distribution<int> spawnY_{ -windowHeight / 2, windowHeight / 2 };
-	int spawnOffset_ = 50;
-
-	std::chrono::system_clock::time_point timeStart_;
-	double spawnPeriod_ = 2.0;
-	int spawnNumPerWave = 10;
-
-	MonsterManager() = default;
+	MonsterManager();
 	~MonsterManager() = default;
 
 	MonsterManager(const MonsterManager&) = delete;
@@ -38,12 +19,12 @@ public:
 		return instance;
 	}
 
-	void Initialize(int maxNum);
+	void Initialize(int maxNum) override;
 
-	void SpawnMonster();
-	void Release(GameObject* obj);
+	void Spawn() override;
+	void Release(GameObject* obj) override;
 
-	void Clear();
+	void Clear() override;
 
 	friend class GameObjectManager;
 };

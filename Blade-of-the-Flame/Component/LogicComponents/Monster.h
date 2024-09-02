@@ -20,9 +20,11 @@ private:
 	double cooldown_ = 0.0;
 	std::chrono::system_clock::time_point timeStart_;
 
-	Transform* transPlayer_ = nullptr;
+	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;
 	RigidBody* rb_ = nullptr;
+
+	
 
 	Monster(GameObject* owner);
 

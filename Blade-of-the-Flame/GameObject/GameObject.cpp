@@ -10,14 +10,6 @@ GameObject::~GameObject()
         (it->second)->RemoveFromManager();
 }
 
-void GameObject::SetActive(bool b)
-{
-    active_ = false;
-
-    if (GetComponent<Monster>())
-        MonsterManager::GetInstance().Release(this);
-}
-
 void GameObject::DeleteComponent(std::type_index type)
 {
     if (components_.find(type) == components_.end())

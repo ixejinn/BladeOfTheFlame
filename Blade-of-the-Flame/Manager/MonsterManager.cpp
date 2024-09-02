@@ -2,11 +2,18 @@
 
 #include <string>
 
+MonsterManager::MonsterManager() : SpawnManager()
+{
+	spawnPeriod_ = 2.0;
+	spawnNumPerWave_ = 10;
+}
+
 void MonsterManager::Initialize(int maxNum)
 {
 	if (!pool_.empty())
 		Clear();
 	maxNum_ = maxNum;
+	maxActiveNum_ = maxNum;
 
 	GameObjectManager& gom = GameObjectManager::GetInstance();
 	for (int i = 0; i < maxNum; i++)
@@ -21,7 +28,7 @@ void MonsterManager::Initialize(int maxNum)
 	timeStart_ = std::chrono::system_clock::now();
 }
 
-void MonsterManager::SpawnMonster()
+void MonsterManager::Spawn()
 {
 	if (activeNum_ >= maxActiveNum_)
 		return;
@@ -34,7 +41,7 @@ void MonsterManager::SpawnMonster()
 	static Transform* playerTrans = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 	static auto& engine = RandomEngine::GetInstance().GetEngine();
 
-	for (int i = 0; i < spawnNumPerWave; i++)
+	for (int i = 0; i < spawnNumPerWave_; i++)
 	{
 		if (pool_.empty())
 			return;
@@ -81,10 +88,13 @@ void MonsterManager::SpawnMonster()
 
 void MonsterManager::Release(GameObject* obj)
 {
+	obj->active_ = false;
 	pool_.push(obj);
 	activeNum_--;
 }
 
 void MonsterManager::Clear()
 {
+	while (!pool_.empty())
+		pool_.pop();
 }

@@ -11,6 +11,7 @@ struct BaseEvent
 
 struct CollisionEvent : public BaseEvent
 {
+	Collider::ColliderType fromType_;
 };
 
 struct GameOverEvent : public BaseEvent

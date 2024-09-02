@@ -5,7 +5,8 @@
 #include "../GameObject/GameObject.h"
 #include "../Resource/TextureResource.h"
 
-Sprite::Sprite(GameObject* owner) : GraphicsComponent(owner), color_(), texture_(nullptr), textureName_()
+Sprite::Sprite(GameObject* owner)
+	: GraphicsComponent(owner), color_(), texture_(nullptr), textureName_(), mesh_()
 {
 	SetMesh();
 }

@@ -3,7 +3,7 @@
 #include "AEVec2.h"
 #include "../LogicComponent.h"
 
-class Attack : public LogicComponent
+class BaseAttack : public LogicComponent
 {
 protected:
 	GameObject* player_ = nullptr;
@@ -15,7 +15,7 @@ protected:
 
 	float dmgGrowthRate_ = 0.f;
 
-	Attack(GameObject* owner);
+	BaseAttack(GameObject* owner);
 
 public:
 	const int GetDmg() const { return dmg_; }

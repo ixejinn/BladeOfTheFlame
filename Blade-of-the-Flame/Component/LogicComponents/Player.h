@@ -4,7 +4,7 @@
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
-#include "Attack.h"
+#include "BaseAttack.h"
 
 class Text;
 
@@ -25,7 +25,7 @@ private:
 	float expRequirement_ = 3.3f;
 	float hpGrowthRate_ = 2.f;
 
-	Attack* curAttack_ = nullptr;			// Current basic attack
+	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
 	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
 

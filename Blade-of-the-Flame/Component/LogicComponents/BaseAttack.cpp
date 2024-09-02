@@ -1,8 +1,8 @@
-#include "Attack.h"
+#include "BaseAttack.h"
 
 #include "../../Manager/GameObjectManager.h"
 
-Attack::Attack(GameObject* owner) : LogicComponent(owner)
+BaseAttack::BaseAttack(GameObject* owner) : LogicComponent(owner)
 {
 	owner_->active_ = false;
 

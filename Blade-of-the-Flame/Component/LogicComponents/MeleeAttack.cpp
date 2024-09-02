@@ -3,7 +3,7 @@
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 
-MeleeAttack::MeleeAttack(GameObject* owner) : Attack(owner)
+MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 {
 	dmg_ = 5;
 	range_ = 100.f;

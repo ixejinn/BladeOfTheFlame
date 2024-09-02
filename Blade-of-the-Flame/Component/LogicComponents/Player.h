@@ -20,6 +20,7 @@ private:
 	int maxExp_ = 100;
 
 	float moveSpeed_ = 5.f;
+	float attractionRadius_ = 80.f;
 
 	// Level up을 위해 필요한 경험치 증가율 (%)
 	float expRequirement_ = 3.3f;
@@ -33,8 +34,6 @@ private:
 
 	Text* text_;
 	Transform* trans_;
-
-	AEGfxVertexList* mesh_;
 
 	Player(GameObject* owner);
 
@@ -54,6 +53,7 @@ public:
 
 	void LevelUp();
 	void AddHp(int hp);
+	void AddExp(int exp);
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Player";

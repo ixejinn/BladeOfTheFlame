@@ -14,14 +14,19 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
+	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
-	owner_->AddComponent<Audio>();
+	//owner_->AddComponent<Audio>();
 	owner_->AddComponent<Text>();
 
-	BoxCollider* col = owner_->GetComponent<BoxCollider>();
-	col->SetLayer(Collider::P_AABB);
-	col->SetHandler(static_cast<EventEntity*>(this));
+	BoxCollider* boxCol = owner_->GetComponent<BoxCollider>();
+	boxCol->SetLayer(Collider::P_AABB);
+	boxCol->SetHandler(static_cast<EventEntity*>(this));
+
+	CircleCollider* circleCol = owner_->GetComponent<CircleCollider>();
+	circleCol->SetLayer(Collider::P_CIRCLE);
+	circleCol->SetRadius(attractionRadius_);
 
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
@@ -33,7 +38,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->GetComponent<PlayerController>()->MultiplyMoveSpeed(moveSpeed_);
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
-	owner_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
+	//owner_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 
 	text_ = owner_->GetComponent<Text>();
 	text_->SetFont("Assets/Roboto-Bold.ttf");
@@ -91,7 +96,8 @@ void Player::Update()
 
 	cnt++;
 
-	text_->SetString(std::to_string(hp_) + "/" + std::to_string(maxHp_));
+	//text_->SetString(std::to_string(hp_) + "/" + std::to_string(maxHp_));
+	text_->SetString(std::to_string(hp_) + "/" + std::to_string(exp_));
 }
 
 void Player::LoadFromJson(const json& data)
@@ -131,6 +137,11 @@ void Player::LevelUp()
 void Player::AddHp(int hp)
 {
 	hp_ += hp;
+}
+
+void Player::AddExp(int exp)
+{
+	exp_ += exp;
 }
 
 ComponentSerializer* Player::CreateComponent(GameObject* owner)

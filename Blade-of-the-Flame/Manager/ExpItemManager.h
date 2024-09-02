@@ -28,7 +28,7 @@ public:
 
 	void Initialize(int maxNum);
 
-	void Spawn(const AEVec2& pos);
+	ExpItem* Spawn(const AEVec2& pos);
 	void Release(GameObject* obj);
 
 	void Clear();

@@ -88,6 +88,7 @@ void MonsterManager::Spawn()
 
 void MonsterManager::Release(GameObject* obj)
 {
+	obj->GetComponent<RigidBody>()->ClearVelocity();
 	obj->active_ = false;
 	pool_.push(obj);
 	activeNum_--;

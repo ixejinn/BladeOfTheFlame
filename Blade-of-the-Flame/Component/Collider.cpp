@@ -132,6 +132,12 @@ json CircleCollider::SaveToJson()
 	return data;
 }
 
+void CircleCollider::SetRadius(float r)
+{
+	radius_ = r;
+	scale_ = { r, r };
+}
+
 void CircleCollider::ResetRadius()
 {
 	AEVec2 localScale = trans_->GetLocalScale();

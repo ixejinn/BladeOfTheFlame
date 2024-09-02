@@ -2,9 +2,11 @@
 
 #include "../../Event/Event.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Manager/ExpItemManager.h"
 
 ExpItem::ExpItem(GameObject* owner) : BaseItem(owner)
 {
+	owner_->GetComponent<Transform>()->SetScale({ 5, 5 });
 	owner_->GetComponent<BoxCollider>()->SetLayer(Collider::EXP_ITEM);
 	owner_->GetComponent<Sprite>()->SetColor({ 0, 255, 0 });
 
@@ -20,8 +22,8 @@ void ExpItem::Update()
 	AEVec2 dir = playerPos - pos;
 	f32 squareDist = AEVec2SquareLength(&dir);
 
-	/*if (squareDist > 9 * windowHeight * windowHeight)
-		manager_.Release(owner_);*/
+	if (squareDist > 9 * windowHeight * windowHeight)
+		ExpItemManager::GetInstance().Release(owner_);
 }
 
 void ExpItem::LoadFromJson(const json&)
@@ -57,7 +59,10 @@ void ExpItem::OnCollision(CollisionEvent* event)
 
 		case Collider::AABB_TYPE:
 		{
+			player->AddExp(exp_);
 			owner_->active_ = false;
+
+			ExpItemManager::GetInstance().Release(owner_);
 
 			break;
 		}

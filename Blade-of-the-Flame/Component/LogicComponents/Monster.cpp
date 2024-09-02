@@ -3,18 +3,16 @@
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
-#include "../../Utils/Utils.h"
 #include "../../Manager/MonsterManager.h"
+#include "../../Manager/ExpItemManager.h"
+#include "../../Utils/Utils.h"
 
-namespace
-{
-	MonsterManager& manager_ = MonsterManager::GetInstance();
-}
 
 Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 {
 	hp_ = 20;
 	maxHp_ = 20;
+	exp_ = 5;
 	dmg_ = 5;
 	moveSpeed_ = 10.f;
 	knockback_ = 10.f;
@@ -26,7 +24,7 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	owner_->AddComponent<Sprite>();
 
 	owner_->GetComponent<Transform>()->SetScale({ 30, 30 });
-	//owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
+	owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetLayer(Collider::E_BODY);
@@ -50,15 +48,24 @@ void Monster::Update()
 	AEVec2 moveDir = playerPos - pos, unitMoveDir;
 	f32 squareDist = AEVec2SquareLength(&moveDir);
 
-	if (hp_ <= 0 || squareDist > 9 * windowHeight * windowHeight)
+	bool death = false;
+	if (hp_ <= 0)
+	{
+		ExpItem* expGem = ExpItemManager::GetInstance().Spawn(pos);
+		if (!expGem)
+			return;
+		expGem->SetExp(exp_);
+		death = true;
+	}
+	else if (squareDist > 9 * windowHeight * windowHeight)
+		death = true;
+
+	if (death)
 	{
 		hp_ = maxHp_;
-		manager_.Release(owner_);
+		MonsterManager::GetInstance().Release(owner_);
+		return;
 	}
-	else if (hp_ <= 10)
-		owner_->GetComponent<Sprite>()->SetColor({ 200, 10, 10 });
-	else
-		owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
 
 	AEVec2 velocity = rb_->GetVelocity();
 	f32 dotProduct = moveDir.x * velocity.x + moveDir.y * velocity.y;

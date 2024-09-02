@@ -5,6 +5,7 @@
 class ExpItem : public BaseItem
 {
 private:
+	int exp_ = 0;
 	float attractionSpeed_ = 15.f;
 
 	Transform* trans_;
@@ -21,6 +22,8 @@ public:
 
 	void OnEvent(BaseEvent* event);
 	void OnCollision(CollisionEvent* event);
+
+	void SetExp(int exp) { exp_ = exp; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "ExpItem";

@@ -13,5 +13,5 @@ public:
 	void RemoveFromManager() override;
 
 	bool GetUse() const { return use_; }
-	//virtual void SetUse(bool) = 0;
+	void SetUse(bool b) { use_ = b; }
 };

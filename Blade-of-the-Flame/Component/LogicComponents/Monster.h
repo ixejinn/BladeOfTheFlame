@@ -12,6 +12,8 @@ private:
 	int hp_ = 0;
 	int maxHp_ = 0;
 
+	int exp_ = 0;
+
 	int dmg_ = 0;
 	float moveSpeed_ = 0.f;
 

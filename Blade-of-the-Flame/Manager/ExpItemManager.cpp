@@ -6,6 +6,7 @@ void ExpItemManager::Initialize(int maxNum)
 	if (!pool_.empty())
 		Clear();
 	maxNum_ = maxNum;
+	maxActiveNum_ = maxNum;
 
 	GameObjectManager& gom = GameObjectManager::GetInstance();
 	for (int i = 0; i < maxNum; i++)
@@ -18,9 +19,22 @@ void ExpItemManager::Initialize(int maxNum)
 	}
 }
 
-void ExpItemManager::Spawn(const AEVec2& pos)
+ExpItem* ExpItemManager::Spawn(const AEVec2& pos)
 {
+	if (pool_.empty())
+	{
+		std::cout << "ExpItemManager::Spawn() Empty pool" << std::endl;
+		return nullptr;
+	}
 
+	GameObject* item = pool_.top();
+	pool_.pop();
+	activeNum_++;
+
+	item->GetComponent<Transform>()->SetPosition(pos);
+	item->active_ = true;
+
+	return item->GetComponent<ExpItem>();
 }
 
 void ExpItemManager::Release(GameObject* obj)

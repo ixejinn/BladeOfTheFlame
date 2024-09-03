@@ -1,12 +1,11 @@
 #pragma once
 #include <chrono>
-#include "AEVec2.h"
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
-#include "BaseAttack.h"
 
 class Text;
+class BaseAttack;
 
 class Player : public LogicComponent, public EventEntity
 {

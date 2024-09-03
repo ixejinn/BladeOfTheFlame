@@ -24,17 +24,18 @@ private:
 	AEVec2 scale_;
 
 	GameObject* background_ = nullptr;
-	GameObject* fill_ = nullptr;
 
 	Color backColor_{ 100, 100, 100 };
+	Color fillColor_{ 255, 100, 100 };
 
 	Text* text_ = nullptr;
 
 	Transform* backTrans_ = nullptr;
-	Transform* fillTrans_ = nullptr;
 
 	Player* player_ = nullptr;
 	Transform* playerTrans_ = nullptr;
+
+	AEGfxVertexList* mesh_;
 
 	FillBar(GameObject* owner);
 	~FillBar();

@@ -12,10 +12,11 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	background_->AddComponent<Transform>();
 	background_->AddComponent<Sprite>();
 	background_->GetComponent<Sprite>()->SetColor(backColor_);
-
-	fill_ = GameObjectManager::GetInstance().CreateObject();
-	fill_->AddComponent<Transform>();
-	fill_->AddComponent<Sprite>();
+	background_->AddComponent<RigidBody>();
+	background_->AddComponent<PlayerController>();
+	PlayerController* pCtrl = background_->GetComponent<PlayerController>();
+	pCtrl->SetDashKey(AEVK_SPACE);
+	pCtrl->MultiplyMoveSpeed(5.f);
 
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<Text>();
@@ -25,11 +26,29 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	text_->SetSize(1.f);
 
 	backTrans_ = background_->GetComponent<Transform>();
-	fillTrans_ = fill_->GetComponent<Transform>();
 
 	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
 	player_ = player->GetComponent<Player>();
 	playerTrans_ = player->GetComponent<Transform>();
+
+	// Set mesh
+	AEGfxMeshStart();
+
+	Transform* trans = owner_->GetComponent<Transform>();
+	AEVec2 length = { trans->GetLocalScale().x, trans->GetLocalScale().y };
+
+	AEGfxTriAdd(
+		0.f, -0.5f, 0xFFFFFFFF, 0.0f, 1.0f,
+		length.x, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
+		0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+	AEGfxTriAdd(
+		length.x, 0.f - 0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
+		length.x, length.y - 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
+		0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+
+	mesh_ = AEGfxMeshEnd();
 }
 
 FillBar::~FillBar()
@@ -43,13 +62,6 @@ void FillBar::RemoveFromManager()
 
 void FillBar::Update()
 {
-	AEVec2 playerPos;
-	AEGfxGetCamPosition(&playerPos.x, &playerPos.y);
-	//playerPos = playerTrans_->GetPosition();
-
-	// background
-	backTrans_->SetPosition(playerPos + relativePos_);
-
 	// fill
 	float value = 0.f;
 	float maxValue = 0.f;
@@ -74,17 +86,50 @@ void FillBar::Update()
 		maxValue = player_->GetMaxHp();
 		break;
 	}
-
-	float startX = playerPos.x - scale_.x / 2;
 	float rate = value / maxValue;
 
-	float length = scale_.x * rate;
-	float x = startX + length / 2.f;
-	AEVec2 fillPos = playerPos + relativePos_;
-	fillPos.x = x;
+	// Set background color
+	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
-	fillTrans_->SetPosition(fillPos);
-	fillTrans_->SetScale({ length, scale_.y });
+	// Set render mode
+	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
+
+	// Set color to multiply
+	AEGfxSetColorToMultiply(1, 1, 1, 1);
+
+	// Set color to add
+	AEGfxSetColorToAdd(fillColor_.red / 255.f, fillColor_.green / 255.f, fillColor_.blue / 255.f, 0);
+
+	// Set blend mode
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+
+	// Set transparency
+	AEGfxSetTransparency(1);
+
+	// Set texture
+	AEGfxTextureSet(nullptr, 0, 0);
+
+	// Set transform
+	AEMtx33 tranMtx;
+	AEVec2 position = backTrans_->GetPosition();
+	position.x -= scale_.x / 2;
+	AEMtx33Trans(&tranMtx, position.x, position.y);
+
+	AEMtx33 rotMtx;
+	AEMtx33Rot(&rotMtx, 0);
+
+	AEMtx33 sclMtx;
+	AEMtx33Scale(&sclMtx, scale_.x * rate, scale_.y);
+
+	// Concatenate trnasform, rotation, scaling matrix
+	AEMtx33 transf;
+	AEMtx33Concat(&transf, &rotMtx, &sclMtx);
+	AEMtx33Concat(&transf, &tranMtx, &transf);
+
+	AEGfxSetTransform(transf.m);
+
+	// Draw mesh
+	AEGfxMeshDraw(mesh_, AE_GFX_MDM_TRIANGLES);
 }
 
 void FillBar::LoadFromJson(const json&)
@@ -121,11 +166,16 @@ void FillBar::SetShowType(ShowType type)
 	}
 	}
 	backTrans_->SetScale(scale_);
+
+	AEVec2 playerPos = playerTrans_->GetPosition();
+	backTrans_->SetPosition(playerPos + relativePos_);
+
+	ComponentManager<GraphicsComponent>::GetInstance().SwapComponent(static_cast<GraphicsComponent*>(text_), static_cast<GraphicsComponent*>(this));
 }
 
 void FillBar::SetFillColor(Color color)
 {
-	fill_->GetComponent<Sprite>()->SetColor(color);
+	fillColor_ = color;
 }
 
 ComponentSerializer* FillBar::CreateComponent(GameObject* owner)

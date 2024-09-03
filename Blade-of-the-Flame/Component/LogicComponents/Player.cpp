@@ -2,6 +2,7 @@
 
 #include <typeindex>
 #include <string>
+#include "AEVec2.h"
 #include "AEGraphics.h"
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
@@ -28,13 +29,11 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	circleCol->SetRadius(attractionRadius_);
 
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
 	pCtrl->SetDashKey(AEVK_SPACE);
+	pCtrl->MultiplyMoveSpeed(moveSpeed_);
 
 	trans_ = owner_->GetComponent<Transform>();
 	trans_->SetScale({ 30, 100 });
-	owner_->GetComponent<PlayerController>()->MultiplyMoveSpeed(moveSpeed_);
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
 	//owner_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");

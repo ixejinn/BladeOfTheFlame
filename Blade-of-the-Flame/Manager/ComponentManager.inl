@@ -44,6 +44,33 @@ inline void ComponentManager<T>::DeleteComponent(T* const comp)
 	}
 }
 
+template<typename T>
+inline void ComponentManager<T>::SwapComponent(T* const compA, T* const compB)
+{
+	auto itA = components_.begin();
+	auto itB = components_.begin();
+	bool bA = false, bB = false;
+
+	for (auto it = components_.begin(); it != components_.end(); ++it)
+	{
+		if (it->get() == compA)
+		{
+			itA = it;
+			bA = true;
+		}
+		else if (it->get() == compB)
+		{
+			itB = it;
+			bB = true;
+		}
+
+		if (bA && bB)
+			break;
+	}
+
+	components_.splice(itA, components_, itB);
+}
+
 template <typename T>
 inline void ComponentManager<T>::Clear()
 {

@@ -37,6 +37,8 @@ public:
 	void UpdateComponent();
 	void DeleteComponent(T* const comp);
 
+	void SwapComponent(T* const compA, T* const compB);
+
 	void Clear();
 };
 

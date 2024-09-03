@@ -14,8 +14,8 @@ protected:
 	double activeTime = 0.0;
 	std::chrono::system_clock::time_point timeStart_;
 
-	Transform* trans_;
-	Transform* playerTrans_;
+	Transform* trans_ = nullptr;
+	Transform* playerTrans_ = nullptr;
 
 	BaseItem(GameObject* owner);
 

@@ -22,7 +22,7 @@ void SampleSave::Init()
 	monsterBar->AddComponent<FillBar>();
 	FillBar* monsterBarPtr = monsterBar->GetComponent<FillBar>();
 	monsterBarPtr->SetShowType(FillBar::MONSTER_CNT);
-	monsterBarPtr->SetFillColor({ 255, 255, 255 });
+	monsterBarPtr->SetFillColor({ 200, 200, 200 });
 
 	GameObject* expBar = GameObjectManager::GetInstance().CreateObject("expBar");
 	expBar->AddComponent<FillBar>();

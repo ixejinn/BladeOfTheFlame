@@ -1,6 +1,4 @@
 #pragma once
-#include <chrono>
-#include "AEVec2.h"
 #include "../LogicComponent.h"
 
 class BaseAttack : public LogicComponent

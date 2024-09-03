@@ -28,7 +28,7 @@ void BossSampleSave::Init()
 	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
 	pCtrl->SetStopKey(AEVK_SPACE);
 
-	pCtrl->SetMoveSpeed(10.f);
+	pCtrl->SetMoveSpeed(30.f);
 
 	obj->AddComponent<Audio>();
 	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");

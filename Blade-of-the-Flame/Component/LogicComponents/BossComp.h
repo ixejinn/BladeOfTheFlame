@@ -10,14 +10,14 @@ class BossComp : public LogicComponent
 
 protected:
 
-	enum BossState
+	enum E_bossState
 	{
-		Normal,
-		FastChase,
-		RangeAttack,
-		Barrage,
+		_baseChase,
+		_fastChase,
+		_rangeAttack,
+		_barrage,
 	};
-	BossState current_state;
+	E_bossState current_state;
 
 	float hp_          = 0.f;
 	float moveSpeed_   = 0.f;
@@ -39,9 +39,13 @@ protected:
 	float phase3_cool = 0;
 
 	bool baseChase = false;
+
 	bool phase1On  = false;
 	bool phase2On  = false;
 	bool phase3On  = false;
+
+	bool needShoot;
+	bool isAction;
 
 	AEVec2 pos_;
 	AEVec2 scale_;

@@ -10,6 +10,8 @@
 #include "State/SampleSave.h"
 #include "State/SampleLoad.h"
 
+#include "State/BossSample/BossSampleSave.h"
+#include "State/BossSample/BossSampleLoad.h"
 // ---------------------------------------------------------------------------
 // main
 
@@ -39,8 +41,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	SampleSave sampleSave;
 	SampleLoad sampleLoad;
+
+	BossSampleSave bossSave;
+	BossSampleLoad bossLoad;
+
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&sampleSave);
+
+	gsm.ChangeState(&bossSave);
 
 	// Game Loop
 	while (gGameRunning)

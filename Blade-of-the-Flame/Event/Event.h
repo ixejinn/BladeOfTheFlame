@@ -14,6 +14,6 @@ struct CollisionEvent : public BaseEvent
 	Collider::ColliderType fromType_;
 };
 
-struct GameOverEvent : public BaseEvent
-{
-};
+struct CompassActiveEvent : public BaseEvent {};
+
+struct GameOverEvent : public BaseEvent {};

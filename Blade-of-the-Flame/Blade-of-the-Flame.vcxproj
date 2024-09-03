@@ -106,10 +106,12 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\FillBar.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseItem.cpp" />
+    <ClCompile Include="Component\LogicComponents\Compass.cpp" />
     <ClCompile Include="Component\LogicComponents\ExpItem.cpp" />
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
     <ClCompile Include="Component\LogicComponents\Bullet.cpp" />
     <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
+    <ClCompile Include="Component\LogicComponents\FlameAltar.cpp" />
     <ClCompile Include="Component\LogicComponents\HealthItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MagnetItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
@@ -153,11 +155,13 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\FillBar.h" />
     <ClInclude Include="Component\LogicComponents\BaseAttack.h" />
     <ClInclude Include="Component\LogicComponents\BaseItem.h" />
+    <ClInclude Include="Component\LogicComponents\Compass.h" />
     <ClInclude Include="Component\LogicComponents\ExpItem.h" />
     <ClInclude Include="Component\LogicComponents\Boss1.h" />
     <ClInclude Include="Component\LogicComponents\Bullet.h" />
     <ClInclude Include="Component\LogicComponents\BossComp.h" />
     <ClInclude Include="Component\LogicComponents\Attack.h" />
+    <ClInclude Include="Component\LogicComponents\FlameAltar.h" />
     <ClInclude Include="Component\LogicComponents\HealthItem.h" />
     <ClInclude Include="Component\LogicComponents\MagnetItem.h" />
     <ClInclude Include="Component\LogicComponents\MeleeAttack.h" />

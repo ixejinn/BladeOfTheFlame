@@ -1,32 +1,20 @@
 #pragma once
-#include <chrono>
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
 
-class RigidBody;
+class FlameAltar;
 
-class Monster : public LogicComponent, public EventEntity
+class Compass : public LogicComponent, public EventEntity
 {
 private:
-	int hp_ = 0;
-	int maxHp_ = 0;
+	FlameAltar* destination_ = nullptr;
 
-	int exp_ = 0;
-
-	int dmg_ = 0;
-	float moveSpeed_ = 0.f;
-
-	float knockback_ = 0.f;
-
-	double cooldown_ = 0.0;
-	std::chrono::system_clock::time_point timeStart_;
-
-	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;
-	RigidBody* rb_ = nullptr;	
+	Transform* playerTrans_ = nullptr;
+	Transform* destTrans_ = nullptr;
 
-	Monster(GameObject* owner);
+	Compass(GameObject* owner);
 
 public:
 	void RemoveFromManager() override;
@@ -39,10 +27,10 @@ public:
 	void OnEvent(BaseEvent* event) override;
 	void OnCollision(CollisionEvent* event) override;
 
-	const int GetDmg() const { return dmg_; }
+	void SetDestination(GameObject* obj);
 
 	// for StateSerializer
-	static constexpr const char* TypeName = "Monster";
+	static constexpr const char* TypeName = "Compass";
 	static ComponentSerializer* CreateComponent(GameObject* owner);
 
 	friend class ComponentManager<LogicComponent>;

@@ -18,8 +18,8 @@ public:
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
 
-	void OnEvent(BaseEvent* event);
-	void OnCollision(CollisionEvent* event);
+	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent* event) override;
 
 	void SetExp(int exp) { exp_ = exp; }
 

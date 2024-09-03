@@ -14,6 +14,13 @@ void SampleSave::Init()
 	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
 	obj->AddComponent<Player>();
 	
+	GameObject* altar = GameObjectManager::GetInstance().CreateObject("flameAltar");
+	altar->AddComponent<FlameAltar>();
+
+	GameObject* compass = GameObjectManager::GetInstance().CreateObject("compass");
+	compass->AddComponent<Compass>();
+	compass->GetComponent<Compass>()->SetDestination(altar);
+
 	MonsterManager::GetInstance().Initialize(5);
 	ExpItemManager::GetInstance().Initialize(20);
 	ItemManager::GetInstance().Initialize(3);

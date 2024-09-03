@@ -1,32 +1,23 @@
 #pragma once
 #include <chrono>
+#include <random>
 #include "../LogicComponent.h"
-#include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
+#include "../../Manager/ComponentManager.h"
 
-class RigidBody;
-
-class Monster : public LogicComponent, public EventEntity
+class FlameAltar : public LogicComponent, public EventEntity
 {
 private:
-	int hp_ = 0;
-	int maxHp_ = 0;
-
-	int exp_ = 0;
-
-	int dmg_ = 0;
-	float moveSpeed_ = 0.f;
-
-	float knockback_ = 0.f;
-
-	double cooldown_ = 0.0;
 	std::chrono::system_clock::time_point timeStart_;
+	double spawnPeriod_ = 60.0;
 
-	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;
-	RigidBody* rb_ = nullptr;	
+	Transform* playerTrans_ = nullptr;
 
-	Monster(GameObject* owner);
+	std::uniform_int_distribution<int> spawnX_{ -windowWidth * 3, windowWidth * 3 };
+	std::uniform_int_distribution<int> spawnY_{ -windowHeight * 3, windowHeight * 3 };
+
+	FlameAltar(GameObject* owner);
 
 public:
 	void RemoveFromManager() override;
@@ -37,12 +28,10 @@ public:
 	json SaveToJson() override;
 
 	void OnEvent(BaseEvent* event) override;
-	void OnCollision(CollisionEvent* event) override;
-
-	const int GetDmg() const { return dmg_; }
+	void OnCollision(CollisionEvent* event);
 
 	// for StateSerializer
-	static constexpr const char* TypeName = "Monster";
+	static constexpr const char* TypeName = "FlameAltar";
 	static ComponentSerializer* CreateComponent(GameObject* owner);
 
 	friend class ComponentManager<LogicComponent>;

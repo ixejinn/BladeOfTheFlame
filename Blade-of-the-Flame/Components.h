@@ -11,6 +11,8 @@
 #include "Component/LogicComponents/MeleeAttack.h"
 #include "Component/LogicComponents/Monster.h"
 #include "Component/LogicComponents/ExpItem.h"
+#include "Component/LogicComponents/FlameAltar.h"
+#include "Component/LogicComponents/Compass.h"
 #include "Component/FillBar.h"
 
 #include "Component/LogicComponents/BossComp.h"

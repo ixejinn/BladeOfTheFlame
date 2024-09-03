@@ -3,6 +3,8 @@
 #include <string>
 #include "../Manager/GameObjectManager.h"
 #include "../Manager/MonsterManager.h"
+#include "../Manager/EventManager.h"
+#include "../../Event/Event.h"
 #include "../../Utils/Utils.h"
 #include "../../Utils/MathUtils.h"
 
@@ -62,17 +64,30 @@ void FillBar::RemoveFromManager()
 
 void FillBar::Update()
 {
+	static bool compass = true;
+
 	// fill
 	float value = 0.f;
 	float maxValue = 0.f;
 	switch (showType_)
 	{
 	case MONSTER_CNT:
+	{
 		value = MonsterManager::GetInstance().GetCapturedCount();
-		maxValue = 100;
+		maxValue = 10;
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
+
+		if (compass && value >= maxValue)
+		{
+			CompassActiveEvent* event = new CompassActiveEvent();
+			event->from_ = owner_;
+			EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(event));
+			compass = false;
+		}
+
 		text_->SetPosition({ -0.05, 0.93 });
 		break;
+	}
 
 	case PLAYER_EXP:
 		value = player_->GetExp();
@@ -86,6 +101,9 @@ void FillBar::Update()
 		maxValue = player_->GetMaxHp();
 		break;
 	}
+
+	if (value > maxValue)
+		value = maxValue;
 	float rate = value / maxValue;
 
 	// Set background color

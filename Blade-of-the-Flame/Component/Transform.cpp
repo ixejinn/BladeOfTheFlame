@@ -24,7 +24,8 @@ void Transform::UpdateMatrix()
 	AEMtx33Rot(&rotMtx, rotation_);
 
 	AEMtx33 sclMtx;
-	AEMtx33Scale(&sclMtx, scale_.x, scale_.y);
+	//AEMtx33Scale(&sclMtx, scale_.x, scale_.y);
+	AEMtx33Scale(&sclMtx, localScale_.x * scale_.x, localScale_.y * scale_.y);
 
 	// Concatenate trnasform, rotation, scaling matrix
 	AEMtx33Concat(&transformMatrix_, &rotMtx, &sclMtx);
@@ -91,6 +92,11 @@ void Transform::SetScale(const AEVec2& scl)
 {
 	scale_ = scl;
 	UpdateMatrix();
+}
+
+void Transform::SetLocalScale(const AEVec2& scl)
+{
+	localScale_ = scl;
 }
 
 void Transform::SetRotation(const AEVec2& pos)

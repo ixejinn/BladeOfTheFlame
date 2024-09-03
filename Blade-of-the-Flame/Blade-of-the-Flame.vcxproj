@@ -110,6 +110,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
     <ClCompile Include="Component\LogicComponents\Bullet.cpp" />
     <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
+    <ClCompile Include="Component\LogicComponents\MagnetItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\Monster.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
@@ -125,6 +126,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Manager\ExpItemManager.cpp" />
     <ClCompile Include="Manager\GameObjectManager.cpp" />
     <ClCompile Include="Manager\GameStateManager.cpp" />
+    <ClCompile Include="Manager\ItemManager.cpp" />
     <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
     <ClCompile Include="Manager\SpawnManager.cpp" />
@@ -155,6 +157,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Bullet.h" />
     <ClInclude Include="Component\LogicComponents\BossComp.h" />
     <ClInclude Include="Component\LogicComponents\Attack.h" />
+    <ClInclude Include="Component\LogicComponents\MagnetItem.h" />
     <ClInclude Include="Component\LogicComponents\MeleeAttack.h" />
     <ClInclude Include="Component\LogicComponents\Monster.h" />
     <ClInclude Include="Component\LogicComponents\Player.h" />
@@ -175,6 +178,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\ExpItemManager.h" />
     <ClInclude Include="Manager\GameObjectManager.h" />
     <ClInclude Include="Manager\GameStateManager.h" />
+    <ClInclude Include="Manager\ItemManager.h" />
     <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
     <ClInclude Include="Manager\SpawnManager.h" />

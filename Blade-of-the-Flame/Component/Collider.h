@@ -111,6 +111,7 @@ public:
 	const float& GetRadius() const { return radius_; }
 
 	void SetRadius(float r);
+	void MultiplyRadius(float r);
 	void ResetRadius();
 
 	// for StateSerializer

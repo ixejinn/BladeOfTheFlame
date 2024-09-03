@@ -39,6 +39,7 @@ public:
 	void SetPosition(const AEVec2& pos);
 	void SetPosition(const float& x, const float& y);
 	void SetScale(const AEVec2& scl);
+	void SetLocalScale(const AEVec2& scl);
 	void SetRotation(const AEVec2& pos);
 	void SetRotation(const float& rot);
 	void SetLimit(const AEVec2& limit);

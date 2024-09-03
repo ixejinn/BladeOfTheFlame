@@ -1,0 +1,89 @@
+#include "MagnetItem.h"
+
+#include "../../Event/Event.h"
+#include "../../Manager/GameObjectManager.h"
+#include "../../Manager/ItemManager.h"
+
+MagnetItem::MagnetItem(GameObject* owner) : BaseItem(owner)
+{
+	activeTime = 20.0;
+
+	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
+	owner_->GetComponent<BoxCollider>()->SetLayer(Collider::ITEM);
+	owner_->GetComponent<Sprite>()->SetColor({ 255, 0, 255 });
+
+	trans_ = owner_->GetComponent<Transform>();
+
+	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
+	playerCircle_ = player->GetComponent<CircleCollider>();
+	playerTrans_ = player->GetComponent<Transform>();
+}
+
+void MagnetItem::Update()
+{
+	if (use_)
+	{
+		if (firstUse_)
+		{
+			timeStart_ = std::chrono::system_clock::now();
+			preRadius_ = playerCircle_->GetRadius();
+			playerCircle_->MultiplyRadius(radiusIncrease_);
+			firstUse_ = false;
+			return;
+		}
+		else
+		{
+			AEVec2 pos = playerTrans_->GetPosition();
+			pos.y -= windowHeight / 2;
+			pos.y += 50;
+			trans_->SetPosition(pos);
+		}
+		
+		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+		if (dt.count() >= activeTime)
+		{
+			playerCircle_->SetRadius(preRadius_);
+			firstUse_ = true;
+			use_ = false;
+			owner_->active_ = false;
+			ItemManager::GetInstance().Release(owner_);
+		}
+	}
+	else
+	{
+		AEVec2 playerPos = playerTrans_->GetPosition();
+		AEVec2 pos = trans_->GetPosition();
+		AEVec2 dir = playerPos - pos;
+		f32 squareDist = AEVec2SquareLength(&dir);
+
+		//if (squareDist > 9 * windowHeight * windowHeight)
+			//ExpItemManager::GetInstance().Release(owner_);
+	}
+}
+
+void MagnetItem::LoadFromJson(const json&)
+{
+}
+
+json MagnetItem::SaveToJson()
+{
+	return json();
+}
+
+void MagnetItem::OnEvent(BaseEvent* event)
+{
+}
+
+void MagnetItem::OnCollision(CollisionEvent* event)
+{
+	Player* player = event->from_->GetComponent<Player>();
+	if (player)
+		use_ = true;
+
+	std::cout << "!!" << std::endl;
+}
+
+ComponentSerializer* MagnetItem::CreateComponent(GameObject* owner)
+{
+	return nullptr;
+}

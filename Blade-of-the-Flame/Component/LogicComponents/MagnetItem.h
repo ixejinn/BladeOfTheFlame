@@ -2,15 +2,15 @@
 #include "BaseItem.h"
 #include "../../Manager/ComponentManager.h"
 
-class ExpItem : public BaseItem
+class MagnetItem : public BaseItem
 {
 private:
-	int exp_ = 0;
-	float attractionSpeed_ = 15.f;
+	float preRadius_ = 0.f;
+	float radiusIncrease_ = 100.f;
 
-	RigidBody* rb_;
+	CircleCollider* playerCircle_;
 
-	ExpItem(GameObject* owner);
+	MagnetItem(GameObject* owner);
 
 public:
 	void Update() override;
@@ -20,8 +20,6 @@ public:
 
 	void OnEvent(BaseEvent* event);
 	void OnCollision(CollisionEvent* event);
-
-	void SetExp(int exp) { exp_ = exp; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "ExpItem";

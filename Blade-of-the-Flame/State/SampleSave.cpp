@@ -20,7 +20,7 @@ void SampleSave::Init()
 	MonsterManager::GetInstance().Initialize(5);
 	ExpItemManager::GetInstance().Initialize(20);
 
-	// boss ¸¸µé°í inactive
+	// boss Â¸Â¸ÂµÃ©Â°Ã­ inactive
 }
 
 void SampleSave::Update()

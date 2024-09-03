@@ -81,6 +81,9 @@ public:
 	void Update() override;
 
 	json SaveToJson() override;
+
+	const AEVec2& GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
+	const AEVec2& GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
 	
 	// for StateSerializer
 	static constexpr const char* TypeName = "BoxCollider";

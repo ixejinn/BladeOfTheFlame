@@ -22,113 +22,89 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
 	phase3_cool = 0;
 
 	current_state = Normal;
-	phaseOn = false;
+
+	baseChase = true;
+
 	needShoot = true;
 }
 
 void Boss1::Update()
 {
-	BaseChase();
-	Phase1();
-	//Phase2();
-	Phase4();
-	//Phase3();
+	BossState();
+}
 
-	/*BossState();
-	
+
+void Boss1::BossState()
+{
 	if (current_state == Normal)
 	{
 		BaseChase();
 	}
 	else if (current_state == FastChase)
 	{
-		Phase1();
+		if (!isAction) Phase1();
 	}
 	else if (current_state == RangeAttack)
 	{
-		Phase2();
+		if (!isAction) Phase2();
 	}
 	else if (current_state == Barrage)
 	{
-		Phase3();
-	}*/
-
-	
-}
-
-
-void Boss1::BossState()
-{
-	const float normal_phase_time = 5;
-	const float fastchase_phase_time = 1;
-	const float fastchase_end_time = normal_phase_time + fastchase_phase_time;
-
-	nomalphaseTime_ += shootTime_; //delta time
-
-	if (nomalphaseTime_ < normal_phase_time)
-	{
-		current_state = Normal;
-	}
-	else if (nomalphaseTime_ >= normal_phase_time && 
-		     nomalphaseTime_ < fastchase_end_time && phaseOn == false) //phase1
-	{
-		current_state = FastChase;
-		phaseOn = true;
-	}
-	else if (phase1Count_ == 1 && phaseOn == true) //phase2
-	{
-		current_state = RangeAttack;
-	}
-	else if (phase2Count_ == 2) //phase3
-	{
-		current_state = Barrage;
-	}
-	else if (nomalphaseTime_ >= fastchase_end_time)
-	{
-		nomalphaseTime_ = 0;
+		if (!isAction) Phase3();
 	}
 }
 
 void Boss1::BaseChase()
 {
-	Transform* bossTrans = owner_->GetComponent<Transform>();
-	RigidBody* bossRb	 = owner_->GetComponent<RigidBody>();
+	if (nomalphaseTime_ < 50)
+	{
+		Transform* bossTrans = owner_->GetComponent<Transform>();
+		RigidBody* bossRb	 = owner_->GetComponent<RigidBody>();
 
-	AEVec2     playerPos = player->GetComponent<Transform>()->GetPosition();
-	AEVec2	   bossPos   = bossTrans->GetPosition();
+		AEVec2     playerPos = player->GetComponent<Transform>()->GetPosition();
+		AEVec2	   bossPos   = bossTrans->GetPosition();
 
-	AEVec2	   chaseVec = playerPos - bossPos;
+		AEVec2	   chaseVec = playerPos - bossPos;
 
-	AEVec2	   unitChaseVec;
+		AEVec2	   unitChaseVec;
 
-	AEVec2Normalize(&unitChaseVec, &chaseVec);
+		AEVec2Normalize(&unitChaseVec, &chaseVec);
 
-	bossRb->AddVelocity(unitChaseVec * moveSpeed_);
+		bossRb->AddVelocity(unitChaseVec * moveSpeed_);
+		nomalphaseTime_ += 1;
+	}
+	else
+	{
+		current_state = FastChase;
+	}
 }
 
 void Boss1::Phase1()
 {
 	if (phase1Count_ > 3)
 	{
-		phase1Count_ = 0; 
+		current_state = RangeAttack;
 	}
 	else
 	{
-		phase1Count_ += 1;
+		if (DelayTime_ > 1)
+		{
+			Transform* bossTrans = owner_->GetComponent<Transform>();
+			RigidBody* bossRb = owner_->GetComponent<RigidBody>();
+
+			AEVec2     playerPos = player->GetComponent<Transform>()->GetPosition();
+			AEVec2	   bossPos = bossTrans->GetPosition();
+
+			AEVec2	   chaseVec = playerPos - bossPos;
+			AEVec2	   unitChaseVec;
+			
+			AEVec2Normalize(&unitChaseVec, &chaseVec);
+
+			bossRb->AddVelocity(unitChaseVec * chaseSpeed_);
+
+			phase1Count_ += 1;
+		}
 	}
-
-	Transform* bossTrans = owner_->GetComponent<Transform>();
-	RigidBody* bossRb = owner_->GetComponent<RigidBody>();
-
-	AEVec2     playerPos = player->GetComponent<Transform>()->GetPosition();
-	AEVec2	   bossPos = bossTrans->GetPosition();
-
-	AEVec2	   chaseVec = playerPos - bossPos;
-	AEVec2	   unitChaseVec;
-	
-	AEVec2Normalize(&unitChaseVec, &chaseVec);
-
-	bossRb->AddVelocity(unitChaseVec * chaseSpeed_);
 }
 
 void Boss1::Phase2()
@@ -141,13 +117,22 @@ void Boss1::Phase2()
 			shootCount_ += 1;
 			DelayTime_   = 0;
 		}
-		DelayTime_  += 0.1;
+		DelayTime_   += 0.1;
+		phase2Count_ += 1;
 	}
 	else if (shootTime_ > 20)
 	{
 		needShoot = true;
 		shootCount_ = 0;
 		shootTime_  = 0;
+	}
+	else if (phase2Count_ > 3)
+	{
+		baseChase = false;
+		phase2On  = false;
+		phase3On  = true;
+		current_state = Barrage;
+		
 	}
 	else
 	{
@@ -163,7 +148,6 @@ void Boss1::Phase3()
 		phase3_cool += 1;
 		return;
 	}
-	
 	phase3_cool = 0;
 
 	std::vector<f32> dir_x(4);
@@ -191,8 +175,10 @@ void Boss1::Phase3()
 		temp->GetComponent<BulletComp>()->BarrageBullet(false);
 
 	}
+	current_state = Normal;
 
-	needShoot = false;
+	phase3On = false;
+	baseChase = true;
 }
 
 void Boss1::Phase4()

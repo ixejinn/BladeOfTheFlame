@@ -23,18 +23,19 @@ void BulletComp::Update()
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 
-	if (returnBullet)
-	{
-		time++;
-		if (time == 40)
-		{
-			f32 a = -1;
-			unitDir.x = unitDir.x * a;
-			unitDir.y = unitDir.y * a;
-			time = 0;
-			returnBullet = false;
-		}
-	}
+	//탄막 패턴 쐇다가 다시 돌아오는 기능
+	//if (returnBullet)
+	//{
+	//	time++;
+	//	if (time == 40)
+	//	{
+	//		f32 a = -1;
+	//		unitDir.x = unitDir.x * a;
+	//		unitDir.y = unitDir.y * a;
+	//		time = 0;
+	//		returnBullet = false;
+	//	}
+	//}
 }
 
 void BulletComp::RemoveFromManager()
@@ -66,12 +67,6 @@ void BulletComp::BarrageBullet(bool _bool = false)
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 
 	bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
-
-	//AEVec2 nonDir;
-	/*AEVec2 result;
-	AEVec2Add(&result,&unitDir,&nonDir);*/
-
-	//AEVec2Normalize(&unitDir, &unitDir);
 
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }

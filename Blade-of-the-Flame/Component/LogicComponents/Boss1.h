@@ -6,6 +6,7 @@ class Boss1 : public BossComp
 	Boss1(GameObject* owner);
 
 	bool needShoot;
+	bool isAction;
 
 public:
 	void Update() override;

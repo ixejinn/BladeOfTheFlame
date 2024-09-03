@@ -38,7 +38,10 @@ protected:
 	float phase2_cool = 0;
 	float phase3_cool = 0;
 
-	bool phaseOn = false;
+	bool baseChase = false;
+	bool phase1On  = false;
+	bool phase2On  = false;
+	bool phase3On  = false;
 
 	AEVec2 pos_;
 	AEVec2 scale_;

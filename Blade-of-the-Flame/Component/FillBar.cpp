@@ -1,4 +1,6 @@
 #include "FillBar.h"
+
+#include <string>
 #include "../Manager/GameObjectManager.h"
 #include "../Manager/MonsterManager.h"
 #include "../../Utils/Utils.h"
@@ -16,9 +18,11 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	fill_->AddComponent<Sprite>();
 
 	owner_->AddComponent<Transform>();
-	//owner_->AddComponent<Text>();
+	owner_->AddComponent<Text>();
 
-	//text_ = owner_->GetComponent<Text>();
+	text_ = owner_->GetComponent<Text>();
+	text_->SetFont("Assets/Roboto-Bold.ttf");
+	text_->SetSize(1.f);
 
 	backTrans_ = background_->GetComponent<Transform>();
 	fillTrans_ = fill_->GetComponent<Transform>();
@@ -39,7 +43,9 @@ void FillBar::RemoveFromManager()
 
 void FillBar::Update()
 {
-	AEVec2 playerPos = playerTrans_->GetPosition();
+	AEVec2 playerPos;
+	AEGfxGetCamPosition(&playerPos.x, &playerPos.y);
+	//playerPos = playerTrans_->GetPosition();
 
 	// background
 	backTrans_->SetPosition(playerPos + relativePos_);
@@ -52,11 +58,15 @@ void FillBar::Update()
 	case MONSTER_CNT:
 		value = MonsterManager::GetInstance().GetCapturedCount();
 		maxValue = 100;
+		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
+		text_->SetPosition({ -0.05, 0.93 });
 		break;
 
 	case PLAYER_EXP:
 		value = player_->GetExp();
 		maxValue = player_->GetMaxExp();
+		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
+		text_->SetPosition({ -0.05, -0.96 });
 		break;
 
 	case PLAYER_HP:

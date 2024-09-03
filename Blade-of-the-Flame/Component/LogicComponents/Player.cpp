@@ -18,7 +18,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
 	//owner_->AddComponent<Audio>();
-	owner_->AddComponent<Text>();
 
 	BoxCollider* boxCol = owner_->GetComponent<BoxCollider>();
 	boxCol->SetLayer(Collider::P_AABB);
@@ -39,12 +38,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
 	//owner_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
-
-	text_ = owner_->GetComponent<Text>();
-	text_->SetFont("Assets/Roboto-Bold.ttf");
-	text_->SetSize(1.f);
-	text_->SetColor({ 255, 0, 0 });
-	text_->SetPosition({ -0.05f, 0.1f });
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
@@ -95,9 +88,6 @@ void Player::Update()
 		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
 
 	cnt++;
-
-	//text_->SetString(std::to_string(hp_) + "/" + std::to_string(maxHp_));
-	text_->SetString(std::to_string(hp_) + "/" + std::to_string(exp_));
 }
 
 void Player::LoadFromJson(const json& data)

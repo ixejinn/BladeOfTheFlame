@@ -31,9 +31,9 @@ void GameStateManager::Update()
 		curState_->Update();
 
 		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
-		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
 		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
 		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
+		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
 
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();

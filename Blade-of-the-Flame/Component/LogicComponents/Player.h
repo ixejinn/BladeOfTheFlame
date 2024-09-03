@@ -32,7 +32,6 @@ private:
 
 	std::chrono::system_clock::time_point timeStart_;
 
-	Text* text_;
 	Transform* trans_;
 
 	Player(GameObject* owner);

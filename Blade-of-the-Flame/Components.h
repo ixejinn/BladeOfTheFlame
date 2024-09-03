@@ -10,6 +10,7 @@
 #include "Component/LogicComponents/Player.h"
 #include "Component/LogicComponents/MeleeAttack.h"
 #include "Component/LogicComponents/Monster.h"
+#include "Component/LogicComponents/ExpItem.h"
 #include "Component/LogicComponents/BossComp.h"
 #include "Component/LogicComponents/Bullet.h"
 //ui test

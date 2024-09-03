@@ -2,26 +2,23 @@
 
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
-#include "../../Manager/GameObjectManager.h"
 
-MeleeAttack::MeleeAttack(GameObject* owner) : Attack(owner)
+MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 {
-	player_ = GameObjectManager::GetInstance().GetObjectA("player");
-
-	owner_->active_ = false;
+	dmg_ = 5;
+	range_ = 100.f;
+	cooldown_ = 0.5;
+	dmgGrowthRate_ = 3.f;
 
 	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
 
 	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
-	owner_->GetComponent<BoxCollider>()->SetType(Collider::OBB_TYPE);
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetType(Collider::OBB_TYPE);
+	col->SetLayer(Collider::P_ATTACK);
 	owner_->GetComponent<Sprite>()->SetColor({ 100, 200, 100 });
-}
-
-void MeleeAttack::RemoveFromManager()
-{
-	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
 }
 
 void MeleeAttack::Update()

@@ -1,6 +1,7 @@
 #include "CollisionManager.h"
 
 #include <cmath>
+#include <memory>
 #include "EventManager.h"
 #include "../Component/Collider.h"
 #include "../GameObject/GameObject.h"
@@ -22,7 +23,7 @@ bool CollisionManager::CheckCircleCircle(CircleCollider* circleA, CircleCollider
 		return false;
 }
 
-bool CollisionManager::CheckCircleAABB(CircleCollider* circle, BoxCollider* aabb, AEVec2& collisionPoint)
+bool CollisionManager::CheckCircleAABB(CircleCollider* circle, BoxCollider* aabb)
 {
 	Transform* transA = circle->trans_;
 	Transform* transB = aabb->trans_;
@@ -46,27 +47,7 @@ bool CollisionManager::CheckCircleAABB(CircleCollider* circle, BoxCollider* aabb
 			centerCircleCol.x <= rangeBoxCol[1].x &&
 			centerCircleCol.y >= rangeBoxCol[0].y &&
 			centerCircleCol.y <= rangeBoxCol[1].y)
-		{
-			collisionPoint = centerCircleCol;
-			// unitReflDir에 공이 반사될 unit vector 설정
-			if (centerCircleCol.x >= aabb->GetBottomLeft().x && centerCircleCol.x <= aabb->GetTopRight().x && centerCircleCol.y >= aabb->GetTopRight().y)
-				// Circle collider가 box collider의 위에 위치
-				collisionPoint.y -= circle->radius_;
-
-			else if (centerCircleCol.x >= aabb->GetBottomLeft().x && centerCircleCol.x <= aabb->GetTopRight().x && centerCircleCol.y <= aabb->GetBottomLeft().y)
-				// Circle collider가 box collider의 아래에 위치
-				collisionPoint.y += circle->radius_;
-
-			else if (centerCircleCol.y >= aabb->GetBottomLeft().y && centerCircleCol.y <= aabb->GetTopRight().y && centerCircleCol.x <= aabb->GetBottomLeft().x)
-				// Circle collider가 box collider의 왼쪽에 위치
-				collisionPoint.x += circle->radius_;
-
-			else
-				// Circle collider가 box collider의 오른쪽에 위치
-				collisionPoint.x -= circle->radius_;
-
 			return true;
-		}
 	}
 	else {
 		// (예외) box collider vertex가 circle collider에 닿지 않는 경우
@@ -81,10 +62,7 @@ bool CollisionManager::CheckCircleAABB(CircleCollider* circle, BoxCollider* aabb
 		{
 			// 원의 방정식 사용
 			if ((verticesBoxCol[i].x - centerCircleCol.x) * (verticesBoxCol[i].x - centerCircleCol.x) + (verticesBoxCol[i].y - centerCircleCol.y) * (verticesBoxCol[i].y - centerCircleCol.y) <= circle->radius_ * circle->radius_)
-			{
-				collisionPoint = verticesBoxCol[i];
 				return true;
-			}
 		}
 	}
 
@@ -98,7 +76,7 @@ bool CollisionManager::CheckCircleOBB(CircleCollider* colA, BoxCollider* colB)
 	return false;
 }
 
-bool CollisionManager::CheckAABBAABB(BoxCollider* aabbA, BoxCollider* aabbB)
+bool CollisionManager::CheckAABBAABB(Collider* aabbA, Collider* aabbB)
 {
 	AEVec2 rangeColA[2] = { aabbA->GetBottomLeft(), aabbA->GetTopRight() };
 	AEVec2 rangeColB[2] = { aabbB->GetBottomLeft(), aabbB->GetTopRight() };
@@ -175,17 +153,8 @@ void CollisionManager::CheckAllCollision()
 	{
 		for (int j = i + 1; j < colliders_.size(); j++)
 		{
-			AEVec2 collisionPoint;
-			if (colliders_[i]->owner_->active_ && colliders_[j]->owner_->active_ &&
-				CheckCollision(colliders_[i], colliders_[j], collisionPoint))
-			{
-				std::cout << "collision" << std::endl;
-
-				colliders_[i]->collisionPoint_ = collisionPoint;
-				colliders_[j]->collisionPoint_ = collisionPoint;
-
-				collisionPairs_.push({ i, j });
-			}
+			if (CheckCollision(colliders_[i], colliders_[j]))
+				collisionPairs_.push({ colliders_[i], colliders_[j] });
 		}
 	}
 
@@ -193,30 +162,41 @@ void CollisionManager::CheckAllCollision()
 	{
 		auto pair = collisionPairs_.front();
 
-		CollisionEvent* collision1{ new CollisionEvent() };
-		collision1->from_ = colliders_[pair.first]->owner_;
-		collision1->to_ = colliders_[pair.second]->owner_;
-		if (collision1->to_->GetComponent<Monster>())
-			collision1->attackMonster = true;
-		EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(collision1));
-
-		CollisionEvent* collision2{ new CollisionEvent() };
-		collision2->from_ = colliders_[pair.second]->owner_;
-		collision2->to_ = colliders_[pair.first]->owner_;
-		if (collision2->to_->GetComponent<Monster>())
-			collision2->attackMonster = true;
-		EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(collision2));
-
+		if (pair.second->collisionHandler_)
+		{
+			CollisionEvent* event1to2 = new CollisionEvent();
+			event1to2->from_ = pair.first->owner_;
+			event1to2->fromType_ = pair.first->type_;
+			pair.second->CallHandler(event1to2);
+		}
+		
+		if (pair.first->collisionHandler_)
+		{
+			CollisionEvent* event2to1 = new CollisionEvent();
+			event2to1->from_ = pair.second->owner_;
+			event2to1->fromType_ = pair.second->type_;
+			pair.first->CallHandler(event2to1);
+		}
+		
 		collisionPairs_.pop();
 	}
 }
 
-bool CollisionManager::CheckCollision(Collider* colA, Collider* colB, AEVec2& collisionPoint)
+bool CollisionManager::CheckCollision(Collider* colA, Collider* colB)
 {
-	// 같은 GameObject의 Collider는 충돌 검사 하지 않음
-	if (colA->owner_ == colB->owner_)
+	bool objActive = colA->owner_->active_ && colB->owner_->active_;				// 활성 오브젝트 확인
+	bool checkLayer = layerCollisionMatrix_[colA->GetLayer()][colB->GetLayer()];	// 충돌 레이어 확인
+	if (!objActive || !checkLayer)
 		return false;
 
+	// 1차 충돌 검사 (AABB - AABB)
+	if (!CheckAABBAABB(colA, colB))
+		return false;
+
+	if (colA->type_ == Collider::AABB_TYPE && colB->type_ == Collider::AABB_TYPE)
+		return true;	// 2차 검사 필요 없음
+
+	// 2차 충돌 검사
 	Collider* cA = colA;
 	Collider* cB = colB;
 	if (cA->type_ > cB->type_)
@@ -239,27 +219,20 @@ bool CollisionManager::CheckCollision(Collider* colA, Collider* colB, AEVec2& co
 			return CheckCircleCircle(static_cast<CircleCollider*>(cA), static_cast<CircleCollider*>(cB));
 
 		case Collider::AABB_TYPE:
-			return CheckCircleAABB(static_cast<CircleCollider*>(cA), static_cast<BoxCollider*>(cB), collisionPoint);
+			return CheckCircleAABB(static_cast<CircleCollider*>(cA), static_cast<BoxCollider*>(cB));
 
 		case Collider::OBB_TYPE:
 			return CheckCircleOBB(static_cast<CircleCollider*>(cA), static_cast<BoxCollider*>(cB));
+			
+		default:
+			std::cerr << "CollisionManager::CheckCollision() Unknown Collider type" << std::endl;
 		}
 		break;
 	}
 
 	case Collider::AABB_TYPE:
-	{
-		switch (cB->type_)
-		{
-		case Collider::AABB_TYPE:
-			return CheckAABBAABB(static_cast<BoxCollider*>(cA), static_cast<BoxCollider*>(cB));
-
-		case Collider::OBB_TYPE:
-			return CheckOBBOBB(static_cast<BoxCollider*>(cA), static_cast<BoxCollider*>(cB)) &&
-				CheckOBBOBB(static_cast<BoxCollider*>(cB), static_cast<BoxCollider*>(cA));
-		}
-		break;
-	}
+		return CheckOBBOBB(static_cast<BoxCollider*>(cA), static_cast<BoxCollider*>(cB)) &&
+			CheckOBBOBB(static_cast<BoxCollider*>(cB), static_cast<BoxCollider*>(cA));
 
 	case Collider::OBB_TYPE:
 		return CheckOBBOBB(static_cast<BoxCollider*>(cA), static_cast<BoxCollider*>(cB)) &&

@@ -26,7 +26,7 @@
 typedef struct AEVec2
 {
 	f32 x; ///< x component of a 2D vector
-    f32 y; ///< y component of a 2D vector
+  f32 y; ///< y component of a 2D vector
 }AEVec2;
 
 // ---------------------------------------------------------------------------

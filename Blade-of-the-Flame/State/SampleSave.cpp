@@ -1,38 +1,33 @@
 #include "SampleSave.h"
 
+#include <string>
 #include "../Utils/Utils.h"
+#include "../Utils/RandomEngine.h"
 #include "../Manager/GameObjectManager.h"
+#include "../Manager/MonsterManager.h"
+#include "../Manager/ExpItemManager.h"
 #include "../Serializer/StateSerializer.h"
 
 void SampleSave::Init()
 {
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("TestObj");
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
+	obj->AddComponent<Player>();
 
-	obj->AddComponent<Transform>();
-	obj->GetComponent<Transform>()->SetScale({ 10, 10 });
+	//GameObject* monster = GameObjectManager::GetInstance().CreateObject("mon");
+	//monster->AddComponent<Monster>();
+	//monster->GetComponent<Transform>()->SetPosition(0.1, 0.1);
+	
+	MonsterManager::GetInstance().Initialize(5);
+	ExpItemManager::GetInstance().Initialize(20);
 
-	obj->AddComponent<Sprite>();
-	obj->GetComponent<Sprite>()->SetTexture("Assets/PlanetTexture.png");
-
-	obj->AddComponent<RigidBody>();
-
-	obj->AddComponent<PlayerController>();
-	PlayerController* pCtrl = obj->GetComponent<PlayerController>();
-
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
-	pCtrl->SetStopKey(AEVK_SPACE);
-
-	obj->AddComponent<Audio>();
-	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
+	// boss ¸¸µé°í inactive
 }
 
 void SampleSave::Update()
 {
-
+	MonsterManager::GetInstance().Spawn();
 }
 
 void SampleSave::Exit()
 {
-
 }

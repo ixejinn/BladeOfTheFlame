@@ -51,5 +51,6 @@ public:
 	// for StateSerializer
 	static constexpr const char* TypeName = "Transform";
 	static ComponentSerializer* CreateComponent(GameObject* owner);
+
 	friend class ComponentManager<EngineComponent>;
 };

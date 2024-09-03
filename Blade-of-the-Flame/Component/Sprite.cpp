@@ -5,10 +5,16 @@
 #include "../GameObject/GameObject.h"
 #include "../Resource/TextureResource.h"
 
-Sprite::Sprite(GameObject* owner) : GraphicsComponent(owner), color_(), texture_(nullptr), textureName_() {}
+Sprite::Sprite(GameObject* owner)
+	: GraphicsComponent(owner), color_(), texture_(nullptr), textureName_(), mesh_()
+{
+	SetMesh();
+}
 
 Sprite::~Sprite()
 {
+	AEGfxMeshFree(mesh_);
+
 	if (texture_ != nullptr && !textureName_.empty())
 		ResourceManager::GetInstance().Unload(textureName_);
 }
@@ -20,25 +26,6 @@ void Sprite::RemoveFromManager()
 
 void Sprite::Update()
 {
-	// Set mesh
-	AEGfxMeshStart();
-
-	Transform* trans = owner_->GetComponent<Transform>();
-	AEVec2 halfLength = { trans->GetLocalScale().x / 2, trans->GetLocalScale().y / 2 };
-
-	AEGfxTriAdd(
-		-halfLength.x, -halfLength.y, 0xFFFFFFFF, 0.0f, 1.0f,
-		 halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-		-halfLength.x,  halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
-	);
-	AEGfxTriAdd(
-		 halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-		 halfLength.x,  halfLength.y, 0xFFFFFFFF, 1.0f, 0.0f,
-		-halfLength.x,  halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
-	);
-
-	AEGfxVertexList* mesh = AEGfxMeshEnd();
-
 	// Set background color
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
@@ -65,10 +52,8 @@ void Sprite::Update()
 	AEGfxSetTransform(transf.m);
 
 	// Draw mesh
-	AEGfxMeshDraw(mesh, AE_GFX_MDM_TRIANGLES);
+	AEGfxMeshDraw(mesh_, AE_GFX_MDM_TRIANGLES);
 	//AEGfxMeshDraw(mesh, AE_GFX_MDM_LINES);
-
-	AEGfxMeshFree(mesh);
 }
 
 void Sprite::LoadFromJson(const json& data)
@@ -97,6 +82,28 @@ json Sprite::SaveToJson()
 
 	data["compData"] = compData;
 	return data;
+}
+
+void Sprite::SetMesh()
+{
+	// Set mesh
+	AEGfxMeshStart();
+
+	Transform* trans = owner_->GetComponent<Transform>();
+	AEVec2 halfLength = { trans->GetLocalScale().x / 2, trans->GetLocalScale().y / 2 };
+
+	AEGfxTriAdd(
+		-halfLength.x, -halfLength.y, 0xFFFFFFFF, 0.0f, 1.0f,
+		halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+	AEGfxTriAdd(
+		halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		halfLength.x, halfLength.y, 0xFFFFFFFF, 1.0f, 0.0f,
+		-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+
+	mesh_ = AEGfxMeshEnd();
 }
 
 void Sprite::SetColor(const Color& col)

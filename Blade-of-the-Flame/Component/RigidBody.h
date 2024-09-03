@@ -6,8 +6,7 @@
 class RigidBody : public EngineComponent
 {
 private:
-	AEVec2 velocity_ = { 30.f,40.f };
-	//AEVec2 velocity_;
+	AEVec2 velocity_;
 	AEVec2 preVelocity_;
 	AEVec2 maxVelocity_;
 

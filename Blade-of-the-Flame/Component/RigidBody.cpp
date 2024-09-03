@@ -5,8 +5,8 @@
 
 RigidBody::RigidBody(GameObject* owner) : EngineComponent(owner), velocity_(), preVelocity_(), maxVelocity_(), acceleration_()
 {
-	velocity_.x = 1;
-	velocity_.y = 1;
+	velocity_.x = 0;
+	velocity_.y = 0;
 
 	preVelocity_.x = 0;
 	preVelocity_.y = 0;
@@ -109,7 +109,6 @@ void RigidBody::AddVelocity(const AEVec2& other)
 	velocity_.x += other.x;
 	velocity_.y += other.y;
 
-	
 	velocity_.x = AEClamp(velocity_.x, -maxVelocity_.x, maxVelocity_.x);
 	velocity_.y = AEClamp(velocity_.y, -maxVelocity_.y, maxVelocity_.y);
 }

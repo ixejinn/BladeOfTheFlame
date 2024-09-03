@@ -3,7 +3,8 @@
 #include "../GameObject/GameObject.h"
 #include "../Manager/CollisionManager.h"
 
-Collider::Collider(GameObject* owner) : EngineComponent(owner), collisionPoint_(), bottomLeft_(), topRight_()
+Collider::Collider(GameObject* owner)
+	: EngineComponent(owner), layer_(), collisionHandler_(nullptr), vertices_(), bottomLeft_(), topRight_()
 {
 	CollisionManager::GetInstance().AddCollider(this);
 
@@ -72,6 +73,11 @@ void Collider::LoadFromJson(const json& data)
 	}
 }
 
+void Collider::CallHandler(CollisionEvent* event)
+{
+	collisionHandler_->OnCollision(event);
+}
+
 BoxCollider::BoxCollider(GameObject* owner) : Collider(owner) {}
 
 void BoxCollider::Update()
@@ -105,18 +111,13 @@ ComponentSerializer* BoxCollider::CreateComponent(GameObject* owner)
 CircleCollider::CircleCollider(GameObject* owner) : Collider(owner), radius_()
 {
 	type_ = CIRCLE_TYPE;
+
+	ResetRadius();
 }
 
 void CircleCollider::Update()
 {
 	Collider::Update();
-
-	AEVec2 localScale = trans_->GetLocalScale();
-	AEVec2 scale = trans_->GetScale();
-
-	// localScale (오브젝트 로컬 스케일) * scale (스케일 변환) * scale_ (콜라이더 스케일)
-	radius_ = max(localScale.x * scale.x * scale_.x, localScale.y * scale.y * scale_.y);
-	radius_ /= 2.f;
 }
 
 json CircleCollider::SaveToJson()
@@ -129,6 +130,22 @@ json CircleCollider::SaveToJson()
 
 	data["compData"] = compData;
 	return data;
+}
+
+void CircleCollider::SetRadius(float r)
+{
+	radius_ = r;
+	scale_ = { r, r };
+}
+
+void CircleCollider::ResetRadius()
+{
+	AEVec2 localScale = trans_->GetLocalScale();
+	AEVec2 scale = trans_->GetScale();
+
+	// localScale (오브젝트 로컬 스케일) * scale (스케일 변환) * scale_ (콜라이더 스케일)
+	radius_ = max(localScale.x * scale.x * scale_.x, localScale.y * scale.y * scale_.y);
+	radius_ /= 2.f;
 }
 
 ComponentSerializer* CircleCollider::CreateComponent(GameObject* owner)

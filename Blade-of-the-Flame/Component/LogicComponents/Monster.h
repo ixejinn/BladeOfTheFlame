@@ -9,16 +9,24 @@ class RigidBody;
 class Monster : public LogicComponent, public EventEntity
 {
 private:
-	int hp_ = 20;
-	int dmg_ = 5;
-	float moveSpeed_ = 2.5f;
+	int hp_ = 0;
+	int maxHp_ = 0;
 
-	double cooldown_ = 1.0;
+	int exp_ = 0;
+
+	int dmg_ = 0;
+	float moveSpeed_ = 0.f;
+
+	float knockback_ = 0.f;
+
+	double cooldown_ = 0.0;
 	std::chrono::system_clock::time_point timeStart_;
 
-	Transform* transPlayer = nullptr;
-	Transform* trans = nullptr;
-	RigidBody* rb = nullptr;
+	Transform* playerTrans_ = nullptr;
+	Transform* trans_ = nullptr;
+	RigidBody* rb_ = nullptr;
+
+	
 
 	Monster(GameObject* owner);
 
@@ -31,6 +39,9 @@ public:
 	json SaveToJson() override;
 
 	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent* event) override;
+
+	const int GetDmg() const { return dmg_; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Monster";

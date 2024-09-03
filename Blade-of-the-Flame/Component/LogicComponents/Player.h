@@ -4,9 +4,7 @@
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
-#include "Attack.h"
-
-//// TODO: 기본 공격, 
+#include "BaseAttack.h"
 
 class Text;
 
@@ -22,12 +20,13 @@ private:
 	int maxExp_ = 100;
 
 	float moveSpeed_ = 5.f;
+	float attractionRadius_ = 80.f;
 
 	// Level up을 위해 필요한 경험치 증가율 (%)
 	float expRequirement_ = 3.3f;
 	float hpGrowthRate_ = 2.f;
 
-	Attack* curAttack_ = nullptr;			// Current basic attack
+	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
 	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
 
@@ -47,11 +46,14 @@ public:
 	json SaveToJson() override;
 
 	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent*) override;
 
 	//// TODO: getter, setter
-	int GetLevel() { return level_; }
+	const int GetLevel() const { return level_; }
 
 	void LevelUp();
+	void AddHp(int hp);
+	void AddExp(int exp);
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Player";

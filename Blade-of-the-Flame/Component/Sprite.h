@@ -13,6 +13,8 @@ private:
 	AEGfxTexture* texture_;
 	std::string textureName_;
 
+	AEGfxVertexList* mesh_;
+
 	Sprite(GameObject* owner);
 	~Sprite();
 
@@ -23,6 +25,8 @@ public:
 
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
+
+	void SetMesh();
 
 	Color& GetColor() { return color_; }
 

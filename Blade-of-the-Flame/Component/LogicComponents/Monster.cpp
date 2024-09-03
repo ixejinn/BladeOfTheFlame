@@ -3,9 +3,20 @@
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Manager/MonsterManager.h"
+#include "../../Manager/ExpItemManager.h"
+#include "../../Utils/Utils.h"
 
-Monster::Monster(GameObject* owner) : LogicComponent(owner)
+
+Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 {
+	hp_ = 20;
+	maxHp_ = 20;
+	exp_ = 5;
+	dmg_ = 5;
+	moveSpeed_ = 10.f;
+	knockback_ = 10.f;
+	cooldown_ = 1.0f;
 	timeStart_ = std::chrono::system_clock::now();
 
 	/* Set Monster component */
@@ -13,12 +24,16 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<Sprite>();
 
 	owner_->GetComponent<Transform>()->SetScale({ 30, 30 });
-	
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(CollisionEvent)), static_cast<EventEntity*>(this));
+	owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
 
-	transPlayer = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
-	trans = owner_->GetComponent<Transform>();
-	rb = owner_->GetComponent<RigidBody>();
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetLayer(Collider::E_BODY);
+	col->SetHandler(static_cast<EventEntity*>(this));
+	
+	/* Set pointer */
+	playerTrans_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
+	trans_ = owner_->GetComponent<Transform>();
+	rb_ = owner_->GetComponent<RigidBody>();
 }
 
 void Monster::RemoveFromManager()
@@ -28,19 +43,37 @@ void Monster::RemoveFromManager()
 
 void Monster::Update()
 {
-	if (hp_ <= 0)
-		owner_->active_ = false;
-	else if (hp_ <= 10)
-		owner_->GetComponent<Sprite>()->SetColor({ 200, 10, 10 });
-	else
-		owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
-
-	AEVec2 playerPos = transPlayer->GetPosition();
-	AEVec2 pos = trans->GetPosition();
+	AEVec2 playerPos = playerTrans_->GetPosition();
+	AEVec2 pos = trans_->GetPosition();
 	AEVec2 moveDir = playerPos - pos, unitMoveDir;
-	AEVec2Normalize(&unitMoveDir, &moveDir);
+	f32 squareDist = AEVec2SquareLength(&moveDir);
 
-	rb->AddVelocity(unitMoveDir * moveSpeed_);
+	bool death = false;
+	if (hp_ <= 0)
+	{
+		ExpItem* expGem = ExpItemManager::GetInstance().Spawn(pos);
+		if (!expGem)
+			return;
+		expGem->SetExp(exp_);
+		death = true;
+	}
+	else if (squareDist > 9 * windowHeight * windowHeight)
+		death = true;
+
+	if (death)
+	{
+		hp_ = maxHp_;
+		MonsterManager::GetInstance().Release(owner_);
+		return;
+	}
+
+	AEVec2 velocity = rb_->GetVelocity();
+	f32 dotProduct = moveDir.x * velocity.x + moveDir.y * velocity.y;
+	if (dotProduct < 0)
+		rb_->ClearVelocity();
+
+	AEVec2Normalize(&unitMoveDir, &moveDir);
+	rb_->AddVelocity(unitMoveDir * moveSpeed_);
 }
 
 void Monster::LoadFromJson(const json&)
@@ -56,38 +89,41 @@ void Monster::OnEvent(BaseEvent* event)
 {
 	std::type_index eventType = std::type_index(typeid(*event));
 
-	// Collision event
-	if (eventType == std::type_index(typeid(CollisionEvent)))
+}
+
+void Monster::OnCollision(CollisionEvent* event)
+{
+	Player* player = event->from_->GetComponent<Player>();
+	if (player)
 	{
-		CollisionEvent* colEvent = static_cast<CollisionEvent*>(event);
-
-		if (colEvent->from_ == owner_ && colEvent->to_->GetComponent<Player>())
+		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+		if (dt.count() >= cooldown_)
 		{
-			std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-			if (dt.count() >= cooldown_)
-			{
-				timeStart_ = std::chrono::system_clock::now();
+			timeStart_ = std::chrono::system_clock::now();
 
-				MonsterAttackPlayer* event{ new MonsterAttackPlayer() };
-				event->from_ = owner_;
-				event->dmg = dmg_;
-				EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(event));
-			}
+			player->AddHp(-dmg_);
 		}
+		return;
+	}
 
+	MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
+	if (melee)
+	{
+		hp_ -= melee->GetDmg();
 
-		if (colEvent->to_ != owner_)
-			return;
+		RigidBody* rb = owner_->GetComponent<RigidBody>();
+		AEVec2 velocity = rb->GetVelocity();
+		rb->ClearVelocity();
+		rb->AddVelocity(velocity * -knockback_);
 
-		if (colEvent->attackMonster)
-		{
-			if (colEvent->from_->GetComponent<MeleeAttack>())
-				hp_ -= colEvent->from_->GetComponent<MeleeAttack>()->GetDmg();
-		}
+		return;
 	}
 }
 
 ComponentSerializer* Monster::CreateComponent(GameObject* owner)
 {
-	return nullptr;
+	if (!owner->AddComponent<Monster>())
+		std::cout << "Monster::CreateComponent() Component already exists" << std::endl;
+
+	return owner->GetComponent<Monster>();
 }

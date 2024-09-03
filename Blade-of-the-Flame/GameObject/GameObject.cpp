@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "../Component/RigidBody.h"
+#include "../Manager/MonsterManager.h"
 
 GameObject::~GameObject()
 {

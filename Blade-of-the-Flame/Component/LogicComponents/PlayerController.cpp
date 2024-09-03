@@ -15,6 +15,7 @@ void PlayerController::Update()
 	RigidBody* rb = owner_->GetComponent<RigidBody>();
 
 	AEVec2 moveVec{ 0.f, 0.f };
+	float speed = moveSpeed_;
 
 	if (!onlyUpDown)
 	{
@@ -31,13 +32,25 @@ void PlayerController::Update()
 	if (AEInputCheckCurr(moveKeys_[DOWN]))
 		moveVec.y--;
 
+	if (dashKey_ != 0x00)
+	{
+		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+
+		if (dt.count() >= dashCooldown_ && AEInputCheckCurr(dashKey_))
+		{
+			timeStart_ = std::chrono::system_clock::now();
+
+			speed *= 30.0;
+		}
+	}		
+
 	float squareLen = AEVec2SquareLength(&moveVec);
 	if (squareLen >= 1.2f)
 	{
 		AEVec2 moveVecCopy = moveVec;
 		AEVec2Normalize(&moveVec, &moveVecCopy);
 	}
-	rb->AddVelocity(moveVec * moveSpeed_);
+	rb->AddVelocity(moveVec * speed);
 
 	if (rotKeys_[LEFT] != 0x00 && AEInputCheckCurr(rotKeys_[LEFT]))
 		trans->SetRotation(trans->GetRotation() + rotSpeed_);
@@ -87,6 +100,13 @@ json PlayerController::SaveToJson()
 
 	data["compData"] = compData;
 	return data;
+}
+
+void PlayerController::SetDashKey(uint8_t key)
+{
+	dashKey_ = key;
+
+	timeStart_ = std::chrono::system_clock::now();
 }
 
 ComponentSerializer* PlayerController::CreateComponent(GameObject* owner)

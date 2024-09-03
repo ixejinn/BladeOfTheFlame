@@ -1,15 +1,13 @@
 #pragma once
-#include "Attack.h"
+#include "BaseAttack.h"
 #include "../../Manager/ComponentManager.h"
 
-class MeleeAttack : public Attack
+class MeleeAttack : public BaseAttack
 {
 private:
 	MeleeAttack(GameObject* owner);
 
 public:
-	void RemoveFromManager() override;
-
 	void Update() override;
 
 	void LoadFromJson(const json&) override;

@@ -9,13 +9,8 @@
 #include "Manager/EventManager.h"
 #include "State/SampleSave.h"
 #include "State/SampleLoad.h"
+
 // ---------------------------------------------------------------------------
-//BOSS_TEST
-#include "State/BossSample/BossSampleSave.h"
-#include "State/BossSample/BossSampleLoad.h"
-// ---------------------------------------------------------------------------
-//MENU TEST
-#include "State/UISample/MenuScene.h"
 // main
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -44,21 +39,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	SampleSave sampleSave;
 	SampleLoad sampleLoad;
-	//GameStateManager& gsm = GameStateManager::GetInstance();
-	//gsm.ChangeState(&sampleSave);
-	// ---------------------------------------------------------------------------
-	//BOSS_TEST
-	BossSampleSave bossSampleSave;
-	BossSampleLoad bossSampleLoad;
-
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	// ---------------------------------------------------------------------------
-	//MENU_TEST
-	MenuScene menuScene;
+	gsm.ChangeState(&sampleSave);
 
-
-	gsm.ChangeState(&bossSampleSave);
-	
 	// Game Loop
 	while (gGameRunning)
 	{
@@ -79,6 +62,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		if (AEInputCheckTriggered(AEVK_ESCAPE) || 0 == AESysDoesWindowExist())
 			gGameRunning = 0;
 	}
+
+
 	// free the system
 	AESysExit();
 }

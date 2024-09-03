@@ -103,6 +103,10 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
   <ItemGroup>
     <ClCompile Include="Component\Audio.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
+    <ClCompile Include="Component\FillBar.cpp" />
+    <ClCompile Include="Component\LogicComponents\BaseAttack.cpp" />
+    <ClCompile Include="Component\LogicComponents\BaseItem.cpp" />
+    <ClCompile Include="Component\LogicComponents\ExpItem.cpp" />
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
     <ClCompile Include="Component\LogicComponents\Bullet.cpp" />
     <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
@@ -118,9 +122,12 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manager\CollisionManager.cpp" />
     <ClCompile Include="Manager\EventManager.cpp" />
+    <ClCompile Include="Manager\ExpItemManager.cpp" />
     <ClCompile Include="Manager\GameObjectManager.cpp" />
     <ClCompile Include="Manager\GameStateManager.cpp" />
+    <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
+    <ClCompile Include="Manager\SpawnManager.cpp" />
     <ClCompile Include="Resource\FontResource.cpp" />
     <ClCompile Include="State\BossSample\BossSampleLoad.cpp" />
     <ClCompile Include="State\BossSample\BossSampleSave.cpp" />
@@ -140,6 +147,10 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\AudioComponent.h" />
     <ClInclude Include="Component\Collider.h" />
     <ClInclude Include="Component\Component.h" />
+    <ClInclude Include="Component\FillBar.h" />
+    <ClInclude Include="Component\LogicComponents\BaseAttack.h" />
+    <ClInclude Include="Component\LogicComponents\BaseItem.h" />
+    <ClInclude Include="Component\LogicComponents\ExpItem.h" />
     <ClInclude Include="Component\LogicComponents\Boss1.h" />
     <ClInclude Include="Component\LogicComponents\Bullet.h" />
     <ClInclude Include="Component\LogicComponents\BossComp.h" />
@@ -161,9 +172,12 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\CollisionManager.h" />
     <ClInclude Include="Manager\ComponentManager.h" />
     <ClInclude Include="Manager\EventManager.h" />
+    <ClInclude Include="Manager\ExpItemManager.h" />
     <ClInclude Include="Manager\GameObjectManager.h" />
     <ClInclude Include="Manager\GameStateManager.h" />
+    <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
+    <ClInclude Include="Manager\SpawnManager.h" />
     <ClInclude Include="Resource\FontResource.h" />
     <ClInclude Include="State\BossSample\BossSampleLoad.h" />
     <ClInclude Include="State\BossSample\BossSampleSave.h" />

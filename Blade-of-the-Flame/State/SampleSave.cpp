@@ -18,6 +18,24 @@ void SampleSave::Init()
 	ExpItemManager::GetInstance().Initialize(20);
 	ItemManager::GetInstance().Initialize(3);
 
+	GameObject* monsterBar = GameObjectManager::GetInstance().CreateObject("monsterBar");
+	monsterBar->AddComponent<FillBar>();
+	FillBar* monsterBarPtr = monsterBar->GetComponent<FillBar>();
+	monsterBarPtr->SetShowType(FillBar::MONSTER_CNT);
+	monsterBarPtr->SetFillColor({ 255, 255, 255 });
+
+	GameObject* expBar = GameObjectManager::GetInstance().CreateObject("expBar");
+	expBar->AddComponent<FillBar>();
+	FillBar* expBarPtr = expBar->GetComponent<FillBar>();
+	expBarPtr->SetShowType(FillBar::PLAYER_EXP);
+	expBarPtr->SetFillColor({ 0, 255, 0 });
+
+	GameObject* healthBar = GameObjectManager::GetInstance().CreateObject("healthBar");
+	healthBar->AddComponent<FillBar>();
+	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
+	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
+	healthBarPtr->SetFillColor({ 255, 0, 0 });
+
 	// boss ¸¸µé°í inactive
 }
 

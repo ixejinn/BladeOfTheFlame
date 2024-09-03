@@ -48,8 +48,11 @@ public:
 	void OnEvent(BaseEvent* event) override;
 	void OnCollision(CollisionEvent*) override;
 
-	//// TODO: getter, setter
-	const int GetLevel() const { return level_; }
+	const int& GetLevel() const { return level_; }
+	const int& GetHp() const { return hp_; }
+	const int& GetExp() const { return exp_; }
+	const int& GetMaxHp() const { return maxHp_; }
+	const int& GetMaxExp() const { return maxExp_; }
 
 	void LevelUp();
 	void AddHp(int hp);

@@ -1,89 +1,127 @@
-//#include "FillBar.h"
-//#include "../Manager/GameObjectManager.h"
-//
-//FillBar::FillBar(GameObject* owner)
-//	: GraphicsComponent(owner), backMesh_(), fillColor_()
-//{
-//	owner_->AddComponent<Transform>();
-//
-//	trans_ = owner_->GetComponent<Transform>();
-//
-//	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
-//	player_ = player->GetComponent<Player>();
-//	playerTrans_ = player->GetComponent<Transform>();
-//
-//	// Set fillMesh_
-//	AEGfxMeshStart();
-//
-//	AEVec2 halfLength = { trans_->GetLocalScale().x / 2, trans_->GetLocalScale().y / 2 };
-//
-//	AEGfxTriAdd(
-//		-halfLength.x, -halfLength.y, 0xFFFFFFFF, 0.0f, 1.0f,
-//		halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-//		-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
-//	);
-//	AEGfxTriAdd(
-//		halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-//		halfLength.x, halfLength.y, 0xFFFFFFFF, 1.0f, 0.0f,
-//		-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
-//	);
-//
-//	backMesh_ = AEGfxMeshEnd();
-//}
-//
-//FillBar::~FillBar()
-//{
-//	AEGfxMeshFree(backMesh_);
-//}
-//
-//void FillBar::RemoveFromManager()
-//{
-//	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
-//}
-//
-//void FillBar::Update()
-//{
-//	
-//
-//	// Set render mode
-//	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
-//
-//	// Set color to multiply
-//	AEGfxSetColorToMultiply(1, 1, 1, 1);
-//
-//	// Set color to add
-//	AEGfxSetColorToAdd(fillColor_.red / 255.f, fillColor_.green / 255.f, fillColor_.blue / 255.f, 0);
-//
-//	// Set blend mode
-//	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-//
-//	// Set transparency
-//	AEGfxSetTransparency(1);
-//
-//	// Set texture
-//	AEGfxTextureSet(nullptr, 0, 0);
-//
-//	// Set transform
-//	AEMtx33 transf = (owner_->GetComponent<Transform>())->GetMatrix();
-//	AEGfxSetTransform(transf.m);
-//
-//	// Draw mesh
-//	AEGfxMeshDraw(backMesh_, AE_GFX_MDM_TRIANGLES);
-//}
-//
-//void FillBar::LoadFromJson(const json&)
-//{
-//}
-//
-//json FillBar::SaveToJson()
-//{
-//	return json();
-//}
-//
-//ComponentSerializer* FillBar::CreateComponent(GameObject* owner)
-//{
-//	if (!owner->AddComponent<FillBar>())
-//		std::cout << "FillBar::CreateComponent() Component already exists" << std::endl;
-//
-//	return owner->GetComponent<FillBar>();
-//}
+#include "FillBar.h"
+#include "../Manager/GameObjectManager.h"
+#include "../Manager/MonsterManager.h"
+#include "../../Utils/Utils.h"
+#include "../../Utils/MathUtils.h"
+
+FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), relativePos_(), scale_()
+{
+	background_ = GameObjectManager::GetInstance().CreateObject();
+	background_->AddComponent<Transform>();
+	background_->AddComponent<Sprite>();
+	background_->GetComponent<Sprite>()->SetColor(backColor_);
+
+	fill_ = GameObjectManager::GetInstance().CreateObject();
+	fill_->AddComponent<Transform>();
+	fill_->AddComponent<Sprite>();
+
+	owner_->AddComponent<Transform>();
+	//owner_->AddComponent<Text>();
+
+	//text_ = owner_->GetComponent<Text>();
+
+	backTrans_ = background_->GetComponent<Transform>();
+	fillTrans_ = fill_->GetComponent<Transform>();
+
+	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
+	player_ = player->GetComponent<Player>();
+	playerTrans_ = player->GetComponent<Transform>();
+}
+
+FillBar::~FillBar()
+{
+}
+
+void FillBar::RemoveFromManager()
+{
+	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
+}
+
+void FillBar::Update()
+{
+	AEVec2 playerPos = playerTrans_->GetPosition();
+
+	// background
+	backTrans_->SetPosition(playerPos + relativePos_);
+
+	// fill
+	float value = 0.f;
+	float maxValue = 0.f;
+	switch (showType_)
+	{
+	case MONSTER_CNT:
+		value = MonsterManager::GetInstance().GetCapturedCount();
+		maxValue = 100;
+		break;
+
+	case PLAYER_EXP:
+		value = player_->GetExp();
+		maxValue = player_->GetMaxExp();
+		break;
+
+	case PLAYER_HP:
+		value = player_->GetHp();
+		maxValue = player_->GetMaxHp();
+		break;
+	}
+
+	float startX = playerPos.x - scale_.x / 2;
+	float rate = value / maxValue;
+
+	float length = scale_.x * rate;
+	float x = startX + length / 2.f;
+	AEVec2 fillPos = playerPos + relativePos_;
+	fillPos.x = x;
+
+	fillTrans_->SetPosition(fillPos);
+	fillTrans_->SetScale({ length, scale_.y });
+}
+
+void FillBar::LoadFromJson(const json&)
+{
+}
+
+json FillBar::SaveToJson()
+{
+	return json();
+}
+
+void FillBar::SetShowType(ShowType type)
+{
+	showType_ = type;
+
+	switch (type)
+	{
+	case MONSTER_CNT:
+		relativePos_ = { 0, windowHeight / 2 - 25 };
+		scale_ = { windowWidth / 3, 30 };
+		break;
+
+	case PLAYER_EXP:
+		relativePos_ = { 0, -windowHeight / 2 + 25 };
+		scale_ = { windowWidth / 3, 30 };
+		break;
+
+	case PLAYER_HP:
+	{
+		AEVec2 playerScale = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>()->GetScale();
+		relativePos_ = { 0, playerScale.y / 2 + 5 };
+		scale_ = { 51, 3 };
+		break;
+	}
+	}
+	backTrans_->SetScale(scale_);
+}
+
+void FillBar::SetFillColor(Color color)
+{
+	fill_->GetComponent<Sprite>()->SetColor(color);
+}
+
+ComponentSerializer* FillBar::CreateComponent(GameObject* owner)
+{
+	if (!owner->AddComponent<FillBar>())
+		std::cout << "FillBar::CreateComponent() Component already exists" << std::endl;
+
+	return owner->GetComponent<FillBar>();
+}

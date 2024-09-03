@@ -92,6 +92,7 @@ void MonsterManager::Release(GameObject* obj)
 	obj->active_ = false;
 	pool_.push(obj);
 	activeNum_--;
+	capturedCount_++;
 }
 
 void MonsterManager::Clear()

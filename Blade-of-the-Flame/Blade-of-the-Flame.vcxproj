@@ -110,6 +110,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
     <ClCompile Include="Component\LogicComponents\Bullet.cpp" />
     <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
+    <ClCompile Include="Component\LogicComponents\HealthItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MagnetItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\Monster.cpp" />
@@ -157,6 +158,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Bullet.h" />
     <ClInclude Include="Component\LogicComponents\BossComp.h" />
     <ClInclude Include="Component\LogicComponents\Attack.h" />
+    <ClInclude Include="Component\LogicComponents\HealthItem.h" />
     <ClInclude Include="Component\LogicComponents\MagnetItem.h" />
     <ClInclude Include="Component\LogicComponents\MeleeAttack.h" />
     <ClInclude Include="Component\LogicComponents\Monster.h" />

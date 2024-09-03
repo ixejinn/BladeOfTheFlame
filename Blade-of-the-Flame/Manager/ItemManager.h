@@ -5,9 +5,8 @@ class ItemManager : public SpawnManager
 {
 private:
 	std::uniform_int_distribution<int> itemRate_{ 0, 99 };
-	//int magnet = 66;
-	int magnet = 100;
-	//int health = 100;
+	int magnetProb = 66;
+	int healthProb = 100;
 
 	ItemManager();
 	~ItemManager() = default;

@@ -137,6 +137,9 @@ void Player::LevelUp()
 void Player::AddHp(int hp)
 {
 	hp_ += hp;
+	
+	if (hp_ > maxHp_)
+		hp_ = maxHp_;
 }
 
 void Player::AddExp(int exp)

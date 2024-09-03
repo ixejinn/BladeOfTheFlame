@@ -43,6 +43,7 @@ void MagnetItem::Update()
 		if (dt.count() >= activeTime)
 		{
 			playerCircle_->SetRadius(preRadius_);
+
 			firstUse_ = true;
 			use_ = false;
 			owner_->active_ = false;
@@ -56,8 +57,8 @@ void MagnetItem::Update()
 		AEVec2 dir = playerPos - pos;
 		f32 squareDist = AEVec2SquareLength(&dir);
 
-		//if (squareDist > 9 * windowHeight * windowHeight)
-			//ExpItemManager::GetInstance().Release(owner_);
+		if (squareDist > 9 * windowHeight * windowHeight)
+			ItemManager::GetInstance().Release(owner_);
 	}
 }
 
@@ -79,8 +80,6 @@ void MagnetItem::OnCollision(CollisionEvent* event)
 	Player* player = event->from_->GetComponent<Player>();
 	if (player)
 		use_ = true;
-
-	std::cout << "!!" << std::endl;
 }
 
 ComponentSerializer* MagnetItem::CreateComponent(GameObject* owner)

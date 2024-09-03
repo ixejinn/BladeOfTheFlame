@@ -1,11 +1,11 @@
 #include "ItemManager.h"
 
 #include "../Component/LogicComponents/MagnetItem.h"
+#include "../Component/LogicComponents/HealthItem.h"
 
 ItemManager::ItemManager() : SpawnManager()
 {
-	spawnPeriod_ = 5.0;
-	//spawnPeriod_ = 30.0;
+	spawnPeriod_ = 30.0;
 	spawnNumPerWave_ = 1;
 }
 
@@ -25,8 +25,10 @@ void ItemManager::Initialize(int maxNum)
 		obj->active_ = false;
 
 		int itemType = itemRate_(engine);
-		if (itemType < magnet)
+		if (itemType < magnetProb)
 			obj->AddComponent<MagnetItem>();
+		else if (itemType < healthProb)
+			obj->AddComponent<HealthItem>();
 
 		pool_.push(obj);
 	}

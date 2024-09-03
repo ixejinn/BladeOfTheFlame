@@ -2,15 +2,14 @@
 #include "BaseItem.h"
 #include "../../Manager/ComponentManager.h"
 
-class MagnetItem : public BaseItem
+class HealthItem : public BaseItem
 {
 private:
-	float preRadius_ = 0.f;
-	float radiusIncrease_ = 100.f;
+	int hp_ = 20;
 
-	CircleCollider* playerCircle_;
+	Player* player_ = nullptr;
 
-	MagnetItem(GameObject* owner);
+	HealthItem(GameObject* owner);
 
 public:
 	void Update() override;
@@ -22,7 +21,7 @@ public:
 	void OnCollision(CollisionEvent* event);
 
 	// for StateSerializer
-	static constexpr const char* TypeName = "MagnetItem";
+	static constexpr const char* TypeName = "HealthItem";
 	static ComponentSerializer* CreateComponent(GameObject* owner);
 
 	friend class ComponentManager<LogicComponent>;

@@ -36,6 +36,9 @@ private:
 	Player(GameObject* owner);
 
 public:
+	bool getCompass_ = false;
+	bool findAltar_ = false;
+
 	void RemoveFromManager() override;
 
 	void Update() override;

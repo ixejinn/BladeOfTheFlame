@@ -7,11 +7,9 @@
 #include "Utils/Utils.h"
 #include "Manager/GameStateManager.h"
 #include "Manager/EventManager.h"
+#include "State/GameState.h"
 #include "State/SampleSave.h"
-#include "State/SampleLoad.h"
-
-#include "State/BossSample/BossSampleSave.h"
-#include "State/BossSample/BossSampleLoad.h"
+#include "State/GameClear.h"
 // ---------------------------------------------------------------------------
 // main
 
@@ -39,15 +37,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
+	GameState gameState;
 	SampleSave sampleSave;
-	SampleLoad sampleLoad;
-
-	BossSampleSave bossSave;
-	BossSampleLoad bossLoad;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-
-	gsm.ChangeState(&bossSave);
+	gsm.ChangeState(&gameState);
 
 	// Game Loop
 	while (gGameRunning)
@@ -55,11 +49,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// Informing the system about the loop's start
 		AESysFrameStart();
 
-
-		// Your own update logic goes here
-
-
-		// Your own rendering logic goes here
 		gsm.Update();
 
 		// Informing the system about the loop's end

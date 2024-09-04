@@ -1,6 +1,7 @@
 #include "FillBar.h"
 
 #include <string>
+#include <typeindex>
 #include "../Manager/GameObjectManager.h"
 #include "../Manager/MonsterManager.h"
 #include "../Manager/EventManager.h"
@@ -33,7 +34,7 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	player_ = player->GetComponent<Player>();
 	playerTrans_ = player->GetComponent<Transform>();
 
-	boss_ = GameObjectManager::GetInstance().GetObjectA("boss")->GetComponent<Boss1>();
+	boss_ = nullptr;
 
 	// Set mesh
 	AEGfxMeshStart();
@@ -76,7 +77,7 @@ void FillBar::Update()
 	case MONSTER_CNT:
 	{
 		value = MonsterManager::GetInstance().GetCapturedCount();
-		maxValue = 10;
+		maxValue = 1;
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
 
 		if (compass && value >= maxValue)
@@ -166,6 +167,15 @@ json FillBar::SaveToJson()
 	return json();
 }
 
+void FillBar::OnEvent(BaseEvent*)
+{
+	owner_->active_ = true;
+}
+
+void FillBar::OnCollision(CollisionEvent*)
+{
+}
+
 void FillBar::SetShowType(ShowType type)
 {
 	showType_ = type;
@@ -206,6 +216,15 @@ void FillBar::SetShowType(ShowType type)
 void FillBar::SetFillColor(Color color)
 {
 	fillColor_ = color;
+}
+
+void FillBar::SetBoss(Boss1* boss)
+{
+	boss_ = boss;
+	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+
+	SetShowType(BOSS_HP);
+	owner_->active_ = false;
 }
 
 ComponentSerializer* FillBar::CreateComponent(GameObject* owner)

@@ -37,5 +37,6 @@ public:
 	void RemoveObject(const GameObject* const obj);
 	void RemoveObject(const std::string& name);
 
+	void ClearWithoutPlayer();
 	void Clear();
 };

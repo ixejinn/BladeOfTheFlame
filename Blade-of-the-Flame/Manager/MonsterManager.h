@@ -26,6 +26,8 @@ public:
 	void Spawn() override;
 	void Release(GameObject* obj) override;
 
+	void AddCapturedCount() { capturedCount_++; }
+
 	void Clear() override;
 
 	const int& GetCapturedCount() const { return capturedCount_; }

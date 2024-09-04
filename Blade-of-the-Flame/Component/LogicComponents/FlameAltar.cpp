@@ -1,6 +1,7 @@
 #include "FlameAltar.h"
 
 #include "../../Manager/GameObjectManager.h"
+#include "../../Manager/EventManager.h"
 #include "../../Event/Event.h"
 #include "../../Utils/RandomEngine.h"
 
@@ -78,12 +79,19 @@ void FlameAltar::OnCollision(CollisionEvent* event)
 	Player* player = event->from_->GetComponent<Player>();
 	if (player)
 	{
-		// TODO: compass한테도 Event 보내기
-		owner_->active_ = false;
-		std::cout << "Boss!!" << std::endl;
-		// 보스에게 이벤트 전송
-		// 효과 넣기
-		// 이미지를 바꾸든 애니메이션을 넣든
+		if (player->getCompass_)
+		{
+			NextStageEvent* event = new NextStageEvent();
+			event->from_ = owner_;
+			EventManager::GetInstance().AddEvent(event);	// to compass
+
+			owner_->active_ = false;
+			std::cout << "Boss!!" << std::endl;
+			// 보스에게 이벤트 전송
+			// 선 없애기
+			// 효과 넣기
+			// 이미지를 바꾸든 애니메이션을 넣든
+		}
 	}
 }
 

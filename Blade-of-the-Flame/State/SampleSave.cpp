@@ -42,8 +42,6 @@ void SampleSave::Init()
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
 	healthBarPtr->SetFillColor({ 255, 0, 0 });
-
-	// boss ¸¸µé°í inactive
 }
 
 void SampleSave::Update()

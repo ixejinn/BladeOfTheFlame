@@ -1,8 +1,13 @@
 #include "Boss1.h"
 
+#include <typeindex>
 #include "../../Event/Event.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Manager/EventManager.h"
+#include "../../Manager/GameStateManager.h"
+#include "../../Utils/RandomEngine.h"
+#include "../../State/GameClear.h"
 
 Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 {
@@ -53,14 +58,21 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     baseChase = true;
     needShoot = true;
     isAction  = true;
+
+    owner_->active_ = false;
+    EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
 }
 
 void Boss1::Update()
 {
-    if (hp_ < 0)
+    if (hp_ <= 0)
     {
         owner_->active_ = false;
-        // TODO: event 생성, fill bar도 없애기
+        bullet.clear();
+
+        GameClear* newState = new GameClear();
+        GameStateManager::GetInstance().ChangeState(newState);
+        return;
     }
 
     BossState();
@@ -68,10 +80,16 @@ void Boss1::Update()
 
 void Boss1::RemoveFromManager()
 {
+    ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
 }
 
 void Boss1::OnEvent(BaseEvent* event)
 {
+    AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
+    playerPos.x += 200;
+    owner_->GetComponent<Transform>()->SetPosition(playerPos);
+    // 잡몹 수 줄이기
+    owner_->active_ = true;
 }
 
 void Boss1::OnCollision(CollisionEvent* event)

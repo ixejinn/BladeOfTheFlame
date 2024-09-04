@@ -31,6 +31,7 @@ public:
 
 	void RegisterEntity(const std::type_index& type, EventEntity* entity);
 	void UnRegisterEntity(const std::type_index& type, EventEntity* entity);
+	void DeleteAllRegisteredEntity();
 
 	void ProcessEvent();
 };

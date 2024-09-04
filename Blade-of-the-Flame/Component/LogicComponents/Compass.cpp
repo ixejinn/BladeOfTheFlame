@@ -21,7 +21,9 @@ Compass::Compass(GameObject* owner) : LogicComponent(owner)
 	playerTrans_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 	owner_->active_ = false;
 
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(CompassActiveEvent)), static_cast<EventEntity*>(this));
+	EventManager& eventMgr = EventManager::GetInstance();
+	eventMgr.RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+	eventMgr.RegisterEntity(std::type_index(typeid(CompassActiveEvent)), static_cast<EventEntity*>(this));
 }
 
 void Compass::RemoveFromManager()
@@ -50,7 +52,13 @@ json Compass::SaveToJson()
 
 void Compass::OnEvent(BaseEvent* event)
 {
-	owner_->active_ = true;
+	if (event->from_->GetComponent<FillBar>())
+	{
+		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->getCompass_ = true;
+		owner_->active_ = true;
+	}
+	else if (event->from_->GetComponent<FlameAltar>())
+		owner_->active_ = false;
 }
 
 void Compass::OnCollision(CollisionEvent* event)

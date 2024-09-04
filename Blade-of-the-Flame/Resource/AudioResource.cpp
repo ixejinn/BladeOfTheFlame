@@ -8,7 +8,7 @@ void AudioResource::Load(const std::string& name)
 
 void AudioResource::Unload()
 {
-	AEAudioUnloadAudio(*(static_cast<AEAudio*>(data_)));
+	//AEAudioUnloadAudio(*(static_cast<AEAudio*>(data_)));
 }
 
 AEAudio* AudioResource::GetData() const

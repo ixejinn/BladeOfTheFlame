@@ -9,7 +9,7 @@ class Boss1;
 /**
 * SetShowType 호출 필수
 */
-class FillBar : public GraphicsComponent
+class FillBar : public GraphicsComponent, public EventEntity
 {
 public:
 	enum ShowType
@@ -52,10 +52,15 @@ public:
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
 
+	void OnEvent(BaseEvent*) override;
+	void OnCollision(CollisionEvent*) override;
+
 	void SetShowType(ShowType type);
 	void SetRelativePos(AEVec2 pos) { relativePos_ = pos; }
 	void SetScale(AEVec2 scale) { scale_ = scale; }
 	void SetFillColor(Color color);
+
+	void SetBoss(Boss1* boss);
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "FillBar";

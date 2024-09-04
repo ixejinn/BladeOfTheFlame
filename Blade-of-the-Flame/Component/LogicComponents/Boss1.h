@@ -47,14 +47,10 @@ private:
 	bool needShoot;
 	bool isAction;
 
-	AEVec2 pos_;
-	AEVec2 scale_;
-
 	double cooldown_ = 1.0;
 	std::chrono::system_clock::time_point timeStart_;
 
 	GameObject* player;
-	GameObject* boss;
 
 	std::vector<GameObject*> bullet;
 

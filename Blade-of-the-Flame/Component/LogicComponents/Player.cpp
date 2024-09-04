@@ -7,7 +7,11 @@
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Manager/GameStateManager.h"
 #include "../../Utils/Utils.h"
+#include "../../State/GameOver.h"
+
+bool enablePrint;
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
@@ -36,7 +40,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	trans_->SetScale({ 30, 100 });
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
-	//owner_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
@@ -59,14 +62,21 @@ void Player::Update()
 	if (exp_ >= maxExp_)
 		LevelUp();
 
+	if (hp_ < 6)
+		enablePrint = true;
+
 	// Death
 	if (hp_ <= 0)
 	{
-		std::cout << "Game over" << std::endl;
-		GameOverEvent* event{ new GameOverEvent() };
-		event->from_ = owner_;
-		EventManager::GetInstance().AddEvent(event);
+		//std::cout << "Game over" << std::endl;
+		//GameOverEvent* event{ new GameOverEvent() };
+		//event->from_ = owner_;
+		//EventManager::GetInstance().AddEvent(event);
 		owner_->active_ = false;
+
+		GameOver* newState = new GameOver();
+		GameStateManager::GetInstance().ChangeState(newState);
+		return;
 	}
 
 	/* SET CAMERA */
@@ -87,6 +97,17 @@ void Player::Update()
 		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
 
 	cnt++;
+
+	/* NEXT STAGE */
+	static bool callBoss = true;
+	if (getCompass_ && findAltar_ && callBoss)
+	{
+		std::cout << "Next stage!!" << std::endl;
+		NextStageEvent* event = new NextStageEvent();
+		event->from_ = owner_;
+		EventManager::GetInstance().AddEvent(event);
+		callBoss = false;
+	}
 }
 
 void Player::LoadFromJson(const json& data)
@@ -106,6 +127,13 @@ void Player::OnEvent(BaseEvent* event)
 
 void Player::OnCollision(CollisionEvent* event)
 {
+	FlameAltar* altar = event->from_->GetComponent<FlameAltar>();
+	if (altar)
+	{
+		if (getCompass_)
+			findAltar_ = true;
+	}
+		
 }
 
 void Player::LevelUp()

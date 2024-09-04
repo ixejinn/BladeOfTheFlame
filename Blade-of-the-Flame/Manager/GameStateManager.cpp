@@ -26,6 +26,14 @@ void GameStateManager::Init()
 
 void GameStateManager::Update()
 {
+	if (curState_ != preState_)
+	{
+		if (preState_ != nullptr)
+			preState_->Exit();
+		curState_->Init();
+		preState_ = curState_;
+	}
+
 	if (curState_)
 	{
 		curState_->Update();
@@ -49,10 +57,8 @@ void GameStateManager::Exit()
 void GameStateManager::ChangeState(State* newState)
 {
 	preState_ = curState_;
-	Exit();
-
-	// TODO: Clear Manager
+	//Exit();
 
 	curState_ = newState;
-	Init();
+	//Init();
 }

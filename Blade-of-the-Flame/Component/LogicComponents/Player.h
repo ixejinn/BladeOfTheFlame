@@ -24,8 +24,8 @@ private:
 	float attractionRadius_ = 80.f;
 
 	// Level up을 위해 필요한 경험치 증가율 (%)
-	float expRequirement_ = 3.3f;
-	float hpGrowthRate_ = 2.f;
+	float expRequirement_ = 80.f;
+	float hpGrowthRate_ = 20.;
 
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)

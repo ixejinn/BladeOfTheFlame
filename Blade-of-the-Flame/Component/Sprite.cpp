@@ -6,7 +6,7 @@
 #include "../Resource/TextureResource.h"
 
 Sprite::Sprite(GameObject* owner)
-	: GraphicsComponent(owner), texture_(nullptr), textureName_(), mesh_()
+	: GraphicsComponent(owner), color_(), texture_(nullptr), textureName_(), mesh_()
 {
 	SetMesh();
 }
@@ -27,7 +27,7 @@ void Sprite::RemoveFromManager()
 void Sprite::Update()
 {
 	// Set background color
-	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+	//AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	// Set render mode
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);

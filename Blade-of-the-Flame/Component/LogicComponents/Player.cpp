@@ -75,10 +75,6 @@ void Player::Update()
 	// Death
 	if (hp_ <= 0)
 	{
-		//std::cout << "Game over" << std::endl;
-		//GameOverEvent* event{ new GameOverEvent() };
-		//event->from_ = owner_;
-		//EventManager::GetInstance().AddEvent(event);
 		owner_->active_ = false;
 
 		GameOver* newState = new GameOver();
@@ -150,6 +146,8 @@ void Player::LevelUp()
 		return;
 
 	level_++;
+
+	maxExp_ += int(maxExp_ * expRequirement_ / 100);
 	exp_ = 0;
 
 	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);

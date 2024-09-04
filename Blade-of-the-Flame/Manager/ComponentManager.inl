@@ -78,6 +78,24 @@ inline void ComponentManager<T>::SwapComponent(T* const compA, T* const compB)
 	components_.splice(itA, components_, itB);
 }
 
+template<typename T>
+inline void ComponentManager<T>::ToBack(T* const comp)
+{
+	auto iter = components_.begin();
+
+	for (auto it = components_.begin(); it != components_.end(); ++it)
+	{
+		if (it->get() == comp)
+		{
+			iter = it;
+			break;
+		}
+	}
+
+	components_.push_back(std::move(*iter));
+	components_.erase(iter);
+}
+
 template <typename T>
 inline void ComponentManager<T>::Clear()
 {

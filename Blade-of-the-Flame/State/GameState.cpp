@@ -60,6 +60,12 @@ void GameState::InitBackground()
 	background->AddComponent<Sprite>();
 	background->AddComponent<Audio>();
 
+	//background->GetComponent<Transform>()->SetScale({ windowWidth, windowHeight });
+	background->GetComponent<Transform>()->SetScale({ windowWidth * 9, windowHeight * 9 });
+
+	Sprite* sp = background->GetComponent<Sprite>();
+	sp->SetTexture("Assets/Realmap.png");
+
 	Audio* audio = background->GetComponent<Audio>();
 	audio->SetAudio("Assets/bouken.mp3");
 }

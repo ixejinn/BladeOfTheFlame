@@ -77,8 +77,11 @@ void FillBar::Update()
 	case MONSTER_CNT:
 	{
 		value = MonsterManager::GetInstance().GetCapturedCount();
-		maxValue = 1;
+		maxValue = 10.f;
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
+		text_->SetPosition({ -0.05, 0.93 });
+
+		ComponentManager<GraphicsComponent>::GetInstance().ToBack(text_);
 
 		if (compass && value >= maxValue)
 		{
@@ -87,16 +90,15 @@ void FillBar::Update()
 			EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(event));
 			compass = false;
 		}
-
-		text_->SetPosition({ -0.05, 0.93 });
 		break;
 	}
 
 	case PLAYER_EXP:
 		value = player_->GetExp();
 		maxValue = player_->GetMaxExp();
-		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
-		text_->SetPosition({ -0.05, -0.96 });
+		text_->SetString("LEVEL " + std::to_string(player_->GetLevel()) + "     " + std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
+		text_->SetPosition({ -0.1, -0.96 });
+		ComponentManager<GraphicsComponent>::GetInstance().ToBack(text_);
 		break;
 
 	case PLAYER_HP:
@@ -210,7 +212,8 @@ void FillBar::SetShowType(ShowType type)
 	AEVec2 playerPos = playerTrans_->GetPosition();
 	backTrans_->SetPosition(playerPos + relativePos_);
 
-	ComponentManager<GraphicsComponent>::GetInstance().SwapComponent(static_cast<GraphicsComponent*>(text_), static_cast<GraphicsComponent*>(this));
+	ComponentManager<GraphicsComponent>::GetInstance().SwapComponent(this, background_->GetComponent<Sprite>());
+	
 }
 
 void FillBar::SetFillColor(Color color)

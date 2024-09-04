@@ -2,6 +2,7 @@
 #include "../../Utils/Utils.h"
 #include "../../Manager/GameObjectManager.h"
 #include "../../Serializer/StateSerializer.h"
+#include "../../Component/AnimationComp.h"
 //TEST_PLAYER
 #include "../SampleSave.h"
 #include "../../Component/LogicComponents/Bullet.h"
@@ -9,6 +10,7 @@
 
 void BossSampleSave::Init()
 {
+	AEGfxSetBackgroundColor(0.3f, 0.3f, 0.3f);
 	// -----------------------------------------------------------------------------------------
 	//PLAYER_TEST
 	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
@@ -18,8 +20,26 @@ void BossSampleSave::Init()
 	//BOSS_TEST
 	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");
 	boss1->AddComponent<Boss1>();
+	boss1->AddComponent<AnimationComp>();
 
-	GameObject* healthBar = GameObjectManager::GetInstance().CreateObject("healthBar");
+	for (int i = 0; i < 8; i++)
+	{
+		std::string anim = "Assets/boss1_Anime/Idle/Idle" + std::to_string(i) + ".png";
+		boss1->GetComponent<AnimationComp>()->AddDetail(anim, "Idle");
+	}
+	for (int i = 6; i >= 0; i--)
+	{
+		std::string anim = "Assets/boss1_Anime/Idle/Idle" + std::to_string(i) + ".png";
+		boss1->GetComponent<AnimationComp>()->AddDetail(anim, "Idle");
+	}
+
+	boss1->GetComponent<AnimationComp>()->SetTerm(400);
+
+	boss1->GetComponent<AnimationComp>()->ChangeAnimation("Idle");
+	boss1->GetComponent<Transform>()->SetScale({ 400, 400 });
+	boss1->GetComponent<Transform>()->SetPosition({ 400,400 });
+	
+		GameObject* healthBar = GameObjectManager::GetInstance().CreateObject("healthBar");
 	healthBar->AddComponent<FillBar>();
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);

@@ -1,7 +1,10 @@
 #include "Bullet.h"
+
 #include "../../Event/Event.h"
+#include <iostream>
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Component/AnimationComp.h"
 
 BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 {
@@ -10,40 +13,46 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 	
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
+	owner_->AddComponent<AnimationComp>();
 
-	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
+	//owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
+	owner_->GetComponent<Transform>()->SetScale({ 500, 500 });
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::E_ATTACK);
 	col->SetHandler(static_cast<EventEntity*>(this));
 
-	owner_->GetComponent<Sprite>   ()->SetTexture("Assets/YeeHead.png");
+	owner_->GetComponent<AnimationComp>()->AddAnimation("BossPhase1");
+
+	for (int i = 0; i < 40; i++)
+	{
+		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
+
+		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
+	}
+	for (int i = 38; i >= 0; i--)
+	{
+		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
+
+		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
+	}
+
+	owner_->GetComponent<AnimationComp>()->SetTerm(50);
+
+	//AddAnimation("BossPhase1");
+	//AddAnimation("BossPhase2");
+	//AddAnimation("BossPhase3");
+	owner_->GetComponent<AnimationComp>()->ChangeAnimation("BossPhase1");
 
 	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
 	player = GameObjectManager::GetInstance().GetObjectA("player");
-
-	timeStart_ = std::chrono::system_clock::now();
 }
 
 void BulletComp::Update()
 {	
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
-
-	//탄막 패턴 쐇다가 다시 돌아오는 기능
-	//if (returnBullet)
-	//{
-	//	time++;
-	//	if (time == 40)
-	//	{
-	//		f32 a = -1;
-	//		unitDir.x = unitDir.x * a;
-	//		unitDir.y = unitDir.y * a;
-	//		time = 0;
-	//		returnBullet = false;
-	//	}
-	//}
 }
 
 void BulletComp::OnEvent(BaseEvent* event)
@@ -98,6 +107,7 @@ void BulletComp::BarrageBullet(bool _bool = false)
 
 void BulletComp::LoadFromJson(const json&)
 {
+		
 }
 
 json BulletComp::SaveToJson()

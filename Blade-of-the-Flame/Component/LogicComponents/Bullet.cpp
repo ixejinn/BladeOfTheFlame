@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "../../Event/Event.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
 
@@ -7,15 +8,22 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 	bulletSpeed_ = 100.f;
 	bulletDmg_	 = 3.f;
 	
-	owner_->AddComponent<Transform>();
-	owner_->AddComponent<RigidBody>();
+	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
+
 	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
+
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetType(Collider::OBB_TYPE);
+	col->SetLayer(Collider::E_ATTACK);
+	col->SetHandler(static_cast<EventEntity*>(this));
+
 	owner_->GetComponent<Sprite>   ()->SetTexture("Assets/YeeHead.png");
 
 	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
-	player = GameObjectManager::GetInstance().GetObjectA("TestObj");
+	player = GameObjectManager::GetInstance().GetObjectA("player");
 
+	timeStart_ = std::chrono::system_clock::now();
 }
 
 void BulletComp::Update()
@@ -36,6 +44,27 @@ void BulletComp::Update()
 	//		returnBullet = false;
 	//	}
 	//}
+}
+
+void BulletComp::OnEvent(BaseEvent* event)
+{
+}
+
+void BulletComp::OnCollision(CollisionEvent* event)
+{
+	Player* player = event->from_->GetComponent<Player>();
+	if (player)
+	{
+		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+		if (dt.count() >= cooldown_)
+		{
+			timeStart_ = std::chrono::system_clock::now();
+
+			//player->AddHp(-bulletDmg_);
+			player->AddHp(-20);
+		}
+		return;
+	}
 }
 
 void BulletComp::RemoveFromManager()

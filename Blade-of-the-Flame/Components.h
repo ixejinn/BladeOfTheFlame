@@ -15,7 +15,7 @@
 #include "Component/LogicComponents/Compass.h"
 #include "Component/FillBar.h"
 
-#include "Component/LogicComponents/BossComp.h"
+#include "Component/LogicComponents/Boss1.h"
 #include "Component/LogicComponents/Bullet.h"
 //ui test
 #include "State/UISample/UiComp.h"

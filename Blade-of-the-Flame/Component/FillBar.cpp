@@ -33,6 +33,8 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	player_ = player->GetComponent<Player>();
 	playerTrans_ = player->GetComponent<Transform>();
 
+	boss_ = GameObjectManager::GetInstance().GetObjectA("boss")->GetComponent<Boss1>();
+
 	// Set mesh
 	AEGfxMeshStart();
 
@@ -99,6 +101,11 @@ void FillBar::Update()
 	case PLAYER_HP:
 		value = player_->GetHp();
 		maxValue = player_->GetMaxHp();
+		break;
+
+	case BOSS_HP:
+		value = boss_->GetHp();
+		maxValue = boss_->GetMaxHp();
 		break;
 	}
 
@@ -182,6 +189,11 @@ void FillBar::SetShowType(ShowType type)
 		scale_ = { 51, 3 };
 		break;
 	}
+
+	case BOSS_HP:
+		relativePos_ = { 0, windowHeight / 2 - 25 };
+		scale_ = { windowWidth / 3, 30 };
+		break;
 	}
 	backTrans_->SetScale(scale_);
 

@@ -11,40 +11,25 @@ void BossSampleSave::Init()
 {
 	// -----------------------------------------------------------------------------------------
 	//PLAYER_TEST
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("TestObj");
-	
-	obj->AddComponent<Transform>();
-	obj->GetComponent<Transform>()->SetScale({ 50, 50 });
-	
-	obj->AddComponent<Sprite>();
-	obj->GetComponent<Sprite>()->SetTexture("Assets/PlanetTexture.png");
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
+	obj->AddComponent<Player>();
 
-	obj->AddComponent<RigidBody>();
-
-	obj->AddComponent<PlayerController>();
-	PlayerController* pCtrl = obj->GetComponent<PlayerController>();
-
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
-	pCtrl->SetStopKey(AEVK_SPACE);
-
-	pCtrl->SetMoveSpeed(30.f);
-
-	obj->AddComponent<Audio>();
-	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
 	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");
+	boss1->AddComponent<Boss1>();
 
-	boss1->AddComponent<Transform>();
-	boss1->AddComponent<Sprite>	  ();
-	boss1->AddComponent<RigidBody>();
-	boss1->AddComponent<Boss1>    ();
+	GameObject* healthBar = GameObjectManager::GetInstance().CreateObject("healthBar");
+	healthBar->AddComponent<FillBar>();
+	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
+	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
+	healthBarPtr->SetFillColor({ 255, 0, 0 });
 
-	boss1->GetComponent<Transform>()->SetScale({ 200, 200 });
-	boss1->GetComponent<Transform>()->SetPosition({ 400,400 });
-
-	boss1->GetComponent<Sprite>	  ()->SetTexture("Assets/yee.png");
+	GameObject* bossBar = GameObjectManager::GetInstance().CreateObject("bossBar");
+	bossBar->AddComponent<FillBar>();
+	FillBar* bossBarPtr = bossBar->GetComponent<FillBar>();
+	bossBarPtr->SetShowType(FillBar::BOSS_HP);
+	bossBarPtr->SetFillColor({ 255, 0, 0 });
 
 	// -----------------------------------------------------------------------------------------
 	//BULLET_TEST

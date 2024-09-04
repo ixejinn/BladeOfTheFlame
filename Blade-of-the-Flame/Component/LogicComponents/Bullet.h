@@ -1,9 +1,11 @@
 #pragma once
+#include <chrono>
 #include "AEEngine.h"
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
+#include "../../Event/EventEntity.h"
 
-class BulletComp : public LogicComponent
+class BulletComp : public LogicComponent, public EventEntity
 {
 	
 	float bulletDmg_ = 0.f;
@@ -12,6 +14,8 @@ class BulletComp : public LogicComponent
 	AEVec2 pos_;
 	AEVec2 scale_;
 
+	double cooldown_ = 1.0;
+	std::chrono::system_clock::time_point timeStart_;
 
 	GameObject* player;
 	GameObject* boss;
@@ -31,6 +35,9 @@ public:
 	void RemoveFromManager() override;
 
 	void Update() override;
+
+	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent* event) override;
 
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;

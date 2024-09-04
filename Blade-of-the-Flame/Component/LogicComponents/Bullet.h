@@ -12,7 +12,6 @@ class BulletComp : public LogicComponent
 	AEVec2 pos_;
 	AEVec2 scale_;
 
-	AEVec2 unitDir;
 
 	GameObject* player;
 	GameObject* boss;
@@ -22,9 +21,13 @@ class BulletComp : public LogicComponent
 	BulletComp(GameObject* ower);
 	
 public:
+
+	AEVec2 unitDir;
+
 	float time = 0;
 
 	bool phase2On = false;
+	bool returnBullet = false;
 	void RemoveFromManager() override;
 
 	void Update() override;
@@ -36,8 +39,8 @@ public:
 	void SetBulletDmage(float bulletDamge) { bulletDmg_   = bulletDamge; }
 
 	void FireBullet();
-	void testBullet();
-	
+	void BarrageBullet(bool _bool);
+
 	// for StateSerializer
 	static constexpr const char* TypeName = "BulletComp";
 	static ComponentSerializer* CreateComponent(GameObject* owner);

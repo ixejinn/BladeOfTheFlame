@@ -10,14 +10,14 @@ class BossComp : public LogicComponent
 
 protected:
 
-	enum BossState
+	enum E_bossState
 	{
-		Normal,
-		FastChase,
-		RangeAttack,
-		Barrage,
+		_baseChase,
+		_fastChase,
+		_rangeAttack,
+		_barrage,
 	};
-	BossState current_state;
+	E_bossState current_state;
 
 	float hp_          = 0.f;
 	float moveSpeed_   = 0.f;
@@ -26,18 +26,33 @@ protected:
 	float skillDmg_    = 0.f;
 	float range_       = 0.f;
 
-	float nomalphaseTime_	 = 0.f;
+	float nomalphaseTime_ = 0.f;
+	float DelayTime_ = 0.f;
+	float shootTime_ = AEFrameRateControllerGetFrameTime();
 
 	int phase1Count_ = 0;
 	int phase2Count_ = 0;
+	int shootCount_ = 0;
 
-	bool phaseOn = false;
+	float phase1_cool = 0;
+	float phase2_cool = 0;
+	float phase3_cool = 0;
+
+	bool baseChase = false;
+
+	bool phase1On  = false;
+	bool phase2On  = false;
+	bool phase3On  = false;
+
+	bool needShoot;
+	bool isAction;
 
 	AEVec2 pos_;
 	AEVec2 scale_;
 	
 	GameObject* player;
 	GameObject* boss;
+
 	std::vector<GameObject*> bullet;
 
 	BossComp(GameObject* owner);
@@ -63,6 +78,8 @@ public:
 	virtual void Phase2() = 0;
 
 	virtual void Phase3() = 0;
+
+	virtual void Phase4() = 0;
 	// for StateSerializer
 
 	static constexpr const char* TypeName = "BossComp";

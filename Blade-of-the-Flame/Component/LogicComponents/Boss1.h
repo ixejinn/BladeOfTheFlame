@@ -5,7 +5,6 @@ class Boss1 : public BossComp
 {
 	Boss1(GameObject* owner);
 
-	bool needShoot;
 public:
 	void Update() override;
 
@@ -18,6 +17,9 @@ public:
 	void Phase2() override;
 
 	void Phase3() override;
+
+	void Phase4() override;
+
 
 	void LoadFromJson(const json&);
 	json SaveToJson();

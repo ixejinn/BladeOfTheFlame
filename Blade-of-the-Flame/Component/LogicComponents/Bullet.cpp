@@ -64,7 +64,7 @@ void BulletComp::OnCollision(CollisionEvent* event)
 
 void BulletComp::RemoveFromManager()
 {
-	//TODO::
+	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
 }
 
 void BulletComp::FireBullet()

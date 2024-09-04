@@ -259,7 +259,7 @@ void Boss1::Phase3()
     std::vector<f32> dir_x(4);
     std::vector<f32> dir_y(4);
 
-    int count = 30;
+    int count = 15;
 
     float intervalAngle = 360 / count;
 

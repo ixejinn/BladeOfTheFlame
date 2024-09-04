@@ -22,7 +22,12 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
-	//owner_->AddComponent<Audio>();
+	owner_->AddComponent<Audio>();
+
+	trans_ = owner_->GetComponent<Transform>();
+	trans_->SetScale({ 30, 100 });
+
+	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 
 	BoxCollider* boxCol = owner_->GetComponent<BoxCollider>();
 	boxCol->SetLayer(Collider::P_AABB);
@@ -32,14 +37,16 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	circleCol->SetLayer(Collider::P_CIRCLE);
 	circleCol->SetRadius(attractionRadius_);
 
+	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
+
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
 	pCtrl->MultiplyMoveSpeed(moveSpeed_);
 
-	trans_ = owner_->GetComponent<Transform>();
-	trans_->SetScale({ 30, 100 });
-	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
-	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
+	audio_ = owner_->GetComponent<Audio>();
+	audio_->SetAudio("Assets/ore.mp3");
+	audio_->SetLoop(false);
+	audio_->SetPlaying(false);
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
@@ -88,6 +95,7 @@ void Player::Update()
 	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
 	if (dt.count() >= curAttack_->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON))
 	{
+		audio_->SetPlaying(true);
 		timeStart_ = std::chrono::system_clock::now();
 
 		curAttack_->AttackObject();

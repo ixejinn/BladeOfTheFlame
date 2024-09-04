@@ -6,6 +6,8 @@
 
 class Text;
 class BaseAttack;
+class Audio;
+class Transform;
 
 class Player : public LogicComponent, public EventEntity
 {
@@ -32,6 +34,7 @@ private:
 	std::chrono::system_clock::time_point timeStart_;
 
 	Transform* trans_;
+	Audio* audio_;
 
 	Player(GameObject* owner);
 

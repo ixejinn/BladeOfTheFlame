@@ -60,7 +60,8 @@ void GameState::InitBackground()
 	background->AddComponent<Sprite>();
 	background->AddComponent<Audio>();
 
-	background->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
+	Audio* audio = background->GetComponent<Audio>();
+	audio->SetAudio("Assets/bouken.mp3");
 }
 
 void GameState::SetFillBar()

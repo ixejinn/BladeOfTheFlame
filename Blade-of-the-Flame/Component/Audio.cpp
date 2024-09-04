@@ -22,10 +22,17 @@ void Audio::RemoveFromManager()
 
 void Audio::Update()
 {
-	if (!playing_)
+	if (playing_)
 	{
-		playing_ = true;
-		AEAudioPlay(audio_, group_, volume_, pitch_, -1);
+		playing_ = false;
+
+		s32 loop;
+		if (loop_)
+			loop = -1;
+		else
+			loop = 0;
+		
+		AEAudioPlay(audio_, group_, volume_, pitch_, loop);
 	}
 }
 

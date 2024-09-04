@@ -51,9 +51,11 @@ void Button::Update()
 	switch (todo_)
 	{
 	case GAME:
+	{
 		GameState* gameState = new GameState();
 		GameStateManager::GetInstance().ChangeState(gameState);
 		break;
+	}
 
 	case HOW_TO:
 		break;

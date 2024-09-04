@@ -4,6 +4,7 @@
 
 class Transform;
 class Player;
+class Boss1;
 
 /**
 * SetShowType 호출 필수
@@ -15,7 +16,8 @@ public:
 	{
 		MONSTER_CNT,
 		PLAYER_EXP,
-		PLAYER_HP
+		PLAYER_HP,
+		BOSS_HP
 	};
 
 private:
@@ -34,6 +36,8 @@ private:
 
 	Player* player_ = nullptr;
 	Transform* playerTrans_ = nullptr;
+
+	Boss1* boss_ = nullptr;
 
 	AEGfxVertexList* mesh_;
 

@@ -59,9 +59,9 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	Skills_Meteor->AddComponent<Meteor>();
 	Skills_Meteor->GetComponent<Meteor>()->SetPlayer(owner_);
 
-	Skills_Flame = GameObjectManager::GetInstance().CreateObject("FlameAttack");
-	Skills_Flame->AddComponent<Flame>();
-	Skills_Flame->GetComponent<Flame>()->SetPlayer(owner_);
+	//Skills_Flame = GameObjectManager::GetInstance().CreateObject("FlameAttack");
+	//Skills_Flame->AddComponent<Flame>();
+	//Skills_Flame->GetComponent<Flame>()->SetPlayer(owner_);
 }
 
 void Player:: RemoveFromManager()
@@ -107,14 +107,14 @@ void Player::Update()
 			curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
 			curAttack_->On();
 		}
-		if (AEInputCheckCurr(AEVK_LBUTTON)
-			&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
-			<= SkillManager::GetInstance().CooldownCountFlame
-			&& SkillManager::GetInstance().type == cFlame)
-		{
-			curAttack_ = Skills_Flame->GetComponent<Flame>();
-			curAttack_->On();
-		}
+		//if (AEInputCheckCurr(AEVK_LBUTTON)
+		//	&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
+		//	<= SkillManager::GetInstance().CooldownCountFlame
+		//	&& SkillManager::GetInstance().type == cFlame)
+		//{
+		//	curAttack_ = Skills_Flame->GetComponent<Flame>();
+		//	curAttack_->On();
+		//}
 		if (AEInputCheckCurr(AEVK_LBUTTON)
 			&& Skills_Meteor->GetComponent<Meteor>()->GetCooldown()
 			<= SkillManager::GetInstance().CooldownCountMeteor

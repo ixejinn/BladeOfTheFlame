@@ -113,6 +113,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
     <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\Monster.cpp" />
+    <ClCompile Include="Component\LogicComponents\Particle.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
@@ -130,6 +131,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Manager\GameObjectManager.cpp" />
     <ClCompile Include="Manager\GameStateManager.cpp" />
     <ClCompile Include="Manager\MonsterManager.cpp" />
+    <ClCompile Include="Manager\ParticleSystem.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
     <ClCompile Include="Manager\SkillManager.cpp" />
     <ClCompile Include="Manager\SpawnManager.cpp" />
@@ -163,6 +165,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Attack.h" />
     <ClInclude Include="Component\LogicComponents\MeleeAttack.h" />
     <ClInclude Include="Component\LogicComponents\Monster.h" />
+    <ClInclude Include="Component\LogicComponents\Particle.h" />
     <ClInclude Include="Component\LogicComponents\Player.h" />
     <ClInclude Include="Component\LogicComponents\PlayerController.h" />
     <ClInclude Include="Component\EngineComponent.h" />
@@ -186,6 +189,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\GameObjectManager.h" />
     <ClInclude Include="Manager\GameStateManager.h" />
     <ClInclude Include="Manager\MonsterManager.h" />
+    <ClInclude Include="Manager\ParticleSystem.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
     <ClInclude Include="Manager\SkillManager.h" />
     <ClInclude Include="Manager\SpawnManager.h" />

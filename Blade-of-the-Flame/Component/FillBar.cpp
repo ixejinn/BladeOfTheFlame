@@ -36,7 +36,7 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 
 	boss_ = nullptr;
 
-	// Set mesh
+	// Set mesh (Fill Object Ãß°¡ÇØ¼­ Sprite anchor¸¦ ¹Ù²ãÁàµµ µÊ)
 	AEGfxMeshStart();
 
 	Transform* trans = owner_->GetComponent<Transform>();

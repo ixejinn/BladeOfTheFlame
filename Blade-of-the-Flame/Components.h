@@ -14,6 +14,7 @@
 #include "Component/LogicComponents/FlameAltar.h"
 #include "Component/LogicComponents/Compass.h"
 #include "Component/FillBar.h"
+#include "Component/Button.h"
 
 #include "Component/AnimationComp.h"
 

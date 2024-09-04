@@ -6,7 +6,7 @@
 #include "../Resource/TextureResource.h"
 
 Sprite::Sprite(GameObject* owner)
-	: GraphicsComponent(owner), color_(), texture_(nullptr), textureName_(), mesh_()
+	: GraphicsComponent(owner), texture_(nullptr), textureName_(), mesh_()
 {
 	SetMesh();
 }
@@ -27,7 +27,7 @@ void Sprite::RemoveFromManager()
 void Sprite::Update()
 {
 	// Set background color
-	//AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	// Set render mode
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
@@ -53,7 +53,6 @@ void Sprite::Update()
 
 	// Draw mesh
 	AEGfxMeshDraw(mesh_, AE_GFX_MDM_TRIANGLES);
-	//AEGfxMeshDraw(mesh, AE_GFX_MDM_LINES);
 }
 
 void Sprite::LoadFromJson(const json& data)
@@ -110,6 +109,7 @@ void Sprite::SetMesh()
 	}
 
 	case LEFT_CENTER:
+	{
 		AEVec2 length = { trans->GetLocalScale().x, trans->GetLocalScale().y };
 		AEGfxTriAdd(
 			0.f, -0.5f, 0xFFFFFFFF, 0.0f, 1.0f,
@@ -122,6 +122,23 @@ void Sprite::SetMesh()
 			0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
+	}
+
+	case LEFT_UP:
+	{
+		AEVec2 length = { trans->GetLocalScale().x, trans->GetLocalScale().y };
+		AEGfxTriAdd(
+			0.f, -length.y, 0xFFFFFFFF, 0.0f, 1.0f,
+			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			0.f, 0.f - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+		);
+		AEGfxTriAdd(
+			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			length.x, 0.f - 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
+			0.f, 0.f - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+		);
+		break;
+	}
 	}
 
 	mesh_ = AEGfxMeshEnd();

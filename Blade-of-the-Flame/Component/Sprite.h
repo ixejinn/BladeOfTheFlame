@@ -12,12 +12,13 @@ public:
 	{
 		CENTER,
 		LEFT_CENTER,
+		LEFT_UP
 	};
 
 private:
 	AnchorPoint anchor_ = CENTER;
 
-	Color color_;
+	Color color_{ 255, 255, 255 };
 	unsigned char alpha_ = 0;
 
 	AEGfxTexture* texture_;

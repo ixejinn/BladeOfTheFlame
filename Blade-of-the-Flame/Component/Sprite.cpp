@@ -27,7 +27,7 @@ void Sprite::RemoveFromManager()
 void Sprite::Update()
 {
 	// Set background color
-	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+	//AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	// Set render mode
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);

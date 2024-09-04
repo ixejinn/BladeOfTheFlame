@@ -10,6 +10,7 @@ GameObject* BossComp::CreateBulletObj()
 {
 	std::string unique_bullet_name = "bullet" + std::to_string(bullet.size());
 	GameObject* addBullet = GameObjectManager::GetInstance().CreateObject(unique_bullet_name);
+
 	bullet.push_back(addBullet);
 	addBullet->AddComponent<BulletComp>();
 

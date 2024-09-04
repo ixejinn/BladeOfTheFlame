@@ -1,6 +1,7 @@
 #include "Boss1.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
+
 Boss1::Boss1(GameObject* owner) : BossComp(owner)
 {
     hp_         = 500;

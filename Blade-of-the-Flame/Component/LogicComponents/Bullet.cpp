@@ -1,20 +1,47 @@
 #include "Bullet.h"
+#include <iostream>
+
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Component/AnimationComp.h"
 
 BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 {
 	bulletSpeed_ = 100.f;
 	bulletDmg_	 = 3.f;
-	
+
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<RigidBody>();
 	owner_->AddComponent<Sprite>();
-	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
-	owner_->GetComponent<Sprite>   ()->SetTexture("Assets/YeeHead.png");
+	owner_->AddComponent<AnimationComp>();
+
+	owner_->GetComponent<AnimationComp>()->AddAnimation("BossPhase1");
+
+	owner_->GetComponent<Transform>()->SetScale({ 500, 500 });
+	
+	for (int i = 0; i < 40; i++)
+	{
+		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
+
+		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
+	}
+	for (int i = 38; i >= 0; i--)
+	{
+		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
+
+		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
+	}
+
+	owner_->GetComponent<AnimationComp>()->SetTerm(50);
+
+	//AddAnimation("BossPhase1");
+	//AddAnimation("BossPhase2");
+	//AddAnimation("BossPhase3");
+	owner_->GetComponent<AnimationComp>()->ChangeAnimation("BossPhase1");
 
 	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
 	player = GameObjectManager::GetInstance().GetObjectA("TestObj");
+
 
 }
 
@@ -22,20 +49,6 @@ void BulletComp::Update()
 {	
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
-
-	//탄막 패턴 쐇다가 다시 돌아오는 기능
-	//if (returnBullet)
-	//{
-	//	time++;
-	//	if (time == 40)
-	//	{
-	//		f32 a = -1;
-	//		unitDir.x = unitDir.x * a;
-	//		unitDir.y = unitDir.y * a;
-	//		time = 0;
-	//		returnBullet = false;
-	//	}
-	//}
 }
 
 void BulletComp::RemoveFromManager()
@@ -74,6 +87,7 @@ void BulletComp::BarrageBullet(bool _bool = false)
 
 void BulletComp::LoadFromJson(const json&)
 {
+		
 }
 
 json BulletComp::SaveToJson()

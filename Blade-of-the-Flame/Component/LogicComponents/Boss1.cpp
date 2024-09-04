@@ -15,6 +15,7 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 
     owner_->AddComponent<BoxCollider>();
     owner_->AddComponent<Sprite>();
+    owner_->AddComponent<AnimationComp>();
 
     Transform* trans_ = owner_->GetComponent<Transform>();
     trans_->SetScale({ 200, 200 });
@@ -61,6 +62,23 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 
     owner_->active_ = false;
     EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+
+    // Set animation
+    AnimationComp* ani = owner_->GetComponent<AnimationComp>();
+    for (int i = 0; i < 8; i++)
+    {
+        std::string anim = "Assets/boss1_Anime/Idle/Idle" + std::to_string(i) + ".png";
+        ani->AddDetail(anim, "Idle");
+    }
+    for (int i = 6; i >= 0; i--)
+    {
+        std::string anim = "Assets/boss1_Anime/Idle/Idle" + std::to_string(i) + ".png";
+        ani->AddDetail(anim, "Idle");
+    }
+
+    ani->SetTerm(400);
+
+    ani->ChangeAnimation("Idle");
 }
 
 void Boss1::Update()

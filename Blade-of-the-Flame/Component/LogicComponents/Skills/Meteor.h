@@ -1,23 +1,30 @@
 #pragma once
-#include "../Attack.h"
+#include "../BaseAttack.h"
 #include "AEEngine.h"
 #include "../../../Manager/ComponentManager.h"
  
-class Meteor : public Attack
+class Meteor : public BaseAttack
 {
 	enum State
 	{
+		df,
 		ready,
 		shoot
 	};
 	Meteor(GameObject* owner);
-	int cState = ready;
+	int cState;
+	int temp;
+	AEVec2 convertPos;
+	const AEVec2 startingOffset{ 5000 ,5000 };
+	float meteorLifetime;
 public:
-	bool onoff = false;
-
-	void RemoveFromManager() override;
-
 	void Update() override;
+
+	void On() override { owner_->active_ = true; }
+
+	void LevelUp() override;
+
+	void AttackObject() override;
 
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;

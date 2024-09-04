@@ -6,12 +6,17 @@
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Manager/SkillManager.h"
 #include "../../Utils/Utils.h"
+
+#include "../LogicComponents/Skills/Meteor.h"
+#include "../LogicComponents/Skills/Flame.h"
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	timeStart_ = std::chrono::system_clock::now();
-
+	SkillManager::GetInstance().CooldownCountMelee = 1000;
+	SkillManager::GetInstance().CooldownCountMeteor = 1000;
+	SkillManager::GetInstance().CooldownCountFlame = 1000;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
@@ -38,7 +43,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->GetComponent<PlayerController>()->MultiplyMoveSpeed(moveSpeed_);
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
-	//owner_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 
 	text_ = owner_->GetComponent<Text>();
 	text_->SetFont("Assets/Roboto-Bold.ttf");
@@ -50,16 +54,21 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
 	meleeAttack_->AddComponent<MeleeAttack>();
 	meleeAttack_->GetComponent<MeleeAttack>()->SetPlayer(owner_);
-	//rangedAttack_ = GameObjectManager::GetInstance().CreateObject("playerRangedAttack");
 
-	curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
+	Skills_Meteor = GameObjectManager::GetInstance().CreateObject("MeteorAttack");
+	Skills_Meteor->AddComponent<Meteor>();
+	Skills_Meteor->GetComponent<Meteor>()->SetPlayer(owner_);
+
+	Skills_Flame = GameObjectManager::GetInstance().CreateObject("FlameAttack");
+	Skills_Flame->AddComponent<Flame>();
+	Skills_Flame->GetComponent<Flame>()->SetPlayer(owner_);
 }
 
-void Player::RemoveFromManager()
+void Player:: RemoveFromManager()
 {
 	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
 }
-
+float delay = 5;
 void Player::Update()
 {
 	/* CHECK */
@@ -82,21 +91,146 @@ void Player::Update()
 	AEGfxSetCamPosition(pos.x, pos.y);
 
 	/* ATTACK */
-	static unsigned int cnt = 0;
-	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-	if (dt.count() >= curAttack_->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON))
+	SkillManager::GetInstance().CooldownCountMelee += AEFrameRateControllerGetFrameTime();
+	SkillManager::GetInstance().CooldownCountMeteor += AEFrameRateControllerGetFrameTime();
+	SkillManager::GetInstance().CooldownCountFlame += AEFrameRateControllerGetFrameTime();
+
+	if(curAttack_ == nullptr)
 	{
-		timeStart_ = std::chrono::system_clock::now();
-
-		curAttack_->AttackObject();
-		cnt = 0;
+		SkillManager::GetInstance().KeyCheck();
+		SkillManager::GetInstance().SetSkillType(owner_->GetComponent<Player>()->level_);
+		if (AEInputCheckCurr(AEVK_LBUTTON)
+			&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+			<= SkillManager::GetInstance().CooldownCountMelee
+			&& SkillManager::GetInstance().type == cScorching)
+		{
+			curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
+			curAttack_->On();
+		}
+		if (AEInputCheckCurr(AEVK_LBUTTON)
+			&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
+			<= SkillManager::GetInstance().CooldownCountFlame
+			&& SkillManager::GetInstance().type == cFlame)
+		{
+			curAttack_ = Skills_Flame->GetComponent<Flame>();
+			curAttack_->On();
+		}
+		if (AEInputCheckCurr(AEVK_LBUTTON)
+			&& Skills_Meteor->GetComponent<Meteor>()->GetCooldown()
+			<= SkillManager::GetInstance().CooldownCountMeteor
+			&& SkillManager::GetInstance().type == cMeteor)
+		{
+			curAttack_ = Skills_Meteor->GetComponent<Meteor>();
+			curAttack_->On();
+		}
 	}
-	else if (cnt >= 2)
-		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
 
-	cnt++;
+	//switch (SkillManager::GetInstance().type)
+	//{
+	//case	cScorching:
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMelee
+	//		&& SkillManager::GetInstance().type == Default)
+	//	{
+	//		curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
+	//		curAttack_->On();
+	//	}
+	//	break;
+	//case	cFlame:
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountFlame
+	//		&& SkillManager::GetInstance().type == Default)
+	//	{
+	//		curAttack_ = Skills_Flame->GetComponent<Flame>();
+	//		curAttack_->On();
+	//	}
+	//	break;
+	//case	cHaste:
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMelee
+	//		&& SkillManager::GetInstance().type == Default)
+	//	{
 
-	//text_->SetString(std::to_string(hp_) + "/" + std::to_string(maxHp_));
+	//	}
+	//	break;
+	//case	cFireball:
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMelee
+	//		&& SkillManager::GetInstance().type == Default)
+	//	{
+
+	//	}
+	//	break;
+	//case	cEating_Oxyzen:
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMelee
+	//		&& SkillManager::GetInstance().type == Default)
+	//	{
+
+	//	}
+	//	break;
+	//case	cMeteor:
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& Skills_Meteor->GetComponent<Meteor>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMeteor
+	//		&& SkillManager::GetInstance().type == Default)
+	//	{
+	//		curAttack_ = Skills_Meteor->GetComponent<Meteor>();
+	//		curAttack_->On();
+	//	}
+	//	break;
+	//case	cInferno:
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMelee
+	//		&& SkillManager::GetInstance().type == Default)
+	//	{
+
+	//	}
+	//	break;
+	//default:
+	//	curAttack_ = nullptr;
+	//	break;
+	//}
+
+	//if (AEInputCheckCurr(AEVK_LBUTTON))
+	//{
+	//	if (AEInputCheckCurr(AEVK_LBUTTON)
+	//		&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMelee)
+	//	{
+	//		curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
+	//		SkillManager::GetInstance().other = true;
+	//		curAttack_->On();
+	//	}
+
+	//	else if (SkillManager::GetInstance().type == cMeteor
+	//		&& Skills_Meteor->GetComponent<Meteor>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountMeteor)
+	//	{
+	//		curAttack_ = Skills_Meteor->GetComponent<Meteor>();
+	//		SkillManager::GetInstance().other = true;
+	//		curAttack_->On();
+	//	}
+
+	//	else if (SkillManager::GetInstance().type == cFlame
+	//		&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
+	//		<= SkillManager::GetInstance().CooldownCountFlame)
+	//	{
+	//		curAttack_ = Skills_Flame->GetComponent<Flame>();
+	//		SkillManager::GetInstance().other = true;
+	//		curAttack_->On();
+	//	}
+
+	//	else if (SkillManager::GetInstance().type == Default)
+	//		SkillManager::GetInstance().resetKeys();
+	//}
+
 	text_->SetString(std::to_string(hp_) + "/" + std::to_string(exp_));
 }
 
@@ -129,9 +263,6 @@ void Player::LevelUp()
 
 	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);
 	hp_ = maxHp_;
-	
-	//if (level_ == 3)
-	//	curAttack_ = rangedAttack_;
 }
 
 void Player::AddHp(int hp)

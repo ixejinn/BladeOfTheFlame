@@ -148,6 +148,7 @@ void Boss1::Phase2()
 	if (needShoot || AEInputCheckCurr(AEVK_SPACE))
 	{
 		CreateBulletObj()->GetComponent<BulletComp>()->FireBullet();
+		
 		needShoot = false;
 	}
 }

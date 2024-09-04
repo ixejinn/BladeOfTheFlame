@@ -1,62 +1,112 @@
 #include "Meteor.h"
+#include "../../Event/Event.h"
+#include "../../Manager/EventManager.h"
 #include "../../AnimationComp.h"
-#include "../../Manager/GameObjectManager.h"
+#include "../../Manager/SkillManager.h" 
+#include <iostream>
+#include "AEUtil.h"
 
-Meteor::Meteor(GameObject* owner) : Attack(owner)
+Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 {
-	int cState = ready;
-	bool onoff = false;
-	player_ = GameObjectManager::GetInstance().GetObjectA("player");
-	owner_->active_ = false;
+	owner->active_ = false;
+	dmg_ = 20;
+	range_ = 700.f;
+	cooldown_ = 0;
+	dmgGrowthRate_ = 10.f;
+	cState = df;
+	temp = dmg_;
+	owner_->AddComponent<CircleCollider>();
 	owner->AddComponent<Sprite>();
-	owner->AddComponent<Audio>();
-	owner->AddComponent<RigidBody>();
-	owner->AddComponent<Transform>();
-	owner_->AddComponent<BoxCollider>();
-	owner_->GetComponent<BoxCollider>()->SetType(Collider::OBB_TYPE);
+	owner->AddComponent<AnimationComp>();
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor1.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor2.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor3.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor4.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor5.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor6.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor7.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor8.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/MagicCircle.png", "Idle");
+	owner->GetComponent<AnimationComp>()->SetTerm(200.0f);
+	owner->GetComponent<RigidBody>()->ClearVelocity();
+	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
+	CircleCollider* col = owner_->GetComponent<CircleCollider>();
+	col->SetType(Collider::CIRCLE_TYPE);
+	col->SetLayer(Collider::P_ATTACK);
 }
-
-void Meteor::RemoveFromManager()
+namespace
 {
-	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
+
+	AEVec2 convert(AEVec2 a)
+	{
+		AEVec2 worldPos;
+		worldPos.x = a.x - windowWidth / 2;
+		worldPos.y = -a.y + windowHeight / 2;
+		AEVec2 pos;
+		AEGfxGetCamPosition(&pos.x, &pos.y);
+		AEVec2 result;
+		result.x = worldPos.x + pos.x;
+		result.y = worldPos.y + pos.y;
+		return result;
+	}
 }
 
 void Meteor::Update()
 {
-	if (onoff == true)
+	if (!AEInputCheckCurr(AEVK_LBUTTON) && cState == df)
+		cState = ready;
+	if (cState == ready)
 	{
-		owner_->active_ = true;
-
+		dmg_ = 0;
 		AEInputInit();
 		s32 x, y;
 		AEInputGetCursorPosition(&x, &y);
 		AEVec2 mousePosF({ static_cast<float>(x), static_cast<float>(y) });
-		owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
-		//Animation
+		owner_->GetComponent<Transform>()->SetScale({ 300, 300 });
+		owner_->GetComponent<Transform>()->SetPosition(convert(mousePosF));
+		convertPos = convert(mousePosF);
+		//MagicCircle mode
+		owner_->GetComponent<AnimationComp>()->ChangeAnimation("Idle");
 		if (AEInputCheckCurr(AEVK_LBUTTON))
 		{
-			owner_->GetComponent<Transform>()->SetPosition({ mousePosF.x + 50, mousePosF.y + 700 });
-			//Meteor mode : owner_->GetComponent<Sprite>()->SetTexture()
+			owner_->GetComponent<Transform>()->SetPosition(convertPos.x + startingOffset.x, convertPos.y + startingOffset.y);
+			//Meteor mode
+			owner_->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
 			cState = shoot;
-		}
-		if (cState == shoot)
-		{
-			AEVec2 attackDir{ x - windowWidth / 2, windowHeight / 2 - y }, unitDir;
-			AEVec2Normalize(&unitDir, &attackDir);
-
-			owner_->GetComponent<RigidBody>()->AddVelocity(unitDir / 2);
-			if (owner_->GetComponent<Transform>()->GetPosition().x == mousePosF.x
-				&& owner_->GetComponent<Transform>()->GetPosition().y == mousePosF.y)
-			{
-				//damage
-				owner_->GetComponent<Sprite>()->SetColor({ 0, 0, 0 });
-				owner_->GetComponent<RigidBody>()->ClearVelocity();
-
-				onoff = false;
-				cState = ready;
-			}
+			meteorLifetime = 12000;
 		}
 	}
+	else if (cState == shoot)
+	{
+		AEVec2 attackDir{ convertPos -  owner_->GetComponent<Transform>()->GetPosition()}, unitDir;
+		AEVec2Normalize(&unitDir, &attackDir);
+	
+		owner_->GetComponent<RigidBody>()->AddVelocity(unitDir * 200);
+
+		meteorLifetime -= AEFrameRateControllerGetFrameRate();
+		std::cout << meteorLifetime <<std::endl;
+		if (meteorLifetime <= 0)
+		{
+			AttackObject();
+			owner_->GetComponent<RigidBody>()->ClearVelocity();
+			cState = df;
+			SkillManager::GetInstance().CooldownCountMeteor = 0;
+			SkillManager::GetInstance().resetKeys();
+			player_->GetComponent<Player>()->curAttack_ = nullptr;
+			owner_->active_ = false;
+		}
+	}
+}
+
+void Meteor::LevelUp()
+{
+	temp += int(temp * dmgGrowthRate_ / 100);
+}
+
+void Meteor::AttackObject()
+{
+	dmg_ = temp;
+	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
 }
 
 void Meteor::LoadFromJson(const json&)

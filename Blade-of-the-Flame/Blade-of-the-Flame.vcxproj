@@ -101,6 +101,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Component\AnimationComp.cpp" />
     <ClCompile Include="Component\Audio.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
     <ClCompile Include="Component\FillBar.cpp" />
@@ -114,6 +115,9 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Monster.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\FlameComp.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
     <ClCompile Include="Component\Text.cpp" />
@@ -127,6 +131,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Manager\GameStateManager.cpp" />
     <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
+    <ClCompile Include="Manager\SkillManager.cpp" />
     <ClCompile Include="Manager\SpawnManager.cpp" />
     <ClCompile Include="Resource\FontResource.cpp" />
     <ClCompile Include="State\BossSample\BossSampleLoad.cpp" />
@@ -143,6 +148,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components.h" />
+    <ClInclude Include="Component\AnimationComp.h" />
     <ClInclude Include="Component\Audio.h" />
     <ClInclude Include="Component\AudioComponent.h" />
     <ClInclude Include="Component\Collider.h" />
@@ -162,6 +168,10 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\EngineComponent.h" />
     <ClInclude Include="Component\GraphicsComponent.h" />
     <ClInclude Include="Component\LogicComponent.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\Flame.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\FlameComp.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\Inferno.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\Meteor.h" />
     <ClInclude Include="Component\Text.h" />
     <ClInclude Include="Component\RigidBody.h" />
     <ClInclude Include="Component\Sprite.h" />
@@ -177,6 +187,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\GameStateManager.h" />
     <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
+    <ClInclude Include="Manager\SkillManager.h" />
     <ClInclude Include="Manager\SpawnManager.h" />
     <ClInclude Include="Resource\FontResource.h" />
     <ClInclude Include="State\BossSample\BossSampleLoad.h" />

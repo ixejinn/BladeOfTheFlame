@@ -27,5 +27,7 @@ public:
 
 	virtual void LevelUp() = 0;
 
+	virtual void On() = 0;
+
 	virtual void AttackObject() = 0;
 };

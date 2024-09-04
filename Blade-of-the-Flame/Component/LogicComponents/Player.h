@@ -11,7 +11,7 @@ class Text;
 class Player : public LogicComponent, public EventEntity
 {
 private:
-	int level_ = 1;
+	int level_ = 10;
 	int hp_ = 100;
 	int exp_ = 0;
 
@@ -26,11 +26,11 @@ private:
 	float expRequirement_ = 3.3f;
 	float hpGrowthRate_ = 2.f;
 
-	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
+	GameObject* Skills_Meteor = nullptr;
+	GameObject* Skills_Flame = nullptr;
 	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
 
-	std::chrono::system_clock::time_point timeStart_;
 
 	Text* text_;
 	Transform* trans_;
@@ -50,7 +50,8 @@ public:
 
 	//// TODO: getter, setter
 	const int GetLevel() const { return level_; }
-
+	
+	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 	void LevelUp();
 	void AddHp(int hp);
 	void AddExp(int exp);

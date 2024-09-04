@@ -1,5 +1,5 @@
 #include "MeleeAttack.h"
-
+#include "../../Manager/SkillManager.h"
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 
@@ -9,7 +9,7 @@ MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 	range_ = 100.f;
 	cooldown_ = 0.5;
 	dmgGrowthRate_ = 3.f;
-
+	owner->active_ = false;
 	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
@@ -23,6 +23,11 @@ MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 
 void MeleeAttack::Update()
 {
+	AttackObject();
+	SkillManager::GetInstance().CooldownCountMelee = 0;
+	player_->GetComponent<Player>()->curAttack_ = nullptr;
+	SkillManager::GetInstance().resetKeys();
+	owner_->active_ = false;
 }
 
 void MeleeAttack::LoadFromJson(const json&)
@@ -37,8 +42,6 @@ json MeleeAttack::SaveToJson()
 void MeleeAttack::LevelUp()
 {
 	dmg_ += int(dmg_ * dmgGrowthRate_ / 100);
-
-	
 }
 
 void MeleeAttack::AttackObject()

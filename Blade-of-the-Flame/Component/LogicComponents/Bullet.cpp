@@ -53,16 +53,11 @@ void BulletComp::OnEvent(BaseEvent* event)
 void BulletComp::OnCollision(CollisionEvent* event)
 {
 	Player* player = event->from_->GetComponent<Player>();
-	if (player)
+	if (check_ && player)
 	{
-		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-		if (dt.count() >= cooldown_)
-		{
-			timeStart_ = std::chrono::system_clock::now();
+		player->AddHp(-bulletDmg_);
+		check_ = false;
 
-			//player->AddHp(-bulletDmg_);
-			player->AddHp(-20);
-		}
 		return;
 	}
 }

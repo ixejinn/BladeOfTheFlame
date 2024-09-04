@@ -136,7 +136,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Resource\FontResource.cpp" />
     <ClCompile Include="State\BossSample\BossSampleLoad.cpp" />
     <ClCompile Include="State\BossSample\BossSampleSave.cpp" />
-    <ClCompile Include="State\UISample\MenuScene.cpp" />
     <ClCompile Include="State\UISample\UiComp.cpp" />
     <ClCompile Include="Utils\MathUtils.cpp" />
     <ClCompile Include="Resource\AudioResource.cpp" />
@@ -191,7 +190,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Resource\FontResource.h" />
     <ClInclude Include="State\BossSample\BossSampleLoad.h" />
     <ClInclude Include="State\BossSample\BossSampleSave.h" />
-    <ClInclude Include="State\UISample\MenuScene.h" />
     <ClInclude Include="State\UISample\UiComp.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Resource\AudioResource.h" />

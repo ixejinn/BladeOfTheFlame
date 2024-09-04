@@ -20,7 +20,7 @@ class BulletComp : public LogicComponent, public EventEntity
 	GameObject* player;
 	GameObject* boss;
 
-
+	bool check_ = true;
 
 	BulletComp(GameObject* ower);
 	

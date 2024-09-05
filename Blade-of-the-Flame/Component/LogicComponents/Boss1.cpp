@@ -292,9 +292,7 @@ void Boss1::Phase4()
 
         temp->GetComponent<BulletComp>()->unitDir = tempDir;
         temp->GetComponent<BulletComp>()->BarrageBullet(true);
-
     }
-
     needShoot = false;
 }
 

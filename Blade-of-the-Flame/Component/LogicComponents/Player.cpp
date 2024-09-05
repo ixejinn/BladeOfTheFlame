@@ -184,6 +184,7 @@ void Player::LevelUp()
 
 void Player::AddHp(int hp)
 {
+	std::cout << hp_ << std::endl;
 	hp_ += hp;
 	
 	if (hp_ > maxHp_)

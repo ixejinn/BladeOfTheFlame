@@ -78,6 +78,8 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     bossAnim->ChangeAnimation("walk");
     owner_->GetComponent<Transform>()->SetScale(scale);
     owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
+
+    owner_->GetComponent<BoxCollider>()->SetScale({ 0.4f, 0.8f });
 }
 
 void Boss1::Update()

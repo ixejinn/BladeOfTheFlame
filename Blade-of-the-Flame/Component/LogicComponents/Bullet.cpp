@@ -12,32 +12,30 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 	bulletDmg_	 = 3.f;
 	
 	owner_->AddComponent<BoxCollider>();
-	owner_->AddComponent<Sprite>();
-	owner_->AddComponent<AnimationComp>();
-
-	//owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
-	owner_->GetComponent<Transform>()->SetScale({ 500, 500 });
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::E_ATTACK);
 	col->SetHandler(static_cast<EventEntity*>(this));
 
+	owner_->AddComponent<AnimationComp>();
 	owner_->GetComponent<AnimationComp>()->AddAnimation("BossPhase1");
 
-	for (int i = 0; i < 40; i++)
+	owner_->AddComponent<Sprite>();
+	owner_->GetComponent<Transform>()->SetScale({ 200, 200 });
+	
+	for (int i = 0; i < 19; i++)
 	{
-		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
-
+		std::string anim = "Assets/boss1_Anime/Atk/phase2ATK/phase1_" + std::to_string(i) + ".png";
+	
 		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
 	}
-	for (int i = 38; i >= 0; i--)
+	for (int i = 18; i >= 0; i--)
 	{
-		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
-
+		std::string anim = "Assets/boss1_Anime/Atk/phase2ATK/phase1_" + std::to_string(i) + ".png";
+	
 		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
 	}
-
 	owner_->GetComponent<AnimationComp>()->SetTerm(50);
 
 	//AddAnimation("BossPhase1");

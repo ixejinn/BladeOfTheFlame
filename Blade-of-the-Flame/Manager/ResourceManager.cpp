@@ -20,7 +20,10 @@ void ResourceManager::Unload(const std::string& fileName)
 
 	resources_[ext][fileName]->counter_--;
 	if (resources_[ext][fileName]->counter_ == 0 && !resources_[ext][fileName]->persistent_)
-		resources_[ext][fileName]->Unload();
+	{
+		//resources_[ext][fileName]->Unload();
+		this->resources_[ext].erase(fileName);	//This calls the destructor and removes from map. The destructor calls Unload
+	}
 }
 
 void ResourceManager::UnloadAll(bool persistent)
@@ -34,5 +37,10 @@ void ResourceManager::UnloadAll(bool persistent)
 			else
 				it++;
 		}
+
+		//remove the extIt from the container
+		resources_.erase(extIt++);
+		
+		//Iterate
 	}
 }

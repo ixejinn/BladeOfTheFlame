@@ -9,6 +9,7 @@
 #include "Manager/EventManager.h"
 #include "State/GameState.h"
 #include "State/SampleSave.h"
+#include "State/MainMenu.h"
 #include "State/GameClear.h"
 // ---------------------------------------------------------------------------
 // main
@@ -39,6 +40,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	GameState gameState;
 	SampleSave sampleSave;
+	MainMenu mainMenu;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
 	gsm.ChangeState(&sampleSave);
@@ -59,7 +61,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			gGameRunning = 0;
 	}
 
+	gsm.Exit();
 
 	// free the system
 	AESysExit();
+
 }

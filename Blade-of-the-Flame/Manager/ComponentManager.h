@@ -15,7 +15,10 @@ private:
 	std::list<std::unique_ptr<T>> components_;
 
 	ComponentManager() = default;
-	~ComponentManager() = default;
+	~ComponentManager()
+	{
+		int i;
+	}
 
 	ComponentManager(const ComponentManager&) = delete;
 	ComponentManager& operator =(const ComponentManager&) = delete;

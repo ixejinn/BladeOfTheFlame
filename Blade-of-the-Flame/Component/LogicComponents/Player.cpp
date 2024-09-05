@@ -15,14 +15,15 @@
 
 void Player::SetAnimation()
 {
+	ani_->AddAnimation("Idle");
 	for (int i = 0; i < 3; i++)
 	{
-		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i);
+		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i) + ".png";
 		ani_->AddDetail(name, "Idle");
 	}
 	for (int i = 1; i >= 0; i--)
 	{
-		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i);
+		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i) + ".png";
 		ani_->AddDetail(name, "Idle");
 	}
 
@@ -58,7 +59,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	circleCol->SetLayer(Collider::P_CIRCLE);
 	circleCol->SetRadius(attractionRadius_);
 
-	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
+	//owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
 
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
@@ -70,6 +71,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	audio_->SetPlaying(false);
 
 	ani_ = owner_->GetComponent<AnimationComp>();
+	SetAnimation();
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");

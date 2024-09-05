@@ -40,7 +40,7 @@ void Button::Update()
 		input.x >= pos_.x - halfScl.x && input.x <= pos_.x + halfScl.x &&
 		input.y >= pos_.y - halfScl.y && input.y <= pos_.y + halfScl.y)
 	{
-		sp_->SetColor({ 255, 0, 0 });
+		sp_->SetColor({ 150, 150, 150 });
 
 		pressed = true;
 	}
@@ -57,7 +57,8 @@ void Button::Update()
 		break;
 	}
 
-	case HOW_TO:
+	case EXIT:
+		GameStateManager::GetInstance().ChangeState(nullptr);
 		break;
 	}	
 }

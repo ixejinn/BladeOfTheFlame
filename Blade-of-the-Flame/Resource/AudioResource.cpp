@@ -8,8 +8,9 @@ void AudioResource::Load(const std::string& name)
 
 void AudioResource::Unload()
 {
-	if (data_ != nullptr)
-		AEAudioUnloadAudio(*(static_cast<AEAudio*>(data_)));
+	if (AEAudioIsValidAudio(*(static_cast<AEAudio*>(data_))))
+	//if (data_ != nullptr)
+		//AEAudioUnloadAudio(*(static_cast<AEAudio*>(data_)));
 	data_ = nullptr;
 }
 

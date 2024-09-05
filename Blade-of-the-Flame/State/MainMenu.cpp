@@ -1,18 +1,29 @@
 #include "MainMenu.h"
 
 #include "../Manager/GameObjectManager.h"
+//#include "../Manager/ResourceManager.h"
 
 void MainMenu::Init()
 {
 	InitBackground();
 
-	GameObject* gameBtn = GameObjectManager::GetInstance().CreateObject("btn");
+	// Game button
+	GameObject* gameBtn = GameObjectManager::GetInstance().CreateObject("gameBtn");
 	gameBtn->AddComponent<Button>();
 
 	Button* btn = gameBtn->GetComponent<Button>();
 	btn->SetTodo(Button::GAME);
-	btn->SetPosition({ 0, 0 });
-	btn->SetScale({ 100, 100 });
+	btn->SetPosition({ 0, -200 });
+	btn->SetScale({ 250, 80 });
+
+	// Exit button
+	GameObject* exitBtn = GameObjectManager::GetInstance().CreateObject("exitBtn");
+	exitBtn->AddComponent<Button>();
+
+	btn = exitBtn->GetComponent<Button>();
+	btn->SetTodo(Button::EXIT);
+	btn->SetPosition({ 0, -325 });
+	btn->SetScale({ 250, 80 });
 }
 
 void MainMenu::Update()

@@ -10,7 +10,7 @@ public:
 	enum Todo
 	{
 		GAME,
-		HOW_TO,
+		EXIT
 	};
 
 private:

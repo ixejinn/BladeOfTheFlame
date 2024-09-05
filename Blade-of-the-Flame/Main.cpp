@@ -6,7 +6,10 @@
 
 #include "Utils/Utils.h"
 #include "Manager/GameStateManager.h"
+#include "Manager/ResourceManager.h"
+#include "Manager/ComponentManager.h"
 #include "Manager/EventManager.h"
+#include "Manager/GameObjectManager.h"
 #include "State/GameState.h"
 #include "State/SampleSave.h"
 #include "State/MainMenu.h"
@@ -38,6 +41,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
+	ResourceManager::GetInstance();
+	ComponentManager<EngineComponent>::GetInstance();
+	ComponentManager<AudioComponent>::GetInstance();
+	ComponentManager<GraphicsComponent>::GetInstance();
+	ComponentManager<LogicComponent>::GetInstance();
+	GameObjectManager::GetInstance();
+
 	GameState gameState;
 	SampleSave sampleSave;
 	MainMenu mainMenu;
@@ -46,7 +56,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	gsm.ChangeState(&mainMenu);
 
 	// Game Loop
-	while (gGameRunning)
+	while (gsm.ShouldExit() == false && gGameRunning)
 	{
 		// Informing the system about the loop's start
 		AESysFrameStart();

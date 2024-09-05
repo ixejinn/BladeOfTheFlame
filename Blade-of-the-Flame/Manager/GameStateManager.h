@@ -35,8 +35,5 @@ public:
 
 	void ChangeState(State* newState);
 
-	//// TODO
-	//void ChangeLevel();	// Singleton Clear() ÇÊ¿ä
-
-	//bool ShouldExit();
+	bool ShouldExit();
 };

@@ -30,6 +30,10 @@ void GameStateManager::Update()
 	{
 		if (preState_ != nullptr)
 			preState_->Exit();
+
+		if (curState_ == nullptr)
+			return;
+
 		curState_->Init();
 		preState_ = curState_;
 	}
@@ -61,4 +65,9 @@ void GameStateManager::ChangeState(State* newState)
 
 	curState_ = newState;
 	//Init();
+}
+
+bool GameStateManager::ShouldExit()
+{
+	return curState_ == nullptr;
 }

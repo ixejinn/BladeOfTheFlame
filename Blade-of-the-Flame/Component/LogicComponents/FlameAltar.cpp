@@ -4,20 +4,43 @@
 #include "../../Manager/EventManager.h"
 #include "../../Event/Event.h"
 #include "../../Utils/RandomEngine.h"
+#include "../AnimationComp.h"
+
+void FlameAltar::SetAnimation()
+{
+	ani_->AddAnimation("Off");
+	ani_->AddDetail("Assets/bigtorchOFF.png", "Off");
+
+	ani_->AddAnimation("On");
+	for (int i = 1; i <= 3; i++)
+	{
+		std::string name = "Assets/bigtorchlit" + std::to_string(i) + ".png";
+		ani_->AddDetail(name, "On");
+	}
+
+	ani_->SetTerm(500);
+	ani_->ChangeAnimation("Off");
+}
 
 FlameAltar::FlameAltar(GameObject* owner) : LogicComponent(owner)
 {
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
+	owner_->AddComponent<AnimationComp>();
 
 	trans_ = owner_->GetComponent<Transform>();
-	trans_->SetScale({ 100, 100 });
+	trans_->SetScale({ 50, 200 });
 	trans_->SetPosition(windowWidth, windowWidth);
 	
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetLayer(Collider::ITEM);
 	col->SetHandler(static_cast<EventEntity*>(this));
-	owner_->GetComponent<Sprite>()->SetColor({ 255, 255, 0 });
+
+	//owner_->GetComponent<Sprite>()->SetColor({ 255, 255, 0 });
+	//owner_->GetComponent<Sprite>()->SetTexture("Assets/bigtorchOFF.png");
+
+	ani_ = owner_->GetComponent<AnimationComp>();
+	SetAnimation();
 
 	playerTrans_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 
@@ -51,7 +74,7 @@ void FlameAltar::Update()
 			playerPos.y -= y;
 
 			f32 distance = AEVec2Length(&playerPos);
-			if (distance >= windowWidth * 2)
+			if (distance >= windowWidth * 3)
 				valid = true;
 		}
 		
@@ -81,16 +104,13 @@ void FlameAltar::OnCollision(CollisionEvent* event)
 	{
 		if (player->getCompass_)
 		{
-			NextStageEvent* event = new NextStageEvent();
+			SpawnBossEvent* event = new SpawnBossEvent();
 			event->from_ = owner_;
 			EventManager::GetInstance().AddEvent(event);	// to compass
 
-			owner_->active_ = false;
-			std::cout << "Boss!!" << std::endl;
-			// 보스에게 이벤트 전송
-			// 선 없애기
-			// 효과 넣기
-			// 이미지를 바꾸든 애니메이션을 넣든
+			//owner_->active_ = false;
+			//std::cout << "Boss!!" << std::endl;
+			ani_->ChangeAnimation("On");
 		}
 	}
 }

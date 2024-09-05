@@ -76,6 +76,12 @@ public:
 	void Phase3();
 	void Phase4();
 
+	float Dot(const AEVec2& vec1, const AEVec2& vec2);
+
+	bool Flip(AEVec2 flip);
+
+	AEVec2 scale = { 0, 0 };
+
 	void ReserveDmg(int dmg);
 
 	void LoadFromJson(const json&);

@@ -44,7 +44,7 @@ void AnimationComp::RemoveFromManager()
 	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
 }
 
-void AnimationComp::AddAnimation(std::string other)//¾Ö´Ï¸ÞÀÌ¼Ç Å¸ÀÔ¼³Á¤
+void AnimationComp::AddAnimation(std::string other)//ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ Å¸ï¿½Ô¼ï¿½ï¿½ï¿½
 {
 	Animation* p = new Animation;
 	anime.emplace(other, p);
@@ -67,6 +67,20 @@ bool AnimationComp::CurrentAnimationOver()
 	}
 	else
 		return false;
+}
+
+void AnimationComp::AnimationLoop(int init, int max, std::string name, std::string type)
+{
+	for (int i = init; i < max; i++)
+	{
+		std::string anim = name + std::to_string(i) + ".png";
+		AddDetail(anim, type);
+	}
+	for (int i = max-1; i >= init; i--)
+	{
+		std::string anim = name + std::to_string(i) + ".png";
+		AddDetail(anim, type);
+	}
 }
 
 ComponentSerializer* AnimationComp::CreateAnimationComp(GameObject* owner)

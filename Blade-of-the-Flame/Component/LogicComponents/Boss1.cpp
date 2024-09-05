@@ -8,6 +8,7 @@
 #include "../../Manager/GameStateManager.h"
 #include "../../Utils/RandomEngine.h"
 #include "../../State/GameClear.h"
+#include "../../Component/AnimationComp.h"
 
 Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 {
@@ -18,8 +19,8 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     owner_->AddComponent<AnimationComp>();
 
     Transform* trans_ = owner_->GetComponent<Transform>();
-    trans_->SetScale({ 200, 200 });
-    trans_->SetPosition({ 400,400 });
+    //trans_->SetScale({ 200, 200 });
+    //trans_->SetPosition({ 400,400 });
 
     BoxCollider* col = owner_->GetComponent<BoxCollider>();
     col->SetLayer(Collider::E_BODY);
@@ -38,6 +39,8 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     baseDmg_    = 5;
     skillDmg_   = 10;
     range_      = 1.5;
+    
+    scale = { 900, 900 };
 
     nomalphaseTime_ = 0.0;
     DelayTime_      = 0.0;
@@ -61,24 +64,22 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     isAction  = true;
 
     owner_->active_ = false;
-    EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+    EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 
-    // Set animation
-    AnimationComp* ani = owner_->GetComponent<AnimationComp>();
-    for (int i = 0; i < 8; i++)
-    {
-        std::string anim = "Assets/boss1_Anime/Idle/Idle" + std::to_string(i) + ".png";
-        ani->AddDetail(anim, "Idle");
-    }
-    for (int i = 6; i >= 0; i--)
-    {
-        std::string anim = "Assets/boss1_Anime/Idle/Idle" + std::to_string(i) + ".png";
-        ani->AddDetail(anim, "Idle");
-    }
+    owner_->AddComponent<AnimationComp>();
+    
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+    owner_->AddComponent<Sprite>();
+    
+    bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/walk/walk", "walk");
+    bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/Idle/Idle", "Idle");
+    bossAnim->AnimationLoop(0, 5,  "Assets/boss1_Anime/Atk/phase2ATK/phase1_", "Attack");
 
-    ani->SetTerm(400);
+    bossAnim->ChangeAnimation("walk");
+    owner_->GetComponent<Transform>()->SetScale(scale);
+    owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 
-    ani->ChangeAnimation("Idle");
+    owner_->GetComponent<BoxCollider>()->SetScale({ 0.4f, 0.8f });
 }
 
 void Boss1::Update()
@@ -106,7 +107,7 @@ void Boss1::OnEvent(BaseEvent* event)
     AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
     playerPos.x += 200;
     owner_->GetComponent<Transform>()->SetPosition(playerPos);
-    // Àâ¸÷ ¼ö ÁÙÀÌ±â
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½Ì±ï¿½
     owner_->active_ = true;
 }
 
@@ -176,8 +177,15 @@ void Boss1::BossState()
 
 void Boss1::BaseChase()
 {
+    AnimationComp* bossAnim  = owner_->GetComponent<AnimationComp>();
+    Transform*     bossScale = owner_->GetComponent<Transform>();
+    //ï¿½Ö´Ï¸ï¿½ï¿½Ì¼ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Ô¼ï¿½
+
     if (nomalphaseTime_ < 100)
     {
+        bossAnim->SetTerm(150);
+        bossAnim->ChangeAnimation("walk");
+
         Transform* bossTrans = owner_->GetComponent<Transform>();
         RigidBody* bossRb = owner_->GetComponent<RigidBody>();
 
@@ -191,6 +199,15 @@ void Boss1::BaseChase()
         AEVec2Normalize(&unitChaseVec, &chaseVec);
 
         bossRb->AddVelocity(unitChaseVec * moveSpeed_);
+
+        if (Flip(chaseVec))
+        {
+            bossScale->SetScale(scale);
+        }
+        else 
+        {
+            bossScale->SetScale({ scale.x * -1, scale.y });
+        }
         nomalphaseTime_ += 1;
     }
     else
@@ -203,8 +220,15 @@ void Boss1::BaseChase()
 
 void Boss1::Phase1()
 {
+    Transform* bossScale = owner_->GetComponent<Transform>();
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+
+    bossAnim->SetTerm(50);
+    bossAnim->ChangeAnimation("walk");
+
     if (DelayTime_ < 5)
     {
+
         Transform* bossTrans = owner_->GetComponent<Transform>();
         RigidBody* bossRb = owner_->GetComponent<RigidBody>();
         
@@ -217,6 +241,16 @@ void Boss1::Phase1()
         AEVec2Normalize(&unitChaseVec, &chaseVec);
         
         bossRb->AddVelocity(unitChaseVec * chaseSpeed_);
+
+        if (Flip(chaseVec))
+        {
+            bossScale->SetScale(scale);
+        }
+        else
+        {
+            bossScale->SetScale({ scale.x * -1, scale.y });
+        }
+
         DelayTime_   += 0.1f;
     }
     else if (phase1Count_ > 3)
@@ -239,8 +273,16 @@ void Boss1::Phase1()
 
 void Boss1::Phase2()
 {
+    Transform* bossScale = owner_->GetComponent<Transform>();
+
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+
+    bossAnim->SetTerm(200);
+    bossAnim->ChangeAnimation("Idle");
+
     if (needShoot && shootCount_ < 3)
     {
+
         if (DelayTime_ > 1)
         {
             CreateBulletObj()->GetComponent<BulletComp>()->FireBullet();
@@ -271,6 +313,12 @@ void Boss1::Phase2()
 
 void Boss1::Phase3()
 {
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+    Transform* bossScale = owner_->GetComponent<Transform>();
+
+    bossAnim->SetTerm(200);
+    bossAnim->ChangeAnimation("Idle");
+
     if (phase3_cool < 150)
     {
         phase3_cool += 1;
@@ -342,10 +390,22 @@ void Boss1::Phase4()
 
         temp->GetComponent<BulletComp>()->unitDir = tempDir;
         temp->GetComponent<BulletComp>()->BarrageBullet(true);
-
     }
-
     needShoot = false;
+}
+
+float Boss1::Dot(const AEVec2& vec1, const AEVec2& vec2)
+{
+    return vec1.x * vec2.x + vec1.y * vec2.y;
+}
+
+bool Boss1::Flip(AEVec2 flip)
+{
+    AEVec2 vec2 = { 1.0f, 0.0f };
+
+    float flipCheck = Dot(flip, vec2);
+
+    return flipCheck > 0;
 }
 
 void Boss1::LoadFromJson(const json&)

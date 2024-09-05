@@ -5,8 +5,8 @@
 
 ItemManager::ItemManager() : SpawnManager()
 {
-	spawnPeriod_ = 30.0;
-	spawnNumPerWave_ = 1;
+	spawnPeriod_ = 20.0;
+	spawnNumPerWave_ = 3;
 }
 
 void ItemManager::Initialize(int maxNum)

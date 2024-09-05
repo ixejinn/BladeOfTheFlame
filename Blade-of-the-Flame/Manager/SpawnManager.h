@@ -34,5 +34,7 @@ public:
 
 	virtual void Clear() = 0;
 
+	void SetMaxActiveNum(int num) { activeNum_ = num; }
+
 	//friend class GameObjectManager;
 };

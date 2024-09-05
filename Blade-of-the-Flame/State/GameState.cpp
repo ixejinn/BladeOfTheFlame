@@ -29,9 +29,11 @@ void GameState::Init()
 	boss->AddComponent<Boss1>();
 
 	// Spawn managers
-	MonsterManager::GetInstance().Initialize(5);
-	ExpItemManager::GetInstance().Initialize(20);
-	ItemManager::GetInstance().Initialize(3);
+	MonsterManager::GetInstance().Initialize(230);
+	ExpItemManager::GetInstance().Initialize(230);
+	ItemManager::GetInstance().Initialize(20);
+
+	MonsterManager::GetInstance().SetMaxActiveNum(30);
 
 	SetFillBar();
 }
@@ -72,6 +74,12 @@ void GameState::InitBackground()
 
 void GameState::SetFillBar()
 {
+	GameObject* bossBar = GameObjectManager::GetInstance().CreateObject("bossBar");
+	bossBar->AddComponent<FillBar>();
+	FillBar* bossBarPtr = bossBar->GetComponent<FillBar>();
+	bossBarPtr->SetBoss(GameObjectManager::GetInstance().GetObjectA("boss")->GetComponent<Boss1>());
+	bossBarPtr->SetShowType(FillBar::BOSS_HP);
+
 	GameObject* monsterBar = GameObjectManager::GetInstance().CreateObject("monsterBar");
 	monsterBar->AddComponent<FillBar>();
 	FillBar* monsterBarPtr = monsterBar->GetComponent<FillBar>();
@@ -86,10 +94,4 @@ void GameState::SetFillBar()
 	healthBar->AddComponent<FillBar>();
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
-
-	GameObject* bossBar = GameObjectManager::GetInstance().CreateObject("bossBar");
-	bossBar->AddComponent<FillBar>();
-	FillBar* bossBarPtr = bossBar->GetComponent<FillBar>();
-	bossBarPtr->SetBoss(GameObjectManager::GetInstance().GetObjectA("boss")->GetComponent<Boss1>());
-	bossBarPtr->SetShowType(FillBar::BOSS_HP);
 }

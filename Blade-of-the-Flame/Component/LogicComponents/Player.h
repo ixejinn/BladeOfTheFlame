@@ -8,6 +8,7 @@ class Text;
 class BaseAttack;
 class Audio;
 class Transform;
+class AnimationComp;
 
 class Player : public LogicComponent, public EventEntity
 {
@@ -18,14 +19,14 @@ private:
 	int hp_ = 100;
 	int exp_ = 0;
 
-	int maxLevel_ = 10;
+	int maxLevel_ = 7;
 	int maxHp_ = 100;
 	int maxExp_ = 100;
 
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 80.f;
 
-	// Level upÀ» À§ÇØ ÇÊ¿äÇÑ °æÇèÄ¡ Áõ°¡À² (%)
+	// Level upï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (%)
 	float expRequirement_ = 80.f;
 	float hpGrowthRate_ = 20.;
 
@@ -34,8 +35,15 @@ private:
 	GameObject* Skills_Flame = nullptr;
 	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
 
+	std::chrono::system_clock::time_point timeStart_;
+
+	bool readyMelee = false;
+
 	Transform* trans_;
 	Audio* audio_;
+	AnimationComp* ani_;
+
+	void SetAnimation();
 
 	Player(GameObject* owner);
 

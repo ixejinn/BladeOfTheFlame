@@ -1,7 +1,8 @@
 #pragma once
 #include "SpawnManager.h"
+#include "../Event/EventEntity.h"
 
-class MonsterManager : public SpawnManager
+class MonsterManager : public SpawnManager, public EventEntity
 {
 private:
 	int capturedCount_ = 0;
@@ -31,6 +32,9 @@ public:
 	void Clear() override;
 
 	const int& GetCapturedCount() const { return capturedCount_; }
+
+	void OnEvent(BaseEvent*) override;
+	void OnCollision(CollisionEvent*) override;
 
 	friend class GameObjectManager;
 };

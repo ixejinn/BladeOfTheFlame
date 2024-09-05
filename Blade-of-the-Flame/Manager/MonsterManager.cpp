@@ -1,11 +1,17 @@
 #include "MonsterManager.h"
 
 #include <string>
+#include <typeindex>
+#include "../Event/Event.h"
+#include "../Manager/EventManager.h"
 
 MonsterManager::MonsterManager() : SpawnManager()
 {
-	spawnPeriod_ = 2.0;
-	spawnNumPerWave_ = 10;
+	spawnPeriod_ = 5.0;
+	spawnNumPerWave_ = 5;
+
+	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(LevelUpEvent)), static_cast<EventEntity*>(this));
+	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 }
 
 void MonsterManager::Initialize(int maxNum)
@@ -98,4 +104,21 @@ void MonsterManager::Clear()
 {
 	while (!pool_.empty())
 		pool_.pop();
+}
+
+void MonsterManager::OnEvent(BaseEvent* event)
+{
+	if (dynamic_cast<LevelUpEvent*>(event))
+	{
+		LevelUpEvent* lvlUp = static_cast<LevelUpEvent*>(event);
+		maxActiveNum_ = maxActiveNum_ * lvlUp->level;
+	}
+	else if (dynamic_cast<SpawnBossEvent*>(event))
+	{
+		maxActiveNum_ = 3;
+	}
+}
+
+void MonsterManager::OnCollision(CollisionEvent*)
+{
 }

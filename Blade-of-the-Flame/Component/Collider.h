@@ -61,8 +61,8 @@ public:
 	void SetCenter(const AEVec2& center) { center_ = center; }
 
 	const CollisionLayer& GetLayer() const { return layer_; }
-	const AEVec2& GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
-	const AEVec2& GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
+	const AEVec2 GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
+	const AEVec2 GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
 
 	void CallHandler(CollisionEvent* event);
 
@@ -82,8 +82,8 @@ public:
 
 	json SaveToJson() override;
 
-	const AEVec2& GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
-	const AEVec2& GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
+	const AEVec2 GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
+	const AEVec2 GetTopRight() const { return AEVec2{ topRight_.x, topRight_.y }; }
 	
 	// for StateSerializer
 	static constexpr const char* TypeName = "BoxCollider";
@@ -111,6 +111,7 @@ public:
 	const float& GetRadius() const { return radius_; }
 
 	void SetRadius(float r);
+	void MultiplyRadius(float r);
 	void ResetRadius();
 
 	// for StateSerializer

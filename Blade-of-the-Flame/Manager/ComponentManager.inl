@@ -4,6 +4,8 @@
 #include <type_traits>	// std::is_base_of<Base, Derived>
 #include "../GameObject/GameObject.h"
 
+extern bool enablePrint;
+
 template<typename T>
 template<typename U>
 inline U* ComponentManager<T>::CreateComponent(GameObject* owner)
@@ -42,6 +44,51 @@ inline void ComponentManager<T>::DeleteComponent(T* const comp)
 			return;
 		}
 	}
+}
+
+template<typename T>
+inline void ComponentManager<T>::SwapComponent(T* const compA, T* const compB)
+{
+	auto itA = components_.begin();
+	auto itB = components_.begin();
+	bool bA = false, bB = false;
+
+	for (auto it = components_.begin(); it != components_.end(); ++it)
+	{
+		if (it->get() == compA)
+		{
+			itA = it;
+			bA = true;
+		}
+		else if (it->get() == compB)
+		{
+			itB = it;
+			bB = true;
+		}
+
+		if (bA && bB)
+			break;
+	}
+
+	components_.splice(itA, components_, itB);
+}
+
+template<typename T>
+inline void ComponentManager<T>::ToBack(T* const comp)
+{
+	auto iter = components_.begin();
+
+	for (auto it = components_.begin(); it != components_.end(); ++it)
+	{
+		if (it->get() == comp)
+		{
+			iter = it;
+			break;
+		}
+	}
+
+	components_.push_back(std::move(*iter));
+	components_.erase(iter);
 }
 
 template <typename T>

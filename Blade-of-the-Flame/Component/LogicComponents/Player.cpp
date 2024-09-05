@@ -2,12 +2,19 @@
 
 #include <typeindex>
 #include <string>
+#include "AEVec2.h"
 #include "AEGraphics.h"
+#include "BaseAttack.h"
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
 #include "../../Manager/SkillManager.h"
+#include "../../Manager/GameStateManager.h"
 #include "../../Utils/Utils.h"
+#include "../../Utils/MathUtils.h"
+#include "../../State/GameOver.h"
+
+bool enablePrint;
 
 #include "../LogicComponents/Skills/Meteor.h"
 #include "../LogicComponents/Skills/Flame.h"
@@ -22,8 +29,15 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
-	//owner_->AddComponent<Audio>();
-	owner_->AddComponent<Text>();
+	owner_->AddComponent<Audio>();
+
+	trans_ = owner_->GetComponent<Transform>();
+	trans_->SetScale({ 30, 100 });
+	AEVec2 limit{ windowWidth, windowHeight };
+	limit = limit * 4.f;
+	trans_->SetLimit(limit);
+
+	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 
 	BoxCollider* boxCol = owner_->GetComponent<BoxCollider>();
 	boxCol->SetLayer(Collider::P_AABB);
@@ -33,22 +47,16 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	circleCol->SetLayer(Collider::P_CIRCLE);
 	circleCol->SetRadius(attractionRadius_);
 
-	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
-	pCtrl->SetDashKey(AEVK_SPACE);
-
-	trans_ = owner_->GetComponent<Transform>();
-	trans_->SetScale({ 30, 100 });
-	owner_->GetComponent<PlayerController>()->MultiplyMoveSpeed(moveSpeed_);
-	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
 
-	text_ = owner_->GetComponent<Text>();
-	text_->SetFont("Assets/Roboto-Bold.ttf");
-	text_->SetSize(1.f);
-	text_->SetColor({ 255, 0, 0 });
-	text_->SetPosition({ -0.05f, 0.1f });
+	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
+	pCtrl->SetDashKey(AEVK_SPACE);
+	pCtrl->MultiplyMoveSpeed(moveSpeed_);
+
+	audio_ = owner_->GetComponent<Audio>();
+	audio_->SetAudio("Assets/ore.mp3");
+	audio_->SetLoop(false);
+	audio_->SetPlaying(false);
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
@@ -78,14 +86,17 @@ void Player::Update()
 	if (exp_ >= maxExp_)
 		LevelUp();
 
+	if (hp_ < 6)
+		enablePrint = true;
+
 	// Death
 	if (hp_ <= 0)
 	{
-		std::cout << "Game over" << std::endl;
-		GameOverEvent* event{ new GameOverEvent() };
-		event->from_ = owner_;
-		EventManager::GetInstance().AddEvent(event);
 		owner_->active_ = false;
+
+		GameOver* newState = new GameOver();
+		GameStateManager::GetInstance().ChangeState(newState);
+		return;
 	}
 
 	/* SET CAMERA */
@@ -99,6 +110,8 @@ void Player::Update()
 
 	if(curAttack_ == nullptr)
 	{
+		audio_->SetPlaying(true);
+
 		SkillManager::GetInstance().KeyCheck();
 		SkillManager::GetInstance().SetSkillType(owner_->GetComponent<Player>()->level_);
 		if (AEInputCheckCurr(AEVK_LBUTTON)
@@ -127,7 +140,16 @@ void Player::Update()
 		}
 	}
 
-	text_->SetString(std::to_string(hp_) + "/" + std::to_string(exp_));
+	/* NEXT STAGE */
+	static bool callBoss = true;
+	if (getCompass_ && findAltar_ && callBoss)
+	{
+		std::cout << "Next stage!!" << std::endl;
+		NextStageEvent* event = new NextStageEvent();
+		event->from_ = owner_;
+		EventManager::GetInstance().AddEvent(event);
+		callBoss = false;
+	}
 }
 
 void Player::LoadFromJson(const json& data)
@@ -147,6 +169,13 @@ void Player::OnEvent(BaseEvent* event)
 
 void Player::OnCollision(CollisionEvent* event)
 {
+	FlameAltar* altar = event->from_->GetComponent<FlameAltar>();
+	if (altar)
+	{
+		if (getCompass_)
+			findAltar_ = true;
+	}
+		
 }
 
 void Player::LevelUp()
@@ -155,6 +184,8 @@ void Player::LevelUp()
 		return;
 
 	level_++;
+
+	maxExp_ += int(maxExp_ * expRequirement_ / 100);
 	exp_ = 0;
 
 	ParticleSystem::getPtr()->Update();
@@ -165,7 +196,12 @@ void Player::LevelUp()
 
 void Player::AddHp(int hp)
 {
+	std::cout << hp_ << " ";
 	hp_ += hp;
+	std::cout << hp_ << std::endl;
+	
+	if (hp_ > maxHp_)
+		hp_ = maxHp_;
 }
 
 void Player::AddExp(int exp)

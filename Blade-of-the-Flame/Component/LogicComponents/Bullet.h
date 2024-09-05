@@ -1,33 +1,36 @@
 #pragma once
+#include <chrono>
 #include "AEEngine.h"
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
+#include "../../Event/EventEntity.h"
 
-class BulletComp : public LogicComponent
+class BulletComp : public LogicComponent, public EventEntity
 {
 	
 	float bulletDmg_ = 0.f;
 	float bulletSpeed_ = 0.f;
-	
-	AEVec2 pos_;
-	AEVec2 scale_;
 
-	AEVec2 unitDir;
+	double cooldown_ = 1.0;
+	std::chrono::system_clock::time_point timeStart_;
 
 	GameObject* player;
 	GameObject* boss;
 
-
+	bool check_ = true;
 
 	BulletComp(GameObject* ower);
 	
 public:
-	float time = 0;
-
+	AEVec2 unitDir;
 	bool phase2On = false;
+	bool returnBullet = false;
 	void RemoveFromManager() override;
 
 	void Update() override;
+
+	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent* event) override;
 
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
@@ -36,8 +39,8 @@ public:
 	void SetBulletDmage(float bulletDamge) { bulletDmg_   = bulletDamge; }
 
 	void FireBullet();
-	void testBullet();
-	
+	void BarrageBullet(bool _bool);
+
 	// for StateSerializer
 	static constexpr const char* TypeName = "BulletComp";
 	static ComponentSerializer* CreateComponent(GameObject* owner);

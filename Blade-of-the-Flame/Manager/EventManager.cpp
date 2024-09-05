@@ -26,6 +26,14 @@ void EventManager::UnRegisterEntity(const std::type_index& type, EventEntity* en
 	}
 }
 
+void EventManager::DeleteAllRegisteredEntity()
+{
+	for (auto it = eventHandlers_.begin(); it != eventHandlers_.end(); )
+	{
+		eventHandlers_.erase(it++);
+	}
+}
+
 void EventManager::ProcessEvent()
 {
 	while (!events_.empty())

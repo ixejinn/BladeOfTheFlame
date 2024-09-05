@@ -10,6 +10,7 @@ AnimationComp::AnimationComp(GameObject* owner) : GraphicsComponent(owner)
 	AddAnimation("Attack");
 	AddAnimation("Hit");
 	AddAnimation("Dead");
+
 	currentAnime = "Idle";
 }
 
@@ -24,10 +25,13 @@ AnimationComp::~AnimationComp()
 
 void AnimationComp::Update()
 {
-	float dt = AEFrameRateControllerGetFrameRate();
+	double dt = AEFrameRateControllerGetFrameRate();
 	auto it = anime.find(currentAnime);
+
 	owner_->GetComponent<Sprite>()->SetTexture(it->second->GetDetail());
+
 	elapsedTime += dt;
+
 	if (elapsedTime >= animationTerm)
 	{
 		elapsedTime = 0;
@@ -35,7 +39,12 @@ void AnimationComp::Update()
 	}
 }
 
-void AnimationComp::AddAnimation(std::string other)
+void AnimationComp::RemoveFromManager()
+{
+	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
+}
+
+void AnimationComp::AddAnimation(std::string other)//애니메이션 타입설정
 {
 	Animation* p = new Animation;
 	anime.emplace(other, p);
@@ -58,12 +67,6 @@ bool AnimationComp::CurrentAnimationOver()
 	}
 	else
 		return false;
-}
-
-
-void AnimationComp::RemoveFromManager()
-{
-	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
 }
 
 ComponentSerializer* AnimationComp::CreateAnimationComp(GameObject* owner)

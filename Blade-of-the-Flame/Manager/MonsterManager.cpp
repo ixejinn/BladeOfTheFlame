@@ -20,7 +20,7 @@ void MonsterManager::Initialize(int maxNum)
 	{
 		GameObject* obj = gom.CreateObject("monster" + std::to_string(i));
 		obj->AddComponent<Monster>();
-		obj->GetComponent<Transform>()->SetPosition(0.1, 0.1);
+		obj->GetComponent<Transform>()->SetPosition(0.1f, 0.1f);
 		obj->active_ = false;
 		pool_.push(obj);
 	}
@@ -78,10 +78,10 @@ void MonsterManager::Spawn()
 		}
 
 		AEVec2 playerPos = playerTrans->GetPosition();
-		x += playerPos.x;
-		y += playerPos.y;
+		x += int(playerPos.x);
+		y += int(playerPos.y);
 
-		monster->GetComponent<Transform>()->SetPosition(x, y);
+		monster->GetComponent<Transform>()->SetPosition(float(x), float(y));
 		monster->active_ = true;
 	}
 }

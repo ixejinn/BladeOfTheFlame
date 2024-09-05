@@ -6,28 +6,25 @@
 #include "../Manager/GameObjectManager.h"
 #include "../Manager/MonsterManager.h"
 #include "../Manager/ExpItemManager.h"
+#include "../Manager/ItemManager.h"
 #include "../Serializer/StateSerializer.h"
 
 void SampleSave::Init()
 {
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
-	obj->AddComponent<Player>();
-
-	//GameObject* monster = GameObjectManager::GetInstance().CreateObject("mon");
-	//monster->AddComponent<Monster>();
-	//monster->GetComponent<Transform>()->SetPosition(0.1, 0.1);
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("btn");
+	obj->AddComponent<Button>();
 	
-	MonsterManager::GetInstance().Initialize(5);
-	ExpItemManager::GetInstance().Initialize(20);
+	Button* btn = obj->GetComponent<Button>();
+	btn->SetPosition({ 0, 100 });
+	btn->SetScale({ 100, 200 });
 
-	// boss ¸¸µé°í inactive
 }
 
 void SampleSave::Update()
 {
-	MonsterManager::GetInstance().Spawn();
 }
 
 void SampleSave::Exit()
 {
+	GameObjectManager::GetInstance().Clear();
 }

@@ -7,7 +7,7 @@ class AudioResource : public Resource
 {
 private:
 	AudioResource() = default;
-
+	AEAudio data;
 public:
 	~AudioResource() { Unload(); }
 

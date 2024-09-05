@@ -35,6 +35,19 @@ void GameObjectManager::RemoveObject(const std::string& name)
 		std::cout << "GameObjectManager::RemoveObject Invalid object name " + name << std::endl;
 }
 
+void GameObjectManager::ClearWithoutPlayer()
+{
+	for (auto it = objects_.begin(); it != objects_.end(); )
+	{
+		if (it->first != "player")
+			objects_.erase(it++);
+		else
+			it++;
+	}
+
+	noNameObject_ = 0;
+}
+
 void GameObjectManager::Clear()
 {
 	for (auto it = objects_.begin(); it != objects_.end(); )

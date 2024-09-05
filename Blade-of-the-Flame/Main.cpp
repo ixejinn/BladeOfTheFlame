@@ -6,10 +6,14 @@
 
 #include "Utils/Utils.h"
 #include "Manager/GameStateManager.h"
+#include "Manager/ResourceManager.h"
+#include "Manager/ComponentManager.h"
 #include "Manager/EventManager.h"
+#include "Manager/GameObjectManager.h"
+#include "State/GameState.h"
 #include "State/SampleSave.h"
-#include "State/SampleLoad.h"
-
+#include "State/MainMenu.h"
+#include "State/GameClear.h"
 // ---------------------------------------------------------------------------
 // main
 
@@ -37,22 +41,26 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
+	ResourceManager::GetInstance();
+	ComponentManager<EngineComponent>::GetInstance();
+	ComponentManager<AudioComponent>::GetInstance();
+	ComponentManager<GraphicsComponent>::GetInstance();
+	ComponentManager<LogicComponent>::GetInstance();
+	GameObjectManager::GetInstance();
+
+	GameState gameState;
 	SampleSave sampleSave;
-	SampleLoad sampleLoad;
+	MainMenu mainMenu;
+
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&sampleSave);
+	gsm.ChangeState(&mainMenu);
 
 	// Game Loop
-	while (gGameRunning)
+	while (gsm.ShouldExit() == false && gGameRunning)
 	{
 		// Informing the system about the loop's start
 		AESysFrameStart();
 
-
-		// Your own update logic goes here
-
-
-		// Your own rendering logic goes here
 		gsm.Update();
 
 		// Informing the system about the loop's end
@@ -63,7 +71,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			gGameRunning = 0;
 	}
 
+	gsm.Exit();
 
 	// free the system
 	AESysExit();
+
 }

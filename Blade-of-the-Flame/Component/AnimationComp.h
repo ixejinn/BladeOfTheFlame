@@ -26,22 +26,26 @@ private:
 	std::string currentAnime;
 	std::map<std::string, Animation*> anime;
 	float animationTerm = 1000;
-	float elapsedTime = 0;
+	double elapsedTime = 0.0;
+
 public:
 	AnimationComp(GameObject* owner);
 	~AnimationComp();
+
 	void Update() override;
+	void RemoveFromManager() override;
 
 	void AddAnimation(std::string);
+
 	void DeleteAnimation(std::string);
+
 	bool CurrentAnimationOver();
+
 	void AddDetail(std::string s, std::string which);
 	void DeleteDetail(std::string s, std::string which);
 
 	void SetTerm(float other) { animationTerm = other; }
 	void ChangeAnimation(std::string s) {	currentAnime = s;	};
-
-	void RemoveFromManager() override;
 
 	static constexpr const char* AnimationTypeName = "AnimationTypeName";
 	static ComponentSerializer* CreateAnimationComp(GameObject* owner);

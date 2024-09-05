@@ -6,10 +6,8 @@ class ExpItem : public BaseItem
 {
 private:
 	int exp_ = 0;
-	float attractionSpeed_ = 15.f;
+	float attractionSpeed_ = 30.f;
 
-	Transform* trans_;
-	Transform* playerTrans_;
 	RigidBody* rb_;
 
 	ExpItem(GameObject* owner);
@@ -20,8 +18,8 @@ public:
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
 
-	void OnEvent(BaseEvent* event);
-	void OnCollision(CollisionEvent* event);
+	void OnEvent(BaseEvent* event) override;
+	void OnCollision(CollisionEvent* event) override;
 
 	void SetExp(int exp) { exp_ = exp; }
 

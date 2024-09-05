@@ -3,7 +3,7 @@
 
 void SampleLoad::Init()
 {
-	StateSerializer::GetInstance().LoadState("Sample.json");
+	//StateSerializer::GetInstance().LoadState("Sample.json");
 }
 
 void SampleLoad::Update()

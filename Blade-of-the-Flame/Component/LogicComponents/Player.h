@@ -17,7 +17,7 @@ private:
 	int hp_ = 100;
 	int exp_ = 0;
 
-	int maxLevel_ = 10;
+	int maxLevel_ = 7;
 	int maxHp_ = 100;
 	int maxExp_ = 100;
 
@@ -33,6 +33,8 @@ private:
 	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
 
 	std::chrono::system_clock::time_point timeStart_;
+
+	bool readyMelee = false;
 
 	Transform* trans_;
 	Audio* audio_;

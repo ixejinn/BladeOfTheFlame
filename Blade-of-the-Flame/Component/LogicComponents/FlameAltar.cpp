@@ -81,16 +81,12 @@ void FlameAltar::OnCollision(CollisionEvent* event)
 	{
 		if (player->getCompass_)
 		{
-			NextStageEvent* event = new NextStageEvent();
+			SpawnBossEvent* event = new SpawnBossEvent();
 			event->from_ = owner_;
 			EventManager::GetInstance().AddEvent(event);	// to compass
 
-			owner_->active_ = false;
-			std::cout << "Boss!!" << std::endl;
-			// 보스에게 이벤트 전송
-			// 선 없애기
-			// 효과 넣기
-			// 이미지를 바꾸든 애니메이션을 넣든
+			//owner_->active_ = false;
+			//std::cout << "Boss!!" << std::endl;
 		}
 	}
 }

@@ -16,9 +16,12 @@ struct CollisionEvent : public BaseEvent
 
 struct CompassActiveEvent : public BaseEvent {};
 
-struct SpawnBossEvent : public BaseEvent {};
+struct LevelUpEvent : public BaseEvent
+{
+	int level = 0;
+};
 
-struct NextStageEvent : public BaseEvent {};
+struct SpawnBossEvent : public BaseEvent {};
 
 struct GameClearEvent : public BaseEvent {};
 struct GameOverEvent : public BaseEvent {};

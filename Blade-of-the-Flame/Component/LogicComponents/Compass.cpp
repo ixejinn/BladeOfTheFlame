@@ -22,7 +22,7 @@ Compass::Compass(GameObject* owner) : LogicComponent(owner)
 	owner_->active_ = false;
 
 	EventManager& eventMgr = EventManager::GetInstance();
-	eventMgr.RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+	eventMgr.RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 	eventMgr.RegisterEntity(std::type_index(typeid(CompassActiveEvent)), static_cast<EventEntity*>(this));
 }
 

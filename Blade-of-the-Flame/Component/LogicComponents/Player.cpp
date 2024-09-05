@@ -16,18 +16,18 @@
 void Player::SetAnimation()
 {
 	ani_->AddAnimation("Idle");
-	for (int i = 0; i < 3; i++)
+	for (int i = 2; i < 5; i++)
 	{
-		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i) + ".png";
+		std::string name = "Assets/Player_anime/Idle/image_" + std::to_string(i) + ".png";
 		ani_->AddDetail(name, "Idle");
 	}
-	for (int i = 1; i >= 0; i--)
+	for (int i = 4; i >= 2; i--)
 	{
-		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i) + ".png";
+		std::string name = "Assets/Player_anime/Idle/image_" + std::to_string(i) + ".png";
 		ani_->AddDetail(name, "Idle");
 	}
+	ani_->SetTerm(500);
 
-	ani_->SetTerm(400);
 	ani_->ChangeAnimation("Idle");
 }
 
@@ -44,7 +44,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<AnimationComp>();
 
 	trans_ = owner_->GetComponent<Transform>();
-	trans_->SetScale({ 30, 100 });
+	trans_->SetScale({ 45, 100 });
 	AEVec2 limit{ windowWidth, windowHeight };
 	limit = limit * 4.f;
 	trans_->SetLimit(limit);
@@ -58,8 +58,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	CircleCollider* circleCol = owner_->GetComponent<CircleCollider>();
 	circleCol->SetLayer(Collider::P_CIRCLE);
 	circleCol->SetRadius(attractionRadius_);
-
-	//owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
 
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
@@ -109,9 +107,12 @@ void Player::Update()
 	AEGfxSetCamPosition(pos.x, pos.y);
 
 	/* ATTACK */
+	if (AEInputCheckCurr(AEVK_Q))
+		readyMelee = !readyMelee;
+
 	static unsigned int cnt = 0;
 	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-	if (dt.count() >= curAttack_->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON))
+	if (dt.count() >= curAttack_->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON) && readyMelee)
 	{
 		audio_->SetPlaying(true);
 		timeStart_ = std::chrono::system_clock::now();
@@ -129,7 +130,7 @@ void Player::Update()
 	if (getCompass_ && findAltar_ && callBoss)
 	{
 		std::cout << "Next stage!!" << std::endl;
-		NextStageEvent* event = new NextStageEvent();
+		SpawnBossEvent* event = new SpawnBossEvent();
 		event->from_ = owner_;
 		EventManager::GetInstance().AddEvent(event);
 		callBoss = false;
@@ -175,15 +176,15 @@ void Player::LevelUp()
 	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);
 	hp_ = maxHp_;
 	
-	//if (level_ == 3)
-	//	curAttack_ = rangedAttack_;
+	LevelUpEvent* event = new LevelUpEvent();
+	event->from_ = owner_;
+	event->level = level_;
+	EventManager::GetInstance().AddEvent(event);
 }
 
 void Player::AddHp(int hp)
 {
-	std::cout << hp_ << " ";
 	hp_ += hp;
-	std::cout << hp_ << std::endl;
 	
 	if (hp_ > maxHp_)
 		hp_ = maxHp_;

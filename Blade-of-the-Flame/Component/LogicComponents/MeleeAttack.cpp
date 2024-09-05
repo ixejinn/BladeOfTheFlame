@@ -6,10 +6,10 @@
 
 MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 {
-	dmg_ = 5;
+	dmg_ = 10;
 	range_ = 100.f;
 	cooldown_ = 0.5;
-	dmgGrowthRate_ = 3.f;
+	dmgGrowthRate_ = 50.f;
 
 	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();

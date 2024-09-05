@@ -53,7 +53,7 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	text_->SetSize(1.f);
 
 	boss_ = nullptr;
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 }
 
 FillBar::~FillBar()
@@ -77,7 +77,7 @@ void FillBar::Update()
 	case MONSTER_CNT:
 	{
 		value = MonsterManager::GetInstance().GetCapturedCount();
-		maxValue = 1;
+		maxValue = 10;
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
 		text_->SetPosition({ -0.05f, 0.93f });
 

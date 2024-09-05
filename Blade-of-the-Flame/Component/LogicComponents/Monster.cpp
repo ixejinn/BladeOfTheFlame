@@ -1,12 +1,30 @@
 #include "Monster.h"
 
+#include <iomanip>	// std::setw, std::setfill
+#include <sstream>	// std::stringstream
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
 #include "../../Manager/MonsterManager.h"
 #include "../../Manager/ExpItemManager.h"
 #include "../../Utils/Utils.h"
+#include "../AnimationComp.h"
 
+
+void Monster::SetAnimation()
+{
+	ani_->AddAnimation("Walk");
+	for (int i = 0; i <= 12; i++)
+	{
+		std::stringstream ss;
+		ss << "Assets/Monster_anime/tile" << std::setw(3) << std::setfill('0') << i << ".png";
+		std::string name = ss.str();
+		ani_->AddDetail(name, "Walk");
+	}
+	ani_->SetTerm(200);
+
+	ani_->ChangeAnimation("Walk");
+}
 
 Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 {
@@ -22,13 +40,18 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	/* Set Monster component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
+	owner_->AddComponent<AnimationComp>();
 
-	owner_->GetComponent<Transform>()->SetScale({ 30, 30 });
-	owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
+	owner_->GetComponent<Transform>()->SetScale({ 30, 100 });
+	//owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
+	//owner_->GetComponent<Sprite>()->SetTexture("Assets/monster.png");
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetLayer(Collider::E_BODY);
 	col->SetHandler(static_cast<EventEntity*>(this));
+
+	ani_ = owner_->GetComponent<AnimationComp>();
+	SetAnimation();
 	
 	/* Set pointer */
 	playerTrans_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();

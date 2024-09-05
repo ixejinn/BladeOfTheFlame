@@ -5,6 +5,7 @@
 #include "../../Event/EventEntity.h"
 
 class RigidBody;
+class AnimationComp;
 
 class Monster : public LogicComponent, public EventEntity
 {
@@ -24,7 +25,10 @@ private:
 
 	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;
-	RigidBody* rb_ = nullptr;	
+	RigidBody* rb_ = nullptr;
+	AnimationComp* ani_ = nullptr;
+
+	void SetAnimation();
 
 	Monster(GameObject* owner);
 

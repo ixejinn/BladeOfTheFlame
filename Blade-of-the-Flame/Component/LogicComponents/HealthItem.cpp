@@ -8,7 +8,8 @@ HealthItem::HealthItem(GameObject* owner) : BaseItem(owner)
 {
 	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
 	owner_->GetComponent<BoxCollider>()->SetLayer(Collider::ITEM);
-	owner_->GetComponent<Sprite>()->SetColor({ 255, 0, 0 });
+	//owner_->GetComponent<Sprite>()->SetColor({ 255, 0, 0 });
+	owner_->GetComponent<Sprite>()->SetTexture("Assets/cookie.png");
 
 	trans_ = owner_->GetComponent<Transform>();
 

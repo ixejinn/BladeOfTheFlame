@@ -53,8 +53,8 @@ void MainMenu::InitBackground()
 	//sp->SetTexture("Assets/Realmap.png");
 	//sp->SetColor({ 255, 255, 255 });
 
-	Audio* audio = background->GetComponent<Audio>();
-	audio->SetAudio("Assets/bouken.mp3");	// 임시로 넣어둠
+	//Audio* audio = background->GetComponent<Audio>();
+	//audio->SetAudio("Assets/bouken.mp3");	// 임시로 넣어둠
 
 	// Game logo
 	GameObject* gameLogo = GameObjectManager::GetInstance().CreateObject("gameLogo");

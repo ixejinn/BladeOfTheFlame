@@ -29,9 +29,11 @@ void GameState::Init()
 	boss->AddComponent<Boss1>();
 
 	// Spawn managers
-	MonsterManager::GetInstance().Initialize(5);
-	ExpItemManager::GetInstance().Initialize(20);
-	ItemManager::GetInstance().Initialize(3);
+	MonsterManager::GetInstance().Initialize(230);
+	ExpItemManager::GetInstance().Initialize(230);
+	ItemManager::GetInstance().Initialize(20);
+
+	MonsterManager::GetInstance().SetMaxActiveNum(30);
 
 	SetFillBar();
 }

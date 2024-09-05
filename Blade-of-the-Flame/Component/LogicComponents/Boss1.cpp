@@ -61,7 +61,7 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     isAction  = true;
 
     owner_->active_ = false;
-    EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+    EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 
     // Set animation
     AnimationComp* ani = owner_->GetComponent<AnimationComp>();

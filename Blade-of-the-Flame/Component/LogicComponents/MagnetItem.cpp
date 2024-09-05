@@ -10,7 +10,8 @@ MagnetItem::MagnetItem(GameObject* owner) : BaseItem(owner)
 
 	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
 	owner_->GetComponent<BoxCollider>()->SetLayer(Collider::ITEM);
-	owner_->GetComponent<Sprite>()->SetColor({ 255, 0, 255 });
+	//owner_->GetComponent<Sprite>()->SetColor({ 255, 0, 255 });
+	owner_->GetComponent<Sprite>()->SetTexture("Assets/magnet.png");
 
 	trans_ = owner_->GetComponent<Transform>();
 

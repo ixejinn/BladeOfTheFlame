@@ -5,9 +5,9 @@
 #include "../Manager/GameObjectManager.h"
 #include "../Manager/MonsterManager.h"
 #include "../Manager/EventManager.h"
-#include "../../Event/Event.h"
-#include "../../Utils/Utils.h"
-#include "../../Utils/MathUtils.h"
+#include "../Event/Event.h"
+#include "../Utils/Utils.h"
+#include "../Utils/MathUtils.h"
 
 FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), relativePos_(), scale_()
 {
@@ -220,9 +220,9 @@ void FillBar::SetBoss(Boss1* boss)
 
 	SetShowType(BOSS_HP);
 
-	background_->active_ = false;
-	fill_->active_ = false;
-	owner_->active_ = false;
+	//background_->active_ = false;
+	//fill_->active_ = false;
+	//owner_->active_ = false;
 }
 
 ComponentSerializer* FillBar::CreateComponent(GameObject* owner)

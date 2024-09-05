@@ -12,8 +12,6 @@
 #include "../../Utils/MathUtils.h"
 #include "../../State/GameOver.h"
 
-bool enablePrint;
-
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
 	timeStart_ = std::chrono::system_clock::now();
@@ -72,9 +70,6 @@ void Player::Update()
 	// Level up
 	if (exp_ >= maxExp_)
 		LevelUp();
-
-	if (hp_ < 6)
-		enablePrint = true;
 
 	// Death
 	if (hp_ <= 0)

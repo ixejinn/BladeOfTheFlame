@@ -2,8 +2,10 @@
 #include "../BaseAttack.h"
 #include "AEEngine.h"
 #include ".././../Manager/ComponentManager.h"
-
-class MeteorExplosion : public BaseAttack
+//**//
+#include "../../Event/EventEntity.h"
+											//**//
+class MeteorExplosion : public BaseAttack, public EventEntity
 {
 	enum cState
 	{
@@ -26,6 +28,10 @@ public:
 
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
+
+	//**//
+	void OnEvent(BaseEvent*) override;
+	void OnCollision(CollisionEvent*) override;
 
 	static constexpr const char* TypeName = "MeteorExplosion";
 	static ComponentSerializer* CreateComponent(GameObject* owner);

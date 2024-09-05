@@ -1,5 +1,8 @@
 #include "MeteorExplosion.h"
 #include "Meteor.h"
+//**//
+#include "../../Event/Event.h"
+#include "../Monster.h"
 
 class Meteor;
 
@@ -12,8 +15,16 @@ MeteorExplosion::MeteorExplosion(GameObject* owner) : BaseAttack(owner)
 	owner->GetComponent<Transform>()->SetPosition(meteorInf->GetComponent<Transform>()->GetPosition());
 	lifetime = 3000;
 	mode = set;
-	owner->GetComponent<Transform>()->SetScale({ 100, 100 });
+	owner->GetComponent<Transform>()->SetScale({ 300, 300 });
 	owner->GetComponent<Sprite>()->SetColor({ 255, 255, 255 });
+
+	//**//
+	owner_->AddComponent<CircleCollider>();
+	CircleCollider* col = owner_->GetComponent<CircleCollider>();
+	col->SetLayer(Collider::P_ATTACK);
+	col->SetType(Collider::AABB_TYPE);
+	col->SetHandler(static_cast<EventEntity*>(this));
+
 	dmg_ = meteorInf->GetComponent<Meteor>()->GetDmg();
 	dmgGrowthRate_ = meteorInf->GetComponent<Meteor>()->GetDmgGrowRate();
 }
@@ -59,6 +70,19 @@ void MeteorExplosion::LoadFromJson(const json&)
 json MeteorExplosion::SaveToJson()
 {
 	return json();
+}
+//**//
+void MeteorExplosion::OnEvent(BaseEvent*)
+{
+}
+
+void MeteorExplosion::OnCollision(CollisionEvent* event)
+{
+	Monster* monster = event->from_->GetComponent<Monster>();
+	if (monster)
+	{
+		monster->ReserveDmg(20);
+	}
 }
 
 ComponentSerializer* MeteorExplosion::CreateComponent(GameObject* owner)

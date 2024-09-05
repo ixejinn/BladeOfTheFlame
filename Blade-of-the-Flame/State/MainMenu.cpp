@@ -15,6 +15,7 @@ void MainMenu::Init()
 	btn->SetTodo(Button::GAME);
 	btn->SetPosition({ 0, -200 });
 	btn->SetScale({ 250, 80 });
+	btn->SetText("GAME");
 
 	// Exit button
 	GameObject* exitBtn = GameObjectManager::GetInstance().CreateObject("exitBtn");
@@ -24,6 +25,7 @@ void MainMenu::Init()
 	btn->SetTodo(Button::EXIT);
 	btn->SetPosition({ 0, -325 });
 	btn->SetScale({ 250, 80 });
+	btn->SetText("EXIT");
 }
 
 void MainMenu::Update()
@@ -38,16 +40,18 @@ void MainMenu::Exit()
 void MainMenu::InitBackground()
 {
 	// Background
+	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+
 	GameObject* background = GameObjectManager::GetInstance().CreateObject("background");
 	background->AddComponent<Transform>();
-	background->AddComponent<Sprite>();
+	//background->AddComponent<Sprite>();
 	background->AddComponent<Audio>();
 
 	background->GetComponent<Transform>()->SetScale({ windowWidth, windowHeight });
 
-	Sprite* sp = background->GetComponent<Sprite>();
+	//Sprite* sp = background->GetComponent<Sprite>();
 	//sp->SetTexture("Assets/Realmap.png");
-	sp->SetColor({ 255, 255, 255 });
+	//sp->SetColor({ 255, 255, 255 });
 
 	Audio* audio = background->GetComponent<Audio>();
 	audio->SetAudio("Assets/bouken.mp3");	// 임시로 넣어둠
@@ -58,10 +62,9 @@ void MainMenu::InitBackground()
 	gameLogo->AddComponent<Sprite>();
 
 	Transform* trans = gameLogo->GetComponent<Transform>();
-	trans->SetPosition({ 0, 200 });
-	//trans->SetScale({})
+	trans->SetPosition({ 0, 180 });
+	trans->SetScale({ 538, 200 });
 
-	sp = gameLogo->GetComponent<Sprite>();
-	//sp->SetTexture()
-	sp->SetColor({ 255, 255, 255 });
+	Sprite* sp = gameLogo->GetComponent<Sprite>();
+	sp->SetTexture("Assets/GameLogo.png");
 }

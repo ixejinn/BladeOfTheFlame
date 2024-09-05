@@ -57,6 +57,7 @@ public:
 	const int& GetExp() const { return exp_; }
 	const int& GetMaxHp() const { return maxHp_; }
 	const int& GetMaxExp() const { return maxExp_; }
+	const float& GetMoveSpeed() const { return moveSpeed_; }
 
 	void LevelUp();
 	void AddHp(int hp);

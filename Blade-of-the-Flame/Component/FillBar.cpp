@@ -11,15 +11,21 @@
 
 FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), relativePos_(), scale_()
 {
+	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
+	player_ = player->GetComponent<Player>();
+	playerTrans_ = player->GetComponent<Transform>();
+
 	background_ = GameObjectManager::GetInstance().CreateObject();
 	background_->AddComponent<Transform>();
 	background_->AddComponent<Sprite>();
-	background_->GetComponent<Sprite>()->SetColor(backColor_);
 	background_->AddComponent<RigidBody>();
 	background_->AddComponent<PlayerController>();
+
+	background_->GetComponent<Sprite>()->SetColor(backColor_);
+
 	PlayerController* pCtrl = background_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
-	pCtrl->MultiplyMoveSpeed(5.f);
+	pCtrl->MultiplyMoveSpeed(player_->GetMoveSpeed());
 
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<Text>();
@@ -29,10 +35,6 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	text_->SetSize(1.f);
 
 	backTrans_ = background_->GetComponent<Transform>();
-
-	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
-	player_ = player->GetComponent<Player>();
-	playerTrans_ = player->GetComponent<Transform>();
 
 	boss_ = nullptr;
 
@@ -48,7 +50,7 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 		0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
 	);
 	AEGfxTriAdd(
-		length.x, 0.f - 0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
+		length.x, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
 		length.x, length.y - 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
 		0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
 	);
@@ -141,6 +143,7 @@ void FillBar::Update()
 	AEMtx33 tranMtx;
 	AEVec2 position = backTrans_->GetPosition();
 	position.x -= scale_.x / 2;
+	position.y -= 5;
 	AEMtx33Trans(&tranMtx, position.x, position.y);
 
 	AEMtx33 rotMtx;
@@ -212,7 +215,8 @@ void FillBar::SetShowType(ShowType type)
 	AEVec2 playerPos = playerTrans_->GetPosition();
 	backTrans_->SetPosition(playerPos + relativePos_);
 
-	ComponentManager<GraphicsComponent>::GetInstance().SwapComponent(this, background_->GetComponent<Sprite>());
+	//ComponentManager<GraphicsComponent>::GetInstance().SwapComponent(this, background_->GetComponent<Sprite>());
+	ComponentManager<GraphicsComponent>::GetInstance().ToBack(this);
 	
 }
 

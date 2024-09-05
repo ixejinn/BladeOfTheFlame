@@ -2,6 +2,7 @@
 
 #include "../State/GameState.h"
 #include "../Manager/GameStateManager.h"
+#include "../Utils/Utils.h"
 
 Button::Button(GameObject* owner) : EngineComponent(owner), todo_(), pos_(), scl_()
 {
@@ -16,7 +17,7 @@ Button::Button(GameObject* owner) : EngineComponent(owner), todo_(), pos_(), scl
 
 	txt_ = owner_->GetComponent<Text>();
 	txt_->SetFont("Assets/Roboto-Bold.ttf");
-	txt_->SetSize(1.f);
+	txt_->SetSize(1.2f);
 }
 
 void Button::RemoveFromManager()
@@ -91,6 +92,16 @@ void Button::SetTexture(const std::string& name)
 
 void Button::SetText(const std::string& str)
 {
+	AEVec2 pos = trans_->GetPosition();
+	pos.x /= float(windowWidth / 2);
+	pos.y /= float(windowHeight / 2);
+
+	//pos.x -= float(str.size() / windowWidth * 2);
+	pos.x -= 0.04;
+	pos.y -= 0.007;
+
+	txt_->SetPosition(pos);
+	txt_->SetString(str);
 }
 
 ComponentSerializer* Button::CreateComponent(GameObject* owner)

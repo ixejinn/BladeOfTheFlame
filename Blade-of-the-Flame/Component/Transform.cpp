@@ -40,6 +40,11 @@ void Transform::RemoveFromManager()
 void Transform::Update()
 {
 	UpdateMatrix();
+
+	float x = AEClamp(position_.x, lowerLimit_.x, upperLimit_.x);
+	float y = AEClamp(position_.y, lowerLimit_.y, upperLimit_.y);
+
+	SetPosition({ x, y });
 }
 
 void Transform::LoadFromJson(const json& data)
@@ -78,6 +83,7 @@ json Transform::SaveToJson()
 void Transform::SetPosition(const AEVec2& pos)
 {
 	position_ = pos;
+
 	UpdateMatrix();
 }
 
@@ -85,6 +91,7 @@ void Transform::SetPosition(const float& x, const float& y)
 {
 	position_.x = x;
 	position_.y = y;
+
 	UpdateMatrix();
 }
 
@@ -114,13 +121,28 @@ void Transform::SetRotation(const float& rot)
 
 void Transform::SetLimit(const AEVec2& limit)
 {
-	limit_ = limit;
+	upperLimit_ = limit;
+
+	lowerLimit_ = limit * -1;
 }
 
 void Transform::SetLimit(const float& x, const float& y)
 {
-	limit_.x = x;
-	limit_.y = y;
+	upperLimit_.x = x;
+	upperLimit_.y = y;
+
+	lowerLimit_.x = -x;
+	lowerLimit_.y = -y;
+}
+
+void Transform::SetUpperLimit(const AEVec2& limit)
+{
+	upperLimit_ = limit;
+}
+
+void Transform::SetLowerLimit(const AEVec2& limit)
+{
+	lowerLimit_ = limit;
 }
 
 bool Transform::IsRotationChanged()

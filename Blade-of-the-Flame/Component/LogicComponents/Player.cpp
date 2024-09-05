@@ -9,6 +9,7 @@
 #include "../../Manager/GameObjectManager.h"
 #include "../../Manager/GameStateManager.h"
 #include "../../Utils/Utils.h"
+#include "../../Utils/MathUtils.h"
 #include "../../State/GameOver.h"
 
 bool enablePrint;
@@ -26,6 +27,9 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	trans_ = owner_->GetComponent<Transform>();
 	trans_->SetScale({ 30, 100 });
+	AEVec2 limit{ windowWidth, windowHeight };
+	limit = limit * 4.f;
+	trans_->SetLimit(limit);
 
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 

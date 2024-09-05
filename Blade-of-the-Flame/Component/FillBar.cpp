@@ -23,13 +23,13 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	background_->AddComponent<RigidBody>();
 	background_->AddComponent<PlayerController>();
 
+	backTrans_ = background_->GetComponent<Transform>();
+
 	background_->GetComponent<Sprite>()->SetColor(backColor_);
 
 	PlayerController* pCtrl = background_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
 	pCtrl->MultiplyMoveSpeed(player_->GetMoveSpeed());
-
-	backTrans_ = background_->GetComponent<Transform>();
 
 	// Fill
 	fill_ = GameObjectManager::GetInstance().CreateObject();
@@ -38,13 +38,13 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	fill_->AddComponent<RigidBody>();
 	fill_->AddComponent<PlayerController>();
 
+	fillTrans_ = fill_->GetComponent<Transform>();
+
 	fill_->GetComponent<Sprite>()->SetAnchor(Sprite::LEFT_CENTER);
 
 	pCtrl = fill_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
 	pCtrl->MultiplyMoveSpeed(player_->GetMoveSpeed());
-
-	fillTrans_ = fill_->GetComponent<Transform>();
 
 	// FillBar
 	owner_->AddComponent<Text>();
@@ -53,6 +53,7 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	text_->SetSize(1.f);
 
 	boss_ = nullptr;
+	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
 }
 
 FillBar::~FillBar()
@@ -76,7 +77,7 @@ void FillBar::Update()
 	case MONSTER_CNT:
 	{
 		value = MonsterManager::GetInstance().GetCapturedCount();
-		maxValue = 10;
+		maxValue = 1;
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
 		text_->SetPosition({ -0.05f, 0.93f });
 
@@ -129,9 +130,18 @@ json FillBar::SaveToJson()
 
 void FillBar::OnEvent(BaseEvent*)
 {
-	background_->active_ = true;
-	fill_->active_ = true;
-	owner_->active_ = true;
+	if (showType_ == BOSS_HP)
+	{
+		owner_->active_ = true;
+		background_->active_ = true;
+		fill_->active_ = true;
+	}
+	else if (showType_ != PLAYER_HP)
+	{
+		owner_->active_ = false;
+		background_->active_ = false;
+		fill_->active_ = false;
+	}
 }
 
 void FillBar::OnCollision(CollisionEvent*)
@@ -141,6 +151,10 @@ void FillBar::OnCollision(CollisionEvent*)
 void FillBar::SetShowType(ShowType type)
 {
 	showType_ = type;
+
+	AEVec2 limit{ windowWidth, windowHeight };
+	limit = limit * 4.f;
+	AEVec2 upperLimit = limit, lowerLimit = limit * -1.f;
 
 	switch (type)
 	{
@@ -181,6 +195,16 @@ void FillBar::SetShowType(ShowType type)
 
 	fill_->GetComponent<Sprite>()->SetColor(fillColor_);
 
+	upperLimit.y += relativePos_.y;
+	lowerLimit.y += relativePos_.y;
+	backTrans_->SetUpperLimit(upperLimit);
+	backTrans_->SetLowerLimit(lowerLimit);
+
+	upperLimit.x -= scale_.x / 2.f;
+	lowerLimit.x -= scale_.x / 2.f;
+	fillTrans_->SetUpperLimit(upperLimit);
+	fillTrans_->SetLowerLimit(lowerLimit);
+
 	ComponentManager<GraphicsComponent>::GetInstance().ToBack(fill_->GetComponent<Sprite>());
 	
 }
@@ -193,7 +217,6 @@ void FillBar::SetFillColor(Color color)
 void FillBar::SetBoss(Boss1* boss)
 {
 	boss_ = boss;
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
 
 	SetShowType(BOSS_HP);
 

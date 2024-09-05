@@ -14,7 +14,8 @@ private:
 
 	AEMtx33 transformMatrix_;
 
-	AEVec2 limit_ = { windowWidth, windowHeight };
+	AEVec2 upperLimit_ = { 4 * windowWidth, 4 * windowHeight };
+	AEVec2 lowerLimit_ = { -4 * windowWidth, -4 * windowHeight };
 
 	bool isRotationChanged_ = false;
 
@@ -44,6 +45,8 @@ public:
 	void SetRotation(const float& rot);
 	void SetLimit(const AEVec2& limit);
 	void SetLimit(const float& x, const float& y);
+	void SetUpperLimit(const AEVec2& limit);
+	void SetLowerLimit(const AEVec2& limit);
 
 	bool IsRotationChanged();
 

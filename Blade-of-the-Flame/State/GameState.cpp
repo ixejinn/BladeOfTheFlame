@@ -91,5 +91,5 @@ void GameState::SetFillBar()
 	bossBar->AddComponent<FillBar>();
 	FillBar* bossBarPtr = bossBar->GetComponent<FillBar>();
 	bossBarPtr->SetBoss(GameObjectManager::GetInstance().GetObjectA("boss")->GetComponent<Boss1>());
-	bossBarPtr->SetFillColor({ 255, 0, 0 });
+	bossBarPtr->SetShowType(FillBar::BOSS_HP);
 }

@@ -82,6 +82,8 @@ public:
 
 	AEVec2 scale = { 0, 0 };
 
+	void ReserveDmg(int dmg);
+
 	void LoadFromJson(const json&);
 	json SaveToJson();
 

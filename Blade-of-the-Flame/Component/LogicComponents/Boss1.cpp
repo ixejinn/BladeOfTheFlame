@@ -140,6 +140,10 @@ void Boss1::OnCollision(CollisionEvent* event)
     }
 }
 
+void Boss1::ReserveDmg(int dmg)
+{
+    hp_ -= dmg;
+}
 
 GameObject* Boss1::CreateBulletObj()
 {

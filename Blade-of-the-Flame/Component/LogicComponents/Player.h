@@ -1,8 +1,8 @@
 #pragma once
-#include <chrono>
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
+#include "../../Manager/ParticleSystem.h"
 
 class Text;
 class BaseAttack;
@@ -19,17 +19,18 @@ private:
 
 	int maxLevel_ = 7;
 	int maxHp_ = 100;
-	int maxExp_ = 100;
+	int maxExp_ = 1;
 
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 80.f;
 
-	// Level upÀ» À§ÇØ ÇÊ¿äÇÑ °æÇèÄ¡ Áõ°¡À² (%)
+	// Level upï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (%)
 	float expRequirement_ = 80.f;
 	float hpGrowthRate_ = 20.;
 
-	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
+	GameObject* Skills_Meteor = nullptr;
+	GameObject* Skills_Flame = nullptr;
 	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
 
 	std::chrono::system_clock::time_point timeStart_;
@@ -57,6 +58,8 @@ public:
 
 	void OnEvent(BaseEvent* event) override;
 	void OnCollision(CollisionEvent*) override;
+	
+	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

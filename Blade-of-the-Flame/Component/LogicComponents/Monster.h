@@ -45,6 +45,8 @@ public:
 
 	const int GetDmg() const { return dmg_; }
 
+	void ReserveDmg(int dmg);
+
 	// for StateSerializer
 	static constexpr const char* TypeName = "Monster";
 	static ComponentSerializer* CreateComponent(GameObject* owner);

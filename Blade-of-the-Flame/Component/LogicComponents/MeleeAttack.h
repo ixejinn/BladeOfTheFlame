@@ -4,11 +4,18 @@
 
 class MeleeAttack : public BaseAttack
 {
-private:
-	MeleeAttack(GameObject* owner);
+	enum cState
+	{
+		set,
+		go
+	};
 
+	MeleeAttack(GameObject* owner);
+	int state;
 public:
 	void Update() override;
+
+	void On() override { owner_->active_ = true; }
 
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;

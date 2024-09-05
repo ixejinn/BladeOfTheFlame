@@ -145,6 +145,11 @@ void Monster::OnCollision(CollisionEvent* event)
 	}
 }
 
+void Monster::ReserveDmg(int dmg)
+{
+	hp_ -= dmg;
+}
+
 ComponentSerializer* Monster::CreateComponent(GameObject* owner)
 {
 	if (!owner->AddComponent<Monster>())

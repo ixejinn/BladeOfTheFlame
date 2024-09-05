@@ -22,7 +22,8 @@ MeteorExplosion::MeteorExplosion(GameObject* owner) : BaseAttack(owner)
 	owner_->AddComponent<CircleCollider>();
 	CircleCollider* col = owner_->GetComponent<CircleCollider>();
 	col->SetLayer(Collider::P_ATTACK);
-	col->SetType(Collider::CIRCLE_TYPE);
+	//col->SetType(Collider::CIRCLE_TYPE);
+	col->SetType(Collider::AABB_TYPE);
 	col->SetHandler(static_cast<EventEntity*>(this));
 
 	dmg_ = meteorInf->GetComponent<Meteor>()->GetDmg();

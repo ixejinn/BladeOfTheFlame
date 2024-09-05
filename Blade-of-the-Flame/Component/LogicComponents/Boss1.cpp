@@ -1,6 +1,7 @@
 #include "Boss1.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
+#include "../../Component/AnimationComp.h"
 
 Boss1::Boss1(GameObject* owner) : BossComp(owner)
 {
@@ -10,6 +11,8 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
     baseDmg_    = 5;
     skillDmg_   = 10;
     range_      = 1.5;
+    
+    scale = { 900, 900 };
 
     nomalphaseTime_ = 0.0;
     DelayTime_      = 0.0;
@@ -31,6 +34,21 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
     baseChase = true;
     needShoot = true;
     isAction  = true;
+
+    owner_->AddComponent<Transform>();
+    owner_->AddComponent<RigidBody>();
+    owner_->AddComponent<AnimationComp>();
+    
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+    owner_->AddComponent<Sprite>();
+    
+    bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/walk/walk", "walk");
+    bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/Idle/Idle", "Idle");
+    bossAnim->AnimationLoop(0, 5,  "Assets/boss1_Anime/Atk/phase2ATK/phase1_", "Attack");
+
+    bossAnim->ChangeAnimation("walk");
+    owner_->GetComponent<Transform>()->SetScale(scale);
+    owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 }
 
 void Boss1::Update()
@@ -61,8 +79,15 @@ void Boss1::BossState()
 
 void Boss1::BaseChase()
 {
+    AnimationComp* bossAnim  = owner_->GetComponent<AnimationComp>();
+    Transform*     bossScale = owner_->GetComponent<Transform>();
+    //애니메이션 실행하는 함수
+
     if (nomalphaseTime_ < 100)
     {
+        bossAnim->SetTerm(150);
+        bossAnim->ChangeAnimation("walk");
+
         Transform* bossTrans = owner_->GetComponent<Transform>();
         RigidBody* bossRb = owner_->GetComponent<RigidBody>();
 
@@ -76,6 +101,15 @@ void Boss1::BaseChase()
         AEVec2Normalize(&unitChaseVec, &chaseVec);
 
         bossRb->AddVelocity(unitChaseVec * moveSpeed_);
+
+        if (Flip(chaseVec))
+        {
+            bossScale->SetScale(scale);
+        }
+        else 
+        {
+            bossScale->SetScale({ scale.x * -1, scale.y });
+        }
         nomalphaseTime_ += 1;
     }
     else
@@ -88,8 +122,15 @@ void Boss1::BaseChase()
 
 void Boss1::Phase1()
 {
+    Transform* bossScale = owner_->GetComponent<Transform>();
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+
+    bossAnim->SetTerm(50);
+    bossAnim->ChangeAnimation("walk");
+
     if (DelayTime_ < 5)
     {
+
         Transform* bossTrans = owner_->GetComponent<Transform>();
         RigidBody* bossRb = owner_->GetComponent<RigidBody>();
         
@@ -102,6 +143,16 @@ void Boss1::Phase1()
         AEVec2Normalize(&unitChaseVec, &chaseVec);
         
         bossRb->AddVelocity(unitChaseVec * chaseSpeed_);
+
+        if (Flip(chaseVec))
+        {
+            bossScale->SetScale(scale);
+        }
+        else
+        {
+            bossScale->SetScale({ scale.x * -1, scale.y });
+        }
+
         DelayTime_   += 0.1f;
     }
     else if (phase1Count_ > 3)
@@ -124,8 +175,16 @@ void Boss1::Phase1()
 
 void Boss1::Phase2()
 {
+    Transform* bossScale = owner_->GetComponent<Transform>();
+
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+
+    bossAnim->SetTerm(200);
+    bossAnim->ChangeAnimation("Idle");
+
     if (needShoot && shootCount_ < 3)
     {
+
         if (DelayTime_ > 1)
         {
             CreateBulletObj()->GetComponent<BulletComp>()->FireBullet();
@@ -156,6 +215,12 @@ void Boss1::Phase2()
 
 void Boss1::Phase3()
 {
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+    Transform* bossScale = owner_->GetComponent<Transform>();
+
+    bossAnim->SetTerm(200);
+    bossAnim->ChangeAnimation("Idle");
+
     if (phase3_cool < 150)
     {
         phase3_cool += 1;
@@ -231,6 +296,20 @@ void Boss1::Phase4()
     }
 
     needShoot = false;
+}
+
+float Boss1::Dot(const AEVec2& vec1, const AEVec2& vec2)
+{
+    return vec1.x * vec2.x + vec1.y * vec2.y;
+}
+
+bool Boss1::Flip(AEVec2 flip)
+{
+    AEVec2 vec2 = { 1.0f, 0.0f };
+
+    float flipCheck = Dot(flip, vec2);
+
+    return flipCheck > 0;
 }
 
 void Boss1::LoadFromJson(const json&)

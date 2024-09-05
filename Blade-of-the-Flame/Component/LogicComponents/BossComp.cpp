@@ -4,6 +4,7 @@
 BossComp::BossComp(GameObject* owner) : LogicComponent(owner)
 {
 	player = GameObjectManager::GetInstance().GetObjectA("TestObj");
+	boss = GameObjectManager::GetInstance().GetObjectA("boss");
 }
 
 GameObject* BossComp::CreateBulletObj()

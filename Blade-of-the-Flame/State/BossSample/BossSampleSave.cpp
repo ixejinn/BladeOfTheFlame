@@ -37,14 +37,9 @@ void BossSampleSave::Init()
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
 	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");
+	boss1->AddComponent<Boss1>();
 
-	boss1->AddComponent<Transform>();
-	boss1->AddComponent<Sprite>	  ();
-	boss1->AddComponent<RigidBody>();
-	boss1->AddComponent<Boss1>    ();
-	boss1->AddComponent<AnimationComp>();	
-	
-	for (int i = 0; i < 6; i++)
+	/*for (int i = 0; i < 6; i++)
 	{
 		std::string anim = "Assets/boss1_Anime/Idle/Idle" + std::to_string(i) + ".png";
 		boss1->GetComponent<AnimationComp>()->AddDetail(anim, "Idle");
@@ -56,10 +51,11 @@ void BossSampleSave::Init()
 	}
 
 	boss1->GetComponent<AnimationComp>()->SetTerm(400);
-
+	
 	boss1->GetComponent<AnimationComp>()->ChangeAnimation("Idle");
+	 
 	boss1->GetComponent<Transform>()->SetScale({ 400, 400 });
-	boss1->GetComponent<Transform>()->SetPosition({ 400,400 });
+	boss1->GetComponent<Transform>()->SetPosition({ 400,400 });*/
 
 
 	// -----------------------------------------------------------------------------------------

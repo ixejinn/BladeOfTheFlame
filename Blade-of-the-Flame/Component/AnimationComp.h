@@ -47,6 +47,8 @@ public:
 	void SetTerm(float other) { animationTerm = other; }
 	void ChangeAnimation(std::string s) {	currentAnime = s;	};
 
+	void AnimationLoop(int init, int max, std::string name, std::string type);
+
 	static constexpr const char* AnimationTypeName = "AnimationTypeName";
 	static ComponentSerializer* CreateAnimationComp(GameObject* owner);
 

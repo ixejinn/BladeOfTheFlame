@@ -69,6 +69,19 @@ bool AnimationComp::CurrentAnimationOver()
 		return false;
 }
 
+void AnimationComp::AnimationLoop(int init, int max, std::string name, std::string type)
+{
+	for (int i = init; i < max; i++)
+	{
+		std::string anim = name + std::to_string(i) + ".png";
+		AddDetail(anim, type);
+	}
+	for (int i = max-1; i >= init; i--)
+	{
+		std::string anim = name + std::to_string(i) + ".png";
+		AddDetail(anim, type);
+	}
+}
 
 ComponentSerializer* AnimationComp::CreateAnimationComp(GameObject* owner)
 {

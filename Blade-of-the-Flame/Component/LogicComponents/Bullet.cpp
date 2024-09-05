@@ -15,6 +15,7 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 	//Animation 컴포 사용시 스프라이트 뒤에 넣어줘야됨
 	owner_->AddComponent<AnimationComp>();
 	owner_->GetComponent<AnimationComp>()->AddAnimation("BossPhase1");
+
 	owner_->AddComponent<Sprite>();
 	owner_->GetComponent<Transform>()->SetScale({ 200, 200 });
 	

@@ -5,9 +5,9 @@
 #include "../Manager/GameObjectManager.h"
 #include "../Manager/MonsterManager.h"
 #include "../Manager/EventManager.h"
-#include "../../Event/Event.h"
-#include "../../Utils/Utils.h"
-#include "../../Utils/MathUtils.h"
+#include "../Event/Event.h"
+#include "../Utils/Utils.h"
+#include "../Utils/MathUtils.h"
 
 FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), relativePos_(), scale_()
 {

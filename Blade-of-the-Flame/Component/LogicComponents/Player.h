@@ -8,6 +8,7 @@ class Text;
 class BaseAttack;
 class Audio;
 class Transform;
+class AnimationComp;
 
 class Player : public LogicComponent, public EventEntity
 {
@@ -35,6 +36,9 @@ private:
 
 	Transform* trans_;
 	Audio* audio_;
+	AnimationComp* ani_;
+
+	void SetAnimation();
 
 	Player(GameObject* owner);
 

@@ -11,9 +11,23 @@
 #include "../../Utils/Utils.h"
 #include "../../Utils/MathUtils.h"
 #include "../../State/GameOver.h"
+#include "../AnimationComp.h"
 
 void Player::SetAnimation()
 {
+	for (int i = 0; i < 3; i++)
+	{
+		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i);
+		ani_->AddDetail(name, "Idle");
+	}
+	for (int i = 1; i >= 0; i--)
+	{
+		std::string name = "Assets/Player_anime/Idle/tile" + std::to_string(i);
+		ani_->AddDetail(name, "Idle");
+	}
+
+	ani_->SetTerm(400);
+	ani_->ChangeAnimation("Idle");
 }
 
 Player::Player(GameObject* owner) : LogicComponent(owner)

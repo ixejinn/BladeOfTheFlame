@@ -19,7 +19,7 @@ private:
 
 	int maxLevel_ = 7;
 	int maxHp_ = 100;
-	int maxExp_ = 1;
+	int maxExp_ = 100;
 
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 80.f;

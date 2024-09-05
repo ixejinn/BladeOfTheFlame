@@ -38,7 +38,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 5;
+	//level_ = 5;
 	SkillManager::GetInstance().CooldownCountMelee = 1000;
 	SkillManager::GetInstance().CooldownCountMeteor = 1000;
 	SkillManager::GetInstance().CooldownCountFlame = 1000;

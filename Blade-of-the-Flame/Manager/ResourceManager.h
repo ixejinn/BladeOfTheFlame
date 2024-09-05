@@ -22,7 +22,10 @@ class ResourceManager
 	std::map<Extension, std::map<std::string, std::unique_ptr<Resource>>> resources_;
 
 	ResourceManager() = default;
-	~ResourceManager() = default;
+	~ResourceManager()
+	{
+		UnloadAll(true);
+	};
 
 	ResourceManager(const ResourceManager&) = delete;
 	ResourceManager& operator =(const ResourceManager&) = delete;

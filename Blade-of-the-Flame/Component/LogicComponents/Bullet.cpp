@@ -1,23 +1,31 @@
 #include "Bullet.h"
-#include <iostream>
 
+#include "../../Event/Event.h"
+#include <iostream>
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
 #include "../../Component/AnimationComp.h"
 
-BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
+BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 {
 	bulletSpeed_ = 100.f;
 	bulletDmg_	 = 3.f;
 
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<RigidBody>();
-	//Animation 컴포 사용시 스프라이트 뒤에 넣어줘야됨
+	owner_->AddComponent<BoxCollider>();
+	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<AnimationComp>();
+
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetType(Collider::OBB_TYPE);
+	col->SetLayer(Collider::E_ATTACK);
+	col->SetHandler(static_cast<EventEntity*>(this));
+
+
 	owner_->GetComponent<AnimationComp>()->AddAnimation("BossPhase1");
 
-	owner_->AddComponent<Sprite>();
-	owner_->GetComponent<Transform>()->SetScale({ 200, 200 });
+	owner_->GetComponent<Transform>()->SetScale({ 500, 500 });
 	
 	for (int i = 0; i < 19; i++)
 	{
@@ -39,9 +47,7 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 	owner_->GetComponent<AnimationComp>()->ChangeAnimation("BossPhase1");
 
 	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
-	player = GameObjectManager::GetInstance().GetObjectA("TestObj");
-
-
+	player = GameObjectManager::GetInstance().GetObjectA("player");
 }
 
 void BulletComp::Update()
@@ -50,9 +56,25 @@ void BulletComp::Update()
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }
 
+void BulletComp::OnEvent(BaseEvent* event)
+{
+}
+
+void BulletComp::OnCollision(CollisionEvent* event)
+{
+	Player* player = event->from_->GetComponent<Player>();
+	if (check_ && player)
+	{
+		player->AddHp(int(-bulletDmg_));
+		check_ = false;
+
+		return;
+	}
+}
+
 void BulletComp::RemoveFromManager()
 {
-	//TODO::
+	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
 }
 
 void BulletComp::FireBullet()

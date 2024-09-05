@@ -16,7 +16,7 @@ private:
 	float pitch_ = 1;
 
 	bool loop_ = true;
-	bool playing_ = false;
+	bool playing_ = true;
 
 	Audio(GameObject* owner);
 	~Audio();
@@ -29,7 +29,9 @@ public:
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
 
-	void SetAudio(std::string name);
+	void SetAudio(const std::string& name);
+	void SetLoop(bool b) { loop_ = b; }
+	void SetPlaying(bool b) { playing_ = b; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Audio";

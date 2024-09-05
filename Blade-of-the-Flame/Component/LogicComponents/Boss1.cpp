@@ -1,11 +1,31 @@
 #include "Boss1.h"
+
+#include <typeindex>
+#include "../../Event/Event.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
-#include "../../Component/AnimationComp.h"
+#include "../../Manager/EventManager.h"
+#include "../../Manager/GameStateManager.h"
+#include "../../Utils/RandomEngine.h"
+#include "../../State/GameClear.h"
 
-Boss1::Boss1(GameObject* owner) : BossComp(owner)
+#include "../../Component/AnimationComp.h"
+Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 {
-    hp_         = 500;
+    player = GameObjectManager::GetInstance().GetObjectA("player");
+
+    owner_->AddComponent<BoxCollider>();
+
+    BoxCollider* col = owner_->GetComponent<BoxCollider>();
+    col->SetLayer(Collider::E_BODY);
+    col->SetHandler(static_cast<EventEntity*>(this));
+
+    timeStart_ = std::chrono::system_clock::now();
+
+    //hp_         = 500;
+    //maxHp_      = 500;
+    hp_ = 100;
+    maxHp_ = 100;
     moveSpeed_  = 5;
     chaseSpeed_ = 30;
     baseDmg_    = 5;
@@ -35,6 +55,10 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
     needShoot = true;
     isAction  = true;
 
+    owner_->active_ = false;
+    EventManager::GetInstance().RegisterEntity(std::type_index(typeid(NextStageEvent)), static_cast<EventEntity*>(this));
+
+
     owner_->AddComponent<Transform>();
     owner_->AddComponent<RigidBody>();
     owner_->AddComponent<AnimationComp>();
@@ -53,9 +77,72 @@ Boss1::Boss1(GameObject* owner) : BossComp(owner)
 
 void Boss1::Update()
 {
+    if (hp_ <= 0)
+    {
+        owner_->active_ = false;
+        bullet.clear();
+
+        GameClear* newState = new GameClear();
+        GameStateManager::GetInstance().ChangeState(newState);
+        return;
+    }
+
     BossState();
 }
 
+void Boss1::RemoveFromManager()
+{
+    ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
+}
+
+void Boss1::OnEvent(BaseEvent* event)
+{
+    AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
+    playerPos.x += 200;
+    owner_->GetComponent<Transform>()->SetPosition(playerPos);
+    // 잡몹 수 줄이기
+    owner_->active_ = true;
+}
+
+void Boss1::OnCollision(CollisionEvent* event)
+{
+    Player* player = event->from_->GetComponent<Player>();
+    if (player)
+    {
+        std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+        if (dt.count() >= cooldown_)
+        {
+            timeStart_ = std::chrono::system_clock::now();
+
+            player->AddHp(int(-baseDmg_));
+        }
+        return;
+    }
+
+    MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
+    if (melee)
+    {
+        hp_ -= melee->GetDmg();
+
+        RigidBody* rb = owner_->GetComponent<RigidBody>();
+        AEVec2 velocity = rb->GetVelocity();
+        rb->ClearVelocity();
+        //rb->AddVelocity(velocity * -knockback_);
+
+        return;
+    }
+}
+
+
+GameObject* Boss1::CreateBulletObj()
+{
+    std::string unique_bullet_name = "bullet" + std::to_string(bullet.size());
+    GameObject* addBullet = GameObjectManager::GetInstance().CreateObject(unique_bullet_name);
+    bullet.push_back(addBullet);
+    addBullet->AddComponent<BulletComp>();
+
+    return addBullet;
+}
 
 void Boss1::BossState()
 {
@@ -191,7 +278,7 @@ void Boss1::Phase2()
             DelayTime_   = 0;
             shootCount_ += 1;
         }
-        DelayTime_  += 0.1;
+        DelayTime_  += 0.1f;
     }
     else if (shootCount_ > 2)
     {
@@ -231,9 +318,9 @@ void Boss1::Phase3()
     std::vector<f32> dir_x(4);
     std::vector<f32> dir_y(4);
 
-    int count = 30;
+    int count = 15;
 
-    float intervalAngle = 360 / count;
+    float intervalAngle = 360.f / count;
 
 
     for (int i = 0; i < count; i++)
@@ -274,7 +361,7 @@ void Boss1::Phase4()
 
     int count = 30;
 
-    float intervalAngle = 360 / count;
+    float intervalAngle = 360.f / count;
 
 
     for (int i = 0; i < count; i++)
@@ -318,4 +405,9 @@ void Boss1::LoadFromJson(const json&)
 json Boss1::SaveToJson()
 {
     return json();
+}
+
+ComponentSerializer* Boss1::CreateComponent(GameObject* owner)
+{
+    return nullptr;
 }

@@ -24,9 +24,7 @@ private:
 
 	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;
-	RigidBody* rb_ = nullptr;
-
-	
+	RigidBody* rb_ = nullptr;	
 
 	Monster(GameObject* owner);
 

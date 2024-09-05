@@ -1,5 +1,6 @@
 #include "ResourceManager.h"
 
+#include <iostream>
 #include <stdexcept>
 
 ResourceManager::Extension ResourceManager::StringToExtension(const std::string& fileName)
@@ -7,7 +8,7 @@ ResourceManager::Extension ResourceManager::StringToExtension(const std::string&
 	std::string extStr = fileName.substr(fileName.find_last_of('.') + 1);
 
 	if (stringToExtension_.find(extStr) == stringToExtension_.end())
-		throw std::invalid_argument("[ERROR] ResourceManager StringToExtension | Invalid file name " + fileName);
+		std::cerr << "[ERROR] ResourceManager StringToExtension | Invalid file name " + fileName << std::endl;
 	return stringToExtension_[extStr];
 }
 
@@ -16,11 +17,17 @@ void ResourceManager::Unload(const std::string& fileName)
 	Extension ext = StringToExtension(fileName);
 
 	if (resources_[ext].find(fileName) == resources_[ext].end())
-		throw std::invalid_argument("[ERROR] ResourceManager Unload | Invalid resource " + fileName);
+	{
+		std::cerr << "[ERROR] ResourceManager Unload | Invalid resource " + fileName << std::endl;
+		return;
+	}
 
 	resources_[ext][fileName]->counter_--;
 	if (resources_[ext][fileName]->counter_ == 0 && !resources_[ext][fileName]->persistent_)
-		resources_[ext][fileName]->Unload();
+	{
+		//resources_[ext][fileName]->Unload();
+		this->resources_[ext].erase(fileName);	//This calls the destructor and removes from map. The destructor calls Unload
+	}
 }
 
 void ResourceManager::UnloadAll(bool persistent)
@@ -34,5 +41,10 @@ void ResourceManager::UnloadAll(bool persistent)
 			else
 				it++;
 		}
+
+		//remove the extIt from the container
+		resources_.erase(extIt++);
+		
+		//Iterate
 	}
 }

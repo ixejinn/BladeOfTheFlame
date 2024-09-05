@@ -1,5 +1,6 @@
 #include "MeleeAttack.h"
 
+#include "AEVec2.h"
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 
@@ -48,7 +49,7 @@ void MeleeAttack::AttackObject()
 	AEInputInit();
 	s32 x, y;
 	AEInputGetCursorPosition(&x, &y);
-	AEVec2 attackDir{ x - windowWidth / 2, windowHeight / 2 - y }, unitDir;
+	AEVec2 attackDir{ x - windowWidth / 2.f, windowHeight / 2.f - y }, unitDir;
 	AEVec2Normalize(&unitDir, &attackDir);
 
 	attackDir = unitDir * range_;

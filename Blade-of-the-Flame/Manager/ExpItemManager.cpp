@@ -32,6 +32,7 @@ ExpItem* ExpItemManager::Spawn(const AEVec2& pos)
 	activeNum_++;
 
 	item->GetComponent<Transform>()->SetPosition(pos);
+	item->GetComponent<RigidBody>()->ClearVelocity();
 	item->active_ = true;
 
 	return item->GetComponent<ExpItem>();

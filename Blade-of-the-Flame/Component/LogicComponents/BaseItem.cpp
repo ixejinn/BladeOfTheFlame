@@ -2,7 +2,7 @@
 
 #include "../../GameObject/GameObject.h"
 
-BaseItem::BaseItem(GameObject* owner) : LogicComponent(owner)
+BaseItem::BaseItem(GameObject* owner) : LogicComponent(owner), timeStart_()
 {
 	owner_->active_ = false;
 

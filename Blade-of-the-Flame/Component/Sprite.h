@@ -7,8 +7,19 @@
 
 class Sprite : public GraphicsComponent
 {
+public:
+	enum AnchorPoint
+	{
+		CENTER,
+		LEFT_CENTER,
+		LEFT_UP
+	};
+
 private:
+	AnchorPoint anchor_ = CENTER;
+
 	Color color_;
+	unsigned char alpha_ = 0;
 
 	AEGfxTexture* texture_;
 	std::string textureName_;
@@ -30,7 +41,9 @@ public:
 
 	Color& GetColor() { return color_; }
 
+	void SetAnchor(AnchorPoint anchor);
 	void SetColor(const Color& col);
+	void SetAlpha(const unsigned char& alpha) { alpha_ = alpha; }
 	void SetTexture(const std::string& name);
 
 	// for StateSerializer

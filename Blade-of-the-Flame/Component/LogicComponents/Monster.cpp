@@ -56,8 +56,10 @@ void Monster::Update()
 			return;
 		expGem->SetExp(exp_);
 		death = true;
+
+		MonsterManager::GetInstance().AddCapturedCount();
 	}
-	else if (squareDist > 9 * windowHeight * windowHeight)
+	else if (squareDist > 4 * windowHeight * windowHeight)
 		death = true;
 
 	if (death)

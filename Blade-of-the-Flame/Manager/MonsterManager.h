@@ -4,6 +4,8 @@
 class MonsterManager : public SpawnManager
 {
 private:
+	int capturedCount_ = 0;
+
 	MonsterManager();
 	~MonsterManager() = default;
 
@@ -24,7 +26,11 @@ public:
 	void Spawn() override;
 	void Release(GameObject* obj) override;
 
+	void AddCapturedCount() { capturedCount_++; }
+
 	void Clear() override;
+
+	const int& GetCapturedCount() const { return capturedCount_; }
 
 	friend class GameObjectManager;
 };

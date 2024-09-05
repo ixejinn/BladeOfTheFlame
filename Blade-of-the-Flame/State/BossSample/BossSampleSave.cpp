@@ -13,27 +13,9 @@ void BossSampleSave::Init()
 	AEGfxSetBackgroundColor(0.3f, 0.3f, 0.3f);
 	// -----------------------------------------------------------------------------------------
 	//PLAYER_TEST
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("TestObj");
-	
-	obj->AddComponent<Transform>();
-	obj->GetComponent<Transform>()->SetScale({ 50, 50 });
-	
-	obj->AddComponent<Sprite>();
-	obj->GetComponent<Sprite>()->SetTexture("Assets/PlanetTexture.png");
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
+	obj->AddComponent<Player>();
 
-	obj->AddComponent<RigidBody>();
-
-	obj->AddComponent<PlayerController>();
-	PlayerController* pCtrl = obj->GetComponent<PlayerController>();
-
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
-	pCtrl->SetStopKey(AEVK_SPACE);
-
-	pCtrl->SetMoveSpeed(30.f);
-
-	obj->AddComponent<Audio>();
-	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
 	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");

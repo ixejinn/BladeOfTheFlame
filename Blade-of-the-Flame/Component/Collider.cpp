@@ -138,6 +138,14 @@ void CircleCollider::SetRadius(float r)
 	scale_ = { r, r };
 }
 
+void CircleCollider::MultiplyRadius(float r)
+{
+	float rate = r / 100.f;
+	radius_ += radius_ * rate;
+	scale_.x += scale_.x * rate;
+	scale_.y += scale_.y * rate;
+}
+
 void CircleCollider::ResetRadius()
 {
 	AEVec2 localScale = trans_->GetLocalScale();

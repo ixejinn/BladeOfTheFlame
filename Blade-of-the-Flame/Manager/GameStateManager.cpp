@@ -26,17 +26,30 @@ void GameStateManager::Init()
 
 void GameStateManager::Update()
 {
+	if (curState_ != preState_)
+	{
+		if (preState_ != nullptr)
+			preState_->Exit();
+
+		if (curState_ == nullptr)
+			return;
+
+		curState_->Init();
+		preState_ = curState_;
+	}
+
 	if (curState_)
 	{
 		curState_->Update();
 
 		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
-		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
 		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
 		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
+		
 
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
+		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
 	}
 }
 
@@ -49,10 +62,13 @@ void GameStateManager::Exit()
 void GameStateManager::ChangeState(State* newState)
 {
 	preState_ = curState_;
-	Exit();
-
-	// TODO: Clear Manager
+	//Exit();
 
 	curState_ = newState;
-	Init();
+	//Init();
+}
+
+bool GameStateManager::ShouldExit()
+{
+	return curState_ == nullptr;
 }

@@ -26,7 +26,7 @@ private:
 	std::string currentAnime;
 	std::map<std::string, Animation*> anime;
 	float animationTerm = 1000;
-	float elapsedTime = 0;
+	double elapsedTime = 0.0;
 
 public:
 	AnimationComp(GameObject* owner);

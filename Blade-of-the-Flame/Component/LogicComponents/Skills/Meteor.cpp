@@ -55,7 +55,6 @@ void Meteor::Update()
 		cState = ready;
 	if (cState == ready)
 	{
-		dmg_ = 0;
 		AEInputInit();
 		s32 x, y;
 		AEInputGetCursorPosition(&x, &y);

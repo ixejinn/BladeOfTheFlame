@@ -12,7 +12,7 @@ class Transform;
 class Player : public LogicComponent, public EventEntity
 {
 private:
-	int level_ = 10;
+	int level_ = 1;
 	int hp_ = 100;
 	int exp_ = 0;
 

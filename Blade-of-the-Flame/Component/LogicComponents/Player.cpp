@@ -21,6 +21,7 @@ bool enablePrint;
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
+	level_ = 5;
 	SkillManager::GetInstance().CooldownCountMelee = 1000;
 	SkillManager::GetInstance().CooldownCountMeteor = 1000;
 	SkillManager::GetInstance().CooldownCountFlame = 1000;
@@ -67,18 +68,18 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	Skills_Meteor->AddComponent<Meteor>();
 	Skills_Meteor->GetComponent<Meteor>()->SetPlayer(owner_);
 
-	//Skills_Flame = GameObjectManager::GetInstance().CreateObject("FlameAttack");
-	//Skills_Flame->AddComponent<Flame>();
-	//Skills_Flame->GetComponent<Flame>()->SetPlayer(owner_);
+	Skills_Flame = GameObjectManager::GetInstance().CreateObject("FlameAttack");
+	Skills_Flame->AddComponent<Flame>();
+	Skills_Flame->GetComponent<Flame>()->SetPlayer(owner_);
 
-	ParticleSystem::getPtr()->SetParticle(50, { 10, 10 }, 500);
+	ParticleSystem::getPtr()->SetParticle(30, { 10, 10 }, 1000);
 }
 
 void Player:: RemoveFromManager()
 {
 	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
 }
-float delay = 5;
+
 void Player::Update()
 {
 	/* CHECK */
@@ -122,14 +123,14 @@ void Player::Update()
 			curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
 			curAttack_->On();
 		}
-		//if (AEInputCheckCurr(AEVK_LBUTTON)
-		//	&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
-		//	<= SkillManager::GetInstance().CooldownCountFlame
-		//	&& SkillManager::GetInstance().type == cFlame)
-		//{
-		//	curAttack_ = Skills_Flame->GetComponent<Flame>();
-		//	curAttack_->On();
-		//}
+		if (AEInputCheckCurr(AEVK_LBUTTON)
+			&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
+			<= SkillManager::GetInstance().CooldownCountFlame
+			&& SkillManager::GetInstance().type == cFlame)
+		{
+			curAttack_ = Skills_Flame->GetComponent<Flame>();
+			curAttack_->On();
+		}
 		if (AEInputCheckCurr(AEVK_LBUTTON)
 			&& Skills_Meteor->GetComponent<Meteor>()->GetCooldown()
 			<= SkillManager::GetInstance().CooldownCountMeteor

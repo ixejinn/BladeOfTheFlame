@@ -4,9 +4,14 @@
 
 class MeleeAttack : public BaseAttack
 {
-private:
-	MeleeAttack(GameObject* owner);
+	enum cState
+	{
+		set,
+		go
+	};
 
+	MeleeAttack(GameObject* owner);
+	int state;
 public:
 	void Update() override;
 

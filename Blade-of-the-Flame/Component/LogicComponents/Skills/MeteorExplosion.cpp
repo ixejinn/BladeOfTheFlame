@@ -81,7 +81,7 @@ void MeteorExplosion::OnCollision(CollisionEvent* event)
 	Monster* monster = event->from_->GetComponent<Monster>();
 	if (monster)
 	{
-		monster->ReserveDmg(20);
+		monster->ReserveDmg(dmg_);
 	}
 }
 

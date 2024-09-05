@@ -55,8 +55,8 @@ void FlameAltar::Update()
 				valid = true;
 		}
 		
-		std::cout << "FlameAltar : " << x << ", " << y << std::endl;
-		trans_->SetPosition(x, y);
+		//std::cout << "FlameAltar : " << x << ", " << y << std::endl;
+		trans_->SetPosition(float(x), float(y));
 		timeStart_ = std::chrono::system_clock::now();
 	}
 }

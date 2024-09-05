@@ -130,12 +130,12 @@ void Sprite::SetMesh()
 		AEGfxTriAdd(
 			0.f, -length.y, 0xFFFFFFFF, 0.0f, 1.0f,
 			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			0.f, 0.f - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+			0.f, 0.f, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		AEGfxTriAdd(
 			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			length.x, 0.f - 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
-			0.f, 0.f - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+			length.x, 0.f, 0xFFFFFFFF, 1.0f, 0.0f,
+			0.f, 0.f, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
 	}

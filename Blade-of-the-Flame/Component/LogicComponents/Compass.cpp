@@ -5,7 +5,7 @@
 #include "../../Manager/EventManager.h"
 #include "../../Event/Event.h"
 
-const float pi = std::atan(1) * 4;
+const float pi = float(std::atan(1)) * 4.f;
 
 Compass::Compass(GameObject* owner) : LogicComponent(owner)
 {

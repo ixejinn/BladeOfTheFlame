@@ -70,16 +70,16 @@ void FillBar::Update()
 	static bool compass = true;
 
 	// fill
-	float value = 0.f;
-	float maxValue = 0.f;
+	int value = 0;
+	int maxValue = 1;
 	switch (showType_)
 	{
 	case MONSTER_CNT:
 	{
 		value = MonsterManager::GetInstance().GetCapturedCount();
-		maxValue = 10.f;
+		maxValue = 10;
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
-		text_->SetPosition({ -0.05, 0.93 });
+		text_->SetPosition({ -0.05f, 0.93f });
 
 		ComponentManager<GraphicsComponent>::GetInstance().ToBack(text_);
 
@@ -97,7 +97,7 @@ void FillBar::Update()
 		value = player_->GetExp();
 		maxValue = player_->GetMaxExp();
 		text_->SetString("LEVEL " + std::to_string(player_->GetLevel()) + "     " + std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
-		text_->SetPosition({ -0.1, -0.96 });
+		text_->SetPosition({ -0.1f, -0.96f });
 		ComponentManager<GraphicsComponent>::GetInstance().ToBack(text_);
 		break;
 
@@ -114,7 +114,7 @@ void FillBar::Update()
 
 	if (value > maxValue)
 		value = maxValue;
-	float rate = value / maxValue;
+	float rate = float(value) / maxValue;
 
 	// Set background color
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);

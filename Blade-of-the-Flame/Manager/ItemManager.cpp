@@ -66,30 +66,30 @@ void ItemManager::Spawn()
 		{
 		case 0:	// Up side
 			x = spawnX_(engine);
-			y = halfHeight + spawnOffset_ + x / 100;
+			y = halfHeight + spawnOffset_ + int(x / 100.f);
 			break;
 
 		case 1:	// Right side
 			y = spawnY_(engine);
-			x = halfWidth + spawnOffset_ + y / 100;
+			x = halfWidth + spawnOffset_ + int(y / 100.f);
 			break;
 
 		case 2:	// Down side
 			x = spawnX_(engine);
-			y = -halfHeight - spawnOffset_ - x / 100;
+			y = -halfHeight - spawnOffset_ - int(x / 100.f);
 			break;
 
 		case 3:	// Left side
 			y = spawnY_(engine);
-			x = -halfWidth - spawnOffset_ - y / 100;
+			x = -halfWidth - spawnOffset_ - int(y / 100.f);
 			break;
 		}
 
 		AEVec2 playerPos = playerTrans->GetPosition();
-		x += playerPos.x;
-		y += playerPos.y;
+		x += int(playerPos.x);
+		y += int(playerPos.y);
 
-		item->GetComponent<Transform>()->SetPosition(x, y);
+		item->GetComponent<Transform>()->SetPosition(float(x), float(y));
 		item->active_ = true;
 	}
 }

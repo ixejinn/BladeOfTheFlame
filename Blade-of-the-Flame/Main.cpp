@@ -43,7 +43,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	MainMenu mainMenu;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&sampleSave);
+	gsm.ChangeState(&mainMenu);
 
 	// Game Loop
 	while (gGameRunning)

@@ -10,9 +10,6 @@ class BulletComp : public LogicComponent, public EventEntity
 	
 	float bulletDmg_ = 0.f;
 	float bulletSpeed_ = 0.f;
-	
-	AEVec2 pos_;
-	AEVec2 scale_;
 
 	double cooldown_ = 1.0;
 	std::chrono::system_clock::time_point timeStart_;
@@ -25,11 +22,7 @@ class BulletComp : public LogicComponent, public EventEntity
 	BulletComp(GameObject* ower);
 	
 public:
-
 	AEVec2 unitDir;
-
-	float time = 0;
-
 	bool phase2On = false;
 	bool returnBullet = false;
 	void RemoveFromManager() override;

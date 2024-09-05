@@ -74,7 +74,7 @@ json Audio::SaveToJson()
 	return data;
 }
 
-void Audio::SetAudio(std::string name)
+void Audio::SetAudio(const std::string& name)
 {
 	audioName_ = name;
 	audio_ = *(ResourceManager::GetInstance().Get<AudioResource>(name)->GetData());

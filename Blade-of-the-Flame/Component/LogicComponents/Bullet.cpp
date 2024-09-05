@@ -6,7 +6,7 @@
 #include "../../Manager/GameObjectManager.h"
 #include "../../Component/AnimationComp.h"
 
-BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
+BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 {
 	bulletSpeed_ = 100.f;
 	bulletDmg_	 = 3.f;
@@ -64,7 +64,7 @@ void BulletComp::OnCollision(CollisionEvent* event)
 	Player* player = event->from_->GetComponent<Player>();
 	if (check_ && player)
 	{
-		player->AddHp(-bulletDmg_);
+		player->AddHp(int(-bulletDmg_));
 		check_ = false;
 
 		return;

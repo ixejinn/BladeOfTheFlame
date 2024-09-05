@@ -6,7 +6,7 @@ class GameObject;
 class GameClear : public State
 {
 private:
-	GameObject* obj;
+	GameObject* obj = nullptr;
 
 public:
 	void Init() override;

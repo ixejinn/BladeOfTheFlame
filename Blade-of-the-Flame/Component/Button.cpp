@@ -3,7 +3,7 @@
 #include "../State/GameState.h"
 #include "../Manager/GameStateManager.h"
 
-Button::Button(GameObject* owner) : EngineComponent(owner), pos_(), scl_()
+Button::Button(GameObject* owner) : EngineComponent(owner), todo_(), pos_(), scl_()
 {
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<Sprite>();
@@ -12,7 +12,7 @@ Button::Button(GameObject* owner) : EngineComponent(owner), pos_(), scl_()
 	trans_ = owner_->GetComponent<Transform>();
 
 	sp_ = owner_->GetComponent<Sprite>();
-	sp_->SetAnchor(Sprite::LEFT_UP);
+	//sp_->SetAnchor(Sprite::LEFT_UP);
 
 	txt_ = owner_->GetComponent<Text>();
 	txt_->SetFont("Assets/Roboto-Bold.ttf");
@@ -31,14 +31,14 @@ void Button::Update()
 	AEInputGetCursorPosition(&x, &y);
 	//std::cout << x << ", " << y << std::endl;
 
-	AEVec2 input{ x - 800, -2 * y + 1000 };
+	AEVec2 input{ x - 800.f, 450.f - y };
+	AEVec2 halfScl{ scl_.x / 2, scl_.y / 2 };
 
 	bool pressed = false;
-
 	// Check if button is pressed
 	if (AEInputCheckCurr(AEVK_LBUTTON) &&
-		input.x >= pos_.x && input.x <= pos_.x + scl_.x &&
-		input.y >= pos_.y - scl_.y && input.y <= pos_.y)
+		input.x >= pos_.x - halfScl.x && input.x <= pos_.x + halfScl.x &&
+		input.y >= pos_.y - halfScl.y && input.y <= pos_.y + halfScl.y)
 	{
 		sp_->SetColor({ 255, 0, 0 });
 

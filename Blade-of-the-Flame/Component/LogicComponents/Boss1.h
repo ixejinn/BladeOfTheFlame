@@ -18,17 +18,17 @@ private:
 	};
 	E_bossState current_state;
 
-	float hp_ = 0.f;
-	float maxHp_ = 0.f;
+	int hp_ = 0;
+	int maxHp_ = 0;
 	float moveSpeed_ = 0.f;
 	float chaseSpeed_ = 0.f;
 	float baseDmg_ = 0.f;
 	float skillDmg_ = 0.f;
 	float range_ = 0.f;
 
-	float nomalphaseTime_ = 0.f;
-	float DelayTime_ = 0.f;
-	float shootTime_ = AEFrameRateControllerGetFrameTime();
+	double nomalphaseTime_ = 0.f;
+	double DelayTime_ = 0.f;
+	double shootTime_ = AEFrameRateControllerGetFrameTime();
 
 	int phase1Count_ = 0;
 	int phase2Count_ = 0;
@@ -64,8 +64,8 @@ public:
 	void OnEvent(BaseEvent* event) override;
 	void OnCollision(CollisionEvent* event) override;
 
-	const int& GetHp() { return hp_; }
-	const int& GetMaxHp() { return maxHp_; }
+	const int& GetHp() const { return hp_; }
+	const int& GetMaxHp() const { return maxHp_; }
 
 	GameObject* CreateBulletObj();
 

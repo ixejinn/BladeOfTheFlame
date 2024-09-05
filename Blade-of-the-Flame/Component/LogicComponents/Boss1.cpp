@@ -120,7 +120,7 @@ void Boss1::OnCollision(CollisionEvent* event)
         {
             timeStart_ = std::chrono::system_clock::now();
 
-            player->AddHp(-baseDmg_);
+            player->AddHp(int(-baseDmg_));
         }
         return;
     }
@@ -243,7 +243,7 @@ void Boss1::Phase2()
             DelayTime_   = 0;
             shootCount_ += 1;
         }
-        DelayTime_  += 0.1;
+        DelayTime_  += 0.1f;
     }
     else if (shootCount_ > 2)
     {
@@ -279,7 +279,7 @@ void Boss1::Phase3()
 
     int count = 15;
 
-    float intervalAngle = 360 / count;
+    float intervalAngle = 360.f / count;
 
 
     for (int i = 0; i < count; i++)
@@ -320,7 +320,7 @@ void Boss1::Phase4()
 
     int count = 30;
 
-    float intervalAngle = 360 / count;
+    float intervalAngle = 360.f / count;
 
 
     for (int i = 0; i < count; i++)

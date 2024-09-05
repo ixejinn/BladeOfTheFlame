@@ -25,7 +25,7 @@ AnimationComp::~AnimationComp()
 
 void AnimationComp::Update()
 {
-	float dt = AEFrameRateControllerGetFrameRate();
+	double dt = AEFrameRateControllerGetFrameRate();
 	auto it = anime.find(currentAnime);
 
 	owner_->GetComponent<Sprite>()->SetTexture(it->second->GetDetail());

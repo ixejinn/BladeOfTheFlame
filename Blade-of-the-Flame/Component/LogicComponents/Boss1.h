@@ -69,12 +69,6 @@ public:
 
 	GameObject* CreateBulletObj();
 
-	float Dot(const AEVec2& vec1, const AEVec2& vec2);
-
-	bool Flip(AEVec2 flip);
-
-	AEVec2 scale = { 0, 0 };
-
 	void BossState();
 	void BaseChase();
 	void Phase1();

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="51ac653c-3e56-4abd-9808-9737cdeac846" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/death9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster2/MushRoom_Monster8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster3/Skeleton_Monster1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster3/Skeleton_Monster2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster3/Skeleton_Monster3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster3/Skeleton_Monster4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/lightAtk.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk19.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk21.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk22.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk23.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk24.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk25.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Atk/playerAtk9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hit1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hit2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hit3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hit4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hit5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hit6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hit7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/Hurt/hurt.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/idle/idle9.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run0.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run10.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run11.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run12.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run13.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run14.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run15.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run17.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run18.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run19.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run20.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run21.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run22.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run23.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/Boss2AtkMotion1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/Boss2AtkMotion2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/Boss2death.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle0.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle1.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle2.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle3.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle3.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle4.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle4.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle5.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle5.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle6.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle6.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle7.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle7.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/AnimationComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/AnimationComp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/AnimationComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/AnimationComp.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/BossComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/BossComp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/Bullet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/Bullet.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BossSampleSave.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BossSampleSave.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="2.3" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2ler0KY9y8JNZ7b1R81SsWmCb1n" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "Yejin 병합 중",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="51ac653c-3e56-4abd-9808-9737cdeac846" name="변경" comment="" />
+      <created>1725551158547</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1725551158547</updated>
+      <workItem from="1725551159615" duration="611000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

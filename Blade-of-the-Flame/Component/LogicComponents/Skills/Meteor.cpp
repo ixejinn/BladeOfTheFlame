@@ -12,7 +12,7 @@ Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 	owner->active_ = false;
 	dmg_ = 20;
 	range_ = 700.f;
-	cooldown_ = 0;
+	cooldown_ = 10;
 	dmgGrowthRate_ = 10.f;
 	cState = df;
 	owner->AddComponent<Transform>();

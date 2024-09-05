@@ -12,13 +12,15 @@ class Transform;
 class Player : public LogicComponent, public EventEntity
 {
 private:
+	std::chrono::system_clock::time_point timeStart_;
+
 	int level_ = 1;
 	int hp_ = 100;
 	int exp_ = 0;
 
 	int maxLevel_ = 10;
 	int maxHp_ = 100;
-	int maxExp_ = 1;
+	int maxExp_ = 100;
 
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 80.f;
@@ -52,6 +54,7 @@ public:
 	void OnCollision(CollisionEvent*) override;
 	
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
+	BaseAttack* curAttackMelee = nullptr;
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

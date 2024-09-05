@@ -10,10 +10,13 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 {
 	bulletSpeed_ = 100.f;
 	bulletDmg_	 = 3.f;
-	
+
 	owner_->AddComponent<BoxCollider>();
+	owner_->AddComponent<AnimationComp>();
+	owner_->AddComponent<Sprite>();
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::E_ATTACK);
 	col->SetHandler(static_cast<EventEntity*>(this));

@@ -26,8 +26,6 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     col->SetLayer(Collider::E_BODY);
     col->SetHandler(static_cast<EventEntity*>(this));
 
-    owner_->GetComponent<Sprite>()->SetTexture("Assets/yee.png");
-
     timeStart_ = std::chrono::system_clock::now();
 
     //hp_         = 500;
@@ -66,8 +64,6 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     owner_->active_ = false;
     EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 
-    owner_->AddComponent<AnimationComp>();
-    
     AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
     owner_->AddComponent<Sprite>();
     
@@ -80,6 +76,7 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 
     owner_->GetComponent<BoxCollider>()->SetScale({ 0.4f, 0.8f });
+
 }
 
 void Boss1::Update()

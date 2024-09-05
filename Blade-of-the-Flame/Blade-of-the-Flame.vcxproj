@@ -124,6 +124,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\FlameComp.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\MeteorExplosion.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
     <ClCompile Include="Component\Text.cpp" />
@@ -189,6 +190,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Skills\FlameComp.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Inferno.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Meteor.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\MeteorExplosion.h" />
     <ClInclude Include="Component\Text.h" />
     <ClInclude Include="Component\RigidBody.h" />
     <ClInclude Include="Component\Sprite.h" />

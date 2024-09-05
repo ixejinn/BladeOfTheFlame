@@ -13,19 +13,16 @@ class Meteor : public BaseAttack
 	};
 	Meteor(GameObject* owner);
 	int cState;
-	int temp;
 	AEVec2 convertPos;
 	const AEVec2 startingOffset{ 5000 ,5000 };
 	float meteorLifetime;
 public:
 	void Update() override;
 
-	int GetOriginDmg() const { return temp; }
-
 	void On() override { owner_->active_ = true; }
 
 	void LevelUp() override;
-
+	float GetDmgGrowRate() { return dmgGrowthRate_; }
 	void AttackObject() override;
 
 	void LoadFromJson(const json&) override;

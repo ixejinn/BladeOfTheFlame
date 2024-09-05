@@ -14,7 +14,6 @@ Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 	cooldown_ = 0;
 	dmgGrowthRate_ = 10.f;
 	cState = df;
-	temp = dmg_;
 	owner->AddComponent<Transform>();
 	owner->AddComponent<RigidBody>();
 	owner->AddComponent<Sprite>();
@@ -97,12 +96,12 @@ void Meteor::Update()
 
 void Meteor::LevelUp()
 {
-	temp += int(temp * dmgGrowthRate_ / 100);
+
 }
 
 void Meteor::AttackObject()
 {
-	dmg_ = temp;
+	
 }
 
 void Meteor::LoadFromJson(const json&)

@@ -51,7 +51,7 @@ void FlameAltar::Update()
 			playerPos.y -= y;
 
 			f32 distance = AEVec2Length(&playerPos);
-			if (distance >= windowWidth * 2)
+			if (distance >= windowWidth * 3)
 				valid = true;
 		}
 		

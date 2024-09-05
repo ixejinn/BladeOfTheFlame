@@ -12,6 +12,10 @@
 #include "../../Utils/MathUtils.h"
 #include "../../State/GameOver.h"
 
+void Player::SetAnimation()
+{
+}
+
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
 	timeStart_ = std::chrono::system_clock::now();
@@ -22,6 +26,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
 	owner_->AddComponent<Audio>();
+	owner_->AddComponent<AnimationComp>();
 
 	trans_ = owner_->GetComponent<Transform>();
 	trans_->SetScale({ 30, 100 });
@@ -49,6 +54,8 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	audio_->SetAudio("Assets/ore.mp3");
 	audio_->SetLoop(false);
 	audio_->SetPlaying(false);
+
+	ani_ = owner_->GetComponent<AnimationComp>();
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");

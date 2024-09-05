@@ -14,8 +14,8 @@ private:
 	Transform* trans_ = nullptr;
 	Transform* playerTrans_ = nullptr;
 
-	std::uniform_int_distribution<int> spawnX_{ -windowWidth * 3, windowWidth * 3 };
-	std::uniform_int_distribution<int> spawnY_{ -windowHeight * 3, windowHeight * 3 };
+	std::uniform_int_distribution<int> spawnX_{ -windowWidth * 4, windowWidth * 4 };
+	std::uniform_int_distribution<int> spawnY_{ -windowHeight * 4, windowHeight * 4 };
 
 	FlameAltar(GameObject* owner);
 

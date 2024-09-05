@@ -45,7 +45,7 @@ void MainMenu::InitBackground()
 	GameObject* background = GameObjectManager::GetInstance().CreateObject("background");
 	background->AddComponent<Transform>();
 	//background->AddComponent<Sprite>();
-	background->AddComponent<Audio>();
+	//background->AddComponent<Audio>();
 
 	background->GetComponent<Transform>()->SetScale({ windowWidth, windowHeight });
 

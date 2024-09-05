@@ -122,7 +122,7 @@ void Monster::OnCollision(CollisionEvent* event)
 	}
 }
 
-void Monster::GetDmg(int dmg)
+void Monster::ReserveDmg(int dmg)
 {
 	hp_ -= dmg;
 }

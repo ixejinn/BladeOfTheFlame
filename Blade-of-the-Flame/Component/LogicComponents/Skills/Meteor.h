@@ -20,6 +20,8 @@ class Meteor : public BaseAttack
 public:
 	void Update() override;
 
+	int GetOriginDmg() const { return temp; }
+
 	void On() override { owner_->active_ = true; }
 
 	void LevelUp() override;

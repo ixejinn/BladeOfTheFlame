@@ -76,6 +76,8 @@ public:
 	void Phase3();
 	void Phase4();
 
+	void ReserveDmg(int dmg);
+
 	void LoadFromJson(const json&);
 	json SaveToJson();
 

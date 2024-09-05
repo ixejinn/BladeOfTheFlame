@@ -3,7 +3,6 @@
 #include "../../Manager/EventManager.h"
 #include "../../AnimationComp.h"
 #include "../../Manager/SkillManager.h" 
-#include "../Boss1.h"
 #include <iostream>
 #include "AEUtil.h"
 
@@ -16,7 +15,8 @@ Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 	dmgGrowthRate_ = 10.f;
 	cState = df;
 	temp = dmg_;
-	owner_->AddComponent<CircleCollider>();
+	owner->AddComponent<Transform>();
+	owner->AddComponent<RigidBody>();
 	owner->AddComponent<Sprite>();
 	owner->AddComponent<AnimationComp>();
 	owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/Meteor1.png", "Attack");
@@ -31,11 +31,6 @@ Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 	owner->GetComponent<AnimationComp>()->SetTerm(200.0f);
 	owner->GetComponent<RigidBody>()->ClearVelocity();
 	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
-
-	CircleCollider* col = owner_->GetComponent<CircleCollider>();
-	col->SetType(Collider::CIRCLE_TYPE);
-	col->SetLayer(Collider::P_ATTACK);
-	col->SetHandler(static_cast<EventEntity*>(this));
 }
 namespace
 {
@@ -75,7 +70,7 @@ void Meteor::Update()
 			//Meteor mode
 			owner_->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
 			cState = shoot;
-			meteorLifetime = 12000;
+			meteorLifetime = 11000;
 		}
 	}
 	else if (cState == shoot)
@@ -108,26 +103,6 @@ void Meteor::LevelUp()
 void Meteor::AttackObject()
 {
 	dmg_ = temp;
-	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
-}
-
-void Meteor::OnEvent(BaseEvent*)
-{
-}
-
-void Meteor::OnCollision(CollisionEvent* event)
-{
-	AttackObject();
-
-	Monster* monster = event->from_->GetComponent<Monster>();
-	if (monster)
-		monster->GetDmg(dmg_);
-
-	Boss1* boss = event->from_->GetComponent<Boss1>();
-	if (boss)
-	{
-		
-	}
 }
 
 void Meteor::LoadFromJson(const json&)

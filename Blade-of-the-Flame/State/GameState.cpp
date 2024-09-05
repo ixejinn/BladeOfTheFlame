@@ -76,19 +76,16 @@ void GameState::SetFillBar()
 	monsterBar->AddComponent<FillBar>();
 	FillBar* monsterBarPtr = monsterBar->GetComponent<FillBar>();
 	monsterBarPtr->SetShowType(FillBar::MONSTER_CNT);
-	monsterBarPtr->SetFillColor({ 200, 200, 200 });
 
 	GameObject* expBar = GameObjectManager::GetInstance().CreateObject("expBar");
 	expBar->AddComponent<FillBar>();
 	FillBar* expBarPtr = expBar->GetComponent<FillBar>();
 	expBarPtr->SetShowType(FillBar::PLAYER_EXP);
-	expBarPtr->SetFillColor({ 0, 255, 0 });
 
 	GameObject* healthBar = GameObjectManager::GetInstance().CreateObject("healthBar");
 	healthBar->AddComponent<FillBar>();
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
-	healthBarPtr->SetFillColor({ 255, 0, 0 });
 
 	GameObject* bossBar = GameObjectManager::GetInstance().CreateObject("bossBar");
 	bossBar->AddComponent<FillBar>();

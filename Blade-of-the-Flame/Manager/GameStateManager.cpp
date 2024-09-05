@@ -45,10 +45,11 @@ void GameStateManager::Update()
 		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
 		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
 		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
-		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
+		
 
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
+		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
 	}
 }
 

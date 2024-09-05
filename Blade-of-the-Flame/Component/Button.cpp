@@ -97,8 +97,8 @@ void Button::SetText(const std::string& str)
 	pos.y /= float(windowHeight / 2);
 
 	//pos.x -= float(str.size() / windowWidth * 2);
-	pos.x -= 0.04;
-	pos.y -= 0.007;
+	pos.x -= 0.04f;
+	pos.y -= 0.007f;
 
 	txt_->SetPosition(pos);
 	txt_->SetString(str);

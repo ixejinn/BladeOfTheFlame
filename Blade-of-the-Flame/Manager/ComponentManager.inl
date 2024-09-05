@@ -26,13 +26,8 @@ inline U* ComponentManager<T>::CreateComponent(GameObject* owner)
 template <typename T>
 inline void ComponentManager<T>::UpdateComponent()
 {
-	if (enablePrint)
-		std::cout << __FUNCTION__ << std::endl;
 	for (auto it = components_.begin(); it != components_.end(); ++it)
 	{
-		if (enablePrint)
-			std::cout << components_.size() << std::endl;
-
 		if ((*it)->GetOwner()->active_)
 			(*it)->Update();
 	}

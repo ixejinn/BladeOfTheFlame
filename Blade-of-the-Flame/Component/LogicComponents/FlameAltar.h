@@ -5,6 +5,8 @@
 #include "../../Event/EventEntity.h"
 #include "../../Manager/ComponentManager.h"
 
+class AnimationComp;
+
 class FlameAltar : public LogicComponent, public EventEntity
 {
 private:
@@ -13,9 +15,12 @@ private:
 
 	Transform* trans_ = nullptr;
 	Transform* playerTrans_ = nullptr;
+	AnimationComp* ani_ = nullptr;
 
 	std::uniform_int_distribution<int> spawnX_{ -windowWidth * 4, windowWidth * 4 };
 	std::uniform_int_distribution<int> spawnY_{ -windowHeight * 4, windowHeight * 4 };
+
+	void SetAnimation();
 
 	FlameAltar(GameObject* owner);
 

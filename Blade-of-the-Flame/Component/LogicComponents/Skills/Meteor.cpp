@@ -3,6 +3,7 @@
 #include "../../Manager/EventManager.h"
 #include "../../AnimationComp.h"
 #include "../../Manager/SkillManager.h" 
+#include "MeteorExplosion.h"
 #include <iostream>
 #include "AEUtil.h"
 
@@ -30,6 +31,7 @@ Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 	owner->GetComponent<AnimationComp>()->SetTerm(200.0f);
 	owner->GetComponent<RigidBody>()->ClearVelocity();
 	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
+	explosion = GameObjectManager::GetInstance().CreateObject();
 }
 namespace
 {
@@ -101,7 +103,8 @@ void Meteor::LevelUp()
 
 void Meteor::AttackObject()
 {
-	
+	explosion->AddComponent<MeteorExplosion>();
+	explosion->active_ = true;
 }
 
 void Meteor::LoadFromJson(const json&)

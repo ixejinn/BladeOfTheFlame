@@ -16,6 +16,7 @@ class Meteor : public BaseAttack
 	AEVec2 convertPos;
 	const AEVec2 startingOffset{ 5000 ,5000 };
 	float meteorLifetime;
+	GameObject* explosion;
 public:
 	void Update() override;
 

@@ -5,13 +5,17 @@ class Meteor;
 
 MeteorExplosion::MeteorExplosion(GameObject* owner) : BaseAttack(owner)
 {
+	owner->AddComponent<Transform>();
+	owner->AddComponent<RigidBody>();
+	owner->AddComponent<Sprite>();
 	meteorInf = GameObjectManager::GetInstance().GetObjectA("MeteorAttack");
 	owner->GetComponent<Transform>()->SetPosition(meteorInf->GetComponent<Transform>()->GetPosition());
 	lifetime = 3000;
 	mode = set;
+	owner->GetComponent<Transform>()->SetScale({ 100, 100 });
+	owner->GetComponent<Sprite>()->SetColor({ 255, 255, 255 });
 	dmg_ = meteorInf->GetComponent<Meteor>()->GetDmg();
 	dmgGrowthRate_ = meteorInf->GetComponent<Meteor>()->GetDmgGrowRate();
-
 }
 
 void MeteorExplosion::Update()
@@ -55,4 +59,12 @@ void MeteorExplosion::LoadFromJson(const json&)
 json MeteorExplosion::SaveToJson()
 {
 	return json();
+}
+
+ComponentSerializer* MeteorExplosion::CreateComponent(GameObject* owner)
+{
+	if (!owner->AddComponent<MeteorExplosion>())
+		std::cout << "MeteorExplosion::CreateComponent() Component already exists" << std::endl;
+
+	return owner->GetComponent<MeteorExplosion>();
 }

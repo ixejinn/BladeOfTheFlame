@@ -2,13 +2,14 @@
 #include "../BaseAttack.h"
 #include "AEEngine.h"
 #include ".././../Manager/ComponentManager.h"
-enum
-{
-	set, 
-	go
-};
+
 class MeteorExplosion : public BaseAttack
 {
+	enum cState
+	{
+		set,
+		go
+	};
 	MeteorExplosion(GameObject* owner);
 	float lifetime;
 	AEVec2 Ps;

@@ -14,10 +14,11 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<RigidBody>();
 	owner_->AddComponent<BoxCollider>();
-	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<AnimationComp>();
+	owner_->AddComponent<Sprite>();
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::E_ATTACK);
 	col->SetHandler(static_cast<EventEntity*>(this));

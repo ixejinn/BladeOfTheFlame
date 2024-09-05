@@ -13,11 +13,31 @@
 #include "../../Utils/Utils.h"
 #include "../../Utils/MathUtils.h"
 #include "../../State/GameOver.h"
+#include "../AnimationComp.h"
 
 bool enablePrint;
 
 #include "../LogicComponents/Skills/Meteor.h"
 #include "../LogicComponents/Skills/Flame.h"
+
+void Player::SetAnimation()
+{
+	ani_->AddAnimation("Idle");
+	for (int i = 2; i < 5; i++)
+	{
+		std::string name = "Assets/Player_anime/Idle/image_" + std::to_string(i) + ".png";
+		ani_->AddDetail(name, "Idle");
+	}
+	for (int i = 4; i >= 2; i--)
+	{
+		std::string name = "Assets/Player_anime/Idle/image_" + std::to_string(i) + ".png";
+		ani_->AddDetail(name, "Idle");
+	}
+	ani_->SetTerm(500);
+
+	ani_->ChangeAnimation("Idle");
+}
+
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
@@ -32,9 +52,10 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
 	owner_->AddComponent<Audio>();
+	owner_->AddComponent<AnimationComp>();
 
 	trans_ = owner_->GetComponent<Transform>();
-	trans_->SetScale({ 30, 100 });
+	trans_->SetScale({ 45, 100 });
 	AEVec2 limit{ windowWidth, windowHeight };
 	limit = limit * 4.f;
 	trans_->SetLimit(limit);
@@ -49,8 +70,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	circleCol->SetLayer(Collider::P_CIRCLE);
 	circleCol->SetRadius(attractionRadius_);
 
-	owner_->GetComponent<Sprite>()->SetColor({ 200, 200, 200 });
-
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
 	pCtrl->MultiplyMoveSpeed(moveSpeed_);
@@ -59,6 +78,9 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	audio_->SetAudio("Assets/ore.mp3");
 	audio_->SetLoop(false);
 	audio_->SetPlaying(false);
+
+	ani_ = owner_->GetComponent<AnimationComp>();
+	SetAnimation();
 
 	/* BASIC ATTACK GameObject */
 	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
@@ -161,7 +183,7 @@ void Player::Update()
 	if (getCompass_ && findAltar_ && callBoss)
 	{
 		std::cout << "Next stage!!" << std::endl;
-		NextStageEvent* event = new NextStageEvent();
+		SpawnBossEvent* event = new SpawnBossEvent();
 		event->from_ = owner_;
 		EventManager::GetInstance().AddEvent(event);
 		callBoss = false;

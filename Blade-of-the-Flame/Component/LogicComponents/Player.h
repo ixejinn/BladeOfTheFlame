@@ -13,8 +13,6 @@ class AnimationComp;
 class Player : public LogicComponent, public EventEntity
 {
 private:
-	std::chrono::system_clock::time_point timeStart_;
-
 	int level_ = 1;
 	int hp_ = 100;
 	int exp_ = 0;

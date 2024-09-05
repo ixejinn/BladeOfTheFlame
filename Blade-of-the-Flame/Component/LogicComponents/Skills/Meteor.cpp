@@ -36,7 +36,6 @@ Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 }
 namespace
 {
-
 	AEVec2 convert(AEVec2 a)
 	{
 		AEVec2 worldPos;

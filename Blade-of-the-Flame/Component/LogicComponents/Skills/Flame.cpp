@@ -13,7 +13,6 @@
 //	cooldown_ = 0;
 //	dmgGrowthRate_ = 10;
 //	cState = df;
-//	damage = 5;
 //	owner_->AddComponent<BoxCollider>();
 //	owner->AddComponent<Sprite>();
 //	owner->AddComponent<AnimationComp>();
@@ -114,17 +113,6 @@
 //	return addflame;
 //}
 //
-//void Flame::LevelUp()
-//{
-//	temp += int(temp * dmgGrowthRate_ / 100);
-//	lifetime += 1;
-//}
-//
-//void Flame::AttackObject()
-//{
-//	dmg_ = temp;
-//}
-//
 //void Flame::LoadFromJson(const json&)
 //{
 //}
@@ -139,4 +127,3 @@
 //
 //	return owner->GetComponent<Flame>();
 //}
-//

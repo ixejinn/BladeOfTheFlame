@@ -13,7 +13,6 @@
 //	};
 //	Flame(GameObject* owner);
 //	int cState;
-//	int damage;
 //	float lifetime;
 //	AEVec2 convertPos;
 //	AEVec2 unitDir;
@@ -26,9 +25,9 @@
 //
 //	void On() override { owner_->active_ = true; }
 //
-//	void LevelUp() override;
+//	void LevelUp() override {};
 //
-//	void AttackObject() override;
+//	void AttackObject() override {};
 //
 //	void LoadFromJson(const json&) override;
 //	json SaveToJson() override;

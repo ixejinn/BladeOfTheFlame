@@ -1,101 +1,74 @@
 #include "ParticleSystem.h"
+#include <cmath>
 #include "../Component/LogicComponents/Particle.h"
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 ParticleSystem* ParticleSystem::ptr = nullptr;
+
+ParticleSystem::ParticleSystem()
+{
+	player_ = GameObjectManager::GetInstance().GetObjectA("player");
+	radius = 10;
+	speed = 10;
+}
 
 ParticleSystem::~ParticleSystem()
 {
 	for (auto& p : container)
 	{
-		for (auto& it : p.second)
-		{
-			delete it;
-		}
-		p.second.clear();
+		delete p;
 	}
 	container.clear();
 }
 
-void ParticleSystem::Update(GameObject* owner)
+void ParticleSystem::Update()
 {
-	auto it = container.find(owner);
-	for (GameObject* p : it->second)
+	int i = 0;
+	float angleIncrement = 2 * M_PI / container.size();
+	for (GameObject* p : container)
 	{
-		if (p->GetComponent<Particle>()->GetLifetime() < 0)
-		{
-			p->GetComponent<TransformComp>()->SetPos({ owner->GetComponent<TransformComp>()->GetPos() });
-			p->GetComponent<RigidbodyComp>()->SetVeolcity({ -owner->GetComponent<RigidbodyComp>()->getVelocity().x/5
-				* p->GetComponent<ParticleComp>()->GetInitialVeolcity().x,
-				-owner->GetComponent<RigidbodyComp>()->getVelocity().y/5
-				* p->GetComponent<ParticleComp>()->GetInitialVeolcity().y });
-			p->GetComponent<ParticleComp>()->SetParticleLifetime(1000);
-		}
+		p->GetComponent<Particle>()->temp= p->GetComponent<Particle>()->particleLifetime;
+		p->GetComponent<RigidBody>()->SetVelocity(p->GetComponent<Particle>()->initialVelocity);
+		p->GetComponent<Transform>()->SetScale(p->GetComponent<Particle>()->initialScale);
+		float angle = i * angleIncrement;
+		p->GetComponent<Particle>()->initialPos =
+		{ player_->GetComponent<Transform>()->GetPosition().x + radius * cosf(angle),
+				player_->GetComponent<Transform>()->GetPosition().y + radius * sinf(angle) };
+
+		p->GetComponent<Transform>()->SetPosition
+		({ player_->GetComponent<Transform>()->GetPosition().x + radius * cosf(angle),
+				player_->GetComponent<Transform>()->GetPosition().y + radius * sinf(angle) });
+		p->active_ = true;
+		p->GetComponent<Particle>()->state = go;
+		i++;
 	}
 }
 
-void ParticleSystem::SetParticleCount(int count, GameObject* go)
+void ParticleSystem::SetParticle(int count, AEVec2 scale, float time)
 {
-	container.emplace(go, NULL);
-	auto it = container.find(go);
-	for (GameObject* p : it->second)
+	for (GameObject* p : container)
 	{
 		delete p;
 	}
-	it->second.clear();
-
+	container.clear();
+	float angleIncrement = 2 * M_PI / count;
 	for (int i = 0; i < count; i++)
 	{
-		GameObject* p = GameObjectManager::getPtr()->addObj();
-		TransformComp* particletransformcomp = static_cast<TransformComp*>(TransformComp::CreateTransformComp());
-		SpriteComp* particlespritecomp = static_cast<SpriteComp*>(SpriteComp::CreateSpriteComp());
-		AudioComp* particleaudiocomp = static_cast<AudioComp*>(AudioComp::CreateAudioComp());
-		RigidbodyComp* particlerigidbodycomp = static_cast<RigidbodyComp*>(RigidbodyComp::CreateRigidbodyComp());
-		ParticleComp* particle = static_cast<ParticleComp*>(ParticleComp::CreateParticleComp());
+		GameObject* p = GameObjectManager::GetInstance().CreateObject("Particle" + std::to_string(i));
+		p->AddComponent<Particle>();
 
-		p->addComp(particle);
-		p->addComp(particletransformcomp);
-		p->addComp(particlespritecomp);
-		p->addComp(particleaudiocomp);
-		p->addComp(particlerigidbodycomp);
-		p->checkComp<TransformComp>()->SetPos(go->GetComponent<TransformComp>()->GetPos());
-		it->second.push_back(p);
-	}
-}
+		p->GetComponent<Particle>()->initialScale = scale;
+		p->GetComponent<Particle>()->particleLifetime = time;
 
-void ParticleSystem::SetInitialVelocity(const AEVec2& vel, GameObject* go)
-{
-	auto it = container.find(go);
-	for (GameObject* p : it->second)
-	{
-		p->GetComponent<ParticleComp>()->SetInitialVelocity(vel);
-	}
-}
+		float angle = i * angleIncrement;
 
-void ParticleSystem::SetInitialScale(const AEVec2& scale, GameObject* go)
-{
-	auto it = container.find(go);
-	for (GameObject* p : it->second)
-	{
-		p->GetComponent<ParticleComp>()->SetInitialScale(scale);
-	}
-}
+		p->GetComponent<Particle>()->initialVelocity =
+		{ -speed * sinf(angle), speed * cosf(angle) };
 
-float ParticleSystem::GetLifetime(GameObject* go)
-{
-	auto it = container.find(go);
-	float temp;
-	for (GameObject* p : it->second)
-	{
-		temp = p->GetComponent<ParticleComp>()->GetLifetime();
-	}
-	return temp;
-}
-
-void ParticleSystem::SetLifeTime(float time, GameObject* go)
-{
-	auto it = container.find(go);
-	for (GameObject* p : it->second)
-	{
-		p->GetComponent<ParticleComp>()->SetParticleLifetime(time);
+		container.push_back(p);
 	}
 }
 
@@ -112,3 +85,134 @@ void ParticleSystem::Delete()
 		delete ptr;
 	ptr = nullptr;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//#include "ParticleSystem.h"
+//#include "../Component/LogicComponents/Particle.h"
+//ParticleSystem* ParticleSystem::ptr = nullptr;
+//
+//ParticleSystem::~ParticleSystem()
+//{
+//	for (auto& p : container)
+//	{
+//		for (auto& it : p.second)
+//		{
+//			delete it;
+//		}
+//		p.second.clear();
+//	}
+//	container.clear();
+//}
+//
+//void ParticleSystem::Update(GameObject* owner)
+//{
+//	//auto it = container.find(owner);
+//	//for (GameObject* p : it->second)
+//	//{
+//	//	if (p->GetComponent<Particle>()->GetLifetime() < 0)
+//	//	{
+//	//		p->GetComponent<Transform>()->SetPosition({ owner->GetComponent<Transform>()->GetPosition() });
+//	//		p->GetComponent<RigidBody>()->SetVelocity({ -owner->GetComponent<RigidBody>()->GetVelocity().x/5
+//	//			* p->GetComponent<Particle>()->initialVelocity.x,
+//	//			-owner->GetComponent<RigidBody>()->GetVelocity().y/5
+//	//			* p->GetComponent<Particle>()->initialVelocity.y });
+//	//		p->GetComponent<Particle>()->particleLifetime = 1000;
+//	//	}
+//	//}
+//
+//}
+//
+//void ParticleSystem::SetParticleCount(int count, GameObject* go)
+//{
+//	container.emplace(go, NULL);
+//	auto it = container.find(go);
+//	for (GameObject* p : it->second)
+//	{
+//		delete p;
+//	}
+//	it->second.clear();
+//
+//	for (int i = 0; i < count; i++)
+//	{
+//		GameObject* p = GameObjectManager::GetInstance().CreateObject("Particle" + std::to_string(i));
+//		p->AddComponent<Particle>();
+//		p->GetComponent<Transform>()->SetPosition(go->GetComponent<Transform>()->GetPosition());
+//		it->second.push_back(p);
+//	}
+//}
+//
+//void ParticleSystem::SetInitialVelocity(const AEVec2& vel, GameObject* go)
+//{
+//	auto it = container.find(go);
+//	for (GameObject* p : it->second)
+//	{
+//		p->GetComponent<Particle>()->initialVelocity = vel;
+//	}
+//}
+//
+//void ParticleSystem::SetInitialScale(const AEVec2& scale, GameObject* go)
+//{
+//	auto it = container.find(go);
+//	for (GameObject* p : it->second)
+//	{
+//		p->GetComponent<Particle>()->initialScale = scale;
+//	}
+//}
+//
+//float ParticleSystem::GetLifetime(GameObject* go)
+//{
+//	auto it = container.find(go);
+//	float temp;
+//	for (GameObject* p : it->second)
+//	{
+//		temp = p->GetComponent<Particle>()->particleLifetime;
+//	}
+//	return temp;
+//}
+//
+//void ParticleSystem::SetLifeTime(float time, GameObject* go)
+//{
+//	auto it = container.find(go);
+//	for (GameObject* p : it->second)
+//	{
+//		p->GetComponent<Particle>()->particleLifetime = time;
+//	}
+//}
+//
+//ParticleSystem* ParticleSystem::getPtr()
+//{
+//	if (ptr == nullptr)
+//		ptr = new ParticleSystem;
+//	return ptr;
+//}
+//
+//void ParticleSystem::Delete()
+//{
+//	if (ptr != nullptr)
+//		delete ptr;
+//	ptr = nullptr;
+//}

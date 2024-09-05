@@ -2,33 +2,26 @@
 #include "AEEngine.h"
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
+enum cState
+{
+	set,
+	go
+};
 class Particle : public LogicComponent
 {
-	enum cState
-	{
-		set,
-		go
-	};
-	enum
-	{
-		Default,
-		levelup,
-		bullet
-	};
-	int state = set;
-	GameObject* followTo = nullptr;
+	float dtemp;
 	float delay = 0;
 	Particle(GameObject* owner);
 public:
-	int mode = Default;
+	//int mode = Default;
 	void RemoveFromManager() override;
-	float GetLifetime() { return particleLifetime; }
-
+	AEVec2 initialPos;
 	AEVec2 initialVelocity;
-	AEVec2 initialScale{ 10, 10 };
+	AEVec2 initialScale;
 	float particleLifetime = 1000;
-	
-	void SetFollowing(GameObject* obj) { followTo = obj; }
+	int state = set;
+	float temp;
+
 	void SetDelay(float d) { delay = d; }
 	void Update() override;
 

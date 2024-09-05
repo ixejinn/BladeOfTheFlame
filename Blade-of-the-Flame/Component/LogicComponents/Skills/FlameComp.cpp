@@ -1,5 +1,20 @@
 //#include "FlameComp.h"
+//namespace
+//{
 //
+//	AEVec2 convert(AEVec2 a)
+//	{
+//		AEVec2 worldPos;
+//		worldPos.x = a.x - windowWidth / 2;
+//		worldPos.y = -a.y + windowHeight / 2;
+//		AEVec2 pos;
+//		AEGfxGetCamPosition(&pos.x, &pos.y);
+//		AEVec2 result;
+//		result.x = worldPos.x + pos.x;
+//		result.y = worldPos.y + pos.y;
+//		return result;
+//	}
+//}
 //FlameComp::FlameComp(GameObject* owner) : BaseAttack(owner)
 //{
 //	owner_->AddComponent<Transform>();
@@ -16,21 +31,34 @@
 //{
 //	RigidBody* Rigd = owner_->GetComponent<RigidBody>();
 //	Rigd->AddVelocity(unitDir * FlameSpeed_);
+//
+//	//fire
+//	//Transform* Trans = owner_->GetComponent<Transform>();
+//	//RigidBody* Rigd = owner_->GetComponent<RigidBody>();
+//
+//	//AEVec2Normalize(&unitDir, &dir);
+//
+//	//Rigd->AddVelocity(unitDir * FlameSpeed_);
+//}
+//
+//void FlameComp::LevelUp()
+//{
+//	dmg_ += int(dmg_ * dmgGrowthRate_ / 100);
+//	lifetime += 1;
+//}
+//
+//void FlameComp::SetDir(AEVec2 diraction)
+//{
+//	dir = convert(diraction);
+//}
+//
+//void FlameComp::AttackObject()
+//{
 //}
 //
 //void FlameComp::RemoveFromManager()
 //{
 //	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
-//}
-//
-//void FlameComp::FireFlame()
-//{
-//	Transform* Trans = owner_->GetComponent<Transform>();
-//	RigidBody* Rigd = owner_->GetComponent<RigidBody>();
-//
-//	AEVec2Normalize(&unitDir, &dir);
-//
-//	Rigd->AddVelocity(unitDir * FlameSpeed_);
 //}
 //
 //ComponentSerializer* FlameComp::CreateComponent(GameObject* owner)

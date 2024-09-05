@@ -4,6 +4,7 @@
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
+#include "../../Manager/ParticleSystem.h"
 #include "BaseAttack.h"
 
 class Text;
@@ -11,13 +12,13 @@ class Text;
 class Player : public LogicComponent, public EventEntity
 {
 private:
-	int level_ = 10;
+	int level_ = 1;
 	int hp_ = 100;
 	int exp_ = 0;
 
 	int maxLevel_ = 10;
 	int maxHp_ = 100;
-	int maxExp_ = 100;
+	int maxExp_ = 1;
 
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 80.f;

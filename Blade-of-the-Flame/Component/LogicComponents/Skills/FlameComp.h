@@ -3,7 +3,11 @@
 //#include "../../LogicComponent.h"
 //#include "../../Component/AnimationComp.h"
 //#include "../../Manager/ComponentManager.h"
-//
+//enum
+//{
+//	set,
+//	go
+//};
 //class FlameComp : public BaseAttack
 //{
 //	AEVec2 pos_;
@@ -20,10 +24,16 @@
 //
 //	void Update() override;
 //
+//	void On() override { owner_->active_ = true; }
+//
+//	void LevelUp() override;
+//
+//	void SetDir(AEVec2 diraction);
+//
+//	void AttackObject() override;
+//
 //	void LoadFromJson(const json&) override;
 //	json SaveToJson() override;
-//
-//	void FireFlame();
 //
 //	// for StateSerializer
 //	static constexpr const char* TypeName = "FlameComp";

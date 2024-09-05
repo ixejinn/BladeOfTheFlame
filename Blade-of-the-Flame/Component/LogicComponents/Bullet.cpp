@@ -12,26 +12,24 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner)
 
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<RigidBody>();
-	owner_->AddComponent<Sprite>();
+	//Animation 컴포 사용시 스프라이트 뒤에 넣어줘야됨
 	owner_->AddComponent<AnimationComp>();
-
 	owner_->GetComponent<AnimationComp>()->AddAnimation("BossPhase1");
-
-	owner_->GetComponent<Transform>()->SetScale({ 500, 500 });
+	owner_->AddComponent<Sprite>();
+	owner_->GetComponent<Transform>()->SetScale({ 200, 200 });
 	
-	for (int i = 0; i < 40; i++)
+	for (int i = 0; i < 19; i++)
 	{
-		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
-
+		std::string anim = "Assets/boss1_Anime/Atk/phase2ATK/phase1_" + std::to_string(i) + ".png";
+	
 		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
 	}
-	for (int i = 38; i >= 0; i--)
+	for (int i = 18; i >= 0; i--)
 	{
-		std::string anim = "Assets/boss1_Anime/Atk/phase1ATK/phase1_" + std::to_string(i) + ".png";
-
+		std::string anim = "Assets/boss1_Anime/Atk/phase2ATK/phase1_" + std::to_string(i) + ".png";
+	
 		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
 	}
-
 	owner_->GetComponent<AnimationComp>()->SetTerm(50);
 
 	//AddAnimation("BossPhase1");

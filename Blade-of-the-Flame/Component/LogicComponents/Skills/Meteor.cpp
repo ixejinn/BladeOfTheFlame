@@ -71,7 +71,7 @@ void Meteor::Update()
 			//Meteor mode
 			owner_->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
 			cState = shoot;
-			meteorLifetime = 11000;
+			meteorLifetime = 11300;
 		}
 	}
 	else if (cState == shoot)

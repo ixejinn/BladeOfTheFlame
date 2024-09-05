@@ -16,13 +16,13 @@ MeteorExplosion::MeteorExplosion(GameObject* owner) : BaseAttack(owner)
 	lifetime = 3000;
 	mode = set;
 	owner->GetComponent<Transform>()->SetScale({ 300, 300 });
-	owner->GetComponent<Sprite>()->SetColor({ 255, 255, 255 });
+	owner->GetComponent<Sprite>()->SetColor({ 255, 0, 0 });
 
 	//**//
 	owner_->AddComponent<CircleCollider>();
 	CircleCollider* col = owner_->GetComponent<CircleCollider>();
 	col->SetLayer(Collider::P_ATTACK);
-	col->SetType(Collider::AABB_TYPE);
+	col->SetType(Collider::CIRCLE_TYPE);
 	col->SetHandler(static_cast<EventEntity*>(this));
 
 	dmg_ = meteorInf->GetComponent<Meteor>()->GetDmg();

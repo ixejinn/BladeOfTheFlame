@@ -60,6 +60,7 @@ public:
 	void OnCollision(CollisionEvent*) override;
 	
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
+	BaseAttack* curAttackMelee = nullptr;
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

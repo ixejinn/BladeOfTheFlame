@@ -28,10 +28,8 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 
     timeStart_ = std::chrono::system_clock::now();
 
-    //hp_         = 500;
-    //maxHp_      = 500;
-    hp_ = 100;
-    maxHp_ = 100;
+    hp_         = 500;
+    maxHp_      = 500;
     moveSpeed_  = 5;
     chaseSpeed_ = 30;
     baseDmg_    = 5;

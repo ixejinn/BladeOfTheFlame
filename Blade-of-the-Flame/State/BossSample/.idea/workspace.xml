@@ -9,44 +9,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e41d84f1-30a9-4806-9447-cf397a363dab" name="변경" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile000.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile001.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile002.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile003.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile004.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile005.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile006.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile007.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile008.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile009.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile010.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile011.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Monster_anime/tile012.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Player_anime/Idle/image_9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/TeamLogo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/Torch0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/bigtorchOFF.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/bigtorchlit1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/bigtorchlit2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/bigtorchlit3.png" afterDir="false" />
+    <list default="true" id="51ac653c-3e56-4abd-9808-9737cdeac846" name="변경" comment="">
       <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_0.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_1.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/phase2ATK/phase1_10.png" afterDir="false" />
@@ -106,8 +69,6 @@
       <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk7.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk8.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/walk/walk9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/cookie.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../../Assets/magnet.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster1.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster2.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/moster_Anime/monster1/Monster3.png" afterDir="false" />
@@ -207,19 +168,6 @@
       <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run7.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run8.png" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../../../Assets/player_Anime/run/run9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/Component.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/LogicComponents.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../State/BossSample/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../State/BossSample/.idea/BossSample.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../State/BossSample/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../State/BossSample/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Assets/ame.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/ame.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/Boss2AtkMotion1.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Atk/Boss2AtkMotion2.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Death/Boss2death.png" beforeDir="false" />
@@ -231,31 +179,13 @@
       <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle5.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle5.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle6.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle6.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle7.png" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Assets/boss1_Anime/Idle/Idle7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../Assets/compass.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AnimationComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../AnimationComp.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AnimationComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/../AnimationComp.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../FillBar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../FillBar.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Boss1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Boss1.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Boss1.h" beforeDir="false" afterPath="$PROJECT_DIR$/Boss1.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Bullet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Bullet.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Compass.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Compass.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlameAltar.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/FlameAltar.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FlameAltar.h" beforeDir="false" afterPath="$PROJECT_DIR$/FlameAltar.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HealthItem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/HealthItem.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MagnetItem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MagnetItem.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MeleeAttack.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/MeleeAttack.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Monster.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Monster.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Monster.h" beforeDir="false" afterPath="$PROJECT_DIR$/Monster.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Player.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Player.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Player.h" beforeDir="false" afterPath="$PROJECT_DIR$/Player.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Event/Event.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../Event/Event.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Manager/ItemManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Manager/ItemManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Manager/MonsterManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Manager/MonsterManager.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Manager/MonsterManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../Manager/MonsterManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../Manager/SpawnManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../Manager/SpawnManager.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../State/BossSample/BossSampleSave.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../State/BossSample/BossSampleSave.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../State/GameState.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../State/GameState.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/AnimationComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/AnimationComp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/AnimationComp.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/AnimationComp.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/Boss1.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/BossComp.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/BossComp.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../Component/LogicComponents/Bullet.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../../Component/LogicComponents/Bullet.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BossSampleSave.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/BossSampleSave.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,10 +203,10 @@
     <option name="majorVersion" value="2023" />
     <option name="minorVersion" value="2.3" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
-}</component>
-  <component name="ProjectId" id="2lepl27P1XXmnCzvIgvxg59tGcM" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2ler0KY9y8JNZ7b1R81SsWmCb1n" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -289,7 +219,7 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "temp 병합 중",
+    "git-widget-placeholder": "Yejin 병합 중",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -300,20 +230,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="디폴트 작업">
-      <changelist id="e41d84f1-30a9-4806-9447-cf397a363dab" name="변경" comment="" />
-      <created>1725550544304</created>
+      <changelist id="51ac653c-3e56-4abd-9808-9737cdeac846" name="변경" comment="" />
+      <created>1725551158547</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1725550544304</updated>
-      <workItem from="1725550545976" duration="362000" />
-      <workItem from="1725550911071" duration="114000" />
-      <workItem from="1725551026828" duration="18000" />
-      <workItem from="1725551045520" duration="112000" />
-      <workItem from="1725552530288" duration="26000" />
-      <workItem from="1725552557209" duration="475000" />
-      <workItem from="1725553036469" duration="72000" />
-      <workItem from="1725553109366" duration="34000" />
-      <workItem from="1725558430932" duration="207000" />
+      <updated>1725551158547</updated>
+      <workItem from="1725551159615" duration="611000" />
     </task>
     <servers />
   </component>

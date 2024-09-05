@@ -12,7 +12,7 @@ Flame::Flame(GameObject* owner) : BaseAttack(owner)
 	owner->active_ = false;
 	dmg_ = 5;
 	range_ = 250;
-	cooldown_ = 0;
+	cooldown_ = 3;
 	dmgGrowthRate_ = 5.f;
 	cState = df;
 	count = 0;

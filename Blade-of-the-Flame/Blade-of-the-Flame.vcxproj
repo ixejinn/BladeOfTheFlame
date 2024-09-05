@@ -123,6 +123,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\FlameComp.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\Inferno.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\MeteorExplosion.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />

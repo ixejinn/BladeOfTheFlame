@@ -25,7 +25,7 @@ class SkillManager
 	~SkillManager();
 public:
 	void resetKeys() { Qactive = false, Eactive = false, Ractive = false; }
-	double CooldownCountMelee = 0;
+	//double CooldownCountMelee = 0;
 	double CooldownCountMeteor = 0;
 	double CooldownCountFlame = 0;
 	//static double CooldownCount;

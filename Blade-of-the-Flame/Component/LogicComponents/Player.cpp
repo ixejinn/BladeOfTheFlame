@@ -15,6 +15,11 @@
 #include "../../State/GameOver.h"
 #include "../AnimationComp.h"
 
+bool enablePrint;
+
+#include "../LogicComponents/Skills/Meteor.h"
+#include "../LogicComponents/Skills/Flame.h"
+
 void Player::SetAnimation()
 {
 	ani_->AddAnimation("Idle");
@@ -33,13 +38,12 @@ void Player::SetAnimation()
 	ani_->ChangeAnimation("Idle");
 }
 
-#include "../LogicComponents/Skills/Meteor.h"
-#include "../LogicComponents/Skills/Flame.h"
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	//level_ = 5;
-	SkillManager::GetInstance().CooldownCountMelee = 1000;
+	timeStart_ = std::chrono::system_clock::now();
+
+	//SkillManager::GetInstance().CooldownCountMelee = 1000;
 	SkillManager::GetInstance().CooldownCountMeteor = 1000;
 	SkillManager::GetInstance().CooldownCountFlame = 1000;
 	/* Set Player component */
@@ -91,6 +95,8 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	Skills_Flame->AddComponent<Flame>();
 	Skills_Flame->GetComponent<Flame>()->SetPlayer(owner_);
 
+	curAttackMelee 	= meleeAttack_->GetComponent<MeleeAttack>();
+
 	ParticleSystem::getPtr()->SetParticle(30, { 10, 10 }, 1000);
 }
 
@@ -105,6 +111,9 @@ void Player::Update()
 	// Level up
 	if (exp_ >= maxExp_)
 		LevelUp();
+
+	if (hp_ < 6)
+		enablePrint = true;
 
 	// Death
 	if (hp_ <= 0)
@@ -121,24 +130,36 @@ void Player::Update()
 	AEGfxSetCamPosition(pos.x, pos.y);
 
 	/* ATTACK */
-	SkillManager::GetInstance().CooldownCountMelee += AEFrameRateControllerGetFrameTime();
+	//SkillManager::GetInstance().CooldownCountMelee += AEFrameRateControllerGetFrameTime();
 	SkillManager::GetInstance().CooldownCountMeteor += AEFrameRateControllerGetFrameTime();
 	SkillManager::GetInstance().CooldownCountFlame += AEFrameRateControllerGetFrameTime();
 
-	if(curAttack_ == nullptr)
+	static unsigned int cnt = 0;
+	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+	if (dt.count() >= curAttackMelee->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON))
 	{
 		audio_->SetPlaying(true);
+		timeStart_ = std::chrono::system_clock::now();
 
+		curAttackMelee->AttackObject();
+		cnt = 0;
+	}
+	else if (cnt >= 2)
+		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
+	cnt++;
+
+	if(curAttack_ == nullptr)
+	{
 		SkillManager::GetInstance().KeyCheck();
 		SkillManager::GetInstance().SetSkillType(owner_->GetComponent<Player>()->level_);
-		if (AEInputCheckCurr(AEVK_LBUTTON)
-			&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
-			<= SkillManager::GetInstance().CooldownCountMelee
-			&& SkillManager::GetInstance().type == cScorching)
-		{
-			curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
-			curAttack_->On();
-		}
+		//if (AEInputCheckCurr(AEVK_LBUTTON)
+		//	&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
+		//	<= SkillManager::GetInstance().CooldownCountMelee
+		//	&& SkillManager::GetInstance().type == cScorching)
+		//{
+		//	curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
+		//	curAttack_->On();
+		//}
 		if (AEInputCheckCurr(AEVK_LBUTTON)
 			&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
 			<= SkillManager::GetInstance().CooldownCountFlame
@@ -209,17 +230,13 @@ void Player::LevelUp()
 
 	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);
 	hp_ = maxHp_;
-	
-	LevelUpEvent* event = new LevelUpEvent();
-	event->from_ = owner_;
-	event->level = level_;
-	EventManager::GetInstance().AddEvent(event);
 }
 
 void Player::AddHp(int hp)
 {
-	std::cout << hp_ << std::endl;
+	std::cout << hp_ << " ";
 	hp_ += hp;
+	std::cout << hp_ << std::endl;
 	
 	if (hp_ > maxHp_)
 		hp_ = maxHp_;

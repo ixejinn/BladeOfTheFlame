@@ -1,9 +1,10 @@
 #include "Flame.h"
-#include "../../Event/Event.h"
-#include "../../Manager/EventManager.h"
+
+#include "../../../Event/Event.h"
+#include "../../../Manager/EventManager.h"
 #include "../../AnimationComp.h"
 #include "FlameComp.h"
-#include "../../Manager/SkillManager.h"
+#include "../../../Manager/SkillManager.h"
 
 int Flame::count;
 

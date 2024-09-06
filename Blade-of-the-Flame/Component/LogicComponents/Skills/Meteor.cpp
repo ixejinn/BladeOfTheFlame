@@ -1,8 +1,8 @@
 #include "Meteor.h"
-#include "../../Event/Event.h"
-#include "../../Manager/EventManager.h"
+#include "../../../Event/Event.h"
+#include "../../../Manager/EventManager.h"
 #include "../../AnimationComp.h"
-#include "../../Manager/SkillManager.h" 
+#include "../../../Manager/SkillManager.h" 
 #include "MeteorExplosion.h"
 #include <iostream>
 #include "AEUtil.h"

@@ -2,7 +2,8 @@
 #include "../Component/LogicComponents/Skills/Meteor.h"
 #include "../Component/LogicComponents/Player.h"
 #include "AEEngine.h"
-#include "../../GameObject/GameObject.h"
+//#include "../../GameObject/GameObject.h"
+#include "../GameObject/GameObject.h"
 
 void SkillManager::KeyCheck()
 {

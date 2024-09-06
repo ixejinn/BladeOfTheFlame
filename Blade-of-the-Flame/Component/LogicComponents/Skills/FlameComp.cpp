@@ -1,6 +1,7 @@
 #include "FlameComp.h"
 #include "Flame.h"
-#include "../../Event/Event.h"
+//#include "../../Event/Event.h"
+#include "../../../Event/Event.h"
 #include "../Monster.h"
 FlameComp::FlameComp(GameObject* owner) : BaseAttack(owner)
 {

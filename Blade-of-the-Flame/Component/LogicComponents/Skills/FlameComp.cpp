@@ -49,6 +49,7 @@ void FlameComp::Update()
 		{
 			mode = set;
 			lifetime = 12000;
+			owner_->GetComponent<RigidBody>()->ClearVelocity();
 			owner_->active_ = false;
 		}
 	}

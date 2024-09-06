@@ -58,7 +58,7 @@ void Particle::Update()
 		{
 			AEVec2 temp1234;
 			AEVec2Normalize(&temp1234, &initialVelocity);
-			owner_->GetComponent<RigidBody>()->AddVelocity({ -dt * (temp1234).x * 2, -dt * (temp1234).y * 2 });
+			owner_->GetComponent<RigidBody>()->AddVelocity({ -dt * (temp1234).x * 3, -dt * (temp1234).y * 3 });
 			owner_->GetComponent<Transform>()->SetScale
 			({ owner_->GetComponent<Transform>()->GetScale().x ,
 				owner_->GetComponent<Transform>()->GetScale().y });

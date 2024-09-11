@@ -14,9 +14,6 @@
 #include "../../Utils/MathUtils.h"
 #include "../../State/GameOver.h"
 #include "../AnimationComp.h"
-
-bool enablePrint;
-
 #include "../LogicComponents/Skills/Meteor.h"
 #include "../LogicComponents/Skills/Flame.h"
 
@@ -47,8 +44,8 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	SkillManager::GetInstance().CooldownCountMeteor = 1000;
 	SkillManager::GetInstance().CooldownCountFlame = 1000;
 	/* Set Player component */
-	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
+	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
 	owner_->AddComponent<Audio>();
@@ -65,10 +62,11 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	BoxCollider* boxCol = owner_->GetComponent<BoxCollider>();
 	boxCol->SetLayer(Collider::P_AABB);
 	boxCol->SetHandler(static_cast<EventEntity*>(this));
+	boxCol->SetScale({ 0.6, 0.95 });
 
 	CircleCollider* circleCol = owner_->GetComponent<CircleCollider>();
 	circleCol->SetLayer(Collider::P_CIRCLE);
-	circleCol->SetRadius(attractionRadius_);
+	circleCol->SetRadius(50.f);
 
 	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
@@ -111,9 +109,6 @@ void Player::Update()
 	// Level up
 	if (exp_ >= maxExp_)
 		LevelUp();
-
-	if (hp_ < 6)
-		enablePrint = true;
 
 	// Death
 	if (hp_ <= 0)

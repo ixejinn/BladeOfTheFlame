@@ -8,7 +8,7 @@
 MonsterManager::MonsterManager() : SpawnManager()
 {
 	spawnPeriod_ = 5.0;
-	spawnNumPerWave_ = 5;
+	spawnNumPerWave_ = 20;
 
 	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(LevelUpEvent)), static_cast<EventEntity*>(this));
 	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
@@ -36,13 +36,16 @@ void MonsterManager::Initialize(int maxNum)
 
 void MonsterManager::Spawn()
 {
+	static bool firstSpawn = true;
+
 	if (activeNum_ >= maxActiveNum_)
 		return;
 
 	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-	if (dt.count() < spawnPeriod_)
+	if (dt.count() < spawnPeriod_ && !firstSpawn)
 		return;
 
+	firstSpawn = false;
 	timeStart_ = std::chrono::system_clock::now();
 	static Transform* playerTrans = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 	static auto& engine = RandomEngine::GetInstance().GetEngine();

@@ -28,7 +28,7 @@ void MagnetItem::Update()
 		{
 			timeStart_ = std::chrono::system_clock::now();
 			preRadius_ = playerCircle_->GetRadius();
-			playerCircle_->MultiplyRadius(radiusIncrease_);
+			playerCircle_->MultiplyRadius(radiusMultiple_);
 			firstUse_ = false;
 			return;
 		}
@@ -43,7 +43,8 @@ void MagnetItem::Update()
 		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
 		if (dt.count() >= activeTime)
 		{
-			playerCircle_->SetRadius(preRadius_);
+			//playerCircle_->SetRadius(preRadius_);
+			playerCircle_->MultiplyRadius(1 / radiusMultiple_);
 
 			firstUse_ = true;
 			use_ = false;

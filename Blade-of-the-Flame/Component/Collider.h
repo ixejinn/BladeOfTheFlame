@@ -1,8 +1,10 @@
 #pragma once
 #include "AEMath.h"
+#include "AEEngine.h"
 #include "EngineComponent.h"
 #include "../Manager/ComponentManager.h"
 #include "../Utils/MathUtils.h"
+#include "../Utils/Utils.h"
 #include "../Event/EventEntity.h"
 
 #define LAYER_NUM 7
@@ -45,6 +47,11 @@ protected:
 	Vec3 bottomLeft_;
 	Vec3 topRight_;
 
+	AEGfxVertexList* mesh_;
+	Color color_;
+
+	virtual void SetMesh() = 0;
+
 	Collider(GameObject* owner);
 
 public:
@@ -57,8 +64,8 @@ public:
 	void SetType(const ColliderType& type) { type_ = type; }
 	void SetLayer(const CollisionLayer& layer) { layer_ = layer; }
 	void SetHandler(EventEntity* entity) { collisionHandler_ = entity; }
-	void SetScale(const AEVec2& scale) { scale_ = scale; }
-	void SetCenter(const AEVec2& center) { center_ = center; }
+	void SetScale(const AEVec2& scale);
+	void SetCenter(const AEVec2& center);
 
 	const CollisionLayer& GetLayer() const { return layer_; }
 	const AEVec2 GetBottomLeft() const { return AEVec2{ bottomLeft_.x, bottomLeft_.y }; }
@@ -75,6 +82,8 @@ public:
 class BoxCollider : public Collider
 {
 private:
+	void SetMesh() override;
+
 	BoxCollider(GameObject* owner);
 
 public:
@@ -101,6 +110,8 @@ class CircleCollider : public Collider
 private:
 	float radius_;
 
+	void SetMesh() override;
+
 	CircleCollider(GameObject* owner);
 
 public:
@@ -111,7 +122,7 @@ public:
 	const float& GetRadius() const { return radius_; }
 
 	void SetRadius(float r);
-	void MultiplyRadius(float r);
+	void MultiplyRadius(float m);
 	void ResetRadius();
 
 	// for StateSerializer

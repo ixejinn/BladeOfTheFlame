@@ -49,6 +49,8 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetLayer(Collider::E_BODY);
 	col->SetHandler(static_cast<EventEntity*>(this));
+	col->SetScale({ 0.8f, 0.7f });
+	col->SetCenter({ -0.1f, -0.1f });
 
 	ani_ = owner_->GetComponent<AnimationComp>();
 	SetAnimation();

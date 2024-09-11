@@ -9,7 +9,9 @@
 
 void GameState::Init()
 {
+#ifndef _DEBUG
 	InitBackground();
+#endif
 
 	// Player
 	GameObject* player = GameObjectManager::GetInstance().CreateObject("player");
@@ -33,7 +35,7 @@ void GameState::Init()
 	ExpItemManager::GetInstance().Initialize(230);
 	ItemManager::GetInstance().Initialize(20);
 
-	MonsterManager::GetInstance().SetMaxActiveNum(30);
+	MonsterManager::GetInstance().SetMaxActiveNum(200);
 
 	SetFillBar();
 }

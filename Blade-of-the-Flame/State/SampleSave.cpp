@@ -11,12 +11,12 @@
 
 void SampleSave::Init()
 {
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("btn");
-	obj->AddComponent<Button>();
-	
-	Button* btn = obj->GetComponent<Button>();
-	btn->SetPosition({ 0, 100 });
-	btn->SetScale({ 100, 200 });
+	GameObject* player = GameObjectManager::GetInstance().CreateObject("player");
+	player->AddComponent<Player>();
+
+	GameObject* boss = GameObjectManager::GetInstance().CreateObject("boss");
+	boss->AddComponent<Boss1>();
+	boss->active_ = true;
 
 }
 

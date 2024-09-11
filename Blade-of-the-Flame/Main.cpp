@@ -14,6 +14,7 @@
 #include "State/SampleSave.h"
 #include "State/MainMenu.h"
 #include "State/GameClear.h"
+#include "State/BossSample/BossSampleSave.h"
 // ---------------------------------------------------------------------------
 // main
 
@@ -51,9 +52,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	GameState gameState;
 	SampleSave sampleSave;
 	MainMenu mainMenu;
+	BossSampleSave bossSample;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&mainMenu);
+	gsm.ChangeState(&gameState);
 
 	// Game Loop
 	while (gsm.ShouldExit() == false && gGameRunning)

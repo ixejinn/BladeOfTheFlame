@@ -53,6 +53,7 @@ void Sprite::Update()
 
 	// Draw mesh
 	AEGfxMeshDraw(mesh_, AE_GFX_MDM_TRIANGLES);
+	//AEGfxMeshDraw(mesh_, AE_GFX_MDM_LINES);
 }
 
 void Sprite::LoadFromJson(const json& data)

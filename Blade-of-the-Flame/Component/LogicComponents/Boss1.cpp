@@ -73,8 +73,8 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     owner_->GetComponent<Transform>()->SetScale(scale);
     owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 
-    owner_->GetComponent<BoxCollider>()->SetScale({ 0.4f, 0.8f });
-
+    col->SetScale({ 0.22f, 0.45f });
+    col->SetCenter({ 0.f, -0.15f });
 }
 
 void Boss1::Update()

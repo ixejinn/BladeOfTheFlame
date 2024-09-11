@@ -22,7 +22,7 @@ private:
 	int maxExp_ = 100;
 
 	float moveSpeed_ = 5.f;
-	float attractionRadius_ = 80.f;
+	float attractionRadius_ = 40.f;
 
 	// Level up�� ���� �ʿ��� ����ġ ������ (%)
 	float expRequirement_ = 80.f;

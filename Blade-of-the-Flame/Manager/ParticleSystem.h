@@ -25,7 +25,9 @@
 #pragma once
 #include <list>
 #include "GameObjectManager.h"
-#include "../../Component/LogicComponents/Particle.h"
+//#include "../../Component/LogicComponents/Particle.h"
+#include "../Component/LogicComponents/Particle.h"
+
 class ParticleSystem
 {
 	float radius = 10;

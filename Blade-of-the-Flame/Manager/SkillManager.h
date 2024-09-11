@@ -1,6 +1,9 @@
 #pragma once
-#include "../../Manager/ComponentManager.h"
-#include "../../Manager/GameObjectManager.h"
+//#include "../../../Manager/ComponentManager.h"
+#include "../Manager/ComponentManager.h"
+//#include "../../../Manager/GameObjectManager.h"
+#include "../Manager/GameObjectManager.h"
+
 #include <map>
 
 enum SkillType

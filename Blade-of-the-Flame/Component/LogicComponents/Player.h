@@ -13,29 +13,34 @@ class AnimationComp;
 class Player : public LogicComponent, public EventEntity
 {
 private:
+	static int count;
+
 	int level_ = 1;
 	int hp_ = 100;
 	int exp_ = 0;
 
-	int maxLevel_ = 7;
+	int maxLevel_ = 10;
 	int maxHp_ = 100;
 	int maxExp_ = 100;
+
+	int SkillGage = 0;
 
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 80.f;
 
-	// Level up�� ���� �ʿ��� ����ġ ������ (%)
 	float expRequirement_ = 80.f;
 	float hpGrowthRate_ = 20.;
 
-	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
-	GameObject* Skills_Meteor = nullptr;
-	GameObject* Skills_Flame = nullptr;
-	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
+	//Basic_Attack
+	GameObject* melee_Attack = nullptr;
+	GameObject* double_flame_Attack = nullptr;
+	GameObject* penetrable_double_flame_Attack = nullptr;
 
-	std::chrono::system_clock::time_point timeStart_;
-
-	bool readyMelee = false;
+	//Special_Attack
+	GameObject* shield_Attack = nullptr;
+	GameObject* incendiary_Attack = nullptr;
+	GameObject* meteor_Attack = nullptr;
+	GameObject* fire_bubble_Attack = nullptr;
 
 	Transform* trans_;
 	Audio* audio_;
@@ -46,6 +51,12 @@ private:
 	Player(GameObject* owner);
 
 public:
+	//Timer for Skills
+	double meleeCool = 0;
+	double flameCool = 0;
+	double doubleflameCool = 0;
+	double pendoubleflameCool = 0;
+
 	bool getCompass_ = false;
 	bool findAltar_ = false;
 
@@ -60,7 +71,6 @@ public:
 	void OnCollision(CollisionEvent*) override;
 	
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
-	BaseAttack* curAttackMelee = nullptr;
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

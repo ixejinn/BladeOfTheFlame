@@ -33,7 +33,7 @@ void BossSampleSave::Init()
 	pCtrl->SetMoveSpeed(30.f);
 
 	obj->AddComponent<Audio>();
-	obj->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
+	obj->GetComponent<Audio>()->SetAudio("Assets/FallingRain.mp3");
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
 	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");

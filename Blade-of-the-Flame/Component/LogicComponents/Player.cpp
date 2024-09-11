@@ -8,7 +8,6 @@
 #include "../../Event/Event.h"
 #include "../../Manager/EventManager.h"
 #include "../../Manager/GameObjectManager.h"
-#include "../../Manager/SkillManager.h"
 #include "../../Manager/GameStateManager.h"
 #include "../../Utils/Utils.h"
 #include "../../Utils/MathUtils.h"
@@ -16,6 +15,7 @@
 #include "../AnimationComp.h"
 
 bool enablePrint;
+int Player::count = 0;
 
 #include "../LogicComponents/Skills/Meteor.h"
 #include "../LogicComponents/Skills/Flame.h"
@@ -41,11 +41,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	timeStart_ = std::chrono::system_clock::now();
-
-	//SkillManager::GetInstance().CooldownCountMelee = 1000;
-	SkillManager::GetInstance().CooldownCountMeteor = 1000;
-	SkillManager::GetInstance().CooldownCountFlame = 1000;
+	level_ = 1;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
@@ -55,7 +51,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	owner_->AddComponent<AnimationComp>();
 
 	trans_ = owner_->GetComponent<Transform>();
-	trans_->SetScale({ 45, 100 });
+	trans_->SetScale({ 25, 50 });
 	AEVec2 limit{ windowWidth, windowHeight };
 	limit = limit * 4.f;
 	trans_->SetLimit(limit);
@@ -82,25 +78,23 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	ani_ = owner_->GetComponent<AnimationComp>();
 	SetAnimation();
 
-	/* BASIC ATTACK GameObject */
-	meleeAttack_ = GameObjectManager::GetInstance().CreateObject("playerMeleeAttack");
-	meleeAttack_->AddComponent<MeleeAttack>();
-	meleeAttack_->GetComponent<MeleeAttack>()->SetPlayer(owner_);
-
-	Skills_Meteor = GameObjectManager::GetInstance().CreateObject("MeteorAttack");
-	Skills_Meteor->AddComponent<Meteor>();
-	Skills_Meteor->GetComponent<Meteor>()->SetPlayer(owner_);
-
-	Skills_Flame = GameObjectManager::GetInstance().CreateObject("FlameAttack");
-	Skills_Flame->AddComponent<Flame>();
-	Skills_Flame->GetComponent<Flame>()->SetPlayer(owner_);
-
-	curAttackMelee 	= meleeAttack_->GetComponent<MeleeAttack>();
-
 	ParticleSystem::getPtr()->SetParticle(50, { 10, 10 }, 1500);
+
+	/* BASIC ATTACK GameObject */
+	melee_Attack = GameObjectManager::GetInstance().CreateObject("MeleeAttack");
+	melee_Attack->AddComponent<MeleeAttack>();
+	melee_Attack->GetComponent<MeleeAttack>()->SetPlayer(owner_);
+
+	/* Special ATTACK GameObject */
+	//meteor_Attack = GameObjectManager::GetInstance().CreateObject("MeteorAttack");
+	//meteor_Attack->AddComponent<Meteor>();
+	//meteor_Attack->GetComponent<Meteor>()->SetPlayer(owner_);
+
+	//----------------------------------//
+	curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
 }
 
-void Player:: RemoveFromManager()
+void Player::RemoveFromManager()
 {
 	ComponentManager<LogicComponent>::GetInstance().DeleteComponent(static_cast<LogicComponent*>(this));
 }
@@ -130,52 +124,57 @@ void Player::Update()
 	AEGfxSetCamPosition(pos.x, pos.y);
 
 	/* ATTACK */
-	//SkillManager::GetInstance().CooldownCountMelee += AEFrameRateControllerGetFrameTime();
-	SkillManager::GetInstance().CooldownCountMeteor += AEFrameRateControllerGetFrameTime();
-	SkillManager::GetInstance().CooldownCountFlame += AEFrameRateControllerGetFrameTime();
+	if (1 <= level_ && level_ < 4)
+	{
+		meleeCool += AEFrameRateControllerGetFrameTime();
+		if (SkillGage >= 100)
+		{
+			//쉴드스킬
+		}
+		else
+		{
+			curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
+		}
+	}
+	else if (4 <= level_ && level_ < 7)
+	{
+		flameCool += AEFrameRateControllerGetFrameTime();
+		if (SkillGage >= 100)
+		{
+			//장판스킬
+		}
+		else
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 1)
+			{
+				GameObject* flame_Attack = nullptr;
+				flame_Attack = GameObjectManager::GetInstance().CreateObject("FlameAttack" + std::to_string(count));
+				count++;
+				flame_Attack->AddComponent<Flame>();
+				flame_Attack->GetComponent<Flame>()->SetPlayer(owner_);
+				curAttack_ = flame_Attack->GetComponent<Flame>();
+				curAttack_->On();
+			}
+		}
+	}
+	else if (7 <= level_ && level_ < 10)
+	{
+		//더블 플레임
+		//메테오
+	}
+	else
+	{
+		//관통 더블 플레임
+		// 파이어 버블
+	}
 
-	static unsigned int cnt = 0;
-	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-	if (dt.count() >= curAttackMelee->GetCooldown() && AEInputCheckCurr(AEVK_LBUTTON))
+	if (curAttack_ == melee_Attack->GetComponent<MeleeAttack>() &&
+		curAttack_->GetCooldown() <= meleeCool && 
+		AEInputCheckCurr(AEVK_LBUTTON))
 	{
 		audio_->SetPlaying(true);
-		timeStart_ = std::chrono::system_clock::now();
-
-		curAttackMelee->AttackObject();
-		cnt = 0;
-	}
-	else if (cnt >= 2)
-		GameObjectManager::GetInstance().GetObjectA("playerMeleeAttack")->active_ = false;
-	cnt++;
-
-	if(curAttack_ == nullptr)
-	{
-		SkillManager::GetInstance().KeyCheck();
-		SkillManager::GetInstance().SetSkillType(owner_->GetComponent<Player>()->level_);
-		//if (AEInputCheckCurr(AEVK_LBUTTON)
-		//	&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
-		//	<= SkillManager::GetInstance().CooldownCountMelee
-		//	&& SkillManager::GetInstance().type == cScorching)
-		//{
-		//	curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
-		//	curAttack_->On();
-		//}
-		if (AEInputCheckCurr(AEVK_LBUTTON)
-			&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
-			<= SkillManager::GetInstance().CooldownCountFlame
-			&& SkillManager::GetInstance().type == cFlame)
-		{
-			curAttack_ = Skills_Flame->GetComponent<Flame>();
-			curAttack_->On();
-		}
-		if (AEInputCheckCurr(AEVK_LBUTTON)
-			&& Skills_Meteor->GetComponent<Meteor>()->GetCooldown()
-			<= SkillManager::GetInstance().CooldownCountMeteor
-			&& SkillManager::GetInstance().type == cMeteor)
-		{
-			curAttack_ = Skills_Meteor->GetComponent<Meteor>();
-			curAttack_->On();
-		}
+		curAttack_->AttackObject();
+		meleeCool = 0;
 	}
 
 	/* NEXT STAGE */

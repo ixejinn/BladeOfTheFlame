@@ -37,8 +37,8 @@
 class MeleeAttack : public BaseAttack
 {
 private:
+	int check;
 	MeleeAttack(GameObject* owner);
-
 public:
 	void Update() override;
 

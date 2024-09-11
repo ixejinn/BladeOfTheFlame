@@ -69,7 +69,7 @@ void GameState::InitBackground()
 	sp->SetTexture("Assets/Realmap.png");
 
 	Audio* audio = background->GetComponent<Audio>();
-	audio->SetAudio("Assets/bouken.mp3");
+	audio->SetAudio("Assets/FallingRain.mp3");
 }
 
 void GameState::SetFillBar()

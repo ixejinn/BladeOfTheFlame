@@ -37,7 +37,6 @@ Flame::Flame(GameObject* owner) : BaseAttack(owner)
 	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile015.png", "Idle");
 	owner->GetComponent<AnimationComp>()->SetTerm(100.0f);
 	owner->GetComponent<RigidBody>()->ClearVelocity();
-	fl = GameObjectManager::GetInstance().CreateObject();
 }
 
 namespace
@@ -91,13 +90,11 @@ void Flame::Update()
 
 void Flame::AttackObject()
 {
-	//std::string unique_Flame_name = "Flame" + std::to_string(count);
-	//count++;
-	//GameObject* p = GameObjectManager::GetInstance().CreateObject(unique_Flame_name);
-	//p->AddComponent<FlameComp>();
-	//p->active_ = true;
-	fl->AddComponent<FlameComp>();
-	fl->active_ = true;
+	std::string unique_Flame_name = "Flame" + std::to_string(count);
+	count++;
+	GameObject* p = GameObjectManager::GetInstance().CreateObject(unique_Flame_name);
+	p->AddComponent<FlameComp>();
+	p->active_ = true;
 }
 
 void Flame::LoadFromJson(const json&)

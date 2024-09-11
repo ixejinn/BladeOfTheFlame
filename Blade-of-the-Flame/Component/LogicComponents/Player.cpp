@@ -97,7 +97,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	curAttackMelee 	= meleeAttack_->GetComponent<MeleeAttack>();
 
-	ParticleSystem::getPtr()->SetParticle(30, { 10, 10 }, 1000);
+	ParticleSystem::getPtr()->SetParticle(50, { 10, 10 }, 1500);
 }
 
 void Player:: RemoveFromManager()

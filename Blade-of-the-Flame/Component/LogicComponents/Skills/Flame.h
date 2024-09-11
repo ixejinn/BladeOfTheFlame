@@ -16,7 +16,6 @@ class Flame : public BaseAttack
 	AEVec2 convertPos;
 	AEVec2 unitDir;
 	static int count;
-	GameObject* fl;
 public:
 	void Update() override;
 

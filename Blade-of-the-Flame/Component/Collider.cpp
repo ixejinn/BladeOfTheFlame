@@ -3,6 +3,7 @@
 #include <iostream>
 #include "../GameObject/GameObject.h"
 #include "../Manager/CollisionManager.h"
+#include "../Manager/Camera.h"
 
 Collider::Collider(GameObject* owner)
 	: EngineComponent(owner), layer_(), collisionHandler_(nullptr), vertices_(), bottomLeft_(), topRight_(), mesh_(), color_()
@@ -15,6 +16,13 @@ Collider::Collider(GameObject* owner)
 	trans_ = owner_->GetComponent<Transform>();
 }
 
+Collider::~Collider()
+{
+#ifdef _DEBUG
+	AEGfxMeshFree(mesh_);
+#endif
+}
+
 void Collider::RemoveFromManager()
 {
 	ComponentManager<EngineComponent>::GetInstance().DeleteComponent(static_cast<EngineComponent*>(this));
@@ -23,6 +31,8 @@ void Collider::RemoveFromManager()
 void Collider::Update()
 {
 	AEMtx33 transformMatrix = trans_->GetMatrix();
+	//AEMtx33Concat(&transformMatrix, &Camera::GetInstance().GetMatrix(), &transformMatrix);
+
 	if (type_ == CIRCLE_TYPE)
 	{
 		float sclMax = max(transformMatrix.m[0][0], transformMatrix.m[1][1]);
@@ -99,6 +109,9 @@ void Collider::CallHandler(CollisionEvent* event)
 
 void BoxCollider::SetMesh()
 {
+	if (mesh_ != nullptr)
+		AEGfxMeshFree(mesh_);
+
 	// Set mesh
 	AEGfxMeshStart();
 
@@ -150,6 +163,7 @@ void BoxCollider::Update()
 
 	// Set transform
 	AEMtx33 transf = trans_->GetMatrix();
+	AEMtx33Concat(&transf, &Camera::GetInstance().GetMatrix(), &transf);
 	AEGfxSetTransform(transf.m);
 
 	// Draw mesh
@@ -182,6 +196,9 @@ ComponentSerializer* BoxCollider::CreateComponent(GameObject* owner)
 
 void CircleCollider::SetMesh()
 {
+	if (mesh_ != nullptr)
+		AEGfxMeshFree(mesh_);
+
 	// Set mesh
 	AEGfxMeshStart();
 
@@ -240,6 +257,7 @@ void CircleCollider::Update()
 	float scl = max(transf.m[0][0], transf.m[1][1]);
 	transf.m[0][0] = scl;
 	transf.m[1][1] = scl;
+	AEMtx33Concat(&transf, &Camera::GetInstance().GetMatrix(), &transf);
 	AEGfxSetTransform(transf.m);
 
 	// Draw mesh

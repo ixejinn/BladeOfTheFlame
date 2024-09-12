@@ -28,6 +28,7 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	background_->GetComponent<Sprite>()->SetColor(backColor_);
 
 	PlayerController* pCtrl = background_->GetComponent<PlayerController>();
+	pCtrl = background_->GetComponent<PlayerController>();
 	pCtrl->SetDashKey(AEVK_SPACE);
 	pCtrl->MultiplyMoveSpeed(player_->GetMoveSpeed());
 

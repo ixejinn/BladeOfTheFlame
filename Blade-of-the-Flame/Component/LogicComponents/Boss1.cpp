@@ -63,7 +63,6 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 
     AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
-    owner_->AddComponent<Sprite>();
     
     bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/walk/walk", "walk");
     bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/Idle/Idle", "Idle");

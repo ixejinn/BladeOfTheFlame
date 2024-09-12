@@ -43,8 +43,6 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	owner_->AddComponent<AnimationComp>();
 
 	owner_->GetComponent<Transform>()->SetScale({ 30, 100 });
-	//owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
-	//owner_->GetComponent<Sprite>()->SetTexture("Assets/monster.png");
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetLayer(Collider::E_BODY);
@@ -77,9 +75,8 @@ void Monster::Update()
 	if (hp_ <= 0)
 	{
 		ExpItem* expGem = ExpItemManager::GetInstance().Spawn(pos);
-		if (!expGem)
-			return;
-		expGem->SetExp(exp_);
+		if (expGem)
+			expGem->SetExp(exp_);
 		death = true;
 
 		MonsterManager::GetInstance().AddCapturedCount();
@@ -130,6 +127,8 @@ void Monster::OnCollision(CollisionEvent* event)
 
 			player->AddHp(-dmg_);
 		}
+
+		delete event;
 		return;
 	}
 
@@ -143,6 +142,7 @@ void Monster::OnCollision(CollisionEvent* event)
 		rb->ClearVelocity();
 		rb->AddVelocity(velocity * -knockback_);
 
+		delete event;
 		return;
 	}
 }

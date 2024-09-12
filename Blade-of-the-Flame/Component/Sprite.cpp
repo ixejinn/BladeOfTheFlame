@@ -2,6 +2,7 @@
 
 #include "Transform.h"
 #include "../Manager/ResourceManager.h"
+#include "../Manager/Camera.h"
 #include "../GameObject/GameObject.h"
 #include "../Resource/TextureResource.h"
 
@@ -49,6 +50,7 @@ void Sprite::Update()
 
 	// Set transform
 	AEMtx33 transf = (owner_->GetComponent<Transform>())->GetMatrix();
+	AEMtx33Concat(&transf, &Camera::GetInstance().GetMatrix(), &transf);
 	AEGfxSetTransform(transf.m);
 
 	// Draw mesh
@@ -86,6 +88,9 @@ json Sprite::SaveToJson()
 
 void Sprite::SetMesh()
 {
+	if (mesh_)
+		AEGfxMeshFree(mesh_);
+
 	// Set mesh
 	AEGfxMeshStart();
 

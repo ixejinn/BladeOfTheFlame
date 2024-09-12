@@ -16,6 +16,7 @@
 #include "../AnimationComp.h"
 #include "../LogicComponents/Skills/Meteor.h"
 #include "../LogicComponents/Skills/Flame.h"
+#include "../../Manager/Camera.h"
 
 void Player::SetAnimation()
 {
@@ -46,7 +47,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	/* Set Player component */
 	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<BoxCollider>();
-	owner_->AddComponent<Sprite>();
 	owner_->AddComponent<PlayerController>();
 	owner_->AddComponent<Audio>();
 	owner_->AddComponent<AnimationComp>();
@@ -121,8 +121,9 @@ void Player::Update()
 	}
 
 	/* SET CAMERA */
-	AEVec2 pos = trans_->GetPosition();
-	AEGfxSetCamPosition(pos.x, pos.y);
+	//AEVec2 pos = trans_->GetPosition();
+	////AEGfxSetCamPosition(pos.x, pos.y);
+	//Camera::GetInstance().SetPos(pos.x, pos.y);
 
 	/* ATTACK */
 	//SkillManager::GetInstance().CooldownCountMelee += AEFrameRateControllerGetFrameTime();
@@ -147,14 +148,7 @@ void Player::Update()
 	{
 		SkillManager::GetInstance().KeyCheck();
 		SkillManager::GetInstance().SetSkillType(owner_->GetComponent<Player>()->level_);
-		//if (AEInputCheckCurr(AEVK_LBUTTON)
-		//	&& meleeAttack_->GetComponent<MeleeAttack>()->GetCooldown()
-		//	<= SkillManager::GetInstance().CooldownCountMelee
-		//	&& SkillManager::GetInstance().type == cScorching)
-		//{
-		//	curAttack_ = meleeAttack_->GetComponent<MeleeAttack>();
-		//	curAttack_->On();
-		//}
+
 		if (AEInputCheckCurr(AEVK_LBUTTON)
 			&& Skills_Flame->GetComponent<Flame>()->GetCooldown()
 			<= SkillManager::GetInstance().CooldownCountFlame
@@ -209,6 +203,7 @@ void Player::OnCollision(CollisionEvent* event)
 			findAltar_ = true;
 	}
 		
+	delete event;
 }
 
 void Player::LevelUp()

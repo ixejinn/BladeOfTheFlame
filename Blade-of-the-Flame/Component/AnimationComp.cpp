@@ -5,11 +5,13 @@
 
 AnimationComp::AnimationComp(GameObject* owner) : GraphicsComponent(owner)
 {
-	AddAnimation("Idle");
-	AddAnimation("walk");
-	AddAnimation("Attack");
-	AddAnimation("Hit");
-	AddAnimation("Dead");
+	owner_->AddComponent<Sprite>();
+
+	//AddAnimation("Idle");
+	//AddAnimation("walk");
+	//AddAnimation("Attack");
+	//AddAnimation("Hit");
+	//AddAnimation("Dead");
 
 	currentAnime = "Idle";
 }
@@ -47,7 +49,8 @@ void AnimationComp::RemoveFromManager()
 void AnimationComp::AddAnimation(std::string other)//�ִϸ��̼� Ÿ�Լ���
 {
 	Animation* p = new Animation;
-	anime.emplace(other, p);
+	if (anime.find(other) == anime.end())
+		anime.emplace(other, p);
 }
 
 void AnimationComp::DeleteAnimation(std::string other)
@@ -71,6 +74,7 @@ bool AnimationComp::CurrentAnimationOver()
 
 void AnimationComp::AnimationLoop(int init, int max, std::string name, std::string type)
 {
+	AddAnimation(type);
 	for (int i = init; i < max; i++)
 	{
 		std::string anim = name + std::to_string(i) + ".png";
@@ -115,7 +119,10 @@ std::string Animation::GetDetail()
 
 void AnimationComp::AddDetail(std::string s, std::string which)
 {
-	anime.find(which)->second->detail.push_back(s);
+	if (anime.find(which) == anime.end())
+		AddAnimation(which);
+
+	anime[which]->detail.push_back(s);
 }
 
 void AnimationComp::DeleteDetail(std::string s, std::string which)

@@ -6,6 +6,7 @@
 #include "../Manager/ItemManager.h"
 #include "../Manager/EventManager.h"
 #include "../Manager/CollisionManager.h"
+#include "../Manager/ParticleSystem.h"
 
 void GameState::Init()
 {
@@ -54,6 +55,7 @@ void GameState::Exit()
 	MonsterManager::GetInstance().Clear();
 	GameObjectManager::GetInstance().Clear();
 	CollisionManager::GetInstance().Clear();
+	ParticleSystem::Delete();
 
 }
 

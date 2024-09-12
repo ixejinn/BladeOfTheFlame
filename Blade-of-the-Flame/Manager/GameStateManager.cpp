@@ -5,6 +5,7 @@
 #include "../Manager/ComponentManager.h"
 #include "../Manager/CollisionManager.h"
 #include "../Manager/EventManager.h"
+#include "../Manager/Camera.h"
 #include "../Component/EngineComponent.h"
 #include "../Component/GraphicsComponent.h"
 #include "../Component/LogicComponent.h"
@@ -41,15 +42,17 @@ void GameStateManager::Update()
 	if (curState_)
 	{
 		curState_->Update();
-
-		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
-		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
-		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
 		
-
+		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
+
+		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
+		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
+
+		Camera::GetInstance().Update();
 		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
+		
 	}
 }
 

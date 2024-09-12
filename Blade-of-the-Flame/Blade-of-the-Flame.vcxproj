@@ -132,6 +132,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\Transform.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Manager\Camera.cpp" />
     <ClCompile Include="Manager\CollisionManager.cpp" />
     <ClCompile Include="Manager\EventManager.cpp" />
     <ClCompile Include="Manager\ExpItemManager.cpp" />
@@ -199,6 +200,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Event\Event.h" />
     <ClInclude Include="Event\EventEntity.h" />
     <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="Manager\Camera.h" />
     <ClInclude Include="Manager\CollisionManager.h" />
     <ClInclude Include="Manager\ComponentManager.h" />
     <ClInclude Include="Manager\EventManager.h" />

@@ -53,6 +53,7 @@ protected:
 	virtual void SetMesh() = 0;
 
 	Collider(GameObject* owner);
+	virtual ~Collider();
 
 public:
 	void RemoveFromManager() override;

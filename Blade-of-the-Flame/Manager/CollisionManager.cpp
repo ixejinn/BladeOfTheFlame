@@ -168,6 +168,8 @@ void CollisionManager::CheckAllCollision()
 			event1to2->from_ = pair.first->owner_;
 			event1to2->fromType_ = pair.first->type_;
 			pair.second->CallHandler(event1to2);
+
+			delete event1to2;
 		}
 		
 		if (pair.first->collisionHandler_)
@@ -176,6 +178,8 @@ void CollisionManager::CheckAllCollision()
 			event2to1->from_ = pair.second->owner_;
 			event2to1->fromType_ = pair.second->type_;
 			pair.first->CallHandler(event2to1);
+
+			delete event2to1;
 		}
 		
 		collisionPairs_.pop();

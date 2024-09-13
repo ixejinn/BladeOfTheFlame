@@ -202,8 +202,6 @@ void Player::OnCollision(CollisionEvent* event)
 		if (getCompass_)
 			findAltar_ = true;
 	}
-		
-	delete event;
 }
 
 void Player::LevelUp()

@@ -82,8 +82,6 @@ void MagnetItem::OnCollision(CollisionEvent* event)
 	Player* player = event->from_->GetComponent<Player>();
 	if (player)
 		use_ = true;
-
-	delete event;
 }
 
 ComponentSerializer* MagnetItem::CreateComponent(GameObject* owner)

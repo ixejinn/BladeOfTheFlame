@@ -13,15 +13,6 @@
 
 GameStateManager::GameStateManager() : preState_(nullptr), curState_(nullptr) {}
 
-GameStateManager::~GameStateManager()
-{
-	//if (preState_)
-	//	delete preState_;
-
-	//if (curState_)
-	//	delete curState_;
-}
-
 void GameStateManager::Clear()
 {
 	preState_ = nullptr;

@@ -128,7 +128,6 @@ void Monster::OnCollision(CollisionEvent* event)
 			player->AddHp(-dmg_);
 		}
 
-		delete event;
 		return;
 	}
 
@@ -142,7 +141,6 @@ void Monster::OnCollision(CollisionEvent* event)
 		rb->ClearVelocity();
 		rb->AddVelocity(velocity * -knockback_);
 
-		delete event;
 		return;
 	}
 }

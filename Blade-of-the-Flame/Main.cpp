@@ -52,7 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	GameObjectManager::GetInstance();
 
 	//GameState gameState;
-	//SampleSave sampleSave;
+	//SampleSave* sampleSave = new SampleSave();
 	MainMenu* mainMenu = new MainMenu();
 	//BossSampleSave bossSample;
 

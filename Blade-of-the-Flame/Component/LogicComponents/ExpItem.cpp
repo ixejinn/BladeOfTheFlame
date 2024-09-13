@@ -68,8 +68,6 @@ void ExpItem::OnCollision(CollisionEvent* event)
 		}
 		}
 	}
-
-	delete event;
 }
 
 ComponentSerializer* ExpItem::CreateComponent(GameObject* owner)

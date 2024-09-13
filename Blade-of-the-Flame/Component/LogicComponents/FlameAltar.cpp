@@ -113,8 +113,6 @@ void FlameAltar::OnCollision(CollisionEvent* event)
 			ani_->ChangeAnimation("On");
 		}
 	}
-
-	delete event;
 }
 
 ComponentSerializer* FlameAltar::CreateComponent(GameObject* owner)

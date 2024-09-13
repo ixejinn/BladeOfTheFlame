@@ -117,7 +117,6 @@ void Boss1::OnCollision(CollisionEvent* event)
 
             player->AddHp(int(-baseDmg_));
         }
-        delete event;
         return;
     }
 
@@ -129,9 +128,7 @@ void Boss1::OnCollision(CollisionEvent* event)
         RigidBody* rb = owner_->GetComponent<RigidBody>();
         AEVec2 velocity = rb->GetVelocity();
         rb->ClearVelocity();
-        //rb->AddVelocity(velocity * -knockback_);
 
-        delete event;
         return;
     }
 }

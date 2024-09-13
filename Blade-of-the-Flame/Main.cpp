@@ -51,13 +51,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ComponentManager<LogicComponent>::GetInstance();
 	GameObjectManager::GetInstance();
 
-	GameState gameState;
-	SampleSave sampleSave;
-	//MainMenu mainMenu;
+	//GameState gameState;
+	//SampleSave sampleSave;
+	MainMenu* mainMenu = new MainMenu();
 	//BossSampleSave bossSample;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&sampleSave);
+	gsm.ChangeState(mainMenu);
 
 	// Game Loop
 	while (gsm.ShouldExit() == false && gGameRunning)

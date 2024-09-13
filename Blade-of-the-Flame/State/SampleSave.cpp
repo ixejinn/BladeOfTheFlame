@@ -18,9 +18,9 @@ void SampleSave::Init()
 	//obj->GetComponent<Transform>()->SetScale({ 100, 100 });
 	//obj->AddComponent<Sprite>();
 
-	//GameObject* boss = GameObjectManager::GetInstance().CreateObject("boss");
-	//boss->AddComponent<Boss1>();
-	//boss->active_ = true;
+	GameObject* boss = GameObjectManager::GetInstance().CreateObject("boss");
+	boss->AddComponent<Boss1>();
+	boss->active_ = true;
 
 	//GameObject* monster = GameObjectManager::GetInstance().CreateObject("monster");
 	//monster->AddComponent<Monster>();
@@ -31,15 +31,15 @@ void SampleSave::Init()
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
 
-	MonsterManager::GetInstance().Initialize(10);
-	ExpItemManager::GetInstance().Initialize(20);
+	//MonsterManager::GetInstance().Initialize(10);
+	//ExpItemManager::GetInstance().Initialize(20);
 
-	MonsterManager::GetInstance().SetMaxActiveNum(5);
+	//MonsterManager::GetInstance().SetMaxActiveNum(5);
 }
 
 void SampleSave::Update()
 {
-	MonsterManager::GetInstance().Spawn();
+	//MonsterManager::GetInstance().Spawn();
 }
 
 void SampleSave::Exit()

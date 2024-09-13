@@ -71,7 +71,7 @@ void BulletComp::OnCollision(CollisionEvent* event)
 		player->AddHp(int(-bulletDmg_));
 		check_ = false;
 
-		return;
+		delete event;
 	}
 }
 

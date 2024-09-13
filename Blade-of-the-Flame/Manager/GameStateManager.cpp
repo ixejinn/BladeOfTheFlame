@@ -13,6 +13,15 @@
 
 GameStateManager::GameStateManager() : preState_(nullptr), curState_(nullptr) {}
 
+GameStateManager::~GameStateManager()
+{
+	//if (preState_)
+	//	delete preState_;
+
+	//if (curState_)
+	//	delete curState_;
+}
+
 void GameStateManager::Clear()
 {
 	preState_ = nullptr;
@@ -30,7 +39,10 @@ void GameStateManager::Update()
 	if (curState_ != preState_)
 	{
 		if (preState_ != nullptr)
+		{
 			preState_->Exit();
+			delete preState_;
+		}
 
 		if (curState_ == nullptr)
 			return;
@@ -40,9 +52,7 @@ void GameStateManager::Update()
 	}
 
 	if (curState_)
-	{
-		curState_->Update();
-		
+	{		
 		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
@@ -50,20 +60,27 @@ void GameStateManager::Update()
 		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
 		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
 
+		curState_->Update();
+
 		Camera::GetInstance().Update();
 		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
-		
 	}
 }
 
 void GameStateManager::Exit()
 {
 	if (curState_)
+	{
 		curState_->Exit();
+		delete curState_;
+	}
 }
 
 void GameStateManager::ChangeState(State* newState)
 {
+	//if (preState_)
+	//	delete preState_;
+
 	preState_ = curState_;
 	//Exit();
 

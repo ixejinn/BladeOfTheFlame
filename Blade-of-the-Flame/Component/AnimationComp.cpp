@@ -28,16 +28,15 @@ AnimationComp::~AnimationComp()
 void AnimationComp::Update()
 {
 	double dt = AEFrameRateControllerGetFrameRate();
-	auto it = anime.find(currentAnime);
 
-	owner_->GetComponent<Sprite>()->SetTexture(it->second->GetDetail());
+	owner_->GetComponent<Sprite>()->SetTexture(anime[currentAnime]->GetDetail());
 
 	elapsedTime += dt;
 
 	if (elapsedTime >= animationTerm)
 	{
 		elapsedTime = 0;
-		anime.find(currentAnime)->second->p++;
+		anime[currentAnime]->p++;
 	}
 }
 
@@ -64,7 +63,7 @@ void AnimationComp::DeleteAnimation(std::string other)
 
 bool AnimationComp::CurrentAnimationOver()
 {
-	if (anime.find(currentAnime)->second->animationplay != false)
+	if (anime[currentAnime]->animationplay != false)
 	{
 		return true;
 	}
@@ -127,6 +126,6 @@ void AnimationComp::AddDetail(std::string s, std::string which)
 
 void AnimationComp::DeleteDetail(std::string s, std::string which)
 {
-	auto newEnd = std::remove(anime.find(which)->second->detail.begin(), anime.find(which)->second->detail.end(), s);
-	anime.find(which)->second->detail.erase(newEnd, anime.find(which)->second->detail.end());
+	auto newEnd = std::remove(anime[which]->detail.begin(), anime[which]->detail.end(), s);
+	anime[which]->detail.erase(newEnd, anime[which]->detail.end());
 }

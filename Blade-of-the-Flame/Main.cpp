@@ -24,7 +24,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(2228);
+	//_CrtSetBreakAlloc(8889);
 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
@@ -57,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//BossSampleSave bossSample;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(&gameState);
+	gsm.ChangeState(&sampleSave);
 
 	// Game Loop
 	while (gsm.ShouldExit() == false && gGameRunning)

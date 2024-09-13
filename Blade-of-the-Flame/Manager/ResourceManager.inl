@@ -1,4 +1,5 @@
 #include "ResourceManager.h"
+#include "../Resource/TextureResource.h"
 
 template<typename T>
 inline T* ResourceManager::Get(const std::string& name)

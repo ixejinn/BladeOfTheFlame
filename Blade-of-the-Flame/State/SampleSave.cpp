@@ -22,19 +22,24 @@ void SampleSave::Init()
 	//boss->AddComponent<Boss1>();
 	//boss->active_ = true;
 
-	GameObject* monster = GameObjectManager::GetInstance().CreateObject("monster");
-	monster->AddComponent<Monster>();
-	monster->GetComponent<Transform>()->SetPosition(100, 100);
+	//GameObject* monster = GameObjectManager::GetInstance().CreateObject("monster");
+	//monster->AddComponent<Monster>();
+	//monster->GetComponent<Transform>()->SetPosition(100, 100);
 
 	GameObject* healthBar = GameObjectManager::GetInstance().CreateObject("healthBar");
 	healthBar->AddComponent<FillBar>();
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
+
+	MonsterManager::GetInstance().Initialize(10);
+	ExpItemManager::GetInstance().Initialize(20);
+
+	MonsterManager::GetInstance().SetMaxActiveNum(5);
 }
 
 void SampleSave::Update()
 {
-	//MonsterManager::GetInstance().Spawn();
+	MonsterManager::GetInstance().Spawn();
 }
 
 void SampleSave::Exit()

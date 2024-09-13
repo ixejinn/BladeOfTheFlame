@@ -5,6 +5,8 @@
 #include "../Utils/Utils.h"
 #include "../Manager/ComponentManager.h"
 
+class TextureResource;
+
 class Sprite : public GraphicsComponent
 {
 public:
@@ -45,6 +47,7 @@ public:
 	void SetColor(const Color& col);
 	void SetAlpha(const unsigned char& alpha) { alpha_ = alpha; }
 	void SetTexture(const std::string& name);
+	void SetTexture(TextureResource* texture);
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Sprite";

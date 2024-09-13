@@ -6,7 +6,9 @@
 class TextureResource : public Resource
 {
 private:
-	TextureResource() = default;
+	std::string name_;
+
+	TextureResource();
 
 public:
 	~TextureResource() { Unload(); }
@@ -14,6 +16,7 @@ public:
 	void Load(const std::string& name) override;
 	void Unload() override;
 
+	const std::string& GetName() { return name_; }
 	AEGfxTexture* GetData() const;
 
 	friend class ResourceManager;

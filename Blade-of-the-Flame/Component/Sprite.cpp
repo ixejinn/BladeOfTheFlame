@@ -167,6 +167,12 @@ void Sprite::SetTexture(const std::string& name)
 	texture_ = ResourceManager::GetInstance().Get<TextureResource>(name)->GetData();
 }
 
+void Sprite::SetTexture(TextureResource* texture)
+{
+	textureName_ = texture->GetName();
+	texture_ = texture->GetData();
+}
+
 ComponentSerializer* Sprite::CreateComponent(GameObject* owner)
 {
 	if (!owner->AddComponent<Sprite>())

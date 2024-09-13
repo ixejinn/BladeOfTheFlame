@@ -1,7 +1,10 @@
 #include "AnimationComp.h"
-#include "../Manager/GameObjectManager.h"
-#include "Sprite.h"
+
 #include <algorithm>
+#include "Sprite.h"
+#include "../Manager/GameObjectManager.h"
+#include "../Manager/ResourceManager.h"
+
 
 AnimationComp::AnimationComp(GameObject* owner) : GraphicsComponent(owner)
 {
@@ -14,6 +17,8 @@ AnimationComp::AnimationComp(GameObject* owner) : GraphicsComponent(owner)
 	//AddAnimation("Dead");
 
 	currentAnime = "Idle";
+
+	sp_ = owner_->GetComponent<Sprite>();
 }
 
 AnimationComp::~AnimationComp()
@@ -29,7 +34,7 @@ void AnimationComp::Update()
 {
 	double dt = AEFrameRateControllerGetFrameRate();
 
-	owner_->GetComponent<Sprite>()->SetTexture(anime[currentAnime]->GetDetail());
+	sp_->SetTexture(anime[currentAnime]->GetDetail());
 
 	elapsedTime += dt;
 
@@ -45,16 +50,15 @@ void AnimationComp::RemoveFromManager()
 	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
 }
 
-void AnimationComp::AddAnimation(std::string other)//�ִϸ��̼� Ÿ�Լ���
+void AnimationComp::AddAnimation(std::string type)//�ִϸ��̼� Ÿ�Լ���
 {
-	Animation* p = new Animation;
-	if (anime.find(other) == anime.end())
-		anime.emplace(other, p);
+	if (anime.find(type) == anime.end())
+		anime.emplace(type, new Animation());
 }
 
-void AnimationComp::DeleteAnimation(std::string other)
+void AnimationComp::DeleteAnimation(std::string type)
 {
-	auto it = anime.find(other);
+	auto it = anime.find(type);
 	if (it != anime.end()) {
 		delete it->second;
 		anime.erase(it);
@@ -63,10 +67,8 @@ void AnimationComp::DeleteAnimation(std::string other)
 
 bool AnimationComp::CurrentAnimationOver()
 {
-	if (anime[currentAnime]->animationplay != false)
-	{
+	if (anime[currentAnime]->animationPlay != false)
 		return true;
-	}
 	else
 		return false;
 }
@@ -74,6 +76,8 @@ bool AnimationComp::CurrentAnimationOver()
 void AnimationComp::AnimationLoop(int init, int max, std::string name, std::string type)
 {
 	AddAnimation(type);
+	anime[type]->detail.reserve(2 * (max - init) - 1);
+
 	for (int i = init; i < max; i++)
 	{
 		std::string anim = name + std::to_string(i) + ".png";
@@ -94,38 +98,40 @@ ComponentSerializer* AnimationComp::CreateAnimationComp(GameObject* owner)
 	return owner->GetComponent<AnimationComp>();
 }
 
-Animation::Animation()
+Animation::Animation() : currentFrame(0), p(0), animationPlay(false)
 {
-	detail.clear();
-	animationplay = false;
+	//detail.clear();
+	currentFrame = 0;
+	p = 0;
+	animationPlay = false;
 }
 
 Animation::~Animation()
 {
-	detail.clear();
+	//detail.clear();
 }
 
-std::string Animation::GetDetail()
+TextureResource* Animation::GetDetail()
 {
-	animationplay = false;
-	if (detail.size() < p + 1)
+	animationPlay = false;
+	if (p >= detail.size())
 	{
 		p = 0;
-		animationplay = true;
+		animationPlay = true;
 	}
 	return detail[p];
 }
 
-void AnimationComp::AddDetail(std::string s, std::string which)
+void AnimationComp::AddDetail(std::string name, std::string which)
 {
 	if (anime.find(which) == anime.end())
 		AddAnimation(which);
 
-	anime[which]->detail.push_back(s);
+	anime[which]->detail.push_back(ResourceManager::GetInstance().Get<TextureResource>(name));
 }
 
-void AnimationComp::DeleteDetail(std::string s, std::string which)
+void AnimationComp::DeleteDetail(std::string name, std::string which)
 {
-	auto newEnd = std::remove(anime[which]->detail.begin(), anime[which]->detail.end(), s);
-	anime[which]->detail.erase(newEnd, anime[which]->detail.end());
+	//auto newEnd = std::remove(anime[which]->detail.begin(), anime[which]->detail.end(), name);
+	//anime[which]->detail.erase(newEnd, anime[which]->detail.end());
 }

@@ -4,19 +4,19 @@
 #include "../../Component/AnimationComp.h"
 #include "../../Manager/ComponentManager.h"
 
-class Flame: public BaseAttack, public EventEntity
+class doubleFlameL : public BaseAttack, public EventEntity
 {
 	enum
 	{
 		set,
 		fire
 	};
-	Flame(GameObject* owner);
+	doubleFlameL(GameObject* owner);
 	float lifetime;
 	int mode;
 	float tempdmg;
 	AEVec2 dir;
-	~Flame();
+	~doubleFlameL();
 public:
 
 	void Update() override;
@@ -31,7 +31,7 @@ public:
 	json SaveToJson() override;
 
 	// for StateSerializer
-	static constexpr const char* TypeName = "FlameComp";
+	static constexpr const char* TypeName = "doubleFlameLComp";
 	static ComponentSerializer* CreateComponent(GameObject* owner);
 
 	void OnEvent(BaseEvent*) override;

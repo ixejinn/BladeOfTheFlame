@@ -121,6 +121,8 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Particle.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\doubleFlameL.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\doubleFlameR.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Inferno.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
@@ -185,6 +187,8 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\EngineComponent.h" />
     <ClInclude Include="Component\GraphicsComponent.h" />
     <ClInclude Include="Component\LogicComponent.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\doubleFlameL.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\doubleFlameR.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Flame.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Inferno.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Meteor.h" />

@@ -15,7 +15,7 @@ class Player : public LogicComponent, public EventEntity
 private:
 	static int count;
 
-	int level_ = 1;
+	int level_;
 	int hp_ = 100;
 	int exp_ = 0;
 

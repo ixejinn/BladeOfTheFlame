@@ -19,6 +19,8 @@ int Player::count = 0;
 
 #include "../LogicComponents/Skills/Meteor.h"
 #include "../LogicComponents/Skills/Flame.h"
+#include "../LogicComponents/Skills/doubleFlameL.h"
+#include "../LogicComponents/Skills/doubleFlameR.h"
 
 void Player::SetAnimation()
 {
@@ -41,7 +43,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 1;
+	level_ = 7;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
@@ -138,14 +140,14 @@ void Player::Update()
 	}
 	else if (4 <= level_ && level_ < 7)
 	{
-		flameCool += AEFrameRateControllerGetFrameTime();
+		flameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 100)
 		{
 			//장판스킬
 		}
 		else
 		{
-			if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 1)
+			if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 2000)
 			{
 				GameObject* flame_Attack = nullptr;
 				flame_Attack = GameObjectManager::GetInstance().CreateObject("FlameAttack" + std::to_string(count));
@@ -159,8 +161,32 @@ void Player::Update()
 	}
 	else if (7 <= level_ && level_ < 10)
 	{
-		//더블 플레임
-		//메테오
+		doubleflameCool += AEFrameRateControllerGetFrameRate();
+		if (SkillGage >= 100)
+		{
+			//메테오
+		}
+		else
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON) && doubleflameCool >= 2000)
+			{
+				GameObject* doubleflameL_Attack = nullptr;
+				doubleflameL_Attack = GameObjectManager::GetInstance().CreateObject("doubleFlameAttackL" + std::to_string(count));
+				count++;
+				doubleflameL_Attack->AddComponent<doubleFlameL>();
+				doubleflameL_Attack->GetComponent<doubleFlameL>()->SetPlayer(owner_);
+				curAttack_ = doubleflameL_Attack->GetComponent<doubleFlameL>();
+				curAttack_->On();
+
+				GameObject* doubleflameR_Attack = nullptr;
+				doubleflameR_Attack = GameObjectManager::GetInstance().CreateObject("doubleFlameAttackR" + std::to_string(count));
+				count++;
+				doubleflameR_Attack->AddComponent<doubleFlameR>();
+				doubleflameR_Attack->GetComponent<doubleFlameR>()->SetPlayer(owner_);
+				curAttack_ = doubleflameR_Attack->GetComponent<doubleFlameR>();
+				curAttack_->On();
+			}
+		}
 	}
 	else
 	{

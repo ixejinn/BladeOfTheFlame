@@ -69,7 +69,6 @@ void Flame::Update()
 			AEVec2 attackDir{ convert(mousePosF) - owner_->GetComponent<Transform>()->GetPosition() };
 			AEVec2Normalize(&dir, &attackDir);
 			owner_->GetComponent<Transform>()->SetRotation(dir);
-			player_->GetComponent<Player>()->flameCool = 0;
 			mode = fire;
 			dmg_ = tempdmg;
 			owner_->GetComponent<Transform>()->SetScale({ 80, 50 });

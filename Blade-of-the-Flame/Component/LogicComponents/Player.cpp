@@ -21,6 +21,8 @@ int Player::count = 0;
 #include "../LogicComponents/Skills/Flame.h"
 #include "../LogicComponents/Skills/doubleFlameL.h"
 #include "../LogicComponents/Skills/doubleFlameR.h"
+#include "../LogicComponents/Skills/PenetrableDoubleFlameL.h"
+#include "../LogicComponents/Skills/PenetrableDoubleFlameR.h"
 
 void Player::SetAnimation()
 {
@@ -43,7 +45,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 7;
+	level_ = 9;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
@@ -147,7 +149,7 @@ void Player::Update()
 		}
 		else
 		{
-			if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 2000)
+			if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 3000)
 			{
 				GameObject* flame_Attack = nullptr;
 				flame_Attack = GameObjectManager::GetInstance().CreateObject("FlameAttack" + std::to_string(count));
@@ -156,6 +158,8 @@ void Player::Update()
 				flame_Attack->GetComponent<Flame>()->SetPlayer(owner_);
 				curAttack_ = flame_Attack->GetComponent<Flame>();
 				curAttack_->On();
+
+				flameCool = 0;
 			}
 		}
 	}
@@ -168,7 +172,7 @@ void Player::Update()
 		}
 		else
 		{
-			if (AEInputCheckCurr(AEVK_LBUTTON) && doubleflameCool >= 2000)
+			if (AEInputCheckCurr(AEVK_LBUTTON) && doubleflameCool >= 3000)
 			{
 				GameObject* doubleflameL_Attack = nullptr;
 				doubleflameL_Attack = GameObjectManager::GetInstance().CreateObject("doubleFlameAttackL" + std::to_string(count));
@@ -185,13 +189,42 @@ void Player::Update()
 				doubleflameR_Attack->GetComponent<doubleFlameR>()->SetPlayer(owner_);
 				curAttack_ = doubleflameR_Attack->GetComponent<doubleFlameR>();
 				curAttack_->On();
+
+				doubleflameCool = 0;
 			}
 		}
 	}
 	else
 	{
 		//관통 더블 플레임
-		// 파이어 버블
+		pendoubleflameCool += AEFrameRateControllerGetFrameRate();
+		if (SkillGage >= 100)
+		{
+			// 파이어 버블
+		}
+		else
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON) && pendoubleflameCool >= 3000)
+			{
+				GameObject* doubleflameL_Attack = nullptr;
+				doubleflameL_Attack = GameObjectManager::GetInstance().CreateObject("PendoubleFlameAttackL" + std::to_string(count));
+				count++;
+				doubleflameL_Attack->AddComponent<PenetrableDoubleFlameL>();
+				doubleflameL_Attack->GetComponent<PenetrableDoubleFlameL>()->SetPlayer(owner_);
+				curAttack_ = doubleflameL_Attack->GetComponent<PenetrableDoubleFlameL>();
+				curAttack_->On();
+
+				GameObject* doubleflameR_Attack = nullptr;
+				doubleflameR_Attack = GameObjectManager::GetInstance().CreateObject("PendoubleFlameAttackR" + std::to_string(count));
+				count++;
+				doubleflameR_Attack->AddComponent<PenetrableDoubleFlameR>();
+				doubleflameR_Attack->GetComponent<PenetrableDoubleFlameR>()->SetPlayer(owner_);
+				curAttack_ = doubleflameR_Attack->GetComponent<PenetrableDoubleFlameR>();
+				curAttack_->On();
+
+				pendoubleflameCool = 0;
+			}
+		}
 	}
 
 	if (curAttack_ == melee_Attack->GetComponent<MeleeAttack>() &&

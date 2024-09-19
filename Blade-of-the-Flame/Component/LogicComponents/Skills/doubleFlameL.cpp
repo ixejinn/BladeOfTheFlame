@@ -34,6 +34,9 @@ doubleFlameL::~doubleFlameL()
 	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<RigidBody>())));
 	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Sprite>())));
 	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<AnimationComp>())));
+	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<BoxCollider>())));
+
+	// GameObject »èÁ¦
 	GameObjectManager::GetInstance().RemoveObject(owner_->GetName());
 }
 

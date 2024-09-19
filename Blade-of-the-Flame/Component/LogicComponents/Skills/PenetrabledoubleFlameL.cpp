@@ -1,8 +1,8 @@
-#include "doubleFlameR.h"
+#include "PenetrabledoubleFlameL.h"
 #include "../../Event/Event.h"
 #include "../Monster.h"
 
-doubleFlameR::doubleFlameR(GameObject* owner) : BaseAttack(owner)
+PenetrableDoubleFlameL::PenetrableDoubleFlameL(GameObject* owner) : BaseAttack(owner)
 {
 	mode = set;
 	lifetime = 12000;
@@ -28,7 +28,7 @@ doubleFlameR::doubleFlameR(GameObject* owner) : BaseAttack(owner)
 	col->SetHandler(static_cast<EventEntity*>(this));
 }
 
-doubleFlameR::~doubleFlameR()
+PenetrableDoubleFlameL::~PenetrableDoubleFlameL()
 {
 	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Transform>())));
 	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<RigidBody>())));
@@ -56,21 +56,22 @@ namespace
 	}
 }
 
-void doubleFlameR::Update()
+void PenetrableDoubleFlameL::Update()
 {
-	if (mode == set) {
+	if (mode == set)
+	{
 		dmg_ = 0;
 
 		// 플레이어의 위치를 정확히 참조
 		AEVec2 playerPos = player_->GetComponent<Transform>()->GetPosition();
 
-		// 우측 발사체: 플레이어의 위치에서 일정한 간격만큼 오른쪽에 생성되도록 설정
+		// 좌측 발사체: 플레이어의 위치에서 일정한 간격만큼 왼쪽에 생성되도록 설정
 		float offsetDistance = 30.0f;  // 좌우 간격
-		AEVec2 perpOffset{ dir.y, -dir.x };  // 수직 벡터 방향으로 우측 설정
-		AEVec2 rightFlamePos = playerPos + (perpOffset * offsetDistance);
+		AEVec2 perpOffset{ -dir.y, dir.x };  // 수직 벡터 방향으로 좌측 설정
+		AEVec2 leftFlamePos = playerPos + (perpOffset * offsetDistance);
 
-		// 오른쪽 발사체의 위치 설정
-		owner_->GetComponent<Transform>()->SetPosition(rightFlamePos);
+		// 왼쪽 발사체의 위치 설정
+		owner_->GetComponent<Transform>()->SetPosition(leftFlamePos);
 
 		// 마우스 위치를 가져와 월드 좌표로 변환
 		s32 x, y;
@@ -86,15 +87,15 @@ void doubleFlameR::Update()
 
 			// 수직 벡터(90도 회전) 계산
 			AEVec2 perpOffset;
-			perpOffset.x = -dir.y;  // 90도 회전
-			perpOffset.y = dir.x;
+			perpOffset.x = dir.y;  // 왼쪽 발사체는 수직 벡터 방향 반대로
+			perpOffset.y = -dir.x;
 
-			// 좌우 간격 설정 (오른쪽 발사체는 수직 방향으로 오른쪽으로 이동)
+			// 좌우 간격 설정 (왼쪽 발사체는 수직 방향으로 왼쪽으로 이동)
 			float offsetDistance = 30.0f;  // 간격 조절
-			AEVec2 rightFlamePos = owner_->GetComponent<Transform>()->GetPosition() + (perpOffset * offsetDistance);
+			AEVec2 leftFlamePos = owner_->GetComponent<Transform>()->GetPosition() + (perpOffset * offsetDistance);
 
-			// 오른쪽 발사체의 위치 설정
-			owner_->GetComponent<Transform>()->SetPosition(rightFlamePos);
+			// 왼쪽 발사체의 위치 설정
+			owner_->GetComponent<Transform>()->SetPosition(leftFlamePos);
 			owner_->GetComponent<Transform>()->SetRotation(dir);  // 발사 방향으로 회전
 
 			// 공격 모드 설정
@@ -104,57 +105,57 @@ void doubleFlameR::Update()
 		}
 	}
 
-	if (mode == fire) {
-		// 발사체가 날아가는 동안의 로직
-		if (lifetime > 0) {
+	if (mode == fire)
+	{
+		if (lifetime > 0)
+		{
 			float dt = AEFrameRateControllerGetFrameRate();
 			lifetime -= dt;
-			owner_->GetComponent<RigidBody>()->AddVelocity(dir * 300);  // 발사체의 속도
+			owner_->GetComponent<RigidBody>()->AddVelocity(dir * 300);  // 발사체 속도 적용
 		}
-		else {
+		else
+		{
 			owner_->active_ = false;
-			owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<doubleFlameR>())));
+			owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<PenetrableDoubleFlameL>())));
 		}
 	}
 }
 
-void doubleFlameR::LevelUp()
+void PenetrableDoubleFlameL::LevelUp()
 {
 	dmg_ += int(dmg_ * dmgGrowthRate_ / 100);
 }
 
-void doubleFlameR::AttackObject()
+void PenetrableDoubleFlameL::AttackObject()
 {
 }
 
-ComponentSerializer* doubleFlameR::CreateComponent(GameObject* owner)
+ComponentSerializer* PenetrableDoubleFlameL::CreateComponent(GameObject* owner)
 {
-	if (!owner->AddComponent<doubleFlameR>())
-		std::cout << "doubleFlameR::CreateComponent() Component already exists" << std::endl;
+	if (!owner->AddComponent<PenetrableDoubleFlameL>())
+		std::cout << "PenetrableDoubleFlameL::CreateComponent() Component already exists" << std::endl;
 
-	return owner->GetComponent<doubleFlameR>();
+	return owner->GetComponent<PenetrableDoubleFlameL>();
 }
 
-void doubleFlameR::OnEvent(BaseEvent*)
+void PenetrableDoubleFlameL::OnEvent(BaseEvent*)
 {
 }
 
-void doubleFlameR::OnCollision(CollisionEvent* event)
+void PenetrableDoubleFlameL::OnCollision(CollisionEvent* event)
 {
 	Monster* monster = event->from_->GetComponent<Monster>();
 	if (monster)
 	{
 		monster->ReserveDmg(dmg_);
-		owner_->active_ = false;
-		owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<doubleFlameR>())));
 	}
 }
 
-void doubleFlameR::LoadFromJson(const json&)
+void PenetrableDoubleFlameL::LoadFromJson(const json&)
 {
 }
 
-json doubleFlameR::SaveToJson()
+json PenetrableDoubleFlameL::SaveToJson()
 {
 	return json();
 }

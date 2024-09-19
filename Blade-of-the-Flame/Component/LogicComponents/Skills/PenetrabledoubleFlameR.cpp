@@ -1,8 +1,8 @@
-#include "doubleFlameR.h"
+#include "PenetrabledoubleFlameR.h"
 #include "../../Event/Event.h"
 #include "../Monster.h"
 
-doubleFlameR::doubleFlameR(GameObject* owner) : BaseAttack(owner)
+PenetrableDoubleFlameR::PenetrableDoubleFlameR(GameObject* owner) : BaseAttack(owner)
 {
 	mode = set;
 	lifetime = 12000;
@@ -28,7 +28,7 @@ doubleFlameR::doubleFlameR(GameObject* owner) : BaseAttack(owner)
 	col->SetHandler(static_cast<EventEntity*>(this));
 }
 
-doubleFlameR::~doubleFlameR()
+PenetrableDoubleFlameR::~PenetrableDoubleFlameR()
 {
 	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Transform>())));
 	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<RigidBody>())));
@@ -56,7 +56,7 @@ namespace
 	}
 }
 
-void doubleFlameR::Update()
+void PenetrableDoubleFlameR::Update()
 {
 	if (mode == set) {
 		dmg_ = 0;
@@ -113,48 +113,46 @@ void doubleFlameR::Update()
 		}
 		else {
 			owner_->active_ = false;
-			owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<doubleFlameR>())));
+			owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<PenetrableDoubleFlameR>())));
 		}
 	}
 }
 
-void doubleFlameR::LevelUp()
+void PenetrableDoubleFlameR::LevelUp()
 {
 	dmg_ += int(dmg_ * dmgGrowthRate_ / 100);
 }
 
-void doubleFlameR::AttackObject()
+void PenetrableDoubleFlameR::AttackObject()
 {
 }
 
-ComponentSerializer* doubleFlameR::CreateComponent(GameObject* owner)
+ComponentSerializer* PenetrableDoubleFlameR::CreateComponent(GameObject* owner)
 {
-	if (!owner->AddComponent<doubleFlameR>())
-		std::cout << "doubleFlameR::CreateComponent() Component already exists" << std::endl;
+	if (!owner->AddComponent<PenetrableDoubleFlameR>())
+		std::cout << "PenetrableDoubleFlameR::CreateComponent() Component already exists" << std::endl;
 
-	return owner->GetComponent<doubleFlameR>();
+	return owner->GetComponent<PenetrableDoubleFlameR>();
 }
 
-void doubleFlameR::OnEvent(BaseEvent*)
+void PenetrableDoubleFlameR::OnEvent(BaseEvent*)
 {
 }
 
-void doubleFlameR::OnCollision(CollisionEvent* event)
+void PenetrableDoubleFlameR::OnCollision(CollisionEvent* event)
 {
 	Monster* monster = event->from_->GetComponent<Monster>();
 	if (monster)
 	{
 		monster->ReserveDmg(dmg_);
-		owner_->active_ = false;
-		owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<doubleFlameR>())));
 	}
 }
 
-void doubleFlameR::LoadFromJson(const json&)
+void PenetrableDoubleFlameR::LoadFromJson(const json&)
 {
 }
 
-json doubleFlameR::SaveToJson()
+json PenetrableDoubleFlameR::SaveToJson()
 {
 	return json();
 }

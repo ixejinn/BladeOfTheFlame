@@ -147,6 +147,7 @@ void doubleFlameL::OnCollision(CollisionEvent* event)
 	Monster* monster = event->from_->GetComponent<Monster>();
 	if (monster)
 	{
+		player_->GetComponent<Player>()->SkillGage += 1;
 		monster->ReserveDmg(dmg_);
 		owner_->active_ = false;
 		owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<doubleFlameL>())));

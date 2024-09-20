@@ -14,10 +14,7 @@ PenetrableDoubleFlameR::PenetrableDoubleFlameR(GameObject* owner) : BaseAttack(o
 	owner_->AddComponent<RigidBody>();
 	owner_->AddComponent<Sprite>();
 	owner->AddComponent<AnimationComp>();
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/1.png", "Attack");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/2.png", "Attack");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/3.png", "Attack");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/4.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/5.png", "Attack");
 	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
 	owner->GetComponent<Transform>()->SetScale({ 0, 0 });
 
@@ -144,6 +141,7 @@ void PenetrableDoubleFlameR::OnCollision(CollisionEvent* event)
 	Monster* monster = event->from_->GetComponent<Monster>();
 	if (monster)
 	{
+		player_->GetComponent<Player>()->SkillGage += 1;
 		monster->ReserveDmg(dmg_);
 	}
 }

@@ -135,6 +135,7 @@ void Monster::OnCollision(CollisionEvent* event)
 	if (melee)
 	{
 		hp_ -= melee->GetDmg();
+		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;
 
 		RigidBody* rb = owner_->GetComponent<RigidBody>();
 		AEVec2 velocity = rb->GetVelocity();

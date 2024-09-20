@@ -1,5 +1,6 @@
 #include "Player.h"
 
+#include <iostream>
 #include <typeindex>
 #include <string>
 #include "AEVec2.h"
@@ -45,7 +46,8 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 9;
+	level_ = 7;
+	SkillGage = 99;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
@@ -89,6 +91,10 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	melee_Attack->AddComponent<MeleeAttack>();
 	melee_Attack->GetComponent<MeleeAttack>()->SetPlayer(owner_);
 
+	meteor = GameObjectManager::GetInstance().CreateObject("MeteorAttack");
+	meteor->AddComponent<Meteor>();
+	meteor->GetComponent<Meteor>()->SetPlayer(owner_);
+
 	/* Special ATTACK GameObject */
 	//meteor_Attack = GameObjectManager::GetInstance().CreateObject("MeteorAttack");
 	//meteor_Attack->AddComponent<Meteor>();
@@ -105,6 +111,8 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
+	std::cout << SkillGage << std::endl;
+
 	/* CHECK */
 	// Level up
 	if (exp_ >= maxExp_)
@@ -134,6 +142,7 @@ void Player::Update()
 		if (SkillGage >= 100)
 		{
 			//쉴드스킬
+			curAttack_ = nullptr;
 		}
 		else
 		{
@@ -168,7 +177,8 @@ void Player::Update()
 		doubleflameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 100)
 		{
-			//메테오
+			curAttack_ = meteor->GetComponent<Meteor>();
+			curAttack_->On();
 		}
 		else
 		{
@@ -196,7 +206,6 @@ void Player::Update()
 	}
 	else
 	{
-		//관통 더블 플레임
 		pendoubleflameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 100)
 		{
@@ -271,7 +280,6 @@ void Player::OnCollision(CollisionEvent* event)
 		if (getCompass_)
 			findAltar_ = true;
 	}
-		
 }
 
 void Player::LevelUp()

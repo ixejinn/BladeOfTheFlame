@@ -23,8 +23,6 @@ private:
 	int maxHp_ = 100;
 	int maxExp_ = 100;
 
-	int SkillGage = 0;
-
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 80.f;
 
@@ -60,6 +58,8 @@ public:
 	bool getCompass_ = false;
 	bool findAltar_ = false;
 
+	int SkillGage = 0;
+
 	void RemoveFromManager() override;
 
 	void Update() override;
@@ -71,6 +71,7 @@ public:
 	void OnCollision(CollisionEvent*) override;
 	
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
+	GameObject* meteor = nullptr;
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

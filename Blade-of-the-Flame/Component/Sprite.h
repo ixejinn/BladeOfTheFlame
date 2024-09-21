@@ -19,6 +19,7 @@ public:
 
 private:
 	AnchorPoint anchor_ = CENTER;
+	AEVec2 localPos_ = { 0.f, 0.f };
 
 	Color color_;
 	unsigned char alpha_ = 0;
@@ -44,6 +45,7 @@ public:
 	Color& GetColor() { return color_; }
 
 	void SetAnchor(AnchorPoint anchor);
+	void SetLocalPos(float x, float y);
 	void SetColor(const Color& col);
 	void SetAlpha(const unsigned char& alpha) { alpha_ = alpha; }
 	void SetTexture(const std::string& name);

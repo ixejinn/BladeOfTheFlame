@@ -47,6 +47,7 @@ public:
 	void SetLimit(const float& x, const float& y);
 	void SetUpperLimit(const AEVec2& limit);
 	void SetLowerLimit(const AEVec2& limit);
+	void SetFlip() { scale_.x *= -1; }
 
 	bool IsRotationChanged();
 

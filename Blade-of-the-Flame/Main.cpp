@@ -36,7 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// Using custom window procedure
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, 1, 60, true, NULL);
-	//AESysSetFullScreen(1);
+	AESysSetFullScreen(1);
 	
 	// Changing the window title
 	AESysSetWindowTitle("Blade of the Flame");
@@ -51,13 +51,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ComponentManager<LogicComponent>::GetInstance();
 	GameObjectManager::GetInstance();
 
-	//GameState gameState;
-	//SampleSave* sampleSave = new SampleSave();
-	MainMenu* mainMenu = new MainMenu();
+	//GameState* gameState = new GameState();
+	SampleSave* sampleSave = new SampleSave();
+	//MainMenu* mainMenu = new MainMenu();
 	//BossSampleSave bossSample;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(mainMenu);
+	gsm.ChangeState(sampleSave);
 
 	// Game Loop
 	while (gsm.ShouldExit() == false && gGameRunning)

@@ -9,3 +9,12 @@ struct Color
 	unsigned char green = 0;
 	unsigned char blue = 0;
 };
+
+enum Direction
+{
+	LEFT,
+	RIGHT,
+	UP,
+	DOWN,
+	STOP
+};

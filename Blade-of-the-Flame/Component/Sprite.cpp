@@ -102,14 +102,14 @@ void Sprite::SetMesh()
 	{
 		AEVec2 halfLength = { trans->GetLocalScale().x / 2, trans->GetLocalScale().y / 2 };
 		AEGfxTriAdd(
-			-halfLength.x, -halfLength.y, 0xFFFFFFFF, 0.0f, 1.0f,
-			halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+			-halfLength.x + localPos_.x, -halfLength.y + localPos_.y, 0xFFFFFFFF, 0.0f, 1.0f,
+			halfLength.x + localPos_.x, -halfLength.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			-halfLength.x + localPos_.x, halfLength.y + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		AEGfxTriAdd(
-			halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			halfLength.x, halfLength.y, 0xFFFFFFFF, 1.0f, 0.0f,
-			-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+			halfLength.x + localPos_.x, -halfLength.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			halfLength.x + localPos_.x, halfLength.y + localPos_.y, 0xFFFFFFFF, 1.0f, 0.0f,
+			-halfLength.x + localPos_.x, halfLength.y + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
 	}
@@ -118,14 +118,14 @@ void Sprite::SetMesh()
 	{
 		AEVec2 length = { trans->GetLocalScale().x, trans->GetLocalScale().y };
 		AEGfxTriAdd(
-			0.f, -0.5f, 0xFFFFFFFF, 0.0f, 1.0f,
-			length.x, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
-			0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+			0.f + localPos_.x, -0.5f + localPos_.y, 0xFFFFFFFF, 0.0f, 1.0f,
+			length.x + localPos_.x, -0.5f + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			0.f + localPos_.x, length.y - 0.5f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		AEGfxTriAdd(
-			length.x, 0.f - 0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
-			length.x, length.y - 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
-			0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+			length.x + localPos_.x, 0.f - 0.5f + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			length.x + localPos_.x, length.y - 0.5f + localPos_.y, 0xFFFFFFFF, 1.0f, 0.0f,
+			0.f + localPos_.x, length.y - 0.5f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
 	}
@@ -134,14 +134,14 @@ void Sprite::SetMesh()
 	{
 		AEVec2 length = { trans->GetLocalScale().x, trans->GetLocalScale().y };
 		AEGfxTriAdd(
-			0.f, -length.y, 0xFFFFFFFF, 0.0f, 1.0f,
-			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			0.f, 0.f, 0xFFFFFFFF, 0.0f, 0.0f
+			0.f + localPos_.x, -length.y + localPos_.y, 0xFFFFFFFF, 0.0f, 1.0f,
+			length.x + localPos_.x, -length.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			0.f + localPos_.x, 0.f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		AEGfxTriAdd(
-			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			length.x, 0.f, 0xFFFFFFFF, 1.0f, 0.0f,
-			0.f, 0.f, 0xFFFFFFFF, 0.0f, 0.0f
+			length.x + localPos_.x, -length.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			length.x + localPos_.x, 0.f + localPos_.y, 0xFFFFFFFF, 1.0f, 0.0f,
+			0.f + localPos_.x, 0.f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
 	}
@@ -153,6 +153,12 @@ void Sprite::SetMesh()
 void Sprite::SetAnchor(AnchorPoint anchor)
 {
 	anchor_ = anchor;
+	SetMesh();
+}
+
+void Sprite::SetLocalPos(float x, float y)
+{
+	localPos_ = { x, y };
 	SetMesh();
 }
 

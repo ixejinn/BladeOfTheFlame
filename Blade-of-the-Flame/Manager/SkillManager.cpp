@@ -35,7 +35,7 @@ void SkillManager::SetSkillType(int level)
 	static int prev_type = type;
 	prev_type = type;
 
-	std::cout << AEFrameRateControllerGetFrameCount() << " " << Qactive << " " << Ractive << " " << Eactive << std::endl << std::endl;
+	//std::cout << AEFrameRateControllerGetFrameCount() << " " << Qactive << " " << Ractive << " " << Eactive << std::endl << std::endl;
 	
 	if (Qactive == true)
 	{

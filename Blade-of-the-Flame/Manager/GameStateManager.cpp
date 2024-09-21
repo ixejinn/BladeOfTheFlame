@@ -43,15 +43,15 @@ void GameStateManager::Update()
 	}
 
 	if (curState_)
-	{		
+	{
+		curState_->Update();
+
 		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
 
 		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
 		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
-
-		curState_->Update();
 
 		Camera::GetInstance().Update();
 		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();

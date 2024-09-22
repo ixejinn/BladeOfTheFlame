@@ -51,8 +51,6 @@ void GameStateManager::Update()
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
 
-		EnvironmentManager::GetInstance().Update();
-
 		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
 		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();
 
@@ -67,6 +65,11 @@ void GameStateManager::Exit()
 	{
 		curState_->Exit();
 		delete curState_;
+	}
+	else
+	{
+		preState_->Exit();
+		delete preState_;
 	}
 }
 

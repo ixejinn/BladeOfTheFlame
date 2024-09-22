@@ -22,7 +22,7 @@ private:
 	AEVec2 localPos_ = { 0.f, 0.f };
 
 	Color color_;
-	unsigned char alpha_ = 0;
+	float alpha_ = 1.0;
 
 	AEGfxTexture* texture_;
 	std::string textureName_;
@@ -47,7 +47,7 @@ public:
 	void SetAnchor(AnchorPoint anchor);
 	void SetLocalPos(float x, float y);
 	void SetColor(const Color& col);
-	void SetAlpha(const unsigned char& alpha) { alpha_ = alpha; }
+	void SetAlpha(const float& alpha) { alpha_ = alpha; }
 	void SetTexture(const std::string& name);
 	void SetTexture(TextureResource* texture);
 

@@ -32,10 +32,12 @@ void SampleSave::Init()
 
 	EnvironmentManager::GetInstance().SetPlayerTransform();
 
-	//GameObject* obj = GameObjectManager::GetInstance().CreateObject("test");
-	//obj->AddComponent<Transform>();
-	//obj->GetComponent<Transform>()->SetScale({ 100, 100 });
-	//obj->AddComponent<Sprite>();
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("test");
+	obj->AddComponent<Transform>();
+	obj->GetComponent<Transform>()->SetScale({ 100, 100 });
+	obj->AddComponent<Sprite>();
+	obj->GetComponent<Sprite>()->SetTexture("Assets/PlanetTexture.png");
+	obj->GetComponent<Sprite>()->SetAlpha(0.5);
 
 	//GameObject* boss = GameObjectManager::GetInstance().CreateObject("boss");
 	//boss->AddComponent<Boss1>();
@@ -50,7 +52,7 @@ void SampleSave::Init()
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
 
-	MonsterManager::GetInstance().Initialize(10);
+	//MonsterManager::GetInstance().Initialize(10);
 	//ExpItemManager::GetInstance().Initialize(20);
 
 	//MonsterManager::GetInstance().SetMaxActiveNum(5);
@@ -64,7 +66,8 @@ void SampleSave::Init()
 
 void SampleSave::Update()
 {
-	MonsterManager::GetInstance().Spawn();
+	EnvironmentManager::GetInstance().Update();
+	//MonsterManager::GetInstance().Spawn();
 	//darkness->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 }
 

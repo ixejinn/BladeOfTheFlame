@@ -66,5 +66,5 @@ void MainMenu::InitBackground()
 	trans->SetScale({ 538, 200 });
 
 	Sprite* sp = gameLogo->GetComponent<Sprite>();
-	sp->SetTexture("Assets/GameLogo.png");
+	sp->SetTexture("Assets/Logo/GameLogo.png");
 }

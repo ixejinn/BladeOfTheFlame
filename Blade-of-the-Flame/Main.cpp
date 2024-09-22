@@ -52,12 +52,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	GameObjectManager::GetInstance();
 
 	//GameState* gameState = new GameState();
-	SampleSave* sampleSave = new SampleSave();
-	//MainMenu* mainMenu = new MainMenu();
+	//SampleSave* sampleSave = new SampleSave();
+	MainMenu* mainMenu = new MainMenu();
 	//BossSampleSave bossSample;
 
 	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(sampleSave);
+	gsm.ChangeState(mainMenu);
 
 	// Game Loop
 	while (gsm.ShouldExit() == false && gGameRunning)

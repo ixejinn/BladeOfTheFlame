@@ -242,7 +242,7 @@ void Player::Update()
 	if (curState != HURT && preState != HURT)
 		sp_->SetColor({ 0, 0, 0 });
 
-	std::cout << dir_ << " " << curDir << std::endl;
+	//std::cout << dir_ << " " << curDir << std::endl;
 	dir_ = curDir;
 	preState = curState;
 }

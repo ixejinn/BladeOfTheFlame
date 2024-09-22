@@ -34,10 +34,10 @@ void Sprite::Update()
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 
 	// Set color to multiply
-	AEGfxSetColorToMultiply(1, 1, 1, 1);
+	AEGfxSetColorToMultiply(1, 1, 1, alpha_);
 
 	// Set color to add
-	AEGfxSetColorToAdd(color_.red / 255.f, color_.green / 255.f, color_.blue / 255.f, alpha_);
+	AEGfxSetColorToAdd(color_.red / 255.f, color_.green / 255.f, color_.blue / 255.f, 0);
 
 	// Set blend mode
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);

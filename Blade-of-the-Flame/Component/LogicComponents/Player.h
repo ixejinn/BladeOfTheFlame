@@ -29,16 +29,16 @@ private:
 	int hp_ = 100;
 	int exp_ = 0;
 
-	int maxLevel_ = 7;
+	int maxLevel_ = 10;
 	int maxHp_ = 100;
-	int maxExp_ = 100;
+	int maxExp_ = 50;
 
 	float moveSpeed_ = 5.f;
 	float attractionRadius_ = 40.f;
 
 	// Level up�� ���� �ʿ��� ����ġ ������ (%)
-	float expRequirement_ = 80.f;
-	float hpGrowthRate_ = 20.;
+	float expRequirement_ = 30.f;
+	float hpGrowthRate_ = 20.f;
 
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
 	GameObject* Skills_Meteor = nullptr;

@@ -268,18 +268,23 @@ void Player::OnCollision(CollisionEvent* event)
 
 void Player::LevelUp()
 {
+	ParticleSystem::getPtr()->Update();
+
+	maxExp_ += int(maxExp_ * expRequirement_ / 100);
+	exp_ = 0;
+
+	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);
+	hp_ = maxHp_;
+
 	if (level_ >= maxLevel_)
 		return;
 
 	level_++;
 
-	maxExp_ += int(maxExp_ * expRequirement_ / 100);
-	exp_ = 0;
-
-	ParticleSystem::getPtr()->Update();
-
-	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);
-	hp_ = maxHp_;
+	LevelUpEvent* event = new LevelUpEvent();
+	event->from_ = owner_;
+	event->level = level_;
+	EventManager::GetInstance().AddEvent(event);
 }
 
 void Player::AddHp(int hp)

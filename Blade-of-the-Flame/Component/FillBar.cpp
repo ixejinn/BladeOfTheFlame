@@ -64,29 +64,53 @@ void FillBar::RemoveFromManager()
 
 void FillBar::Update()
 {
-	static bool compass = true;
+	//static bool compass = true;
 
 	// fill
 	int value = 0;
 	int maxValue = 1;
+	static int maxMonsterCnt = 50;
 	switch (showType_)
 	{
 	case MONSTER_CNT:
 	{
+		static int lvl = 0;
+
 		value = MonsterManager::GetInstance().GetCapturedCount();
-		maxValue = 10;
-		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
+		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxMonsterCnt)));
 		text_->SetPosition({ -0.05f, 0.93f });
 
 		Manager::compGfxMgr.ToBack(text_);
 
-		if (compass && value >= maxValue)
+		if (value >= maxMonsterCnt)
 		{
-			CompassActiveEvent* event = new CompassActiveEvent();
-			event->from_ = owner_;
-			Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
-			compass = false;
+			lvl++;
+
+			if (lvl < 4)
+			{
+				IncreaseBrightness* event = new IncreaseBrightness();
+				event->from_ = owner_;
+				event->level = lvl;
+				Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
+
+				maxMonsterCnt *= 2.8;
+			}
+			else
+			{
+				CompassActiveEvent* event = new CompassActiveEvent();
+				event->from_ = owner_;
+				Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
+			}
+			
 		}
+		maxValue = maxMonsterCnt;
+		//if (compass && value >= maxValue)
+		//{
+		//	CompassActiveEvent* event = new CompassActiveEvent();
+		//	event->from_ = owner_;
+		//	Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
+		//	compass = false;
+		//}
 		break;
 	}
 

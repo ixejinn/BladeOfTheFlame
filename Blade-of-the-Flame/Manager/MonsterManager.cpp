@@ -118,7 +118,7 @@ void MonsterManager::OnEvent(BaseEvent* event)
 	}
 	else if (dynamic_cast<SpawnBossEvent*>(event))
 	{
-		maxActiveNum_ = 3;
+		maxActiveNum_ = 100;
 	}
 }
 

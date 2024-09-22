@@ -7,25 +7,30 @@
 #include "../Manager/ItemManager.h"
 #include "../Manager/EventManager.h"
 #include "../Manager/CollisionManager.h"
+#include "../Manager/EnvironmentManager.h"
 
 GameObject* player;
 GameObject* darkness;
 
 void SampleSave::Init()
 {
-	GameObject* background = GameObjectManager::GetInstance().CreateObject("background");
-	background->AddComponent<Transform>();
-	background->AddComponent<Sprite>();
-	background->AddComponent<Audio>();
+	//GameObject* background = GameObjectManager::GetInstance().CreateObject("background");
+	//background->AddComponent<Transform>();
+	//background->AddComponent<Sprite>();
+	//background->AddComponent<Audio>();
 
-	//background->GetComponent<Transform>()->SetScale({ windowWidth, windowHeight });
-	background->GetComponent<Transform>()->SetScale({ windowWidth * 9, windowHeight * 9 });
+	////background->GetComponent<Transform>()->SetScale({ windowWidth, windowHeight });
+	//background->GetComponent<Transform>()->SetScale({ windowWidth * 9, windowHeight * 9 });
 
-	Sprite* sp = background->GetComponent<Sprite>();
-	sp->SetTexture("Assets/Realmap.png");
+	//Sprite* sp = background->GetComponent<Sprite>();
+	//sp->SetTexture("Assets/Realmap.png");
+
+	EnvironmentManager::GetInstance();
 
 	player = GameObjectManager::GetInstance().CreateObject("player");
 	player->AddComponent<Player>();
+
+	EnvironmentManager::GetInstance().SetPlayerTransform();
 
 	//GameObject* obj = GameObjectManager::GetInstance().CreateObject("test");
 	//obj->AddComponent<Transform>();
@@ -49,17 +54,18 @@ void SampleSave::Init()
 	//ExpItemManager::GetInstance().Initialize(20);
 
 	//MonsterManager::GetInstance().SetMaxActiveNum(5);
-	darkness = GameObjectManager::GetInstance().CreateObject("darkness");
-	darkness->AddComponent<Transform>();
-	darkness->AddComponent<Sprite>();
-	darkness->GetComponent<Transform>()->SetScale({ 1600, 900 });
-	darkness->GetComponent<Sprite>()->SetTexture("Assets/dark.png");
+
+	//darkness = GameObjectManager::GetInstance().CreateObject("darkness");
+	//darkness->AddComponent<Transform>();
+	//darkness->AddComponent<Sprite>();
+	//darkness->GetComponent<Transform>()->SetScale({ 1600, 900 });
+	//darkness->GetComponent<Sprite>()->SetTexture("Assets/dark75.png");
 }
 
 void SampleSave::Update()
 {
 	MonsterManager::GetInstance().Spawn();
-	darkness->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+	//darkness->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
 }
 
 void SampleSave::Exit()

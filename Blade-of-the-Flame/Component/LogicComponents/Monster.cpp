@@ -98,6 +98,11 @@ void Monster::Update()
 
 	AEVec2Normalize(&unitMoveDir, &moveDir);
 	rb_->AddVelocity(unitMoveDir * moveSpeed_);
+
+	Direction curDir = unitMoveDir.x < 0 ? LEFT : RIGHT;
+	if (dir_ != curDir)
+		trans_->SetFlip();
+	dir_ = curDir;
 }
 
 void Monster::LoadFromJson(const json&)

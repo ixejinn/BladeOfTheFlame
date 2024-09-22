@@ -14,6 +14,7 @@ private:
 
 	AEMtx33 transformMatrix_;
 
+	bool useLimit_ = false;
 	AEVec2 upperLimit_ = { 4 * windowWidth, 4 * windowHeight };
 	AEVec2 lowerLimit_ = { -4 * windowWidth, -4 * windowHeight };
 

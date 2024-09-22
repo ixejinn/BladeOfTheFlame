@@ -3,9 +3,11 @@
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
+#include "../../Utils/Utils.h"
 
 class RigidBody;
 class AnimationComp;
+class Sprite;
 
 class Monster : public LogicComponent, public EventEntity
 {
@@ -22,6 +24,8 @@ private:
 
 	double cooldown_ = 0.0;
 	std::chrono::system_clock::time_point timeStart_;
+
+	Direction dir_ = RIGHT;
 
 	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;

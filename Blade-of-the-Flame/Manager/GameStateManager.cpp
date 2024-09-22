@@ -6,6 +6,7 @@
 #include "../Manager/CollisionManager.h"
 #include "../Manager/EventManager.h"
 #include "../Manager/Camera.h"
+#include "../Manager/EnvironmentManager.h"
 #include "../Component/EngineComponent.h"
 #include "../Component/GraphicsComponent.h"
 #include "../Component/LogicComponent.h"
@@ -49,6 +50,8 @@ void GameStateManager::Update()
 		ComponentManager<LogicComponent>::GetInstance().UpdateComponent();
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
+
+		EnvironmentManager::GetInstance().Update();
 
 		ComponentManager<EngineComponent>::GetInstance().UpdateComponent();
 		ComponentManager<AudioComponent>::GetInstance().UpdateComponent();

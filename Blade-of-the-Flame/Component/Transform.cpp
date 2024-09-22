@@ -44,8 +44,14 @@ void Transform::Update()
 {
 	UpdateMatrix();
 
-	float x = AEClamp(position_.x, lowerLimit_.x, upperLimit_.x);
-	float y = AEClamp(position_.y, lowerLimit_.y, upperLimit_.y);
+	float x = position_.x;
+	float y = position_.y;
+
+	if (useLimit_)
+	{
+		x = AEClamp(x, lowerLimit_.x, upperLimit_.x);
+		y = AEClamp(y, lowerLimit_.y, upperLimit_.y);
+	}
 
 	SetPosition({ x, y });
 }

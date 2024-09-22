@@ -35,9 +35,7 @@ private:
 	GameObject* penetrable_double_flame_Attack = nullptr;
 
 	//Special_Attack
-	GameObject* shield_Attack = nullptr;
-	GameObject* incendiary_Attack = nullptr;
-	GameObject* meteor_Attack = nullptr;
+	GameObject* boomerang_Attack = nullptr;
 	GameObject* fire_bubble_Attack = nullptr;
 
 	Transform* trans_;
@@ -72,6 +70,7 @@ public:
 	
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
 	GameObject* meteor = nullptr;
+	GameObject* shield_Attack = nullptr;
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

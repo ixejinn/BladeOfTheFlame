@@ -9,6 +9,7 @@
 #include "../../Manager/ExpItemManager.h"
 #include "../../Utils/Utils.h"
 #include "../AnimationComp.h"
+#include "../LogicComponents/Skills/shield.h"
 
 
 void Monster::SetAnimation()
@@ -125,8 +126,15 @@ void Monster::OnCollision(CollisionEvent* event)
 		if (dt.count() >= cooldown_)
 		{
 			timeStart_ = std::chrono::system_clock::now();
-
-			player->AddHp(-dmg_);
+			
+			if (player->shield_Attack->GetComponent<Shield>()->ac == true)
+			{
+				player->AddHp(-dmg_ / 7);
+			}
+			else
+			{
+				player->AddHp(-dmg_);
+			}
 		}
 		return;
 	}

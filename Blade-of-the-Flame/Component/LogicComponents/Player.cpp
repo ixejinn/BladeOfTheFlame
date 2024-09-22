@@ -24,6 +24,9 @@ int Player::count = 0;
 #include "../LogicComponents/Skills/doubleFlameR.h"
 #include "../LogicComponents/Skills/PenetrableDoubleFlameL.h"
 #include "../LogicComponents/Skills/PenetrableDoubleFlameR.h"
+#include "../LogicComponents/Skills/Shield.h"
+#include "../LogicComponents/Skills/boomerang.h"
+#include "../LogicComponents/Skills/bubble.h"
 
 void Player::SetAnimation()
 {
@@ -46,7 +49,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 7;
+	level_ = 10;
 	SkillGage = 99;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
@@ -96,9 +99,17 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	meteor->GetComponent<Meteor>()->SetPlayer(owner_);
 
 	/* Special ATTACK GameObject */
-	//meteor_Attack = GameObjectManager::GetInstance().CreateObject("MeteorAttack");
-	//meteor_Attack->AddComponent<Meteor>();
-	//meteor_Attack->GetComponent<Meteor>()->SetPlayer(owner_);
+	shield_Attack = GameObjectManager::GetInstance().CreateObject("Shield");
+	shield_Attack->AddComponent<Shield>();
+	shield_Attack->GetComponent<Shield>()->SetPlayer(owner_);
+
+	boomerang_Attack = GameObjectManager::GetInstance().CreateObject("Boomerang");
+	boomerang_Attack->AddComponent<boomerang>();
+	boomerang_Attack->GetComponent<boomerang>()->SetPlayer(owner_);
+
+	fire_bubble_Attack = GameObjectManager::GetInstance().CreateObject("Bubble");
+	fire_bubble_Attack->AddComponent<bubble>();
+	fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
 
 	//----------------------------------//
 	curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
@@ -111,8 +122,7 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
-	std::cout << SkillGage << std::endl;
-
+	std::cout << owner_->GetComponent<Transform>()->GetPosition().x << " | " << owner_->GetComponent<Transform>()->GetPosition().y << std::endl;
 	/* CHECK */
 	// Level up
 	if (exp_ >= maxExp_)
@@ -139,10 +149,12 @@ void Player::Update()
 	if (1 <= level_ && level_ < 4)
 	{
 		meleeCool += AEFrameRateControllerGetFrameTime();
-		if (SkillGage >= 100)
+		if (SkillGage >= 150)
 		{
 			//쉴드스킬
-			curAttack_ = nullptr;
+			curAttack_ = shield_Attack->GetComponent<Shield>();
+			curAttack_->On();
+			SkillGage = 0;
 		}
 		else
 		{
@@ -154,7 +166,10 @@ void Player::Update()
 		flameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 100)
 		{
-			//장판스킬
+			//부메랑 스킬
+			curAttack_ = boomerang_Attack->GetComponent<boomerang>();
+			curAttack_->On();
+			SkillGage = 0;
 		}
 		else
 		{
@@ -177,6 +192,7 @@ void Player::Update()
 		doubleflameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 100)
 		{
+			//메테오스킬
 			curAttack_ = meteor->GetComponent<Meteor>();
 			curAttack_->On();
 		}
@@ -210,6 +226,13 @@ void Player::Update()
 		if (SkillGage >= 100)
 		{
 			// 파이어 버블
+			curAttack_ = nullptr;
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
+				curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
+				curAttack_->On();
+			}
 		}
 		else
 		{

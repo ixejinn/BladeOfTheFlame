@@ -20,6 +20,7 @@ Flame::Flame(GameObject* owner) : BaseAttack(owner)
 	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/3.png", "Attack");
 	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/4.png", "Attack");
 	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
+	owner->GetComponent<AnimationComp>()->SetTerm(200);
 	owner->GetComponent<Transform>()->SetScale({0, 0});
 
 	owner_->AddComponent<BoxCollider>();

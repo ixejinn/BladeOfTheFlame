@@ -121,6 +121,8 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Particle.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\boomerang.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\bubble.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\doubleFlameL.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\doubleFlameR.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
@@ -129,6 +131,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Skills\MeteorExplosion.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\PenetrabledoubleFlameL.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\PenetrabledoubleFlameR.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\shield.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
     <ClCompile Include="Component\Text.cpp" />
@@ -189,6 +192,8 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\EngineComponent.h" />
     <ClInclude Include="Component\GraphicsComponent.h" />
     <ClInclude Include="Component\LogicComponent.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\boomerang.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\bubble.h" />
     <ClInclude Include="Component\LogicComponents\Skills\doubleFlameL.h" />
     <ClInclude Include="Component\LogicComponents\Skills\doubleFlameR.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Flame.h" />
@@ -197,6 +202,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Skills\MeteorExplosion.h" />
     <ClInclude Include="Component\LogicComponents\Skills\PenetrabledoubleFlameL.h" />
     <ClInclude Include="Component\LogicComponents\Skills\PenetrabledoubleFlameR.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\shield.h" />
     <ClInclude Include="Component\Text.h" />
     <ClInclude Include="Component\RigidBody.h" />
     <ClInclude Include="Component\Sprite.h" />

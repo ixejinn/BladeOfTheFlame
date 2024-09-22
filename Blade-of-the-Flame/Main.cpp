@@ -52,8 +52,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Initialization of your own variables go here
 
 	// Using custom window procedure
-	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, 1, 60, true, NULL);
-	AESysSetFullScreen(1);
+	s32 showConsole = 0;
+#ifdef _DEBUG
+	showConsole = 1;
+#endif
+	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, showConsole, 60, true, NULL);
+	//AESysSetFullScreen(1);
 	
 	// Changing the window title
 	AESysSetWindowTitle("Blade of the Flame");

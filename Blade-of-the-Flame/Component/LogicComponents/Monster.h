@@ -12,6 +12,14 @@ class Sprite;
 class Monster : public LogicComponent, public EventEntity
 {
 private:
+	enum State
+	{
+		MOVE,
+		HURT
+	};
+
+	State state_ = MOVE;
+
 	int hp_ = 0;
 	int maxHp_ = 0;
 
@@ -31,6 +39,7 @@ private:
 	Transform* trans_ = nullptr;
 	RigidBody* rb_ = nullptr;
 	AnimationComp* ani_ = nullptr;
+	Sprite* sp_ = nullptr;
 
 	void SetAnimation();
 

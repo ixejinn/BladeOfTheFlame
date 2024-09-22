@@ -57,6 +57,7 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	playerTrans_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 	trans_ = owner_->GetComponent<Transform>();
 	rb_ = owner_->GetComponent<RigidBody>();
+	sp_ = owner_->GetComponent<Sprite>();
 }
 
 void Monster::RemoveFromManager()
@@ -103,6 +104,13 @@ void Monster::Update()
 	if (dir_ != curDir)
 		trans_->SetFlip();
 	dir_ = curDir;
+
+	// Change monster color to red briefly when attacked
+	if (state_ == HURT)
+		sp_->SetColor({ 255, 0, 0 });
+	else
+		sp_->SetColor({ 0, 0, 0 });
+	state_ = MOVE;
 }
 
 void Monster::LoadFromJson(const json&)
@@ -141,10 +149,11 @@ void Monster::OnCollision(CollisionEvent* event)
 	{
 		hp_ -= melee->GetDmg();
 
-		RigidBody* rb = owner_->GetComponent<RigidBody>();
-		AEVec2 velocity = rb->GetVelocity();
-		rb->ClearVelocity();
-		rb->AddVelocity(velocity * -knockback_);
+		AEVec2 velocity = rb_->GetVelocity();
+		rb_->ClearVelocity();
+		rb_->AddVelocity(velocity * -knockback_);
+
+		state_ = HURT;
 
 		return;
 	}

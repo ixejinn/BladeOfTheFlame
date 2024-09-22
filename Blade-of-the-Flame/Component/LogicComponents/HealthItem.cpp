@@ -22,7 +22,8 @@ void HealthItem::Update()
 {
 	if (use_)
 	{
-		player_->AddHp(hp_);
+		int maxHp = player_->GetMaxHp();
+		player_->AddHp(maxHp * hp_);
 
 		use_ = false;
 		owner_->active_ = false;

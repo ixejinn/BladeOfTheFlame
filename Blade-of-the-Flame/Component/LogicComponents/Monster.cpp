@@ -157,6 +157,16 @@ void Monster::OnCollision(CollisionEvent* event)
 
 		return;
 	}
+
+	Monster* other = event->from_->GetComponent<Monster>();
+	if (other)
+	{
+		AEVec2 otherVelocity = event->from_->GetComponent<RigidBody>()->GetVelocity();
+		rb_->ClearVelocity();
+		rb_->AddVelocity(otherVelocity);
+
+		return;
+	}
 }
 
 void Monster::ReserveDmg(int dmg)

@@ -16,7 +16,7 @@ private:
 		/* P_AABB */ {	false,	false,		false,		true,	true,		true,	true	},
 		/* P_CIRC */ {	false,	false,		false,		false,	false,		false,	true	},
 		/* P_ATCK */ {  false,	false,		false,		true,	false,		false,	false	},
-		/* E_BODY */ {  true,	false,		true,		false,	false,		false,	false	},
+		/* E_BODY */ {  true,	false,		true,		true,	false,		false,	false	},
 		/* E_ATCK */ {  true,	false,		false,		false,	false,		false,	false	},
 		/* ITEM   */ {	true,	false,		false,		false,	false,		false,	false	},
 		/* EXP_IT */ {  true,	true,		false,		false,	false,		false,	false	}

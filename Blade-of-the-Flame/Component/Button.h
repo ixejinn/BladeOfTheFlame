@@ -6,15 +6,8 @@ class Sprite;
 
 class Button : public EngineComponent
 {
-public:
-	enum Todo
-	{
-		GAME,
-		EXIT
-	};
-
 private:
-	Todo todo_;
+	bool clicked = false;
 
 	AEVec2 pos_;
 	AEVec2 scl_;
@@ -33,11 +26,12 @@ public:
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
 
-	void SetTodo(const Todo& todo) { todo_ = todo; }
 	void SetScale(const AEVec2& scl);
 	void SetPosition(const AEVec2& pos);
 	void SetTexture(const std::string& name);
 	void SetText(const std::string& str);
+
+	bool IsClicked() const { return clicked; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Button";

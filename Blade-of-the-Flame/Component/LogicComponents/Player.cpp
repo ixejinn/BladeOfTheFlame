@@ -62,9 +62,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	trans_ = owner_->GetComponent<Transform>();
 	trans_->SetScale({ windowWidth / 13.f, windowWidth / 13.f });
-	AEVec2 limit{ windowWidth, windowHeight };
-	limit = limit * 4.f;
-	trans_->SetLimit(limit);
 
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 
@@ -213,10 +210,7 @@ void Player::Update()
 
 	/* SET ANIMATION */
 	if (dir_ != curDir)
-	{
-		std::cout << "flip\n";
 		trans_->SetFlip();
-	}
 
 	if (curState == ATTACK)
 	{

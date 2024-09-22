@@ -112,7 +112,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\ExpItem.cpp" />
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
     <ClCompile Include="Component\LogicComponents\Bullet.cpp" />
-    <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
     <ClCompile Include="Component\LogicComponents\FlameAltar.cpp" />
     <ClCompile Include="Component\LogicComponents\HealthItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MagnetItem.cpp" />
@@ -127,6 +126,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\MeteorExplosion.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
+    <ClCompile Include="Component\ScreenOverlay.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
     <ClCompile Include="Component\Text.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
@@ -177,7 +177,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\ExpItem.h" />
     <ClInclude Include="Component\LogicComponents\Boss1.h" />
     <ClInclude Include="Component\LogicComponents\Bullet.h" />
-    <ClInclude Include="Component\LogicComponents\BossComp.h" />
     <ClInclude Include="Component\LogicComponents\Attack.h" />
     <ClInclude Include="Component\LogicComponents\FlameAltar.h" />
     <ClInclude Include="Component\LogicComponents\HealthItem.h" />
@@ -195,6 +194,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Skills\Inferno.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Meteor.h" />
     <ClInclude Include="Component\LogicComponents\Skills\MeteorExplosion.h" />
+    <ClInclude Include="Component\ScreenOverlay.h" />
     <ClInclude Include="Component\Text.h" />
     <ClInclude Include="Component\RigidBody.h" />
     <ClInclude Include="Component\Sprite.h" />

@@ -2,6 +2,11 @@
 
 #include "GameObjectManager.h"
 
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+}
+
 Camera::Camera() : world_to_ndc_xform()
 {
 }
@@ -11,14 +16,39 @@ Camera::~Camera()
 
 }
 
-void Camera::Update()
+void Camera::UpdatePositionBasedOnPlayer()
 {
-	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
-	if (player)
+	GameObject* obj = Manager::objMgr.GetObjectA("player");
+	if (obj)
 	{
-		AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
+		AEVec2 playerPos = obj->GetComponent<Transform>()->GetPosition();
 		SetPos(playerPos.x, playerPos.y);
 	}
+
+	obj = Manager::objMgr.GetObjectA("ScreenEffect");
+	if (obj)
+		obj->GetComponent<ScreenOverlay>()->Update();
+
+	obj = Manager::objMgr.GetObjectA("bossBar");
+	if (obj)
+		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+	obj = Manager::objMgr.GetObjectA("monsterBar");
+	if (obj)
+		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+	obj = Manager::objMgr.GetObjectA("expBar");
+	if (obj)
+		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+	obj = Manager::objMgr.GetObjectA("healthBar");
+	if (obj)
+		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+}
+
+void Camera::Update()
+{
+	UpdatePositionBasedOnPlayer();
 	
 	AEMtx33Identity(&world_to_ndc_xform);
 

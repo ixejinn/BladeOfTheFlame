@@ -49,7 +49,7 @@ EnvironmentManager::EnvironmentManager()
 
 	bgm_ = Manager::objMgr.CreateObject("_BGM");
 	bgm_->AddComponent<Audio>();
-	//bgm_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
+	bgm_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 }
 
 void EnvironmentManager::SetPlayerTransform()

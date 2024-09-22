@@ -6,6 +6,11 @@
 #include "../GameObject/GameObject.h"
 #include "../Resource/TextureResource.h"
 
+namespace Manager
+{
+	extern ResourceManager& rscMgr;
+}
+
 Sprite::Sprite(GameObject* owner)
 	: GraphicsComponent(owner), color_(), texture_(nullptr), textureName_(), mesh_()
 {
@@ -17,7 +22,7 @@ Sprite::~Sprite()
 	AEGfxMeshFree(mesh_);
 
 	if (texture_ != nullptr && !textureName_.empty())
-		ResourceManager::GetInstance().Unload(textureName_);
+		Manager::rscMgr.Unload(textureName_);
 }
 
 void Sprite::RemoveFromManager()
@@ -169,8 +174,11 @@ void Sprite::SetColor(const Color& col)
 
 void Sprite::SetTexture(const std::string& name)
 {
+	if (texture_)
+		Manager::rscMgr.Unload(textureName_);
+
 	textureName_ = name;
-	texture_ = ResourceManager::GetInstance().Get<TextureResource>(name)->GetData();
+	texture_ = Manager::rscMgr.Get<TextureResource>(name)->GetData();
 }
 
 void Sprite::SetTexture(TextureResource* texture)

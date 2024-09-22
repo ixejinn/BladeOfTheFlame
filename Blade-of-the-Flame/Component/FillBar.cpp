@@ -9,43 +9,39 @@
 #include "../Utils/Utils.h"
 #include "../Utils/MathUtils.h"
 
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+	extern ComponentManager<GraphicsComponent>& compGfxMgr;
+	extern EventManager& evntMgr;
+}
+
 FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), relativePos_(), scale_()
 {
 	// Pointer player
-	GameObject* player = GameObjectManager::GetInstance().GetObjectA("player");
+	GameObject* player = Manager::objMgr.GetObjectA("player");
 	player_ = player->GetComponent<Player>();
 	playerTrans_ = player->GetComponent<Transform>();
 
 	// Background
-	background_ = GameObjectManager::GetInstance().CreateObject();
+	background_ = Manager::objMgr.CreateObject();
 	background_->AddComponent<Transform>();
 	background_->AddComponent<Sprite>();
 	background_->AddComponent<RigidBody>();
-	background_->AddComponent<PlayerController>();
 
 	backTrans_ = background_->GetComponent<Transform>();
 
 	background_->GetComponent<Sprite>()->SetColor(backColor_);
 
-	PlayerController* pCtrl = background_->GetComponent<PlayerController>();
-	pCtrl = background_->GetComponent<PlayerController>();
-	pCtrl->SetDashKey(AEVK_SPACE);
-	pCtrl->MultiplyMoveSpeed(player_->GetMoveSpeed());
-
 	// Fill
-	fill_ = GameObjectManager::GetInstance().CreateObject();
+	fill_ = Manager::objMgr.CreateObject();
 	fill_->AddComponent<Transform>();
 	fill_->AddComponent<Sprite>();
 	fill_->AddComponent<RigidBody>();
-	fill_->AddComponent<PlayerController>();
 
 	fillTrans_ = fill_->GetComponent<Transform>();
 
 	fill_->GetComponent<Sprite>()->SetAnchor(Sprite::LEFT_CENTER);
-
-	pCtrl = fill_->GetComponent<PlayerController>();
-	pCtrl->SetDashKey(AEVK_SPACE);
-	pCtrl->MultiplyMoveSpeed(player_->GetMoveSpeed());
 
 	// FillBar
 	owner_->AddComponent<Text>();
@@ -54,7 +50,7 @@ FillBar::FillBar(GameObject* owner) : GraphicsComponent(owner), showType_(), rel
 	text_->SetSize(1.f);
 
 	boss_ = nullptr;
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
+	Manager::evntMgr.RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 }
 
 FillBar::~FillBar()
@@ -63,7 +59,7 @@ FillBar::~FillBar()
 
 void FillBar::RemoveFromManager()
 {
-	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
+	Manager::compGfxMgr.GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
 }
 
 void FillBar::Update()
@@ -82,13 +78,13 @@ void FillBar::Update()
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
 		text_->SetPosition({ -0.05f, 0.93f });
 
-		ComponentManager<GraphicsComponent>::GetInstance().ToBack(text_);
+		Manager::compGfxMgr.ToBack(text_);
 
 		if (compass && value >= maxValue)
 		{
 			CompassActiveEvent* event = new CompassActiveEvent();
 			event->from_ = owner_;
-			EventManager::GetInstance().AddEvent(static_cast<BaseEvent*>(event));
+			Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
 			compass = false;
 		}
 		break;
@@ -99,7 +95,7 @@ void FillBar::Update()
 		maxValue = player_->GetMaxExp();
 		text_->SetString("LEVEL " + std::to_string(player_->GetLevel()) + "     " + std::to_string(int(value)) + " / " + std::to_string(int(maxValue)));
 		text_->SetPosition({ -0.1f, -0.96f });
-		ComponentManager<GraphicsComponent>::GetInstance().ToBack(text_);
+		Manager::compGfxMgr.ToBack(text_);
 		break;
 
 	case PLAYER_HP:
@@ -149,13 +145,20 @@ void FillBar::OnCollision(CollisionEvent*)
 {
 }
 
+void FillBar::UpdatePositionBasedOnPlayer()
+{
+	AEVec2 playerPos = playerTrans_->GetPosition();
+
+	AEVec2 relativePos = relativePos_;
+	backTrans_->SetPosition(playerPos + relativePos_);
+
+	relativePos.x -= backTrans_->GetScale().x / 2;
+	fillTrans_->SetPosition(playerPos + relativePos);
+}
+
 void FillBar::SetShowType(ShowType type)
 {
 	showType_ = type;
-
-	AEVec2 limit{ windowWidth, windowHeight };
-	limit = limit * 4.f;
-	AEVec2 upperLimit = limit, lowerLimit = limit * -1.f;
 
 	switch (type)
 	{
@@ -173,8 +176,8 @@ void FillBar::SetShowType(ShowType type)
 
 	case PLAYER_HP:
 	{
-		AEVec2 playerScale = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>()->GetScale();
-		relativePos_ = { 0, playerScale.y / 2 + 5 };
+		AEVec2 playerScale = Manager::objMgr.GetObjectA("player")->GetComponent<Transform>()->GetScale();
+		relativePos_ = { 0, 40 };
 		scale_ = { 51, 3 };
 		fillColor_ = { 255, 0, 0 };
 		break;
@@ -188,26 +191,9 @@ void FillBar::SetShowType(ShowType type)
 	}
 	backTrans_->SetScale(scale_);
 
-	AEVec2 playerPos = playerTrans_->GetPosition();
-	backTrans_->SetPosition(playerPos + relativePos_);
-
-	relativePos_.x -= backTrans_->GetScale().x / 2;
-	fillTrans_->SetPosition(playerPos + relativePos_);
-
 	fill_->GetComponent<Sprite>()->SetColor(fillColor_);
 
-	upperLimit.y += relativePos_.y;
-	lowerLimit.y += relativePos_.y;
-	backTrans_->SetUpperLimit(upperLimit);
-	backTrans_->SetLowerLimit(lowerLimit);
-
-	upperLimit.x -= scale_.x / 2.f;
-	lowerLimit.x -= scale_.x / 2.f;
-	fillTrans_->SetUpperLimit(upperLimit);
-	fillTrans_->SetLowerLimit(lowerLimit);
-
-	ComponentManager<GraphicsComponent>::GetInstance().ToBack(fill_->GetComponent<Sprite>());
-	
+	Manager::compGfxMgr.ToBack(fill_->GetComponent<Sprite>());
 }
 
 void FillBar::SetFillColor(Color color)

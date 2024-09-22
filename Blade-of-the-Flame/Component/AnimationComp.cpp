@@ -34,14 +34,49 @@ void AnimationComp::Update()
 {
 	double dt = AEFrameRateControllerGetFrameRate();
 
-	sp_->SetTexture(anime[currentAnime]->GetDetail());
-
-	elapsedTime += dt;
-
-	if (elapsedTime >= animationTerm)
+	switch (type_)
 	{
-		elapsedTime = 0;
-		anime[currentAnime]->p++;
+	case CUSTOM:
+	{
+		sp_->SetTexture(anime[currentAnime]->GetDetail());
+
+		elapsedTime += dt;
+		if (elapsedTime >= animationTerm)
+		{
+			elapsedTime = 0;
+			anime[currentAnime]->p++;
+		}
+		break;
+	}
+
+	case APPEAR:
+	{
+		float alpha = sp_->GetAlpha();
+		if (alpha >= 1.0)
+			return;
+
+		elapsedTime += dt;
+		if (elapsedTime >= animationTerm)
+		{
+			elapsedTime = 0;
+			sp_->SetAlpha(alpha + 1 / animationTerm);
+		}
+		break;
+	}
+
+	case DISAPPEAR:
+	{
+		float alpha = sp_->GetAlpha();
+		if (alpha <= 0.0)
+			return;
+
+		elapsedTime += dt;
+		if (elapsedTime >= animationTerm)
+		{
+			elapsedTime = 0;
+			sp_->SetAlpha(alpha - 1 / animationTerm);
+		}
+	}
 	}
 }
 
@@ -67,10 +102,26 @@ void AnimationComp::DeleteAnimation(std::string type)
 
 bool AnimationComp::CurrentAnimationOver()
 {
-	if (anime[currentAnime]->animationPlay != false)
-		return true;
-	else
-		return false;
+	switch (type_)
+	{
+	case CUSTOM:
+		if (anime[currentAnime]->animationPlay != false)
+			return true;
+		else
+			return false;
+		
+	case APPEAR:
+		if (sp_->GetAlpha() >= 1.0)
+			return true;
+		else
+			return false;
+
+	case DISAPPEAR:
+		if (sp_->GetAlpha() <= 0.0)
+			return true;
+		else
+			return false;
+	}
 }
 
 void AnimationComp::AnimationLoop(int init, int max, std::string name, std::string type)
@@ -134,4 +185,14 @@ void AnimationComp::DeleteDetail(std::string name, std::string which)
 {
 	//auto newEnd = std::remove(anime[which]->detail.begin(), anime[which]->detail.end(), name);
 	//anime[which]->detail.erase(newEnd, anime[which]->detail.end());
+}
+
+void AnimationComp::SetType(Type type)
+{
+	type_ = type;
+
+	if (type == APPEAR)
+		sp_->SetAlpha(0);
+	else if (type == DISAPPEAR)
+		sp_->SetAlpha(1);
 }

@@ -24,7 +24,17 @@ struct Animation
 
 class AnimationComp : public GraphicsComponent
 {
+public:
+	enum Type
+	{
+		CUSTOM,
+		APPEAR,
+		DISAPPEAR
+	};
+
 private:
+	Type type_ = CUSTOM;
+
 	std::string currentAnime;
 	std::map<std::string, Animation*> anime;
 	float animationTerm = 1000;
@@ -48,8 +58,11 @@ public:
 	void AddDetail(std::string name, std::string which);
 	void DeleteDetail(std::string name, std::string which);
 
+	void SetType(Type type);
 	void SetTerm(float other) { animationTerm = other; }
 	void ChangeAnimation(std::string type) { currentAnime = type; };
+
+	Type GetType() const { return type_; }
 
 	void AnimationLoop(int init, int max, std::string name, std::string type);
 

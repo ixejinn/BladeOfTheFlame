@@ -4,7 +4,10 @@
 #include "GameObjectManager.h"
 #include "../Utils/Utils.h"
 
-GameObjectManager& objMgr = GameObjectManager::GetInstance();
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+}
 
 EnvironmentManager::EnvironmentManager()
 {
@@ -16,7 +19,7 @@ EnvironmentManager::EnvironmentManager()
 	{
 		float xPos = -zoom_ * windowWidth + zoom_ * windowWidth * i;
 
-		GameObject* up = objMgr.CreateObject("_UP" + std::to_string(i));
+		GameObject* up = Manager::objMgr.CreateObject("_UP" + std::to_string(i));
 		up->AddComponent<Transform>();
 		trans = up->GetComponent<Transform>();
 		trans->SetScale({ windowWidth * zoom_, windowHeight * zoom_ });
@@ -25,7 +28,7 @@ EnvironmentManager::EnvironmentManager()
 		up->GetComponent<Sprite>()->SetTexture(textureName);
 		up_.emplace_back(trans);
 
-		GameObject* center = objMgr.CreateObject("_CENTER" + std::to_string(i));
+		GameObject* center = Manager::objMgr.CreateObject("_CENTER" + std::to_string(i));
 		center->AddComponent<Transform>();
 		trans = center->GetComponent<Transform>();
 		trans->SetScale({ windowWidth * zoom_, windowHeight * zoom_ });
@@ -34,7 +37,7 @@ EnvironmentManager::EnvironmentManager()
 		center->GetComponent<Sprite>()->SetTexture(textureName);
 		center_.emplace_back(trans);
 
-		GameObject* down = objMgr.CreateObject("_DOWN" + std::to_string(i));
+		GameObject* down = Manager::objMgr.CreateObject("_DOWN" + std::to_string(i));
 		down->AddComponent<Transform>();
 		trans = down->GetComponent<Transform>();
 		trans->SetScale({ windowWidth * zoom_, windowHeight * zoom_ });
@@ -44,21 +47,21 @@ EnvironmentManager::EnvironmentManager()
 		down_.emplace_back(trans);
 	}
 
-	bgm_ = objMgr.CreateObject("_BGM");
+	bgm_ = Manager::objMgr.CreateObject("_BGM");
 	bgm_->AddComponent<Audio>();
 	//bgm_->GetComponent<Audio>()->SetAudio("Assets/bouken.mp3");
 }
 
 void EnvironmentManager::SetPlayerTransform()
 {
-	playerTrans_ = objMgr.GetObjectA("player")->GetComponent<Transform>();
+	playerTrans_ = Manager::objMgr.GetObjectA("player")->GetComponent<Transform>();
 }
 
 void EnvironmentManager::Update()
 {
 	if (!playerTrans_)
 	{
-		playerTrans_ = objMgr.GetObjectA("player")->GetComponent<Transform>();
+		playerTrans_ = Manager::objMgr.GetObjectA("player")->GetComponent<Transform>();
 		if (!playerTrans_)
 			return;
 	}

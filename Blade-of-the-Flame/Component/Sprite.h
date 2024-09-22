@@ -42,7 +42,8 @@ public:
 
 	void SetMesh();
 
-	Color& GetColor() { return color_; }
+	const Color& GetColor() const { return color_; }
+	const float& GetAlpha() const { return alpha_; }
 
 	void SetAnchor(AnchorPoint anchor);
 	void SetLocalPos(float x, float y);

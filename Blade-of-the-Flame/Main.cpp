@@ -14,7 +14,22 @@
 #include "State/SampleSave.h"
 #include "State/MainMenu.h"
 #include "State/GameClear.h"
+#include "State/OpeningLogos.h"
 #include "State/BossSample/BossSampleSave.h"
+
+namespace Manager
+{
+	ResourceManager& rscMgr = ResourceManager::GetInstance();
+
+	ComponentManager<EngineComponent>& compEngMgr = ComponentManager<EngineComponent>::GetInstance();
+	ComponentManager<AudioComponent>& compAudMgr = ComponentManager<AudioComponent>::GetInstance();
+	ComponentManager<GraphicsComponent>& compGfxMgr = ComponentManager<GraphicsComponent>::GetInstance();
+	ComponentManager<LogicComponent>& compLgcMgr = ComponentManager<LogicComponent>::GetInstance();
+
+	GameObjectManager& objMgr = GameObjectManager::GetInstance();
+	GameStateManager& gsMgr = GameStateManager::GetInstance();
+}
+
 // ---------------------------------------------------------------------------
 // main
 
@@ -24,7 +39,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(8889);
+	//_CrtSetBreakAlloc(307);
 
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
@@ -36,7 +51,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// Using custom window procedure
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, 1, 60, true, NULL);
-	//AESysSetFullScreen(1);
+	AESysSetFullScreen(1);
 	
 	// Changing the window title
 	AESysSetWindowTitle("Blade of the Flame");
@@ -44,28 +59,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
-	ResourceManager::GetInstance();
-	ComponentManager<EngineComponent>::GetInstance();
-	ComponentManager<AudioComponent>::GetInstance();
-	ComponentManager<GraphicsComponent>::GetInstance();
-	ComponentManager<LogicComponent>::GetInstance();
-	GameObjectManager::GetInstance();
-
 	//GameState* gameState = new GameState();
 	//SampleSave* sampleSave = new SampleSave();
-	MainMenu* mainMenu = new MainMenu();
+	//MainMenu* mainMenu = new MainMenu();
+	OpeningLogos* opening = new OpeningLogos();
 	//BossSampleSave bossSample;
 
-	GameStateManager& gsm = GameStateManager::GetInstance();
-	gsm.ChangeState(mainMenu);
+	Manager::gsMgr.ChangeState(opening);
 
 	// Game Loop
-	while (gsm.ShouldExit() == false && gGameRunning)
+	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)
 	{
 		// Informing the system about the loop's start
 		AESysFrameStart();
 
-		gsm.Update();
+		Manager::gsMgr.Update();
 
 		// Informing the system about the loop's end
 		AESysFrameEnd();
@@ -75,7 +83,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			gGameRunning = 0;
 	}
 
-	gsm.Exit();
+	Manager::gsMgr.Exit();
 
 	// free the system
 	AESysExit();

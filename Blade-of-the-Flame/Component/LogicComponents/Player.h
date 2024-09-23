@@ -3,30 +3,42 @@
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
 #include "../../Manager/ParticleSystem.h"
+#include "../../Utils/Utils.h"
 
 class Text;
 class BaseAttack;
 class Audio;
 class Transform;
+class PlayerController;
 class AnimationComp;
+class MeleeAttack;
+class Sprite;
 
 class Player : public LogicComponent, public EventEntity
 {
 private:
+	enum State
+	{
+		IDLE,
+		RUN,
+		ATTACK,
+		HURT
+	};
+
 	int level_ = 1;
 	int hp_ = 100;
 	int exp_ = 0;
 
-	int maxLevel_ = 7;
+	int maxLevel_ = 10;
 	int maxHp_ = 100;
-	int maxExp_ = 100;
+	int maxExp_ = 50;
 
 	float moveSpeed_ = 5.f;
-	float attractionRadius_ = 80.f;
+	float attractionRadius_ = 40.f;
 
 	// Level up�� ���� �ʿ��� ����ġ ������ (%)
-	float expRequirement_ = 80.f;
-	float hpGrowthRate_ = 20.;
+	float expRequirement_ = 30.f;
+	float hpGrowthRate_ = 20.f;
 
 	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
 	GameObject* Skills_Meteor = nullptr;
@@ -40,7 +52,10 @@ private:
 	Transform* trans_;
 	Audio* audio_;
 	AnimationComp* ani_;
+	PlayerController* pCtrl_;
+	Sprite* sp_;
 
+	Direction dir_ = RIGHT;
 	void SetAnimation();
 
 	Player(GameObject* owner);
@@ -60,7 +75,7 @@ public:
 	void OnCollision(CollisionEvent*) override;
 	
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
-	BaseAttack* curAttackMelee = nullptr;
+	MeleeAttack* curAttackMelee = nullptr;
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

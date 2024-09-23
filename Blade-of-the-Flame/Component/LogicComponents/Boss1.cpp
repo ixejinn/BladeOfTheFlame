@@ -1,7 +1,6 @@
 #include "Boss1.h"
-#include <cmath>
-#include <typeindex>
 
+#include <typeindex>
 #include "../../Event/Event.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
@@ -32,7 +31,7 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     hp_         = 500;
     maxHp_      = 500;
     moveSpeed_  = 5;
-    chaseSpeed_ = 90;
+    chaseSpeed_ = 30;
     baseDmg_    = 5;
     skillDmg_   = 10;
     range_      = 1.5;
@@ -64,21 +63,17 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 
     AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
-    owner_->AddComponent<Sprite>();
     
     bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/walk/walk", "walk");
-
     bossAnim->AnimationLoop(0, 16, "Assets/boss1_Anime/Idle/Idle", "Idle");
-
     bossAnim->AnimationLoop(0, 5,  "Assets/boss1_Anime/Atk/phase2ATK/phase1_", "Attack");
 
     bossAnim->ChangeAnimation("walk");
-
     owner_->GetComponent<Transform>()->SetScale(scale);
+    owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 
-    owner_->GetComponent<Transform>()->SetPosition({  400, 400  });
-
-    owner_->GetComponent<BoxCollider>()->SetScale( { 0.4f, 0.8f });
+    col->SetScale({ 0.22f, 0.45f });
+    col->SetCenter({ 0.f, -0.15f });
 }
 
 void Boss1::Update()
@@ -90,7 +85,6 @@ void Boss1::Update()
 
         GameClear* newState = new GameClear();
         GameStateManager::GetInstance().ChangeState(newState);
-
         return;
     }
 
@@ -134,7 +128,6 @@ void Boss1::OnCollision(CollisionEvent* event)
         RigidBody* rb = owner_->GetComponent<RigidBody>();
         AEVec2 velocity = rb->GetVelocity();
         rb->ClearVelocity();
-        //rb->AddVelocity(velocity * -knockback_);
 
         return;
     }
@@ -309,7 +302,6 @@ void Boss1::Phase2()
         phase2On = true;
         current_state = _baseChase;
     }
-
 }
 
 void Boss1::Phase3()

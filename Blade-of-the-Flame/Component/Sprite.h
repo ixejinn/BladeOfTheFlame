@@ -5,6 +5,8 @@
 #include "../Utils/Utils.h"
 #include "../Manager/ComponentManager.h"
 
+class TextureResource;
+
 class Sprite : public GraphicsComponent
 {
 public:
@@ -17,9 +19,10 @@ public:
 
 private:
 	AnchorPoint anchor_ = CENTER;
+	AEVec2 localPos_ = { 0.f, 0.f };
 
 	Color color_;
-	unsigned char alpha_ = 0;
+	float alpha_ = 1.0;
 
 	AEGfxTexture* texture_;
 	std::string textureName_;
@@ -39,12 +42,15 @@ public:
 
 	void SetMesh();
 
-	Color& GetColor() { return color_; }
+	const Color& GetColor() const { return color_; }
+	const float& GetAlpha() const { return alpha_; }
 
 	void SetAnchor(AnchorPoint anchor);
+	void SetLocalPos(float x, float y);
 	void SetColor(const Color& col);
-	void SetAlpha(const unsigned char& alpha) { alpha_ = alpha; }
+	void SetAlpha(const float& alpha) { alpha_ = alpha; }
 	void SetTexture(const std::string& name);
+	void SetTexture(TextureResource* texture);
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "Sprite";

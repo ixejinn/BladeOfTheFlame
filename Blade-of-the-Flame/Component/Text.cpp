@@ -13,7 +13,7 @@ Text::Text(GameObject* owner) : GraphicsComponent(owner), string_(), fontName_()
 
 Text::~Text()
 {
-	if (fontId_ < 0)
+	if (fontId_ >= 0)
 		ResourceManager::GetInstance().Unload(fontName_);
 }
 

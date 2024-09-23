@@ -6,10 +6,11 @@
 class FontResource : public Resource
 {
 private:
+	s8* id = nullptr;
 	FontResource() = default;
 
 public:
-	~FontResource() { Unload(); }
+	~FontResource();
 
 	void Load(const std::string& name) override;
 	void Unload() override;

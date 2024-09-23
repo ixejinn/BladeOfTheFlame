@@ -1,40 +1,52 @@
 #include "MainMenu.h"
 
 #include "../Manager/GameObjectManager.h"
-//#include "../Manager/ResourceManager.h"
+#include "../Manager/GameStateManager.h"
+#include "../State/GameState.h"
+
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+	extern GameStateManager& gsMgr;
+}
 
 void MainMenu::Init()
 {
 	InitBackground();
 
-	// Game button
-	GameObject* gameBtn = GameObjectManager::GetInstance().CreateObject("gameBtn");
-	gameBtn->AddComponent<Button>();
+	// START button
+	GameObject* start = Manager::objMgr.CreateObject("start");
+	start->AddComponent<Button>();
 
-	Button* btn = gameBtn->GetComponent<Button>();
-	btn->SetTodo(Button::GAME);
-	btn->SetPosition({ 0, -200 });
-	btn->SetScale({ 250, 80 });
-	btn->SetText("GAME");
+	startBtn_ = start->GetComponent<Button>();
+	startBtn_->SetPosition({ 0, -200 });
+	startBtn_->SetScale({ 250, 80 });
+	startBtn_->SetText("GAME");
 
-	// Exit button
-	GameObject* exitBtn = GameObjectManager::GetInstance().CreateObject("exitBtn");
-	exitBtn->AddComponent<Button>();
+	// EXIT button
+	GameObject* exit = Manager::objMgr.CreateObject("exit");
+	exit->AddComponent<Button>();
 
-	btn = exitBtn->GetComponent<Button>();
-	btn->SetTodo(Button::EXIT);
-	btn->SetPosition({ 0, -325 });
-	btn->SetScale({ 250, 80 });
-	btn->SetText("EXIT");
+	exitBtn_ = exit->GetComponent<Button>();
+	exitBtn_->SetPosition({ 0, -325 });
+	exitBtn_->SetScale({ 250, 80 });
+	exitBtn_->SetText("EXIT");
 }
 
 void MainMenu::Update()
 {
+	if (startBtn_->IsClicked())
+	{
+		GameState* gameState = new GameState();
+		Manager::gsMgr.ChangeState(gameState);
+	}
+	else if (exitBtn_->IsClicked())
+		Manager::gsMgr.ChangeState(nullptr);
 }
 
 void MainMenu::Exit()
 {
-	GameObjectManager::GetInstance().Clear();
+	Manager::objMgr.Clear();
 }
 
 void MainMenu::InitBackground()
@@ -42,22 +54,8 @@ void MainMenu::InitBackground()
 	// Background
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
-	GameObject* background = GameObjectManager::GetInstance().CreateObject("background");
-	background->AddComponent<Transform>();
-	//background->AddComponent<Sprite>();
-	//background->AddComponent<Audio>();
-
-	background->GetComponent<Transform>()->SetScale({ windowWidth, windowHeight });
-
-	//Sprite* sp = background->GetComponent<Sprite>();
-	//sp->SetTexture("Assets/Realmap.png");
-	//sp->SetColor({ 255, 255, 255 });
-
-	//Audio* audio = background->GetComponent<Audio>();
-	//audio->SetAudio("Assets/bouken.mp3");	// 임시로 넣어둠
-
 	// Game logo
-	GameObject* gameLogo = GameObjectManager::GetInstance().CreateObject("gameLogo");
+	GameObject* gameLogo = Manager::objMgr.CreateObject("gameLogo");
 	gameLogo->AddComponent<Transform>();
 	gameLogo->AddComponent<Sprite>();
 
@@ -66,5 +64,5 @@ void MainMenu::InitBackground()
 	trans->SetScale({ 538, 200 });
 
 	Sprite* sp = gameLogo->GetComponent<Sprite>();
-	sp->SetTexture("Assets/GameLogo.png");
+	sp->SetTexture("Assets/Logo/GameLogo.png");
 }

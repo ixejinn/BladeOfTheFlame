@@ -12,6 +12,5 @@ public:
 	void Update() override;
 	void Exit() override;
 
-	void InitBackground();
 	void SetFillBar();
 };

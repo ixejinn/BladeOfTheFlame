@@ -28,8 +28,8 @@ void BossSampleSave::Init()
 	obj->AddComponent<PlayerController>();
 	PlayerController* pCtrl = obj->GetComponent<PlayerController>();
 
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
+	pCtrl->SetRotKeys(LEFT, AEVK_Q);
+	pCtrl->SetRotKeys(RIGHT, AEVK_E);
 	pCtrl->SetStopKey(AEVK_SPACE);
 
 	pCtrl->SetMoveSpeed(30.f);

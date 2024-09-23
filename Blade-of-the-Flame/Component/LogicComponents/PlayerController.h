@@ -2,14 +2,16 @@
 #include "AEEngine.h"
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
+#include "../../Utils/Utils.h"
 
 class PlayerController : public LogicComponent
 {
-public:
-	enum Direction { LEFT, RIGHT, UP, DOWN };
-
 private:
 	bool onlyUpDown = false;
+
+	Direction lastMoveDirection_ = STOP;
+	bool moveState_ = false;
+	bool dashState_ = false;
 
 	uint8_t moveKeys_[4] = { AEVK_A, AEVK_D, AEVK_W, AEVK_S };
 	uint8_t rotKeys_[2] = { 0x00, 0x00 };
@@ -39,6 +41,10 @@ public:
 	void SetDashKey(uint8_t key);
 	void SetMoveSpeed(float speed) { moveSpeed_ = speed; }
 	void SetRotSpeed(float speed) { rotSpeed_ = speed; }
+
+	const Direction& GetMoveDir() const { return lastMoveDirection_; }
+	bool GetMoveState() const { return moveState_; }
+	bool GetDashState() const { return dashState_; }
 
 	void MultiplyMoveSpeed(float scale) { moveSpeed_ *= scale; }
 

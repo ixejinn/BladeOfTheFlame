@@ -5,7 +5,7 @@
 class HealthItem : public BaseItem
 {
 private:
-	int hp_ = 20;
+	float hp_ = 0.2f;
 
 	Player* player_ = nullptr;
 

@@ -106,13 +106,16 @@ MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 
 	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();
-	owner_->AddComponent<Sprite>();
+	//owner_->AddComponent<Sprite>();
 
 	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::P_ATTACK);
-	owner_->GetComponent<Sprite>()->SetColor({ 100, 200, 100 });
+
+	//Sprite* sp = owner_->GetComponent<Sprite>();
+	//sp->SetColor({ 100, 200, 100 });
+	//sp->SetTexture("Assets/row-4-column-1.png");
 }
 
 void MeleeAttack::Update()
@@ -131,8 +134,6 @@ json MeleeAttack::SaveToJson()
 void MeleeAttack::LevelUp()
 {
 	dmg_ += int(dmg_ * dmgGrowthRate_ / 100);
-
-
 }
 
 void MeleeAttack::AttackObject()
@@ -145,6 +146,11 @@ void MeleeAttack::AttackObject()
 	AEVec2 attackDir{ x - windowWidth / 2.f, windowHeight / 2.f - y }, unitDir;
 	AEVec2Normalize(&unitDir, &attackDir);
 
+	if (x >= windowWidth / 2.f)
+		dir_ = RIGHT;
+	else
+		dir_ = LEFT;
+	
 	attackDir = unitDir * range_;
 
 	AEVec2 playerPos = player_->GetComponent<Transform>()->GetPosition();

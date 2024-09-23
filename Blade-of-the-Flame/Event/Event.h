@@ -18,7 +18,12 @@ struct CompassActiveEvent : public BaseEvent {};
 
 struct LevelUpEvent : public BaseEvent
 {
-	int level = 0;
+	int level;
+};
+
+struct IncreaseBrightness : public BaseEvent
+{
+	int level;
 };
 
 struct SpawnBossEvent : public BaseEvent {};

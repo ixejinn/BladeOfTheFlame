@@ -6,40 +6,62 @@
 #include "../Manager/ItemManager.h"
 #include "../Manager/EventManager.h"
 #include "../Manager/CollisionManager.h"
+#include "../Manager/ParticleSystem.h"
+#include "../Manager/EnvironmentManager.h"
+
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+}
 
 void GameState::Init()
 {
-	InitBackground();
+#ifndef _DEBUG
+	//InitBackground();
+	EnvironmentManager& envMgr = EnvironmentManager::GetInstance();
+#endif
 
-	// Player
-	GameObject* player = GameObjectManager::GetInstance().CreateObject("player");
+	/* PLAYER */
+	GameObject* player = Manager::objMgr.CreateObject("player");
 	player->AddComponent<Player>();
 
-	// Flame altar
-	GameObject* altar = GameObjectManager::GetInstance().CreateObject("flameAltar");
+#ifndef _DEBUG
+	envMgr.SetPlayerTransform();
+#endif
+
+	/* FLAME ALTAR */
+	GameObject* altar = Manager::objMgr.CreateObject("flameAltar");
 	altar->AddComponent<FlameAltar>();
 
-	// Compass
-	GameObject* compass = GameObjectManager::GetInstance().CreateObject("compass");
+	/* COMPASS */
+	GameObject* compass = Manager::objMgr.CreateObject("compass");
 	compass->AddComponent<Compass>();
 	compass->GetComponent<Compass>()->SetDestination(altar);
 
-	// Boss
-	GameObject* boss = GameObjectManager::GetInstance().CreateObject("boss");
+	/* BOSS */
+	GameObject* boss = Manager::objMgr.CreateObject("boss");
 	boss->AddComponent<Boss1>();
 
-	// Spawn managers
+	/* SPAWN MANAGERS */
 	MonsterManager::GetInstance().Initialize(230);
 	ExpItemManager::GetInstance().Initialize(230);
 	ItemManager::GetInstance().Initialize(20);
 
-	MonsterManager::GetInstance().SetMaxActiveNum(30);
+	MonsterManager::GetInstance().SetMaxActiveNum(20);
+
+	/* SCREEN OVERLAY EFFECT */
+	GameObject* effect = Manager::objMgr.CreateObject("ScreenEffect");
+	effect->AddComponent<ScreenOverlay>();
 
 	SetFillBar();
 }
 
 void GameState::Update()
 {
+#ifndef _DEBUG
+	EnvironmentManager::GetInstance().Update();
+#endif
+
 	MonsterManager::GetInstance().Spawn();
 	ItemManager::GetInstance().Spawn();
 }
@@ -52,45 +74,28 @@ void GameState::Exit()
 	MonsterManager::GetInstance().Clear();
 	GameObjectManager::GetInstance().Clear();
 	CollisionManager::GetInstance().Clear();
-
-}
-
-void GameState::InitBackground()
-{
-	GameObject* background = GameObjectManager::GetInstance().CreateObject("background");
-	background->AddComponent<Transform>();
-	background->AddComponent<Sprite>();
-	background->AddComponent<Audio>();
-
-	//background->GetComponent<Transform>()->SetScale({ windowWidth, windowHeight });
-	background->GetComponent<Transform>()->SetScale({ windowWidth * 9, windowHeight * 9 });
-
-	Sprite* sp = background->GetComponent<Sprite>();
-	sp->SetTexture("Assets/Realmap.png");
-
-	Audio* audio = background->GetComponent<Audio>();
-	audio->SetAudio("Assets/bouken.mp3");
+	ParticleSystem::Delete();
 }
 
 void GameState::SetFillBar()
 {
-	GameObject* bossBar = GameObjectManager::GetInstance().CreateObject("bossBar");
+	GameObject* bossBar = Manager::objMgr.CreateObject("bossBar");
 	bossBar->AddComponent<FillBar>();
 	FillBar* bossBarPtr = bossBar->GetComponent<FillBar>();
-	bossBarPtr->SetBoss(GameObjectManager::GetInstance().GetObjectA("boss")->GetComponent<Boss1>());
+	bossBarPtr->SetBoss(Manager::objMgr.GetObjectA("boss")->GetComponent<Boss1>());
 	bossBarPtr->SetShowType(FillBar::BOSS_HP);
 
-	GameObject* monsterBar = GameObjectManager::GetInstance().CreateObject("monsterBar");
+	GameObject* monsterBar = Manager::objMgr.CreateObject("monsterBar");
 	monsterBar->AddComponent<FillBar>();
 	FillBar* monsterBarPtr = monsterBar->GetComponent<FillBar>();
 	monsterBarPtr->SetShowType(FillBar::MONSTER_CNT);
 
-	GameObject* expBar = GameObjectManager::GetInstance().CreateObject("expBar");
+	GameObject* expBar = Manager::objMgr.CreateObject("expBar");
 	expBar->AddComponent<FillBar>();
 	FillBar* expBarPtr = expBar->GetComponent<FillBar>();
 	expBarPtr->SetShowType(FillBar::PLAYER_EXP);
 
-	GameObject* healthBar = GameObjectManager::GetInstance().CreateObject("healthBar");
+	GameObject* healthBar = Manager::objMgr.CreateObject("healthBar");
 	healthBar->AddComponent<FillBar>();
 	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
 	healthBarPtr->SetShowType(FillBar::PLAYER_HP);

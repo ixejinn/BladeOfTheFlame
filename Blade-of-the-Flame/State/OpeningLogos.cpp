@@ -14,9 +14,9 @@ void OpeningLogos::Init()
 {
 	digiLogo = Manager::objMgr.CreateObject("digiLogo");
 	digiLogo->AddComponent<Transform>();
-	digiLogo->GetComponent<Transform>()->SetScale({ 762.5, 222.5 });
+	digiLogo->GetComponent<Transform>()->SetScale({ 505, 122 });
 	digiLogo->AddComponent<AnimationComp>();
-	digiLogo->GetComponent<Sprite>()->SetTexture("Assets/Logo/DigiPen_Singapore_WEB_BLACK.png");
+	digiLogo->GetComponent<Sprite>()->SetTexture("Assets/Logo/DigiPen_RGB_Red.png");
 	digiAni = digiLogo->GetComponent<AnimationComp>();
 	digiAni->SetType(AnimationComp::APPEAR);
 	digiAni->SetTerm(50);

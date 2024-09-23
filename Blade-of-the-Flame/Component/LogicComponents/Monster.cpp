@@ -44,12 +44,12 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	owner_->AddComponent<AnimationComp>();
 
 	owner_->GetComponent<Transform>()->SetScale({ 30, 100 });
-	//owner_->GetComponent<Sprite>()->SetColor({ 200, 100, 20 });
-	//owner_->GetComponent<Sprite>()->SetTexture("Assets/monster.png");
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetLayer(Collider::E_BODY);
 	col->SetHandler(static_cast<EventEntity*>(this));
+	col->SetScale({ 0.8f, 0.7f });
+	col->SetCenter({ -0.1f, -0.1f });
 
 	ani_ = owner_->GetComponent<AnimationComp>();
 	SetAnimation();
@@ -58,6 +58,7 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 	playerTrans_ = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
 	trans_ = owner_->GetComponent<Transform>();
 	rb_ = owner_->GetComponent<RigidBody>();
+	sp_ = owner_->GetComponent<Sprite>();
 }
 
 void Monster::RemoveFromManager()
@@ -76,9 +77,8 @@ void Monster::Update()
 	if (hp_ <= 0)
 	{
 		ExpItem* expGem = ExpItemManager::GetInstance().Spawn(pos);
-		if (!expGem)
-			return;
-		expGem->SetExp(exp_);
+		if (expGem)
+			expGem->SetExp(exp_);
 		death = true;
 
 		MonsterManager::GetInstance().AddCapturedCount();
@@ -100,14 +100,18 @@ void Monster::Update()
 
 	AEVec2Normalize(&unitMoveDir, &moveDir);
 	rb_->AddVelocity(unitMoveDir * moveSpeed_);
-	if (owner_->GetComponent<RigidBody>()->GetVelocity().x >= 0)
-	{
-		owner_->GetComponent<Transform>()->SetScale({ 30, 100 });
-	}
+
+	Direction curDir = unitMoveDir.x < 0 ? LEFT : RIGHT;
+	if (dir_ != curDir)
+		trans_->SetFlip();
+	dir_ = curDir;
+
+	// Change monster color to red briefly when attacked
+	if (state_ == HURT)
+		sp_->SetColor({ 255, 0, 0 });
 	else
-	{
-		owner_->GetComponent<Transform>()->SetScale({ -30, 100 });
-	}
+		sp_->SetColor({ 0, 0, 0 });
+	state_ = MOVE;
 }
 
 void Monster::LoadFromJson(const json&)
@@ -153,10 +157,21 @@ void Monster::OnCollision(CollisionEvent* event)
 		hp_ -= melee->GetDmg();
 		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;
 
-		RigidBody* rb = owner_->GetComponent<RigidBody>();
-		AEVec2 velocity = rb->GetVelocity();
-		rb->ClearVelocity();
-		rb->AddVelocity(velocity * -knockback_);
+		AEVec2 velocity = rb_->GetVelocity();
+		rb_->ClearVelocity();
+		rb_->AddVelocity(velocity * -knockback_);
+
+		state_ = HURT;
+
+		return;
+	}
+
+	Monster* other = event->from_->GetComponent<Monster>();
+	if (other)
+	{
+		AEVec2 otherVelocity = event->from_->GetComponent<RigidBody>()->GetVelocity();
+		rb_->ClearVelocity();
+		rb_->AddVelocity(otherVelocity);
 
 		return;
 	}

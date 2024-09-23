@@ -15,7 +15,6 @@
 #include "../../State/GameOver.h"
 #include "../AnimationComp.h"
 
-bool enablePrint;
 int Player::count = 0;
 
 #include "../LogicComponents/Skills/Meteor.h"
@@ -27,23 +26,33 @@ int Player::count = 0;
 #include "../LogicComponents/Skills/Shield.h"
 #include "../LogicComponents/Skills/boomerang.h"
 #include "../LogicComponents/Skills/bubble.h"
+#include "../../Manager/Camera.h"
 
 void Player::SetAnimation()
 {
 	ani_->AddAnimation("Idle");
-	for (int i = 2; i < 5; i++)
+	for (int i = 1; i <= 18; i++)
 	{
-		std::string name = "Assets/Player_anime/Idle/image_" + std::to_string(i) + ".png";
+		std::string name = "Assets/Player_anime/Idle/row-1-column-" + std::to_string(i) + ".png";
 		ani_->AddDetail(name, "Idle");
 	}
-	for (int i = 4; i >= 2; i--)
+
+	ani_->AddAnimation("Run");
+	for (int i = 1; i <= 24; i++)
 	{
-		std::string name = "Assets/Player_anime/Idle/image_" + std::to_string(i) + ".png";
-		ani_->AddDetail(name, "Idle");
+		std::string name = "Assets/Player_anime/run/row-1-column-" + std::to_string(i) + ".png";
+		ani_->AddDetail(name, "Run");
 	}
-	ani_->SetTerm(500);
+
+	ani_->AddAnimation("Attack");
+	for (int i = 1; i <= 12; i++)
+	{
+		std::string name = "Assets/Player_anime/Atk/row-1-column-" + std::to_string(i) + ".png";
+		ani_->AddDetail(name, "Attack");
+	}
 
 	ani_->ChangeAnimation("Idle");
+	ani_->SetTerm(300);
 }
 
 
@@ -52,41 +61,41 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	level_ = 10;
 	SkillGage = 90;
 	/* Set Player component */
-	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
-	owner_->AddComponent<Sprite>();
+	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<PlayerController>();
 	owner_->AddComponent<Audio>();
 	owner_->AddComponent<AnimationComp>();
 
 	trans_ = owner_->GetComponent<Transform>();
-	trans_->SetScale({ 25, 50 });
-	AEVec2 limit{ windowWidth, windowHeight };
-	limit = limit * 4.f;
-	trans_->SetLimit(limit);
+	trans_->SetScale({ windowWidth / 13.f, windowWidth / 13.f });
 
 	owner_->GetComponent<RigidBody>()->SetUseAcceleration(false);
 
 	BoxCollider* boxCol = owner_->GetComponent<BoxCollider>();
 	boxCol->SetLayer(Collider::P_AABB);
 	boxCol->SetHandler(static_cast<EventEntity*>(this));
+	boxCol->SetScale({ 0.25, 0.4 });
+	boxCol->SetCenter({ 0.f, -0.04f });
 
 	CircleCollider* circleCol = owner_->GetComponent<CircleCollider>();
 	circleCol->SetLayer(Collider::P_CIRCLE);
-	circleCol->SetRadius(attractionRadius_);
+	circleCol->SetRadius(50.f);
 
-	PlayerController* pCtrl = owner_->GetComponent<PlayerController>();
-	pCtrl->SetDashKey(AEVK_SPACE);
-	pCtrl->MultiplyMoveSpeed(moveSpeed_);
+	pCtrl_ = owner_->GetComponent<PlayerController>();
+	pCtrl_->SetDashKey(AEVK_SPACE);
+	pCtrl_->MultiplyMoveSpeed(moveSpeed_);
 
 	audio_ = owner_->GetComponent<Audio>();
 	audio_->SetAudio("Assets/ore.mp3");
 	audio_->SetLoop(false);
 	audio_->SetPlaying(false);
 
+	owner_->GetComponent<Sprite>()->SetLocalPos(0.15f, 0.f);
 	ani_ = owner_->GetComponent<AnimationComp>();
 	SetAnimation();
 
+	sp_ = owner_->GetComponent<Sprite>();
 	ParticleSystem::getPtr()->SetParticle(50, { 10, 10 }, 1500);
 
 	/* BASIC ATTACK GameObject */
@@ -128,10 +137,8 @@ void Player::Update()
 	if (exp_ >= maxExp_)
 		LevelUp();
 
-	if (hp_ < 6)
-		enablePrint = true;
-
 	// Death
+	static int preHp = hp_;
 	if (hp_ <= 0)
 	{
 		owner_->active_ = false;
@@ -141,9 +148,28 @@ void Player::Update()
 		return;
 	}
 
-	/* SET CAMERA */
-	AEVec2 pos = trans_->GetPosition();
-	AEGfxSetCamPosition(pos.x, pos.y);
+	// MOUSE BUTTON & State
+	static State preState = IDLE;
+	State curState = IDLE;
+	Direction curDir = dir_;
+	bool lBtn = false;
+	if (AEInputCheckCurr(AEVK_LBUTTON))
+	{
+		lBtn = true;
+		curState = ATTACK;
+	}
+	else if (hp_ < preHp)
+	{
+		curState = HURT;
+		preHp = hp_;
+	}
+	else if (pCtrl_->GetMoveState())
+	{
+		curState = RUN;
+		curDir = pCtrl_->GetMoveDir();
+	}
+	else
+		curState = IDLE;
 
 	/* ATTACK */
 	if (1 <= level_ && level_ < 4)
@@ -276,6 +302,37 @@ void Player::Update()
 		callBoss = false;
 	}
 
+	/* SET ANIMATION */
+	if (dir_ != curDir)
+		trans_->SetFlip();
+
+	if (curState == ATTACK)
+	{
+		ani_->ChangeAnimation("Attack");
+		ani_->SetTerm(50);
+	}
+	else if ((preState == ATTACK && ani_->CurrentAnimationOver()) || preState != ATTACK)
+	{
+		if (curState == RUN)
+		{
+			ani_->ChangeAnimation("Run");
+			ani_->SetTerm(60);
+		}
+		else if (curState == HURT)
+			sp_->SetColor({ 255, 0, 0 });
+		else
+		{
+			ani_->ChangeAnimation("Idle");
+			ani_->SetTerm(300);
+		}
+	}
+
+	if (curState != HURT && preState != HURT)
+		sp_->SetColor({ 0, 0, 0 });
+
+	//std::cout << dir_ << " " << curDir << std::endl;
+	dir_ = curDir;
+	preState = curState;
 }
 
 void Player::LoadFromJson(const json& data)
@@ -305,18 +362,23 @@ void Player::OnCollision(CollisionEvent* event)
 
 void Player::LevelUp()
 {
+	ParticleSystem::getPtr()->Update();
+
+	maxExp_ += int(maxExp_ * expRequirement_ / 100);
+	exp_ = 0;
+
+	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);
+	hp_ = maxHp_;
+
 	if (level_ >= maxLevel_)
 		return;
 
 	level_++;
 
-	maxExp_ += int(maxExp_ * expRequirement_ / 100);
-	exp_ = 0;
-
-	ParticleSystem::getPtr()->Update();
-
-	maxHp_ += int(maxHp_ * hpGrowthRate_ / 100);
-	hp_ = maxHp_;
+	LevelUpEvent* event = new LevelUpEvent();
+	event->from_ = owner_;
+	event->level = level_;
+	EventManager::GetInstance().AddEvent(event);
 }
 
 void Player::AddHp(int hp)

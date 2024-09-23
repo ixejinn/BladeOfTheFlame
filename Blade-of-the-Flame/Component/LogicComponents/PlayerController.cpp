@@ -17,27 +17,50 @@ void PlayerController::Update()
 	AEVec2 moveVec{ 0.f, 0.f };
 	float speed = moveSpeed_;
 
+	Direction curDir = STOP;
+	moveState_ = false;
+
 	if (!onlyUpDown)
 	{
 		if (AEInputCheckCurr(moveKeys_[LEFT]))
+		{
 			moveVec.x--;
+			curDir = LEFT;
+		}
 
 		if (AEInputCheckCurr(moveKeys_[RIGHT]))
+		{
 			moveVec.x++;
+			curDir = RIGHT;
+		}
+	}
+
+	if (curDir != STOP)
+	{
+		lastMoveDirection_ = curDir;
+		moveState_ = true;
 	}
 
 	if (AEInputCheckCurr(moveKeys_[UP]))
+	{
 		moveVec.y++;
+		moveState_ = true;
+	}
 
 	if (AEInputCheckCurr(moveKeys_[DOWN]))
+	{
 		moveVec.y--;
+		moveState_ = true;
+	}
 
+	dashState_ = false;
 	if (dashKey_ != 0x00)
 	{
 		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
 
 		if (dt.count() >= dashCooldown_ && AEInputCheckCurr(dashKey_))
 		{
+			dashState_ = true;
 			timeStart_ = std::chrono::system_clock::now();
 
 			speed *= 30.0;

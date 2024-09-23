@@ -55,6 +55,8 @@ public:
 	void OnEvent(BaseEvent*) override;
 	void OnCollision(CollisionEvent*) override;
 
+	void UpdatePositionBasedOnPlayer();
+
 	void SetShowType(ShowType type);
 	void SetRelativePos(AEVec2 pos) { relativePos_ = pos; }
 	void SetScale(AEVec2 scale) { scale_ = scale; }

@@ -3,10 +3,12 @@
 #include "../../Manager/GameObjectManager.h"
 #include "../../Serializer/StateSerializer.h"
 #include "../../Component/AnimationComp.h"
+
 //TEST_PLAYER
 #include "../SampleSave.h"
 #include "../../Component/LogicComponents/Bullet.h"
 #include "../../Component/LogicComponents/Boss1.h"
+#include "../../Component/LogicComponents/Boss2.h"
 
 void BossSampleSave::Init()
 {
@@ -26,8 +28,8 @@ void BossSampleSave::Init()
 	obj->AddComponent<PlayerController>();
 	PlayerController* pCtrl = obj->GetComponent<PlayerController>();
 
-	pCtrl->SetRotKeys(PlayerController::LEFT, AEVK_Q);
-	pCtrl->SetRotKeys(PlayerController::RIGHT, AEVK_E);
+	pCtrl->SetRotKeys(LEFT, AEVK_Q);
+	pCtrl->SetRotKeys(RIGHT, AEVK_E);
 	pCtrl->SetStopKey(AEVK_SPACE);
 
 	pCtrl->SetMoveSpeed(30.f);
@@ -36,8 +38,11 @@ void BossSampleSave::Init()
 	obj->GetComponent<Audio>()->SetAudio("Assets/FallingRain.mp3");
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
-	GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");
-	boss1->AddComponent<Boss1>();
+	//GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");
+	//boss1->AddComponent<Boss1>();
+
+	GameObject* boss2 = GameObjectManager::GetInstance().CreateObject("boss2");
+	boss2->AddComponent<Boss2>();
 
 	/*for (int i = 0; i < 6; i++)
 	{

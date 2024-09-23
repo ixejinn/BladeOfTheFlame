@@ -49,6 +49,9 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 
 	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
 	player = GameObjectManager::GetInstance().GetObjectA("player");
+
+	col->SetScale({ 0.4f, 0.4f });
+	col->SetCenter({ 0.f, -0.2f });
 }
 
 void BulletComp::Update()
@@ -75,8 +78,6 @@ void BulletComp::OnCollision(CollisionEvent* event)
 			player->AddHp(-bulletDmg_);
 		}
 		check_ = false;
-
-		return;
 	}
 }
 

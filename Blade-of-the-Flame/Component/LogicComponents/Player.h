@@ -1,19 +1,29 @@
-#pragma once
+﻿#pragma once
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
 #include "../../Manager/ParticleSystem.h"
+#include "../../Utils/Utils.h"
 
 class Text;
 class BaseAttack;
 class Audio;
 class Transform;
+class PlayerController;
 class AnimationComp;
+class MeleeAttack;
+class Sprite;
 
 class Player : public LogicComponent, public EventEntity
 {
 private:
-	static int count;
+	enum State
+	{
+		IDLE,
+		RUN,
+		ATTACK,
+		HURT
+	};
 
 	int level_;
 	int hp_ = 100;
@@ -21,13 +31,14 @@ private:
 
 	int maxLevel_ = 10;
 	int maxHp_ = 100;
-	int maxExp_ = 100;
+	int maxExp_ = 50;
 
 	float moveSpeed_ = 5.f;
-	float attractionRadius_ = 80.f;
+	float attractionRadius_ = 40.f;
 
-	float expRequirement_ = 80.f;
-	float hpGrowthRate_ = 20.;
+	// Level up�� ���� �ʿ��� ����ġ ������ (%)
+	float expRequirement_ = 30.f;
+	float hpGrowthRate_ = 20.f;
 
 	//Basic_Attack
 	GameObject* melee_Attack = nullptr;
@@ -41,7 +52,10 @@ private:
 	Transform* trans_;
 	Audio* audio_;
 	AnimationComp* ani_;
+	PlayerController* pCtrl_;
+	Sprite* sp_;
 
+	Direction dir_ = RIGHT;
 	void SetAnimation();
 
 	Player(GameObject* owner);

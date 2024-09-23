@@ -2,8 +2,14 @@
 
 #include "Transform.h"
 #include "../Manager/ResourceManager.h"
+#include "../Manager/Camera.h"
 #include "../GameObject/GameObject.h"
 #include "../Resource/TextureResource.h"
+
+namespace Manager
+{
+	extern ResourceManager& rscMgr;
+}
 
 Sprite::Sprite(GameObject* owner)
 	: GraphicsComponent(owner), color_(), texture_(nullptr), textureName_(), mesh_()
@@ -16,7 +22,7 @@ Sprite::~Sprite()
 	AEGfxMeshFree(mesh_);
 
 	if (texture_ != nullptr && !textureName_.empty())
-		ResourceManager::GetInstance().Unload(textureName_);
+		Manager::rscMgr.Unload(textureName_);
 }
 
 void Sprite::RemoveFromManager()
@@ -33,10 +39,10 @@ void Sprite::Update()
 	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
 
 	// Set color to multiply
-	AEGfxSetColorToMultiply(1, 1, 1, 1);
+	AEGfxSetColorToMultiply(1, 1, 1, alpha_);
 
 	// Set color to add
-	AEGfxSetColorToAdd(color_.red / 255.f, color_.green / 255.f, color_.blue / 255.f, alpha_);
+	AEGfxSetColorToAdd(color_.red / 255.f, color_.green / 255.f, color_.blue / 255.f, 0);
 
 	// Set blend mode
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
@@ -49,10 +55,12 @@ void Sprite::Update()
 
 	// Set transform
 	AEMtx33 transf = (owner_->GetComponent<Transform>())->GetMatrix();
+	AEMtx33Concat(&transf, &Camera::GetInstance().GetMatrix(), &transf);
 	AEGfxSetTransform(transf.m);
 
 	// Draw mesh
 	AEGfxMeshDraw(mesh_, AE_GFX_MDM_TRIANGLES);
+	//AEGfxMeshDraw(mesh_, AE_GFX_MDM_LINES);
 }
 
 void Sprite::LoadFromJson(const json& data)
@@ -85,6 +93,9 @@ json Sprite::SaveToJson()
 
 void Sprite::SetMesh()
 {
+	if (mesh_)
+		AEGfxMeshFree(mesh_);
+
 	// Set mesh
 	AEGfxMeshStart();
 
@@ -96,14 +107,14 @@ void Sprite::SetMesh()
 	{
 		AEVec2 halfLength = { trans->GetLocalScale().x / 2, trans->GetLocalScale().y / 2 };
 		AEGfxTriAdd(
-			-halfLength.x, -halfLength.y, 0xFFFFFFFF, 0.0f, 1.0f,
-			halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+			-halfLength.x + localPos_.x, -halfLength.y + localPos_.y, 0xFFFFFFFF, 0.0f, 1.0f,
+			halfLength.x + localPos_.x, -halfLength.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			-halfLength.x + localPos_.x, halfLength.y + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		AEGfxTriAdd(
-			halfLength.x, -halfLength.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			halfLength.x, halfLength.y, 0xFFFFFFFF, 1.0f, 0.0f,
-			-halfLength.x, halfLength.y, 0xFFFFFFFF, 0.0f, 0.0f
+			halfLength.x + localPos_.x, -halfLength.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			halfLength.x + localPos_.x, halfLength.y + localPos_.y, 0xFFFFFFFF, 1.0f, 0.0f,
+			-halfLength.x + localPos_.x, halfLength.y + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
 	}
@@ -112,14 +123,14 @@ void Sprite::SetMesh()
 	{
 		AEVec2 length = { trans->GetLocalScale().x, trans->GetLocalScale().y };
 		AEGfxTriAdd(
-			0.f, -0.5f, 0xFFFFFFFF, 0.0f, 1.0f,
-			length.x, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
-			0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+			0.f + localPos_.x, -0.5f + localPos_.y, 0xFFFFFFFF, 0.0f, 1.0f,
+			length.x + localPos_.x, -0.5f + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			0.f + localPos_.x, length.y - 0.5f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		AEGfxTriAdd(
-			length.x, 0.f - 0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
-			length.x, length.y - 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
-			0.f, length.y - 0.5f, 0xFFFFFFFF, 0.0f, 0.0f
+			length.x + localPos_.x, 0.f - 0.5f + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			length.x + localPos_.x, length.y - 0.5f + localPos_.y, 0xFFFFFFFF, 1.0f, 0.0f,
+			0.f + localPos_.x, length.y - 0.5f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
 	}
@@ -128,14 +139,14 @@ void Sprite::SetMesh()
 	{
 		AEVec2 length = { trans->GetLocalScale().x, trans->GetLocalScale().y };
 		AEGfxTriAdd(
-			0.f, -length.y, 0xFFFFFFFF, 0.0f, 1.0f,
-			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			0.f, 0.f, 0xFFFFFFFF, 0.0f, 0.0f
+			0.f + localPos_.x, -length.y + localPos_.y, 0xFFFFFFFF, 0.0f, 1.0f,
+			length.x + localPos_.x, -length.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			0.f + localPos_.x, 0.f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		AEGfxTriAdd(
-			length.x, -length.y, 0xFFFFFFFF, 1.0f, 1.0f,
-			length.x, 0.f, 0xFFFFFFFF, 1.0f, 0.0f,
-			0.f, 0.f, 0xFFFFFFFF, 0.0f, 0.0f
+			length.x + localPos_.x, -length.y + localPos_.y, 0xFFFFFFFF, 1.0f, 1.0f,
+			length.x + localPos_.x, 0.f + localPos_.y, 0xFFFFFFFF, 1.0f, 0.0f,
+			0.f + localPos_.x, 0.f + localPos_.y, 0xFFFFFFFF, 0.0f, 0.0f
 		);
 		break;
 	}
@@ -150,6 +161,12 @@ void Sprite::SetAnchor(AnchorPoint anchor)
 	SetMesh();
 }
 
+void Sprite::SetLocalPos(float x, float y)
+{
+	localPos_ = { x, y };
+	SetMesh();
+}
+
 void Sprite::SetColor(const Color& col)
 {
 	color_ = col;
@@ -157,8 +174,17 @@ void Sprite::SetColor(const Color& col)
 
 void Sprite::SetTexture(const std::string& name)
 {
+	if (texture_)
+		Manager::rscMgr.Unload(textureName_);
+
 	textureName_ = name;
-	texture_ = ResourceManager::GetInstance().Get<TextureResource>(name)->GetData();
+	texture_ = Manager::rscMgr.Get<TextureResource>(name)->GetData();
+}
+
+void Sprite::SetTexture(TextureResource* texture)
+{
+	textureName_ = texture->GetName();
+	texture_ = texture->GetData();
 }
 
 ComponentSerializer* Sprite::CreateComponent(GameObject* owner)

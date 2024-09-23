@@ -1,7 +1,10 @@
 #include "TextureResource.h"
 
+TextureResource::TextureResource() : name_() {}
+
 void TextureResource::Load(const std::string& name)
 {
+	name_ = name;
 	data_ = static_cast<void*>(AEGfxTextureLoad(name.c_str()));
 }
 

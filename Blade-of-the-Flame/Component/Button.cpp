@@ -4,7 +4,7 @@
 #include "../Manager/GameStateManager.h"
 #include "../Utils/Utils.h"
 
-Button::Button(GameObject* owner) : EngineComponent(owner), todo_(), pos_(), scl_()
+Button::Button(GameObject* owner) : EngineComponent(owner), pos_(), scl_()
 {
 	owner_->AddComponent<Transform>();
 	owner_->AddComponent<Sprite>();
@@ -35,7 +35,6 @@ void Button::Update()
 	AEVec2 input{ x - 800.f, 450.f - y };
 	AEVec2 halfScl{ scl_.x / 2, scl_.y / 2 };
 
-	bool pressed = false;
 	// Check if button is pressed
 	if (AEInputCheckCurr(AEVK_LBUTTON) &&
 		input.x >= pos_.x - halfScl.x && input.x <= pos_.x + halfScl.x &&
@@ -43,25 +42,8 @@ void Button::Update()
 	{
 		sp_->SetColor({ 150, 150, 150 });
 
-		pressed = true;
+		clicked = true;
 	}
-
-	if (!pressed)
-		return;
-
-	switch (todo_)
-	{
-	case GAME:
-	{
-		GameState* gameState = new GameState();
-		GameStateManager::GetInstance().ChangeState(gameState);
-		break;
-	}
-
-	case EXIT:
-		GameStateManager::GetInstance().ChangeState(nullptr);
-		break;
-	}	
 }
 
 void Button::LoadFromJson(const json&)

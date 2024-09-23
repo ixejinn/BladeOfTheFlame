@@ -5,6 +5,7 @@
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
 #include "../../Component/AnimationComp.h"
+#include "Skills/shield.h"
 
 BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 {
@@ -65,7 +66,14 @@ void BulletComp::OnCollision(CollisionEvent* event)
 	Player* player = event->from_->GetComponent<Player>();
 	if (check_ && player)
 	{
-		player->AddHp(int(-bulletDmg_));
+		if (player->shield_Attack->GetComponent<Shield>()->ac == true)
+		{
+			player->AddHp(-bulletDmg_ / 7);
+		}
+		else
+		{
+			player->AddHp(-bulletDmg_);
+		}
 		check_ = false;
 
 		return;

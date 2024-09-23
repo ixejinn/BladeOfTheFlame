@@ -9,6 +9,7 @@
 #include "../../Utils/RandomEngine.h"
 #include "../../State/GameClear.h"
 #include "../../Component/AnimationComp.h"
+#include "Skills/shield.h"
 
 Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 {
@@ -116,7 +117,14 @@ void Boss1::OnCollision(CollisionEvent* event)
         {
             timeStart_ = std::chrono::system_clock::now();
 
-            player->AddHp(int(-baseDmg_));
+            if (player->shield_Attack->GetComponent<Shield>()->ac == true)
+            {
+                player->AddHp(-baseDmg_ / 7);
+            }
+            else
+            {
+                player->AddHp(-baseDmg_);
+            }
         }
         return;
     }

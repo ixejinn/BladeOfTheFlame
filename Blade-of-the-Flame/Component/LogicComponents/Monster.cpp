@@ -100,6 +100,14 @@ void Monster::Update()
 
 	AEVec2Normalize(&unitMoveDir, &moveDir);
 	rb_->AddVelocity(unitMoveDir * moveSpeed_);
+	if (owner_->GetComponent<RigidBody>()->GetVelocity().x >= 0)
+	{
+		owner_->GetComponent<Transform>()->SetScale({ 30, 100 });
+	}
+	else
+	{
+		owner_->GetComponent<Transform>()->SetScale({ -30, 100 });
+	}
 }
 
 void Monster::LoadFromJson(const json&)
@@ -140,7 +148,7 @@ void Monster::OnCollision(CollisionEvent* event)
 	}
 
 	MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
-	if (melee)
+	if (melee != nullptr && melee->mode == MeleeAttack::fire)
 	{
 		hp_ -= melee->GetDmg();
 		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;

@@ -122,6 +122,13 @@ void Flame::OnCollision(CollisionEvent* event)
 		owner_->active_ = false;
 		owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Flame>())));
 	}
+
+	Boss1* boss = event->from_->GetComponent<Boss1>();
+	if (boss)
+	{
+		player_->GetComponent<Player>()->SkillGage += 1;
+		boss->ReserveDmg(dmg_);
+	}
 }
 
 void Flame::LoadFromJson(const json&)

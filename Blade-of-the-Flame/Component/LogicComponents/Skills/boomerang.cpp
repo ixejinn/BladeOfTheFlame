@@ -104,6 +104,12 @@ void boomerang::OnCollision(CollisionEvent* event)
 	{
 		monster->ReserveDmg(dmg_);
 	}
+
+	Boss1* boss = event->from_->GetComponent<Boss1>();
+	if (boss)
+	{
+		boss->ReserveDmg(dmg_);
+	}
 }
 
 void boomerang::LoadFromJson(const json&)

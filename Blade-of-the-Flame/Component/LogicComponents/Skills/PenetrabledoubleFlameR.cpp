@@ -97,7 +97,7 @@ void PenetrableDoubleFlameR::Update()
 			// 공격 모드 설정
 			mode = fire;
 			dmg_ = tempdmg;
-			owner_->GetComponent<Transform>()->SetScale({ 80, 50 });
+			owner_->GetComponent<Transform>()->SetScale({ 100, 100 });
 		}
 	}
 
@@ -143,6 +143,13 @@ void PenetrableDoubleFlameR::OnCollision(CollisionEvent* event)
 	{
 		player_->GetComponent<Player>()->SkillGage += 1;
 		monster->ReserveDmg(dmg_);
+	}
+
+	Boss1* boss = event->from_->GetComponent<Boss1>();
+	if (boss)
+	{
+		player_->GetComponent<Player>()->SkillGage += 1;
+		boss->ReserveDmg(dmg_);
 	}
 }
 

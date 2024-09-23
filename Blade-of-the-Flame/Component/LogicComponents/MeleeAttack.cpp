@@ -6,29 +6,75 @@
 
 MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 {
-	check = 0;
 	dmg_ = 2;
-	range_ = 80.f;
-	cooldown_ = 0.5;
+	range_ = 100.f;
+	tempdmg = dmg_;
+	cooldown_ = 2000;
 	dmgGrowthRate_ = 50.f;
-
+	lifetime = 0;
+	mode = set;
 	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<Sprite>();
-
-	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
+	owner->AddComponent<AnimationComp>();
+	for (int i = 1; i < 5; i++)
+	{
+		owner->GetComponent<AnimationComp>()->AddDetail("Assets/meleeAnime/" + std::to_string(i) + ".png", "Attack");
+	}
+	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
+	owner->GetComponent<AnimationComp>()->SetTerm(300);
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::P_ATTACK);
-	owner_->GetComponent<Sprite>()->SetColor({ 100, 200, 100 });
+}
+
+MeleeAttack::~MeleeAttack()
+{
 }
 
 void MeleeAttack::Update()
 {
-	if (check != 0)
+	float dt = AEFrameRateControllerGetFrameRate();
+	if (mode == set)
 	{
-		check = 0;
-		owner_->active_ = false;
+		lifetime = 1000;
+		owner_->GetComponent<Transform>()->SetScale({ 0, 0 });
+		dmg_ = 0;
+		AEInputInit();
+		s32 x, y;
+		AEInputGetCursorPosition(&x, &y);
+		attackDir = { x - windowWidth / 2.f, windowHeight / 2.f - y };
+		AEVec2 unitDir;
+		AEVec2Normalize(&unitDir, &attackDir);
+
+		attackDir = unitDir * range_;
+
+		AEVec2 playerPos = player_->GetComponent<Transform>()->GetPosition();
+		Transform* trans = owner_->GetComponent<Transform>();
+
+		if (!AEInputCheckCurr(AEVK_LBUTTON))
+		{
+			trans->SetPosition(playerPos + attackDir / 2);
+			trans->SetRotation(unitDir);
+			dmg_ = tempdmg;
+			mode = fire;
+		}
+	}
+	if (mode == fire)
+	{
+		if (lifetime > 0)
+		{
+			lifetime -= dt;
+			owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
+			owner_->GetComponent<Transform>()->SetPosition(player_->GetComponent<Transform>()->GetPosition() + attackDir / 2);
+		}
+		else
+		{
+			mode = set;
+			owner_->GetComponent<Transform>()->SetScale({ 0, 0 });
+			player_->GetComponent<Player>()->meleeCool = 0;
+			owner_->active_ = false;
+		}
 	}
 }
 
@@ -43,28 +89,11 @@ json MeleeAttack::SaveToJson()
 
 void MeleeAttack::LevelUp()
 {
-	dmg_ += int(dmg_ * dmgGrowthRate_ / 100);
+	tempdmg += int(tempdmg * dmgGrowthRate_ / 100);
 }
 
 void MeleeAttack::AttackObject()
 {
-	owner_->active_ = true;
-
-	AEInputInit();
-	s32 x, y;
-	AEInputGetCursorPosition(&x, &y);
-	AEVec2 attackDir{ x - windowWidth / 2.f, windowHeight / 2.f - y }, unitDir;
-	AEVec2Normalize(&unitDir, &attackDir);
-
-	attackDir = unitDir * range_;
-
-	AEVec2 playerPos = player_->GetComponent<Transform>()->GetPosition();
-
-	Transform* trans = owner_->GetComponent<Transform>();
-	trans->SetPosition(playerPos + attackDir / 2.f);
-	trans->SetScale({ range_, range_ });
-	trans->SetRotation(unitDir);
-	check++;
 }
 
 ComponentSerializer* MeleeAttack::CreateComponent(GameObject* owner)

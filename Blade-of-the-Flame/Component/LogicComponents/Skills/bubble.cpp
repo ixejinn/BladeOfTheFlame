@@ -69,7 +69,6 @@ namespace
 
 void bubble::Update()
 {
-	std::cout << owner_->GetComponent<RigidBody>()->GetVelocity().x << " | "  << owner_->GetComponent<RigidBody>()->GetVelocity().y  << std::endl;
 	if (mode == set)
 	{
 		dmg_ = 0;
@@ -175,5 +174,11 @@ void bubble::OnCollision(CollisionEvent* event)
 	if (monster)
 	{
 		monster->ReserveDmg(dmg_);
+	}
+
+	Boss1* boss = event->from_->GetComponent<Boss1>();
+	if (boss)
+	{
+		boss->ReserveDmg(dmg_);
 	}
 }

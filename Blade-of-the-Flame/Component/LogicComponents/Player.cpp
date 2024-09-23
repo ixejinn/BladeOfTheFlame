@@ -49,8 +49,8 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 10;
-	SkillGage = 99;
+	level_ = 1;
+	SkillGage = 0;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
@@ -122,7 +122,7 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
-	std::cout << owner_->GetComponent<Transform>()->GetPosition().x << " | " << owner_->GetComponent<Transform>()->GetPosition().y << std::endl;
+	//std::cout << "스킬 게이지 : " << SkillGage << std::endl;
 	/* CHECK */
 	// Level up
 	if (exp_ >= maxExp_)
@@ -148,7 +148,7 @@ void Player::Update()
 	/* ATTACK */
 	if (1 <= level_ && level_ < 4)
 	{
-		meleeCool += AEFrameRateControllerGetFrameTime();
+		meleeCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 150)
 		{
 			//쉴드스킬
@@ -158,7 +158,13 @@ void Player::Update()
 		}
 		else
 		{
-			curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
+			curAttack_ = nullptr;
+			if (melee_Attack->GetComponent<MeleeAttack>()->GetCooldown() <= meleeCool &&
+				AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
+				curAttack_->On();
+			}
 		}
 	}
 	else if (4 <= level_ && level_ < 7)
@@ -192,9 +198,14 @@ void Player::Update()
 		doubleflameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 100)
 		{
-			//메테오스킬
-			curAttack_ = meteor->GetComponent<Meteor>();
-			curAttack_->On();
+			// 파이어 버블
+			curAttack_ = nullptr;
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
+				curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
+				curAttack_->On();
+			}
 		}
 		else
 		{
@@ -225,14 +236,9 @@ void Player::Update()
 		pendoubleflameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= 100)
 		{
-			// 파이어 버블
-			curAttack_ = nullptr;
-			if (AEInputCheckCurr(AEVK_LBUTTON))
-			{
-				fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
-				curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
-				curAttack_->On();
-			}
+			//메테오
+			curAttack_ = meteor->GetComponent<Meteor>();
+			curAttack_->On();
 		}
 		else
 		{
@@ -259,15 +265,6 @@ void Player::Update()
 		}
 	}
 
-	if (curAttack_ == melee_Attack->GetComponent<MeleeAttack>() &&
-		curAttack_->GetCooldown() <= meleeCool && 
-		AEInputCheckCurr(AEVK_LBUTTON))
-	{
-		audio_->SetPlaying(true);
-		curAttack_->AttackObject();
-		meleeCool = 0;
-	}
-
 	/* NEXT STAGE */
 	static bool callBoss = true;
 	if (getCompass_ && findAltar_ && callBoss)
@@ -278,6 +275,7 @@ void Player::Update()
 		EventManager::GetInstance().AddEvent(event);
 		callBoss = false;
 	}
+
 }
 
 void Player::LoadFromJson(const json& data)

@@ -5,12 +5,26 @@
 class MeleeAttack : public BaseAttack
 {
 private:
-	int check;
+
 	MeleeAttack(GameObject* owner);
+	~MeleeAttack();
+	float lifetime;
+	AEVec2 attackDir;
+	float tempdmg;
 public:
+	enum
+	{
+		set,
+		fire
+	};
+
+	int mode;
+
+	float Getlifetime() { return lifetime; }
+
 	void Update() override;
 
-	void On() override {}
+	void On() override { owner_->active_ = true; }
 	void LoadFromJson(const json&) override;
 	json SaveToJson() override;
 

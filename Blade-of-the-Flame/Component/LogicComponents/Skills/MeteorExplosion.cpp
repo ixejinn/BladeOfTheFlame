@@ -96,6 +96,12 @@ void MeteorExplosion::OnCollision(CollisionEvent* event)
 	{
 		monster->ReserveDmg(dmg_);
 	}
+
+	Boss1* boss = event->from_->GetComponent<Boss1>();
+	if (boss)
+	{
+		boss->ReserveDmg(dmg_);
+	}
 }
 
 ComponentSerializer* MeteorExplosion::CreateComponent(GameObject* owner)

@@ -13,7 +13,6 @@ class Particle : public LogicComponent
 	float delay = 0;
 	Particle(GameObject* owner);
 public:
-	//int mode = Default;
 	void RemoveFromManager() override;
 	AEVec2 initialPos;
 	AEVec2 initialVelocity;

@@ -209,9 +209,12 @@ void Player::Update()
 	}
 
 	/* SET ANIMATION */
-	if (dir_ != curDir)
+	if (dir_ != curDir && (curDir == LEFT || curDir == RIGHT))
+	{
 		trans_->SetFlip();
-
+		dir_ = curDir;
+	}
+		
 	if (curState == ATTACK)
 	{
 		ani_->ChangeAnimation("Attack");
@@ -236,8 +239,6 @@ void Player::Update()
 	if (curState != HURT && preState != HURT)
 		sp_->SetColor({ 0, 0, 0 });
 
-	//std::cout << dir_ << " " << curDir << std::endl;
-	dir_ = curDir;
 	preState = curState;
 }
 

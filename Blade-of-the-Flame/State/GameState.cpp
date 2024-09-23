@@ -48,10 +48,11 @@ void GameState::Init()
 	ItemManager::GetInstance().Initialize(20);
 
 	MonsterManager::GetInstance().SetMaxActiveNum(20);
-
+#ifndef _DEBUG
 	/* SCREEN OVERLAY EFFECT */
 	GameObject* effect = Manager::objMgr.CreateObject("ScreenEffect");
 	effect->AddComponent<ScreenOverlay>();
+#endif
 
 	SetFillBar();
 }

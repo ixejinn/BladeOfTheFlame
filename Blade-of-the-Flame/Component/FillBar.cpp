@@ -64,12 +64,12 @@ void FillBar::RemoveFromManager()
 
 void FillBar::Update()
 {
-	//static bool compass = true;
-
 	// fill
 	int value = 0;
 	int maxValue = 1;
 	static int maxMonsterCnt = 50;
+	//static int maxMonsterCnt = 1;
+
 	switch (showType_)
 	{
 	case MONSTER_CNT:
@@ -104,13 +104,7 @@ void FillBar::Update()
 			
 		}
 		maxValue = maxMonsterCnt;
-		//if (compass && value >= maxValue)
-		//{
-		//	CompassActiveEvent* event = new CompassActiveEvent();
-		//	event->from_ = owner_;
-		//	Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
-		//	compass = false;
-		//}
+
 		break;
 	}
 

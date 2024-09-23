@@ -3,13 +3,23 @@
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
+#include "../../Utils/Utils.h"
 
 class RigidBody;
 class AnimationComp;
+class Sprite;
 
 class Monster : public LogicComponent, public EventEntity
 {
 private:
+	enum State
+	{
+		MOVE,
+		HURT
+	};
+
+	State state_ = MOVE;
+
 	int hp_ = 0;
 	int maxHp_ = 0;
 
@@ -23,10 +33,13 @@ private:
 	double cooldown_ = 0.0;
 	std::chrono::system_clock::time_point timeStart_;
 
+	Direction dir_ = RIGHT;
+
 	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;
 	RigidBody* rb_ = nullptr;
 	AnimationComp* ani_ = nullptr;
+	Sprite* sp_ = nullptr;
 
 	void SetAnimation();
 

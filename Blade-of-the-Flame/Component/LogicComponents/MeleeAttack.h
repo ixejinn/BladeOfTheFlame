@@ -33,12 +33,16 @@
 #pragma once
 #include "BaseAttack.h"
 #include "../../Manager/ComponentManager.h"
+#include "../../Utils/Utils.h"
 
 class MeleeAttack : public BaseAttack
 {
 private:
 	int check;
 	MeleeAttack(GameObject* owner);
+
+	Direction dir_ = RIGHT;
+
 public:
 	void Update() override;
 
@@ -49,6 +53,8 @@ public:
 	void LevelUp() override;
 
 	void AttackObject() override;
+
+	Direction GetDirection() const { return dir_; }
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "MeleeAttack";

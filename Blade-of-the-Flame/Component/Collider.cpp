@@ -1,17 +1,26 @@
 #include "Collider.h"
 
+#include <iostream>
 #include "../GameObject/GameObject.h"
 #include "../Manager/CollisionManager.h"
+#include "../Manager/Camera.h"
 
 Collider::Collider(GameObject* owner)
-	: EngineComponent(owner), layer_(), collisionHandler_(nullptr), vertices_(), bottomLeft_(), topRight_()
+	: EngineComponent(owner), layer_(), collisionHandler_(nullptr), vertices_(), bottomLeft_(), topRight_(), mesh_(), color_()
 {
 	CollisionManager::GetInstance().AddCollider(this);
 
 	owner_->AddComponent<Transform>();
-	trans_ = owner_->GetComponent<Transform>();
-	
 	owner_->AddComponent<RigidBody>();
+
+	trans_ = owner_->GetComponent<Transform>();
+}
+
+Collider::~Collider()
+{
+#ifdef _DEBUG
+	AEGfxMeshFree(mesh_);
+#endif
 }
 
 void Collider::RemoveFromManager()
@@ -21,7 +30,15 @@ void Collider::RemoveFromManager()
 
 void Collider::Update()
 {
-	const AEMtx33 transformMatrix = trans_->GetMatrix();
+	AEMtx33 transformMatrix = trans_->GetMatrix();
+	//AEMtx33Concat(&transformMatrix, &Camera::GetInstance().GetMatrix(), &transformMatrix);
+
+	if (type_ == CIRCLE_TYPE)
+	{
+		float sclMax = max(transformMatrix.m[0][0], transformMatrix.m[1][1]);
+		transformMatrix.m[0][0] = sclMax;
+		transformMatrix.m[1][1] = sclMax;
+	}
 
 	AEVec2 localScale = trans_->GetLocalScale();
 	AEVec2 ColliderHalfLen = HadamardProduct(localScale / 2, scale_);
@@ -73,16 +90,85 @@ void Collider::LoadFromJson(const json& data)
 	}
 }
 
+void Collider::SetScale(const AEVec2& scale)
+{
+	scale_ = scale;
+	SetMesh();
+}
+
+void Collider::SetCenter(const AEVec2& center)
+{
+	center_ = center;
+	SetMesh();
+}
+
 void Collider::CallHandler(CollisionEvent* event)
 {
 	collisionHandler_->OnCollision(event);
 }
 
-BoxCollider::BoxCollider(GameObject* owner) : Collider(owner) {}
+void BoxCollider::SetMesh()
+{
+	if (mesh_ != nullptr)
+		AEGfxMeshFree(mesh_);
+
+	// Set mesh
+	AEGfxMeshStart();
+
+	AEVec2 localScale = trans_->GetLocalScale();
+	AEVec2 ColliderHalfLen = HadamardProduct(localScale * 0.5f, scale_);
+
+	AEGfxTriAdd(
+		center_.x - ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 0xFFFFFFFF, 0.0f, 1.0f,
+		center_.x + ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		center_.x - ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+	AEGfxTriAdd(
+		center_.x + ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		center_.x + ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 0xFFFFFFFF, 1.0f, 0.0f,
+		center_.x - ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+
+	mesh_ = AEGfxMeshEnd();
+}
+
+BoxCollider::BoxCollider(GameObject* owner) : Collider(owner)
+{
+	color_ = { 255, 0, 0 };
+	SetMesh();
+}
 
 void BoxCollider::Update()
 {
 	Collider::Update();
+
+#ifdef _DEBUG
+	// Set render mode
+	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
+
+	// Set color to multiply
+	AEGfxSetColorToMultiply(1, 1, 1, 1);
+
+	// Set color to add
+	AEGfxSetColorToAdd(color_.red / 255.f, color_.green / 255.f, color_.blue / 255.f, 0);
+
+	// Set blend mode
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+
+	// Set transparency
+	AEGfxSetTransparency(1);
+
+	// Set texture
+	AEGfxTextureSet(nullptr, 0, 0);
+
+	// Set transform
+	AEMtx33 transf = trans_->GetMatrix();
+	AEMtx33Concat(&transf, &Camera::GetInstance().GetMatrix(), &transf);
+	AEGfxSetTransform(transf.m);
+
+	// Draw mesh
+	AEGfxMeshDraw(mesh_, AE_GFX_MDM_TRIANGLES);
+#endif
 }
 
 json BoxCollider::SaveToJson()
@@ -108,16 +194,75 @@ ComponentSerializer* BoxCollider::CreateComponent(GameObject* owner)
 	return owner->GetComponent<BoxCollider>();
 }
 
+void CircleCollider::SetMesh()
+{
+	if (mesh_ != nullptr)
+		AEGfxMeshFree(mesh_);
+
+	// Set mesh
+	AEGfxMeshStart();
+
+	AEVec2 localScale = trans_->GetLocalScale();
+	AEVec2 ColliderHalfLen = HadamardProduct(localScale * 0.5f, scale_);
+
+	AEGfxTriAdd(
+		center_.x - ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 0xFFFFFFFF, 0.0f, 1.0f,
+		center_.x + ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		center_.x - ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+	AEGfxTriAdd(
+		center_.x + ColliderHalfLen.x, center_.y - ColliderHalfLen.y, 0xFFFFFFFF, 1.0f, 1.0f,
+		center_.x + ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 0xFFFFFFFF, 1.0f, 0.0f,
+		center_.x - ColliderHalfLen.x, center_.y + ColliderHalfLen.y, 0xFFFFFFFF, 0.0f, 0.0f
+	);
+
+	mesh_ = AEGfxMeshEnd();
+}
+
 CircleCollider::CircleCollider(GameObject* owner) : Collider(owner), radius_()
 {
 	type_ = CIRCLE_TYPE;
 
 	ResetRadius();
+
+	color_ = { 0, 0, 255 };
+	SetMesh();
 }
 
 void CircleCollider::Update()
 {
 	Collider::Update();
+
+#ifdef _DEBUG
+	// Set render mode
+	AEGfxSetRenderMode(AE_GFX_RM_TEXTURE);
+
+	// Set color to multiply
+	AEGfxSetColorToMultiply(1, 1, 1, 1);
+
+	// Set color to add
+	AEGfxSetColorToAdd(color_.red / 255.f, color_.green / 255.f, color_.blue / 255.f, 0);
+
+	// Set blend mode
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+
+	// Set transparency
+	AEGfxSetTransparency(1);
+
+	// Set texture
+	AEGfxTextureSet(nullptr, 0, 0);
+
+	// Set transform
+	AEMtx33 transf = trans_->GetMatrix();
+	float scl = max(transf.m[0][0], transf.m[1][1]);
+	transf.m[0][0] = scl;
+	transf.m[1][1] = scl;
+	AEMtx33Concat(&transf, &Camera::GetInstance().GetMatrix(), &transf);
+	AEGfxSetTransform(transf.m);
+
+	// Draw mesh
+	AEGfxMeshDraw(mesh_, AE_GFX_MDM_TRIANGLES);
+#endif
 }
 
 json CircleCollider::SaveToJson()
@@ -134,16 +279,19 @@ json CircleCollider::SaveToJson()
 
 void CircleCollider::SetRadius(float r)
 {
+	AEVec2 localScale = trans_->GetLocalScale();
+	AEVec2 scale = trans_->GetScale();
+	float scl = max(scale.x, scale.y);
+
 	radius_ = r;
-	scale_ = { r, r };
+	scale_ = { radius_ * 2.f / localScale.x / scl, radius_ * 2.f / localScale.x / scl };	// localScale.x == localScale.y °¡Á¤
+	SetMesh();
 }
 
-void CircleCollider::MultiplyRadius(float r)
+void CircleCollider::MultiplyRadius(float m)
 {
-	float rate = r / 100.f;
-	radius_ += radius_ * rate;
-	scale_.x += scale_.x * rate;
-	scale_.y += scale_.y * rate;
+	radius_ *= m;
+	SetRadius(radius_);
 }
 
 void CircleCollider::ResetRadius()

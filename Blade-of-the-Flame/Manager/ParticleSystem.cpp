@@ -11,15 +11,13 @@ ParticleSystem* ParticleSystem::ptr = nullptr;
 ParticleSystem::ParticleSystem()
 {
 	player_ = GameObjectManager::GetInstance().GetObjectA("player");
-	radius = 10;
-	speed = 10;
 }
 
 ParticleSystem::~ParticleSystem()
 {
 	for (auto& p : container)
 	{
-		delete p;
+		GameObjectManager::GetInstance().RemoveObject(p);
 	}
 	container.clear();
 }
@@ -51,10 +49,12 @@ void ParticleSystem::SetParticle(int count, AEVec2 scale, float time)
 {
 	for (GameObject* p : container)
 	{
-		delete p;
+		GameObjectManager::GetInstance().RemoveObject(p);
 	}
 	container.clear();
+
 	float angleIncrement = 2 * M_PI / count;
+
 	for (int i = 0; i < count; i++)
 	{
 		GameObject* p = GameObjectManager::GetInstance().CreateObject("Particle" + std::to_string(i));

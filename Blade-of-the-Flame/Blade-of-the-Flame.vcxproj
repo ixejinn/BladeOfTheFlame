@@ -108,11 +108,11 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\FillBar.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseItem.cpp" />
+    <ClCompile Include="Component\LogicComponents\Boss2.cpp" />
     <ClCompile Include="Component\LogicComponents\Compass.cpp" />
     <ClCompile Include="Component\LogicComponents\ExpItem.cpp" />
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
     <ClCompile Include="Component\LogicComponents\Bullet.cpp" />
-    <ClCompile Include="Component\LogicComponents\BossComp.cpp" />
     <ClCompile Include="Component\LogicComponents\FlameAltar.cpp" />
     <ClCompile Include="Component\LogicComponents\HealthItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MagnetItem.cpp" />
@@ -126,17 +126,20 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\MeteorExplosion.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
+    <ClCompile Include="Component\ScreenOverlay.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
     <ClCompile Include="Component\Text.cpp" />
     <ClCompile Include="Component\Transform.cpp" />
     <ClCompile Include="GameObject\GameObject.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Manager\Camera.cpp" />
     <ClCompile Include="Manager\CollisionManager.cpp" />
     <ClCompile Include="Manager\EventManager.cpp" />
     <ClCompile Include="Manager\ExpItemManager.cpp" />
     <ClCompile Include="Manager\GameObjectManager.cpp" />
     <ClCompile Include="Manager\GameStateManager.cpp" />
     <ClCompile Include="Manager\ItemManager.cpp" />
+    <ClCompile Include="Manager\EnvironmentManager.cpp" />
     <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\ParticleSystem.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
@@ -148,6 +151,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="State\GameOver.cpp" />
     <ClCompile Include="State\GameState.cpp" />
     <ClCompile Include="State\MainMenu.cpp" />
+    <ClCompile Include="State\OpeningLogos.cpp" />
     <ClCompile Include="State\UISample\UiComp.cpp" />
     <ClCompile Include="Utils\MathUtils.cpp" />
     <ClCompile Include="Resource\AudioResource.cpp" />
@@ -168,11 +172,11 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\FillBar.h" />
     <ClInclude Include="Component\LogicComponents\BaseAttack.h" />
     <ClInclude Include="Component\LogicComponents\BaseItem.h" />
+    <ClInclude Include="Component\LogicComponents\Boss2.h" />
     <ClInclude Include="Component\LogicComponents\Compass.h" />
     <ClInclude Include="Component\LogicComponents\ExpItem.h" />
     <ClInclude Include="Component\LogicComponents\Boss1.h" />
     <ClInclude Include="Component\LogicComponents\Bullet.h" />
-    <ClInclude Include="Component\LogicComponents\BossComp.h" />
     <ClInclude Include="Component\LogicComponents\Attack.h" />
     <ClInclude Include="Component\LogicComponents\FlameAltar.h" />
     <ClInclude Include="Component\LogicComponents\HealthItem.h" />
@@ -189,6 +193,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Skills\Inferno.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Meteor.h" />
     <ClInclude Include="Component\LogicComponents\Skills\MeteorExplosion.h" />
+    <ClInclude Include="Component\ScreenOverlay.h" />
     <ClInclude Include="Component\Text.h" />
     <ClInclude Include="Component\RigidBody.h" />
     <ClInclude Include="Component\Sprite.h" />
@@ -196,6 +201,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Event\Event.h" />
     <ClInclude Include="Event\EventEntity.h" />
     <ClInclude Include="GameObject\GameObject.h" />
+    <ClInclude Include="Manager\Camera.h" />
     <ClInclude Include="Manager\CollisionManager.h" />
     <ClInclude Include="Manager\ComponentManager.h" />
     <ClInclude Include="Manager\EventManager.h" />
@@ -203,6 +209,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\GameObjectManager.h" />
     <ClInclude Include="Manager\GameStateManager.h" />
     <ClInclude Include="Manager\ItemManager.h" />
+    <ClInclude Include="Manager\EnvironmentManager.h" />
     <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\ParticleSystem.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
@@ -214,6 +221,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="State\GameOver.h" />
     <ClInclude Include="State\GameState.h" />
     <ClInclude Include="State\MainMenu.h" />
+    <ClInclude Include="State\OpeningLogos.h" />
     <ClInclude Include="State\UISample\UiComp.h" />
     <ClInclude Include="Utils\MathUtils.h" />
     <ClInclude Include="Resource\AudioResource.h" />

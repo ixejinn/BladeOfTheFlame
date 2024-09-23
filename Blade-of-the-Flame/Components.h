@@ -5,6 +5,7 @@
 #include "Component/Sprite.h"
 #include "Component/Collider.h"
 #include "Component/Text.h"
+#include "Component/ScreenOverlay.h"
 #include "Component/LogicComponents/PlayerController.h"
 
 #include "Component/LogicComponents/Player.h"

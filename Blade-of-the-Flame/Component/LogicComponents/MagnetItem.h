@@ -6,7 +6,7 @@ class MagnetItem : public BaseItem
 {
 private:
 	float preRadius_ = 0.f;
-	float radiusIncrease_ = 500.f;
+	float radiusMultiple_ = 5.f;
 
 	CircleCollider* playerCircle_;
 

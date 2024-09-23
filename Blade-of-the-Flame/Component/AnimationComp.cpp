@@ -1,17 +1,24 @@
 #include "AnimationComp.h"
-#include "../Manager/GameObjectManager.h"
-#include "Sprite.h"
+
 #include <algorithm>
+#include "Sprite.h"
+#include "../Manager/GameObjectManager.h"
+#include "../Manager/ResourceManager.h"
+
 
 AnimationComp::AnimationComp(GameObject* owner) : GraphicsComponent(owner)
 {
-	AddAnimation("Idle");
-	AddAnimation("walk");
-	AddAnimation("Attack");
-	AddAnimation("Hit");
-	AddAnimation("Dead");
+	owner_->AddComponent<Sprite>();
+
+	//AddAnimation("Idle");
+	//AddAnimation("walk");
+	//AddAnimation("Attack");
+	//AddAnimation("Hit");
+	//AddAnimation("Dead");
 
 	currentAnime = "Idle";
+
+	sp_ = owner_->GetComponent<Sprite>();
 }
 
 AnimationComp::~AnimationComp()
@@ -26,16 +33,50 @@ AnimationComp::~AnimationComp()
 void AnimationComp::Update()
 {
 	double dt = AEFrameRateControllerGetFrameRate();
-	auto it = anime.find(currentAnime);
 
-	owner_->GetComponent<Sprite>()->SetTexture(it->second->GetDetail());
-
-	elapsedTime += dt;
-
-	if (elapsedTime >= animationTerm)
+	switch (type_)
 	{
-		elapsedTime = 0;
-		anime.find(currentAnime)->second->p++;
+	case CUSTOM:
+	{
+		sp_->SetTexture(anime[currentAnime]->GetDetail());
+
+		elapsedTime += dt;
+		if (elapsedTime >= animationTerm)
+		{
+			elapsedTime = 0;
+			anime[currentAnime]->p++;
+		}
+		break;
+	}
+
+	case APPEAR:
+	{
+		float alpha = sp_->GetAlpha();
+		if (alpha >= 1.0)
+			return;
+
+		elapsedTime += dt;
+		if (elapsedTime >= animationTerm)
+		{
+			elapsedTime = 0;
+			sp_->SetAlpha(alpha + 1 / animationTerm);
+		}
+		break;
+	}
+
+	case DISAPPEAR:
+	{
+		float alpha = sp_->GetAlpha();
+		if (alpha <= 0.0)
+			return;
+
+		elapsedTime += dt;
+		if (elapsedTime >= animationTerm)
+		{
+			elapsedTime = 0;
+			sp_->SetAlpha(alpha - 1 / animationTerm);
+		}
+	}
 	}
 }
 
@@ -44,15 +85,15 @@ void AnimationComp::RemoveFromManager()
 	ComponentManager<GraphicsComponent>::GetInstance().DeleteComponent(static_cast<GraphicsComponent*>(this));
 }
 
-void AnimationComp::AddAnimation(std::string other)//�ִϸ��̼� Ÿ�Լ���
+void AnimationComp::AddAnimation(std::string type)//�ִϸ��̼� Ÿ�Լ���
 {
-	Animation* p = new Animation;
-	anime.emplace(other, p);
+	if (anime.find(type) == anime.end())
+		anime.emplace(type, new Animation());
 }
 
-void AnimationComp::DeleteAnimation(std::string other)
+void AnimationComp::DeleteAnimation(std::string type)
 {
-	auto it = anime.find(other);
+	auto it = anime.find(type);
 	if (it != anime.end()) {
 		delete it->second;
 		anime.erase(it);
@@ -61,16 +102,33 @@ void AnimationComp::DeleteAnimation(std::string other)
 
 bool AnimationComp::CurrentAnimationOver()
 {
-	if (anime.find(currentAnime)->second->animationplay != false)
+	switch (type_)
 	{
-		return true;
+	case CUSTOM:
+		if (anime[currentAnime]->animationPlay != false)
+			return true;
+		else
+			return false;
+		
+	case APPEAR:
+		if (sp_->GetAlpha() >= 1.0)
+			return true;
+		else
+			return false;
+
+	case DISAPPEAR:
+		if (sp_->GetAlpha() <= 0.0)
+			return true;
+		else
+			return false;
 	}
-	else
-		return false;
 }
 
 void AnimationComp::AnimationLoop(int init, int max, std::string name, std::string type)
 {
+	AddAnimation(type);
+	anime[type]->detail.reserve(2 * (max - init) - 1);
+
 	for (int i = init; i < max; i++)
 	{
 		std::string anim = name + std::to_string(i) + ".png";
@@ -91,35 +149,50 @@ ComponentSerializer* AnimationComp::CreateAnimationComp(GameObject* owner)
 	return owner->GetComponent<AnimationComp>();
 }
 
-Animation::Animation()
+Animation::Animation() : currentFrame(0), p(0), animationPlay(false)
 {
-	detail.clear();
-	animationplay = false;
+	//detail.clear();
+	currentFrame = 0;
+	p = 0;
+	animationPlay = false;
 }
 
 Animation::~Animation()
 {
-	detail.clear();
+	//detail.clear();
 }
 
-std::string Animation::GetDetail()
+TextureResource* Animation::GetDetail()
 {
-	animationplay = false;
-	if (detail.size() < p + 1)
+	animationPlay = false;
+	if (p >= detail.size())
 	{
 		p = 0;
-		animationplay = true;
+		animationPlay = true;
 	}
 	return detail[p];
 }
 
-void AnimationComp::AddDetail(std::string s, std::string which)
+void AnimationComp::AddDetail(std::string name, std::string which)
 {
-	anime.find(which)->second->detail.push_back(s);
+	if (anime.find(which) == anime.end())
+		AddAnimation(which);
+
+	anime[which]->detail.push_back(ResourceManager::GetInstance().Get<TextureResource>(name));
 }
 
-void AnimationComp::DeleteDetail(std::string s, std::string which)
+void AnimationComp::DeleteDetail(std::string name, std::string which)
 {
-	auto newEnd = std::remove(anime.find(which)->second->detail.begin(), anime.find(which)->second->detail.end(), s);
-	anime.find(which)->second->detail.erase(newEnd, anime.find(which)->second->detail.end());
+	//auto newEnd = std::remove(anime[which]->detail.begin(), anime[which]->detail.end(), name);
+	//anime[which]->detail.erase(newEnd, anime[which]->detail.end());
+}
+
+void AnimationComp::SetType(Type type)
+{
+	type_ = type;
+
+	if (type == APPEAR)
+		sp_->SetAlpha(0);
+	else if (type == DISAPPEAR)
+		sp_->SetAlpha(1);
 }

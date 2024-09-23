@@ -25,28 +25,28 @@ bool CollisionManager::CheckCircleCircle(CircleCollider* circleA, CircleCollider
 
 bool CollisionManager::CheckCircleAABB(CircleCollider* circle, BoxCollider* aabb)
 {
-	Transform* transA = circle->trans_;
-	Transform* transB = aabb->trans_;
+	Transform* transCircle = circle->trans_;
+	Transform* transBox = aabb->trans_;
 
-	AEVec2 centerCircleCol = transA->GetPosition() + circle->center_;
-	AEVec2 centerBoxCol = transB->GetPosition() + aabb->center_;
+	AEVec2 colCenterCircle = transCircle->GetPosition() + circle->center_;
+	AEVec2 colCenterBox = transBox->GetPosition() + aabb->center_;
 
-	AEVec2 rangeBoxCol[2] = { aabb->GetBottomLeft(), aabb->GetTopRight() };
+	AEVec2 colRangeBox[2] = { aabb->GetBottomLeft(), aabb->GetTopRight() };
 
-	if ((centerCircleCol.x >= rangeBoxCol[0].x && centerCircleCol.x <= rangeBoxCol[1].x) ||
-		(centerCircleCol.y >= rangeBoxCol[0].y && centerCircleCol.y <= rangeBoxCol[1].y))
+	if ((colCenterCircle.x >= colRangeBox[0].x && colCenterCircle.x <= colRangeBox[1].x) ||
+		(colCenterCircle.y >= colRangeBox[0].y && colCenterCircle.y <= colRangeBox[1].y))
 	{
 		// Circle collider의 반지름 만큼 box collider를 확장시켰을 때
 		// Circle collider의 center가 box collider의 내부에 위치하면 충돌 O
-		rangeBoxCol[0].x -= circle->radius_;
-		rangeBoxCol[0].y -= circle->radius_;
-		rangeBoxCol[1].x += circle->radius_;
-		rangeBoxCol[1].y += circle->radius_;
+		colRangeBox[0].x -= circle->radius_;
+		colRangeBox[0].y -= circle->radius_;
+		colRangeBox[1].x += circle->radius_;
+		colRangeBox[1].y += circle->radius_;
 
-		if (centerCircleCol.x >= rangeBoxCol[0].x &&
-			centerCircleCol.x <= rangeBoxCol[1].x &&
-			centerCircleCol.y >= rangeBoxCol[0].y &&
-			centerCircleCol.y <= rangeBoxCol[1].y)
+		if (colCenterCircle.x >= colRangeBox[0].x &&
+			colCenterCircle.x <= colRangeBox[1].x &&
+			colCenterCircle.y >= colRangeBox[0].y &&
+			colCenterCircle.y <= colRangeBox[1].y)
 			return true;
 	}
 	else {
@@ -61,7 +61,7 @@ bool CollisionManager::CheckCircleAABB(CircleCollider* circle, BoxCollider* aabb
 		for (int i = 0; i < 4; i++)
 		{
 			// 원의 방정식 사용
-			if ((verticesBoxCol[i].x - centerCircleCol.x) * (verticesBoxCol[i].x - centerCircleCol.x) + (verticesBoxCol[i].y - centerCircleCol.y) * (verticesBoxCol[i].y - centerCircleCol.y) <= circle->radius_ * circle->radius_)
+			if ((verticesBoxCol[i].x - colCenterCircle.x) * (verticesBoxCol[i].x - colCenterCircle.x) + (verticesBoxCol[i].y - colCenterCircle.y) * (verticesBoxCol[i].y - colCenterCircle.y) <= circle->radius_ * circle->radius_)
 				return true;
 		}
 	}
@@ -168,6 +168,8 @@ void CollisionManager::CheckAllCollision()
 			event1to2->from_ = pair.first->owner_;
 			event1to2->fromType_ = pair.first->type_;
 			pair.second->CallHandler(event1to2);
+
+			delete event1to2;
 		}
 		
 		if (pair.first->collisionHandler_)
@@ -176,6 +178,8 @@ void CollisionManager::CheckAllCollision()
 			event2to1->from_ = pair.second->owner_;
 			event2to1->fromType_ = pair.second->type_;
 			pair.first->CallHandler(event2to1);
+
+			delete event2to1;
 		}
 		
 		collisionPairs_.pop();

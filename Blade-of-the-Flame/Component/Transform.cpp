@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include "../GameObject/GameObject.h"
+#include "../Manager/Camera.h"
 
 Transform::Transform(GameObject* owner) : EngineComponent(owner), position_(), scale_(), rotation_(0), transformMatrix_()
 {
@@ -30,6 +31,8 @@ void Transform::UpdateMatrix()
 	// Concatenate trnasform, rotation, scaling matrix
 	AEMtx33Concat(&transformMatrix_, &rotMtx, &sclMtx);
 	AEMtx33Concat(&transformMatrix_, &tranMtx, &transformMatrix_);
+
+	//AEMtx33Concat(&transformMatrix_, &Camera::GetInstance().GetMatrix(), &transformMatrix_);
 }
 
 void Transform::RemoveFromManager()
@@ -41,8 +44,14 @@ void Transform::Update()
 {
 	UpdateMatrix();
 
-	float x = AEClamp(position_.x, lowerLimit_.x, upperLimit_.x);
-	float y = AEClamp(position_.y, lowerLimit_.y, upperLimit_.y);
+	float x = position_.x;
+	float y = position_.y;
+
+	if (useLimit_)
+	{
+		x = AEClamp(x, lowerLimit_.x, upperLimit_.x);
+		y = AEClamp(y, lowerLimit_.y, upperLimit_.y);
+	}
 
 	SetPosition({ x, y });
 }
@@ -85,6 +94,9 @@ void Transform::SetPosition(const AEVec2& pos)
 	position_ = pos;
 
 	UpdateMatrix();
+
+	//if (owner_->GetComponent<Player>())
+	//	AEGfxSetCamPosition(pos.x, pos.y);
 }
 
 void Transform::SetPosition(const float& x, const float& y)

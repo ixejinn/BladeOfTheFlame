@@ -29,6 +29,8 @@ public:
 		return instance;
 	}
 
+
+
 	// @brief	GameObject::AddComponent()는 Component 생성 + GameObject에 부착이 한번에 가능하므로 추천됨
 	// @tparam U	Transform, Sprite, ...
 	template <typename U>

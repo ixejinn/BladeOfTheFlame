@@ -49,8 +49,8 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 1;
-	SkillGage = 0;
+	level_ = 10;
+	SkillGage = 90;
 	/* Set Player component */
 	owner_->AddComponent<BoxCollider>();
 	owner_->AddComponent<CircleCollider>();
@@ -122,7 +122,7 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
-	//std::cout << "스킬 게이지 : " << SkillGage << std::endl;
+	std::cout << "스킬 게이지 : " << SkillGage << std::endl;
 	/* CHECK */
 	// Level up
 	if (exp_ >= maxExp_)

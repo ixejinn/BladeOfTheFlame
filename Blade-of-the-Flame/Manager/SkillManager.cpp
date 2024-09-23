@@ -85,8 +85,10 @@ void SkillManager::SetSkillType(int level)
 
 SkillManager::SkillManager()
 {
+
 }
 
 SkillManager::~SkillManager()
 {
+
 }

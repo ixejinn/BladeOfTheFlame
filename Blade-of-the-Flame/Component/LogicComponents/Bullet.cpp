@@ -33,21 +33,26 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 	
 		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
 	}
-	for (int i = 18; i >= 0; i--)
-	{
-		std::string anim = "Assets/boss1_Anime/Atk/phase2ATK/phase1_" + std::to_string(i) + ".png";
-	
-		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
-	}
+	//for (int i = 18; i >= 0; i--)
+	//{
+	//	std::string anim = "Assets/boss1_Anime/Atk/phase2ATK/phase1_" + std::to_string(i) + ".png";
+	//
+	//	owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
+	//}
 	owner_->GetComponent<AnimationComp>()->SetTerm(50);
 
 	//AddAnimation("BossPhase1");
 	//AddAnimation("BossPhase2");
 	//AddAnimation("BossPhase3");
+
 	owner_->GetComponent<AnimationComp>()->ChangeAnimation("BossPhase1");
 
 	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
 	player = GameObjectManager::GetInstance().GetObjectA("player");
+
+	//--------------------추가 한 부분 나중에 지울거-------------------
+	boss2 = GameObjectManager::GetInstance().GetObjectA("boss2");
+	//---------------------------------------------------------------
 }
 
 void BulletComp::Update()

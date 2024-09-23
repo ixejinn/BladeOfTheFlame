@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "AEEngine.h"
 #include <vector>
 #include <chrono>
@@ -6,9 +7,10 @@
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
 
-class Boss1 : public LogicComponent, public EventEntity
+class Boss2 : public LogicComponent, public EventEntity
 {
 private:
+
 	enum E_bossState
 	{
 		_baseChase,
@@ -55,7 +57,7 @@ private:
 
 	std::vector<GameObject*> bullet;
 
-	Boss1(GameObject* owner);
+	Boss2(GameObject* owner);
 
 public:
 	void Update() override;
@@ -74,9 +76,6 @@ public:
 	void BaseChase();
 
 	void Phase1();
-	void Phase2();
-	void Phase3();
-	void Phase4();
 
 	float Dot(const AEVec2& vec1, const AEVec2& vec2);
 
@@ -90,7 +89,7 @@ public:
 	json SaveToJson();
 
 	// for StateSerializer
-	static constexpr const char* TypeName = "Boss1";
+	static constexpr const char* TypeName = "Boss2";
 	static ComponentSerializer* CreateComponent(GameObject* owner);
 
 	friend class ComponentManager<LogicComponent>;

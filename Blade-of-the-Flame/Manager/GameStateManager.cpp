@@ -49,6 +49,7 @@ void GameStateManager::Update()
 
 		CollisionManager::GetInstance().CheckAllCollision();
 		EventManager::GetInstance().ProcessEvent();
+
 		ComponentManager<GraphicsComponent>::GetInstance().UpdateComponent();
 	}
 }

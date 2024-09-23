@@ -24,6 +24,7 @@ private:
 		ATTACK,
 		HURT
 	};
+	static int count;
 
 	int level_;
 	int hp_ = 100;

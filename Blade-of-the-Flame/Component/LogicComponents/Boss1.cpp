@@ -18,9 +18,9 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     owner_->AddComponent<Sprite>();
     owner_->AddComponent<AnimationComp>();
 
-    Transform* trans_ = owner_->GetComponent<Transform>();
-    //trans_->SetScale({ 200, 200 });
-    //trans_->SetPosition({ 400,400 });
+    /*Transform* trans_ = owner_->GetComponent<Transform>();
+    trans_->SetScale({ 200, 200 });
+    trans_->SetPosition({ 400,400 });*/
 
     BoxCollider* col = owner_->GetComponent<BoxCollider>();
     col->SetLayer(Collider::E_BODY);
@@ -59,7 +59,7 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     needShoot = true;
     isAction  = true;
 
-    owner_->active_ = false;
+    //owner_->active_ = false;
     EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 
     AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
@@ -69,6 +69,7 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     bossAnim->AnimationLoop(0, 5,  "Assets/boss1_Anime/Atk/phase2ATK/phase1_", "Attack");
 
     bossAnim->ChangeAnimation("walk");
+
     owner_->GetComponent<Transform>()->SetScale(scale);
     owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 
@@ -89,6 +90,7 @@ void Boss1::Update()
     }
 
     BossState();
+
 }
 
 void Boss1::RemoveFromManager()
@@ -101,7 +103,7 @@ void Boss1::OnEvent(BaseEvent* event)
     AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
     playerPos.x += 200;
     owner_->GetComponent<Transform>()->SetPosition(playerPos);
-    // ��� �� ���̱�
+    
     owner_->active_ = true;
 }
 
@@ -172,8 +174,7 @@ void Boss1::BaseChase()
 {
     AnimationComp* bossAnim  = owner_->GetComponent<AnimationComp>();
     Transform*     bossScale = owner_->GetComponent<Transform>();
-    //�ִϸ��̼� �����ϴ� �Լ�
-
+   
     if (nomalphaseTime_ < 100)
     {
         bossAnim->SetTerm(150);

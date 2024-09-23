@@ -68,10 +68,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//GameState* gameState = new GameState();
 	//SampleSave* sampleSave = new SampleSave();
 	//MainMenu* mainMenu = new MainMenu();
-	OpeningLogos* opening = new OpeningLogos();
-	//BossSampleSave bossSample;
+	//OpeningLogos* opening = new OpeningLogos();
+	BossSampleSave* bossSample = new BossSampleSave();
 
-	Manager::gsMgr.ChangeState(opening);
+	Manager::gsMgr.ChangeState(bossSample);
 
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)

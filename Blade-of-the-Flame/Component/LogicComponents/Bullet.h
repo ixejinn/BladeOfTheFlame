@@ -15,9 +15,7 @@ class BulletComp : public LogicComponent, public EventEntity
 	std::chrono::system_clock::time_point timeStart_;
 
 	GameObject* player;
-	GameObject* boss;
-	GameObject* boss2;
-
+	
 	bool check_ = true;
 
 	BulletComp(GameObject* ower);

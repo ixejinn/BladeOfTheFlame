@@ -27,7 +27,7 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 	owner_->AddComponent<Sprite>();
 	owner_->GetComponent<Transform>()->SetScale({ 200, 200 });
 	
-	for (int i = 0; i < 19; i++)
+	/*for (int i = 0; i < 19; i++)
 	{
 		std::string anim = "Assets/boss1_Anime/Atk/phase2ATK/phase1_" + std::to_string(i) + ".png";
 	
@@ -39,14 +39,13 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 	
 		owner_->GetComponent<AnimationComp>()->AddDetail(anim, "BossPhase1");
 	}
-	owner_->GetComponent<AnimationComp>()->SetTerm(50);
+	owner_->GetComponent<AnimationComp>()->SetTerm(50);*/
 
 	//AddAnimation("BossPhase1");
 	//AddAnimation("BossPhase2");
 	//AddAnimation("BossPhase3");
 	owner_->GetComponent<AnimationComp>()->ChangeAnimation("BossPhase1");
 
-	boss   = GameObjectManager::GetInstance().GetObjectA("boss");
 	player = GameObjectManager::GetInstance().GetObjectA("player");
 
 	col->SetScale({ 0.4f, 0.4f });
@@ -85,7 +84,7 @@ void BulletComp::FireBullet()
 
 	Transform* playerTrans = player ->GetComponent<Transform>();
 
-	bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
+	//bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
 
 	AEVec2 dir = playerTrans->GetPosition() - bulletTrans->GetPosition();
 
@@ -101,7 +100,7 @@ void BulletComp::BarrageBullet(bool _bool = false)
 	Transform* bulletTrans = owner_->GetComponent<Transform>();
 	RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
 
-	bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
+	//bulletTrans->SetPosition(boss->GetComponent<Transform>()->GetPosition());
 
 	bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }

@@ -13,28 +13,27 @@
 Boss2::Boss2(GameObject* owner):LogicComponent(owner)
 {
     player = GameObjectManager::GetInstance().GetObjectA("player");
-
     owner_->AddComponent<BoxCollider>();
     owner_->AddComponent<Sprite>();
-    //owner_->AddComponent<AnimationComp>();
+    owner_->AddComponent<AnimationComp>();
+    scale = { 300, 300 };
 
     owner_->GetComponent<Transform>()  ->SetScale   (scale);
     owner_->GetComponent<Transform>()  ->SetPosition({ 400, 400 });
     owner_->GetComponent<BoxCollider>()->SetScale   ({ 0.4f, 0.8f });
 
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+
+    bossAnim->AnimationLoop(0, 3, "Assets/boss2_Anime/boss2_", "walk");
+    bossAnim->ChangeAnimation("walk");
+
+    owner_->GetComponent<Transform>()->SetScale(scale);
+    owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 }
 
 void Boss2::Update()
 {
-    if (shootCount_ < 10)
-    {
-        if (DelayTime_ > 5)
-        {
-            CreateBulletObj()->GetComponent<BulletComp>()->FireBullet();
-            shootCount_ += 1;
-        }
-        DelayTime_ += 0.5;
-    }
+    BossState();
 }
 
 void Boss2::RemoveFromManager()
@@ -58,12 +57,16 @@ GameObject* Boss2::CreateBulletObj()
     GameObject* addBullet = GameObjectManager::GetInstance().CreateObject(unique_bullet_name);
     bullet.push_back(addBullet);
     addBullet->AddComponent<BulletComp>();
-    return nullptr;
+    return addBullet;
 }
 
 void Boss2::BossState()
 {
+    AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
+    Transform* bossScale = owner_->GetComponent<Transform>();
 
+    bossAnim->SetTerm(150);
+    bossAnim->ChangeAnimation("walk");
 }
 
 void Boss2::BaseChase()

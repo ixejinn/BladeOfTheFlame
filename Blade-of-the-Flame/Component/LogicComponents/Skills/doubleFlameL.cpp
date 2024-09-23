@@ -1,6 +1,7 @@
 #include "doubleFlameL.h"
 #include "../../Event/Event.h"
 #include "../Monster.h"
+#include "../../Utils/Utils.h"
 
 doubleFlameL::doubleFlameL(GameObject* owner) : BaseAttack(owner)
 {
@@ -40,21 +41,6 @@ doubleFlameL::~doubleFlameL()
 	GameObjectManager::GetInstance().RemoveObject(owner_->GetName());
 }
 
-namespace
-{
-	AEVec2 convert(AEVec2 a)
-	{
-		AEVec2 worldPos;
-		worldPos.x = a.x - windowWidth / 2;
-		worldPos.y = -a.y + windowHeight / 2;
-		AEVec2 pos;
-		AEGfxGetCamPosition(&pos.x, &pos.y);
-		AEVec2 result;
-		result.x = worldPos.x + pos.x;
-		result.y = worldPos.y + pos.y;
-		return result;
-	}
-}
 
 void doubleFlameL::Update()
 {

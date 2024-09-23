@@ -24,21 +24,6 @@ Meteor::Meteor(GameObject* owner) : BaseAttack(owner)
 	owner->GetComponent<RigidBody>()->ClearVelocity();
 	owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
 }
-namespace
-{
-	AEVec2 convert(AEVec2 a)
-	{
-		AEVec2 worldPos;
-		worldPos.x = a.x - windowWidth / 2;
-		worldPos.y = -a.y + windowHeight / 2;
-		AEVec2 pos;
-		AEGfxGetCamPosition(&pos.x, &pos.y);
-		AEVec2 result;
-		result.x = worldPos.x + pos.x;
-		result.y = worldPos.y + pos.y;
-		return result;
-	}
-}
 
 void Meteor::Update()
 {
@@ -51,8 +36,8 @@ void Meteor::Update()
 		AEInputGetCursorPosition(&x, &y);
 		AEVec2 mousePosF({ static_cast<float>(x), static_cast<float>(y) });
 		owner_->GetComponent<Transform>()->SetScale({ 300, 300 });
-		owner_->GetComponent<Transform>()->SetPosition(convert(mousePosF));
 		convertPos = convert(mousePosF);
+		owner_->GetComponent<Transform>()->SetPosition(convertPos);
 		//MagicCircle mode
 		owner_->GetComponent<AnimationComp>()->ChangeAnimation("Idle");
 		if (AEInputCheckCurr(AEVK_LBUTTON))

@@ -166,6 +166,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Serializer\StateSerializer.cpp" />
     <ClCompile Include="State\SampleLoad.cpp" />
     <ClCompile Include="State\SampleSave.cpp" />
+    <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components.h" />

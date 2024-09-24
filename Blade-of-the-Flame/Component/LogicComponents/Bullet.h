@@ -16,6 +16,7 @@ class BulletComp : public LogicComponent, public EventEntity
 
 	GameObject* player;
 	GameObject* boss;
+	GameObject* boss2;
 
 	bool check_ = true;
 

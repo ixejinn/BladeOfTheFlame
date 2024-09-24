@@ -108,6 +108,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\FillBar.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseItem.cpp" />
+    <ClCompile Include="Component\LogicComponents\Boss2.cpp" />
     <ClCompile Include="Component\LogicComponents\Compass.cpp" />
     <ClCompile Include="Component\LogicComponents\ExpItem.cpp" />
     <ClCompile Include="Component\LogicComponents\Boss1.cpp" />
@@ -120,11 +121,16 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Particle.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\boomerang.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\bubble.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\doubleFlameL.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\doubleFlameR.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
-    <ClCompile Include="Component\LogicComponents\Skills\FlameComp.cpp" />
-    <ClCompile Include="Component\LogicComponents\Skills\Inferno.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\MeteorExplosion.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\PenetrabledoubleFlameL.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\PenetrabledoubleFlameR.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\shield.cpp" />
     <ClCompile Include="Component\RigidBody.cpp" />
     <ClCompile Include="Component\ScreenOverlay.cpp" />
     <ClCompile Include="Component\Sprite.cpp" />
@@ -143,7 +149,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\ParticleSystem.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
-    <ClCompile Include="Manager\SkillManager.cpp" />
     <ClCompile Include="Manager\SpawnManager.cpp" />
     <ClCompile Include="Resource\FontResource.cpp" />
     <ClCompile Include="State\BossSample\BossSampleLoad.cpp" />
@@ -161,6 +166,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Serializer\StateSerializer.cpp" />
     <ClCompile Include="State\SampleLoad.cpp" />
     <ClCompile Include="State\SampleSave.cpp" />
+    <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components.h" />
@@ -173,6 +179,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\FillBar.h" />
     <ClInclude Include="Component\LogicComponents\BaseAttack.h" />
     <ClInclude Include="Component\LogicComponents\BaseItem.h" />
+    <ClInclude Include="Component\LogicComponents\Boss2.h" />
     <ClInclude Include="Component\LogicComponents\Compass.h" />
     <ClInclude Include="Component\LogicComponents\ExpItem.h" />
     <ClInclude Include="Component\LogicComponents\Boss1.h" />
@@ -189,11 +196,17 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\EngineComponent.h" />
     <ClInclude Include="Component\GraphicsComponent.h" />
     <ClInclude Include="Component\LogicComponent.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\boomerang.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\bubble.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\doubleFlameL.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\doubleFlameR.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Flame.h" />
-    <ClInclude Include="Component\LogicComponents\Skills\FlameComp.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Inferno.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Meteor.h" />
     <ClInclude Include="Component\LogicComponents\Skills\MeteorExplosion.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\PenetrabledoubleFlameL.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\PenetrabledoubleFlameR.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\shield.h" />
     <ClInclude Include="Component\ScreenOverlay.h" />
     <ClInclude Include="Component\Text.h" />
     <ClInclude Include="Component\RigidBody.h" />
@@ -214,7 +227,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\ParticleSystem.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
-    <ClInclude Include="Manager\SkillManager.h" />
     <ClInclude Include="Manager\SpawnManager.h" />
     <ClInclude Include="Resource\FontResource.h" />
     <ClInclude Include="State\BossSample\BossSampleLoad.h" />

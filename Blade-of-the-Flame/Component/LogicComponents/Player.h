@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../LogicComponent.h"
 #include "../../Manager/ComponentManager.h"
 #include "../../Event/EventEntity.h"
@@ -24,8 +24,9 @@ private:
 		ATTACK,
 		HURT
 	};
+	static int count;
 
-	int level_ = 1;
+	int level_;
 	int hp_ = 100;
 	int exp_ = 0;
 
@@ -40,14 +41,14 @@ private:
 	float expRequirement_ = 30.f;
 	float hpGrowthRate_ = 20.f;
 
-	GameObject* meleeAttack_ = nullptr;		// Player's melee attack  (level ~2)
-	GameObject* Skills_Meteor = nullptr;
-	GameObject* Skills_Flame = nullptr;
-	//GameObject* rangedAttack_ = nullptr;	// Player's ranged attack (level 3~)
+	//Basic_Attack
+	GameObject* melee_Attack = nullptr;
+	GameObject* double_flame_Attack = nullptr;
+	GameObject* penetrable_double_flame_Attack = nullptr;
 
-	std::chrono::system_clock::time_point timeStart_;
-
-	bool readyMelee = false;
+	//Special_Attack
+	GameObject* boomerang_Attack = nullptr;
+	GameObject* fire_bubble_Attack = nullptr;
 
 	Transform* trans_;
 	Audio* audio_;
@@ -61,8 +62,16 @@ private:
 	Player(GameObject* owner);
 
 public:
+	//Timer for Skills
+	double meleeCool = 0;
+	double flameCool = 0;
+	double doubleflameCool = 0;
+	double pendoubleflameCool = 0;
+
 	bool getCompass_ = false;
 	bool findAltar_ = false;
+
+	int SkillGage = 0;
 
 	void RemoveFromManager() override;
 
@@ -75,7 +84,8 @@ public:
 	void OnCollision(CollisionEvent*) override;
 	
 	BaseAttack* curAttack_ = nullptr;			// Current basic attack
-	MeleeAttack* curAttackMelee = nullptr;
+	GameObject* meteor = nullptr;
+	GameObject* shield_Attack = nullptr;
 
 	const int& GetLevel() const { return level_; }
 	const int& GetHp() const { return hp_; }

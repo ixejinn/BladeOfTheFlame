@@ -16,6 +16,7 @@ private:
 		_rangeAttack,
 		_barrage,
 	};
+
 	E_bossState current_state;
 
 	int hp_ = 0;
@@ -71,6 +72,7 @@ public:
 
 	void BossState();
 	void BaseChase();
+
 	void Phase1();
 	void Phase2();
 	void Phase3();

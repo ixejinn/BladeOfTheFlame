@@ -1,7 +1,7 @@
 #include "MeteorExplosion.h"
 #include "Meteor.h"
 //**//
-#include "../../../Event/Event.h"
+#include "../../Event/Event.h"
 #include "../Monster.h"
 
 class Meteor;
@@ -11,30 +11,42 @@ MeteorExplosion::MeteorExplosion(GameObject* owner) : BaseAttack(owner)
 	owner->AddComponent<Transform>();
 	owner->AddComponent<RigidBody>();
 	owner->AddComponent<Sprite>();
-	meteorInf = GameObjectManager::GetInstance().GetObjectA("MeteorAttack");
-	owner->GetComponent<Transform>()->SetPosition(meteorInf->GetComponent<Transform>()->GetPosition());
+	owner->AddComponent<AnimationComp>();
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 10; i++)
+		{
+			owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/explosion/tile0" + std::to_string(j) + std::to_string(i) + ".png", "Attack");
+		}
+	}	
+	for (int i = 0; i < 8; i++)
+	{
+		owner->GetComponent<AnimationComp>()->AddDetail("Assets/MeteorAnime/explosion/tile04" + std::to_string(i) + ".png", "Attack");
+	}
+	owner->GetComponent<AnimationComp>()->SetTerm(100.f);
+	owner_->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
+
+	owner->GetComponent<Transform>()->SetPosition(player_->GetComponent<Transform>()->GetPosition());
 	lifetime = 3000;
 	mode = set;
-	owner->GetComponent<Transform>()->SetScale({ 300, 300 });
-	owner->GetComponent<Sprite>()->SetColor({ 255, 0, 0 });
+	owner->GetComponent<Transform>()->SetScale({ 900, 900 });
 
 	//**//
 	owner_->AddComponent<CircleCollider>();
 	CircleCollider* col = owner_->GetComponent<CircleCollider>();
 	col->SetLayer(Collider::P_ATTACK);
-	//col->SetType(Collider::CIRCLE_TYPE);
 	col->SetType(Collider::AABB_TYPE);
 	col->SetHandler(static_cast<EventEntity*>(this));
 
-	dmg_ = meteorInf->GetComponent<Meteor>()->GetDmg();
-	dmgGrowthRate_ = meteorInf->GetComponent<Meteor>()->GetDmgGrowRate();
+	dmg_ = 20;
+	dmgGrowthRate_ = 10.f;
 }
 
 void MeteorExplosion::Update()
 {
 	if (mode == set)
 	{
-		Ps = (meteorInf->GetComponent<Transform>()->GetPosition());
+		Ps = (player_->GetComponent<Transform>()->GetPosition());
 		mode = go;
 	}
 	if (mode == go)
@@ -83,6 +95,12 @@ void MeteorExplosion::OnCollision(CollisionEvent* event)
 	if (monster)
 	{
 		monster->ReserveDmg(dmg_);
+	}
+
+	Boss1* boss = event->from_->GetComponent<Boss1>();
+	if (boss)
+	{
+		boss->ReserveDmg(dmg_);
 	}
 }
 

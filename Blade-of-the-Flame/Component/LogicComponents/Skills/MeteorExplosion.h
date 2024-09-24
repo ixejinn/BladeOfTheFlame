@@ -1,9 +1,9 @@
 #pragma once
 #include "../BaseAttack.h"
 #include "AEEngine.h"
-#include "../../../Manager/ComponentManager.h"
+#include ".././../Manager/ComponentManager.h"
 //**//
-#include "../../../Event/EventEntity.h"
+#include "../../Event/EventEntity.h"
 											//**//
 class MeteorExplosion : public BaseAttack, public EventEntity
 {
@@ -15,7 +15,6 @@ class MeteorExplosion : public BaseAttack, public EventEntity
 	MeteorExplosion(GameObject* owner);
 	float lifetime;
 	AEVec2 Ps;
-	GameObject* meteorInf;
 	int mode;
 public:
 	void Update() override;

@@ -1,113 +1,126 @@
 #include "Flame.h"
+#include "../../Event/Event.h"
+#include "../Monster.h"
+#include "../../Utils/Utils.h"
 
-#include "../../../Event/Event.h"
-#include "../../../Manager/EventManager.h"
-#include "../../AnimationComp.h"
-#include "FlameComp.h"
-#include "../../../Manager/SkillManager.h"
-
-int Flame::count;
 
 Flame::Flame(GameObject* owner) : BaseAttack(owner)
 {
-	owner->active_ = false;
-	dmg_ = 5;
-	range_ = 250;
-	cooldown_ = 3;
+	mode = set;
+	lifetime = 12000;
+	dmg_ = 10;
+	tempdmg = dmg_;
+	cooldown_ = 2000;
 	dmgGrowthRate_ = 5.f;
-	cState = df;
-	count = 0;
-	owner->AddComponent<Transform>();
-	owner->AddComponent<Sprite>();
-	owner->AddComponent<RigidBody>();
+	owner_->AddComponent<Transform>();
+	owner_->AddComponent<RigidBody>();
+	owner_->AddComponent<Sprite>();
 	owner->AddComponent<AnimationComp>();
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile001.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile002.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile003.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile005.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile006.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile007.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile008.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile009.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile010.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile011.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile012.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile013.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile014.png", "Idle");
-	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/tile015.png", "Idle");
-	owner->GetComponent<AnimationComp>()->SetTerm(100.0f);
-	owner->GetComponent<RigidBody>()->ClearVelocity();
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/1.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/2.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/3.png", "Attack");
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/FlameAnime/4.png", "Attack");
+	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
+	owner->GetComponent<AnimationComp>()->SetTerm(200);
+	owner->GetComponent<Transform>()->SetScale({0, 0});
+
+	owner_->AddComponent<BoxCollider>();
+	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	col->SetLayer(Collider::P_ATTACK);
+	col->SetType(Collider::AABB_TYPE);
+	col->SetHandler(static_cast<EventEntity*>(this));
 }
 
-namespace
+Flame::~Flame()
 {
-	AEVec2 convert(AEVec2 a)
-	{
-		AEVec2 worldPos;
-		worldPos.x = a.x - windowWidth / 2;
-		worldPos.y = -a.y + windowHeight / 2;
-		AEVec2 pos;
-		AEGfxGetCamPosition(&pos.x, &pos.y);
-		AEVec2 result;
-		result.x = worldPos.x + pos.x;
-		result.y = worldPos.y + pos.y;
-		return result;
-	}
+	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Transform>())));
+	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<RigidBody>())));
+	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Sprite>())));
+	owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<AnimationComp>())));
+	GameObjectManager::GetInstance().RemoveObject(owner_->GetName());
 }
 
 void Flame::Update()
 {
-	if (!AEInputCheckCurr(AEVK_LBUTTON) && cState == df)
-		cState = ready;
-	if (cState == ready)
+	if (mode == set)
 	{
-		owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
-		owner_->GetComponent<AnimationComp>()->ChangeAnimation("Idle");
+		dmg_ = 0;
 		owner_->GetComponent<Transform>()->SetPosition(player_->GetComponent<Transform>()->GetPosition());
 		AEInputInit();
 		s32 x, y;
 		AEInputGetCursorPosition(&x, &y);
 		AEVec2 mousePosF({ static_cast<float>(x), static_cast<float>(y) });
-		convertPos = convert(mousePosF);
-		if (AEInputCheckCurr(AEVK_LBUTTON))
+		if (!AEInputCheckCurr(AEVK_LBUTTON))
 		{
-			cState = shoot;
-			AEVec2 attackDir{ convertPos - owner_->GetComponent<Transform>()->GetPosition() };
-			AEVec2Normalize(&unitDir, &attackDir);
+			AEVec2 attackDir{ convert(mousePosF) - owner_->GetComponent<Transform>()->GetPosition() };
+			AEVec2Normalize(&dir, &attackDir);
+			owner_->GetComponent<Transform>()->SetRotation(dir);
+			mode = fire;
+			dmg_ = tempdmg;
+			owner_->GetComponent<Transform>()->SetScale({ 80, 50 });
 		}
 	}
-	else if (cState == shoot)
+	if (mode == fire)
 	{
-		AttackObject();
-		cState = df;
-		SkillManager::GetInstance().CooldownCountFlame = 0;
-		owner_->GetComponent<RigidBody>()->ClearVelocity();
-		SkillManager::GetInstance().resetKeys();
-		player_->GetComponent<Player>()->curAttack_ = nullptr;
-		owner_->active_ = false;
+		if (lifetime > 0)
+		{
+			float dt = AEFrameRateControllerGetFrameRate();
+			lifetime -= dt;
+			owner_->GetComponent<RigidBody>()->AddVelocity(dir * 300);
+		}
+		else
+		{
+			owner_->active_ = false;
+			owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Flame>())));
+		}
 	}
+}
+
+void Flame::LevelUp()
+{
+	tempdmg += int(tempdmg * dmgGrowthRate_ / 100);
 }
 
 void Flame::AttackObject()
 {
-	std::string unique_Flame_name = "Flame" + std::to_string(count);
-	count++;
-	GameObject* p = GameObjectManager::GetInstance().CreateObject(unique_Flame_name);
-	p->AddComponent<FlameComp>();
-	p->active_ = true;
 }
 
-void Flame::LoadFromJson(const json&)
-{
-}
-json Flame::SaveToJson()
-{
-	return json();
-}
 ComponentSerializer* Flame::CreateComponent(GameObject* owner)
 {
 	if (!owner->AddComponent<Flame>())
 		std::cout << "Flame::CreateComponent() Component already exists" << std::endl;
 
 	return owner->GetComponent<Flame>();
+}
+
+void Flame::OnEvent(BaseEvent*)
+{
+}
+
+void Flame::OnCollision(CollisionEvent* event)
+{
+	Monster* monster = event->from_->GetComponent<Monster>();
+	if (monster)
+	{
+		player_->GetComponent<Player>()->SkillGage += 1;
+		monster->ReserveDmg(dmg_);
+		owner_->active_ = false;
+		owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<Flame>())));
+	}
+
+	Boss1* boss = event->from_->GetComponent<Boss1>();
+	if (boss)
+	{
+		player_->GetComponent<Player>()->SkillGage += 1;
+		boss->ReserveDmg(dmg_);
+	}
+}
+
+void Flame::LoadFromJson(const json&)
+{
+}
+
+json Flame::SaveToJson()
+{
+	return json();
 }

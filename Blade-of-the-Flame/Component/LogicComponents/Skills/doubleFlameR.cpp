@@ -1,6 +1,6 @@
 #include "doubleFlameR.h"
-#include "../../Event/Event.h"
-#include "../../Utils/Utils.h"
+#include "../../../Event/Event.h"
+#include "../../../Utils/Utils.h"
 #include "../Monster.h"
 
 doubleFlameR::doubleFlameR(GameObject* owner) : BaseAttack(owner)

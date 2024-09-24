@@ -1,7 +1,7 @@
 #include "Flame.h"
-#include "../../Event/Event.h"
+#include "../../../Event/Event.h"
 #include "../Monster.h"
-#include "../../Utils/Utils.h"
+#include "../../../Utils/Utils.h"
 
 
 Flame::Flame(GameObject* owner) : BaseAttack(owner)

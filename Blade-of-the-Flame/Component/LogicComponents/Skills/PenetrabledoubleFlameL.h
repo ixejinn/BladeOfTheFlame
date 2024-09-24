@@ -1,8 +1,8 @@
 #pragma once
 #include "AEEngine.h"
-#include "../../LogicComponent.h"
-#include "../../Component/AnimationComp.h"
-#include "../../Manager/ComponentManager.h"
+#include "../BaseAttack.h"
+#include "../../../Manager/ComponentManager.h"
+#include "../../../Event/EventEntity.h"
 
 class PenetrableDoubleFlameL : public BaseAttack, public EventEntity
 {

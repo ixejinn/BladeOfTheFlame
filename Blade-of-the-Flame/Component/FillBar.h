@@ -17,7 +17,8 @@ public:
 		MONSTER_CNT,
 		PLAYER_EXP,
 		PLAYER_HP,
-		BOSS_HP
+		BOSS_HP,
+		SKILL
 	};
 
 private:

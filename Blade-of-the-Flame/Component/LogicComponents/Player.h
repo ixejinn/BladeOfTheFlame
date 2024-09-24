@@ -72,6 +72,7 @@ public:
 	bool findAltar_ = false;
 
 	int SkillGage = 0;
+	int maxSkillGage = 150;
 
 	void RemoveFromManager() override;
 

@@ -175,7 +175,7 @@ void Player::Update()
 	if (1 <= level_ && level_ < 4)
 	{
 		meleeCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= 150)
+		if (SkillGage >= maxSkillGage)
 		{
 			//쉴드스킬
 			curAttack_ = shield_Attack->GetComponent<Shield>();
@@ -196,7 +196,7 @@ void Player::Update()
 	else if (4 <= level_ && level_ < 7)
 	{
 		flameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= 100)
+		if (SkillGage >= maxSkillGage)
 		{
 			//부메랑 스킬
 			curAttack_ = boomerang_Attack->GetComponent<boomerang>();
@@ -222,7 +222,7 @@ void Player::Update()
 	else if (7 <= level_ && level_ < 10)
 	{
 		doubleflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= 100)
+		if (SkillGage >= maxSkillGage)
 		{
 			// 파이어 버블
 			curAttack_ = nullptr;
@@ -260,7 +260,7 @@ void Player::Update()
 	else
 	{
 		pendoubleflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= 100)
+		if (SkillGage >= maxSkillGage)
 		{
 			//메테오
 			curAttack_ = meteor->GetComponent<Meteor>();
@@ -375,6 +375,9 @@ void Player::LevelUp()
 		return;
 
 	level_++;
+
+	if (level_ >= 4)
+		maxSkillGage = 100;
 
 	LevelUpEvent* event = new LevelUpEvent();
 	event->from_ = owner_;

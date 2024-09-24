@@ -44,6 +44,10 @@ void Camera::UpdatePositionBasedOnPlayer()
 	obj = Manager::objMgr.GetObjectA("healthBar");
 	if (obj)
 		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+	obj = Manager::objMgr.GetObjectA("skillBar");
+	if (obj)
+		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
 }
 
 void Camera::Update()

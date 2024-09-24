@@ -17,6 +17,8 @@
 #include "Component/FillBar.h"
 #include "Component/Button.h"
 
+#include "Component/LogicComponents/Monsters/Skeleton.h"
+
 #include "Component/AnimationComp.h"
 
 #include "Component/LogicComponents/Boss1.h"

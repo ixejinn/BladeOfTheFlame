@@ -102,7 +102,7 @@ void boomerang::OnCollision(CollisionEvent* event)
 	Monster* monster = event->from_->GetComponent<Monster>();
 	if (monster)
 	{
-		monster->ReserveDmg(dmg_);
+		monster->HitMonster(dmg_);
 	}
 
 	Boss1* boss = event->from_->GetComponent<Boss1>();

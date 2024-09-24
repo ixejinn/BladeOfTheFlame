@@ -1,6 +1,6 @@
 #pragma once
-
 #include "AEVec2.h"
+
 const int windowWidth = 1600;
 const int windowHeight = 900;
 

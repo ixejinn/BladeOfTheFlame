@@ -40,7 +40,7 @@ Monster::Monster(GameObject* owner) : LogicComponent(owner), timeStart_()
 
 	/* Set Monster component */
 	owner_->AddComponent<BoxCollider>();
-	owner_->AddComponent<Sprite>();
+	//owner_->AddComponent<Sprite>();
 	owner_->AddComponent<AnimationComp>();
 
 	owner_->GetComponent<Transform>()->SetScale({ 30, 100 });
@@ -100,6 +100,7 @@ void Monster::Update()
 
 	AEVec2Normalize(&unitMoveDir, &moveDir);
 	rb_->AddVelocity(unitMoveDir * moveSpeed_);
+	//rb_->AddVelocity(unitMoveDir * 100);
 
 	Direction curDir = unitMoveDir.x < 0 ? LEFT : RIGHT;
 	if (dir_ != curDir)

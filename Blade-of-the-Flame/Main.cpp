@@ -6,10 +6,6 @@
 
 #include "Utils/Utils.h"
 #include "Manager/GameStateManager.h"
-#include "Manager/ResourceManager.h"
-#include "Manager/ComponentManager.h"
-#include "Manager/EventManager.h"
-#include "Manager/GameObjectManager.h"
 #include "State/GameState.h"
 #include "State/SampleSave.h"
 #include "State/MainMenu.h"
@@ -19,17 +15,7 @@
 
 namespace Manager
 {
-	ResourceManager& rscMgr = ResourceManager::GetInstance();
-
-	ComponentManager<EngineComponent>& compEngMgr = ComponentManager<EngineComponent>::GetInstance();
-	ComponentManager<AudioComponent>& compAudMgr = ComponentManager<AudioComponent>::GetInstance();
-	ComponentManager<GraphicsComponent>& compGfxMgr = ComponentManager<GraphicsComponent>::GetInstance();
-	ComponentManager<LogicComponent>& compLgcMgr = ComponentManager<LogicComponent>::GetInstance();
-
-	GameObjectManager& objMgr = GameObjectManager::GetInstance();
-	GameStateManager& gsMgr = GameStateManager::GetInstance();
-
-	EventManager& evntMgr = EventManager::GetInstance();
+	extern GameStateManager& gsMgr;
 }
 
 // ---------------------------------------------------------------------------
@@ -57,7 +43,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	showConsole = 1;
 #endif
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, showConsole, 60, true, NULL);
-	//AESysSetFullScreen(1);
+	AESysSetFullScreen(1);
 	
 	// Changing the window title
 	AESysSetWindowTitle("Blade of the Flame");
@@ -65,13 +51,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
-	GameState* gameState = new GameState();
+	//GameState* gameState = new GameState();
 	//SampleSave* sampleSave = new SampleSave();
 	//MainMenu* mainMenu = new MainMenu();
-	//OpeningLogos* opening = new OpeningLogos();
+	OpeningLogos* opening = new OpeningLogos();
 	//BossSampleSave bossSample;
 
-	Manager::gsMgr.ChangeState(gameState);
+	Manager::gsMgr.ChangeState(opening);
 
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)

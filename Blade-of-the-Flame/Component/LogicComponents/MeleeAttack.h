@@ -5,12 +5,12 @@
 class MeleeAttack : public BaseAttack
 {
 private:
-
-	MeleeAttack(GameObject* owner);
-	~MeleeAttack();
 	float lifetime;
 	AEVec2 attackDir;
 	float tempdmg;
+
+	MeleeAttack(GameObject* owner);
+
 public:
 	enum
 	{

@@ -43,7 +43,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	showConsole = 1;
 #endif
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, showConsole, 60, true, NULL);
-	//AESysSetFullScreen(1);
+#ifndef _DEBUG
+	AESysSetFullScreen(1);
+#endif
 	
 	// Changing the window title
 	AESysSetWindowTitle("Blade of the Flame");
@@ -51,13 +53,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
-	//GameState* gameState = new GameState();
+	GameState* gameState = new GameState();
 	//SampleSave* sampleSave = new SampleSave();
 	//MainMenu* mainMenu = new MainMenu();
-	OpeningLogos* opening = new OpeningLogos();
+	//OpeningLogos* opening = new OpeningLogos();
 	//BossSampleSave bossSample;
 
-	Manager::gsMgr.ChangeState(opening);
+	Manager::gsMgr.ChangeState(gameState);
 
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)

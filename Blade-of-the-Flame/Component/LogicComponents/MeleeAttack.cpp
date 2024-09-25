@@ -30,10 +30,6 @@ MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 	col->SetLayer(Collider::P_ATTACK);
 }
 
-MeleeAttack::~MeleeAttack()
-{
-}
-
 void MeleeAttack::Update()
 {
 	float dt = AEFrameRateControllerGetFrameRate();

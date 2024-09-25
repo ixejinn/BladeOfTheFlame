@@ -152,6 +152,16 @@ void Monster::OnCollision(CollisionEvent* event)
 		return;
 	}
 
+	Monster* other = event->from_->GetComponent<Monster>();
+	if (other)
+	{
+		AEVec2 otherVelocity = event->from_->GetComponent<RigidBody>()->GetVelocity();
+		rb_->ClearVelocity();
+		rb_->AddVelocity(otherVelocity);
+
+		return;
+	}
+
 	MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
 	if (melee != nullptr && melee->mode == MeleeAttack::fire)
 	{
@@ -163,16 +173,6 @@ void Monster::OnCollision(CollisionEvent* event)
 		rb_->AddVelocity(velocity * -knockback_);
 
 		state_ = HURT;
-
-		return;
-	}
-
-	Monster* other = event->from_->GetComponent<Monster>();
-	if (other)
-	{
-		AEVec2 otherVelocity = event->from_->GetComponent<RigidBody>()->GetVelocity();
-		rb_->ClearVelocity();
-		rb_->AddVelocity(otherVelocity);
 
 		return;
 	}

@@ -43,7 +43,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	showConsole = 1;
 #endif
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, showConsole, 60, true, NULL);
-	AESysSetFullScreen(1);
+	//AESysSetFullScreen(1);
 	
 	// Changing the window title
 	AESysSetWindowTitle("Blade of the Flame");
@@ -62,6 +62,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)
 	{
+		AEFrameRateControllerReset();
+
 		// Informing the system about the loop's start
 		AESysFrameStart();
 

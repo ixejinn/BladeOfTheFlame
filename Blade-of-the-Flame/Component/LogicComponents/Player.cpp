@@ -58,7 +58,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 10;
+	level_ = 1;
 	SkillGage = 90;
 	/* Set Player component */
 	owner_->AddComponent<CircleCollider>();
@@ -152,12 +152,8 @@ void Player::Update()
 	static State preState = IDLE;
 	State curState = IDLE;
 	Direction curDir = dir_;
-	bool lBtn = false;
 	if (AEInputCheckCurr(AEVK_LBUTTON))
-	{
-		lBtn = true;
 		curState = ATTACK;
-	}
 	else if (hp_ < preHp)
 	{
 		curState = HURT;

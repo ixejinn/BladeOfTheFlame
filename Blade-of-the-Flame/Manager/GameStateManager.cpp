@@ -6,6 +6,7 @@
 #include "../Manager/CollisionManager.h"
 #include "../Manager/EventManager.h"
 #include "../Manager/Camera.h"
+#include "../Manager/ResourceManager.h"
 #include "../Manager/EnvironmentManager.h"
 #include "../Component/EngineComponent.h"
 #include "../Component/GraphicsComponent.h"
@@ -71,6 +72,8 @@ void GameStateManager::Exit()
 		preState_->Exit();
 		delete preState_;
 	}
+
+	ResourceManager::GetInstance().UnloadAll(true);
 }
 
 void GameStateManager::ChangeState(State* newState)

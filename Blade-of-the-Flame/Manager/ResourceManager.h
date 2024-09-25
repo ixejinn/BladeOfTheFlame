@@ -48,6 +48,8 @@ public:
 	// @param persistent	If true, unload all resources.
 	//						If false, unload only resources that are not marked as persistent.
 	void UnloadAll(bool persistent);
+
+	int ResourceSize();
 };
 
 #include "ResourceManager.inl"

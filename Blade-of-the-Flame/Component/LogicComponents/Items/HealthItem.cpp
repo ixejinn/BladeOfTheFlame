@@ -1,8 +1,8 @@
 #include "HealthItem.h"
 
-#include "../../Event/Event.h"
-#include "../../Manager/GameObjectManager.h"
-#include "../../Manager/ItemManager.h"
+#include "../../../Event/Event.h"
+#include "../../../Manager/GameObjectManager.h"
+#include "../../../Manager/ItemManager.h"
 
 HealthItem::HealthItem(GameObject* owner) : BaseItem(owner)
 {
@@ -29,16 +29,8 @@ void HealthItem::Update()
 		owner_->active_ = false;
 		ItemManager::GetInstance().Release(owner_);
 	}
-	else
-	{
-		AEVec2 playerPos = playerTrans_->GetPosition();
-		AEVec2 pos = trans_->GetPosition();
-		AEVec2 dir = playerPos - pos;
-		f32 squareDist = AEVec2SquareLength(&dir);
-
-		if (squareDist > 9 * windowHeight * windowHeight)
-			ItemManager::GetInstance().Release(owner_);
-	}
+	else if (DeactiveIfFar())
+		ItemManager::GetInstance().Release(owner_);
 }
 
 void HealthItem::LoadFromJson(const json&)
@@ -54,12 +46,12 @@ void HealthItem::OnEvent(BaseEvent* event)
 {
 }
 
-void HealthItem::OnCollision(CollisionEvent* event)
-{
-	Player* player = event->from_->GetComponent<Player>();
-	if (player)
-		use_ = true;
-}
+//void HealthItem::OnCollision(CollisionEvent* event)
+//{
+//	Player* player = event->from_->GetComponent<Player>();
+//	if (player)
+//		use_ = true;
+//}
 
 ComponentSerializer* HealthItem::CreateComponent(GameObject* owner)
 {

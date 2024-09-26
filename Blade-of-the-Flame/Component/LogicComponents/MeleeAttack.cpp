@@ -17,14 +17,7 @@ MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 	mode = set;
 	/* SET COMPONENTS */
 	owner_->AddComponent<BoxCollider>();
-	owner_->AddComponent<Sprite>();
-	owner->AddComponent<AnimationComp>();
-	for (int i = 1; i < 5; i++)
-	{
-		owner->GetComponent<AnimationComp>()->AddDetail("Assets/meleeAnime/" + std::to_string(i) + ".png", "Attack");
-	}
-	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
-	owner->GetComponent<AnimationComp>()->SetTerm(100);
+
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::P_ATTACK);

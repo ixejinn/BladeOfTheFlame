@@ -2,6 +2,8 @@
 #include <stack>
 #include "GameObjectManager.h"
 
+class ExpItem;
+
 class ExpItemManager
 {
 private:

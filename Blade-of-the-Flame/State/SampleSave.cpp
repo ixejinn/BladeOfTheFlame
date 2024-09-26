@@ -9,6 +9,8 @@
 #include "../Manager/ParticleSystem.h"
 #include "../Manager/EnvironmentManager.h"
 
+#include "../Component/LogicComponents/Monsters/NormalMonster.h"
+
 namespace Manager
 {
 	extern GameObjectManager& objMgr;
@@ -43,8 +45,8 @@ void SampleSave::Init()
 	boss->AddComponent<Boss1>();
 
 	/* SAMPLE MONSTERS */
-	//GameObject* skeleton = Manager::objMgr.CreateObject("skeleton");
-	//skeleton->AddComponent<Skeleton>();
+	//GameObject* skeleton = Manager::objMgr.CreateObject("normal");
+	//skeleton->AddComponent<NormalMonster>();
 	//skeleton->GetComponent<Transform>()->SetPosition({ 100, 100 });
 
 	/* SPAWN MANAGERS */

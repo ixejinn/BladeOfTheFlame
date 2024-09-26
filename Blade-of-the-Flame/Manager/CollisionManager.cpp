@@ -137,6 +137,12 @@ bool CollisionManager::CheckOBBOBB(BoxCollider* colA, BoxCollider* colB)
 		return true;
 }
 
+void CollisionManager::SetCollisionEvent(CollisionEvent* event, Collider* fromCol)
+{
+	event->from_ = fromCol->owner_;
+	event->fromType_ = fromCol->type_;
+}
+
 void CollisionManager::AddCollider(Collider* col)
 {
 	colliders_.push_back(col);
@@ -165,20 +171,18 @@ void CollisionManager::CheckAllCollision()
 		if (pair.second->collisionHandler_)
 		{
 			CollisionEvent* event1to2 = new CollisionEvent();
-			event1to2->from_ = pair.first->owner_;
-			event1to2->fromType_ = pair.first->type_;
-			pair.second->CallHandler(event1to2);
+			SetCollisionEvent(event1to2, pair.first);
 
+			pair.second->CallHandler(event1to2);
 			delete event1to2;
 		}
 		
 		if (pair.first->collisionHandler_)
 		{
 			CollisionEvent* event2to1 = new CollisionEvent();
-			event2to1->from_ = pair.second->owner_;
-			event2to1->fromType_ = pair.second->type_;
-			pair.first->CallHandler(event2to1);
+			SetCollisionEvent(event2to1, pair.second);
 
+			pair.first->CallHandler(event2to1);
 			delete event2to1;
 		}
 		

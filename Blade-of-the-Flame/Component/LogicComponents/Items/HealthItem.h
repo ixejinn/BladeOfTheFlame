@@ -1,16 +1,15 @@
 #pragma once
 #include "BaseItem.h"
-#include "../../Manager/ComponentManager.h"
+#include "../../../Manager/ComponentManager.h"
 
-class MagnetItem : public BaseItem
+class HealthItem : public BaseItem
 {
 private:
-	float preRadius_ = 0.f;
-	float radiusMultiple_ = 5.f;
+	float hp_ = 0.2f;
 
-	CircleCollider* playerCircle_;
+	Player* player_ = nullptr;
 
-	MagnetItem(GameObject* owner);
+	HealthItem(GameObject* owner);
 
 public:
 	void Update() override;
@@ -19,10 +18,10 @@ public:
 	json SaveToJson() override;
 
 	void OnEvent(BaseEvent* event);
-	void OnCollision(CollisionEvent* event);
+	//void OnCollision(CollisionEvent* event);
 
 	// for StateSerializer
-	static constexpr const char* TypeName = "MagnetItem";
+	static constexpr const char* TypeName = "HealthItem";
 	static ComponentSerializer* CreateComponent(GameObject* owner);
 
 	friend class ComponentManager<LogicComponent>;

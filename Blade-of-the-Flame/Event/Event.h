@@ -1,5 +1,6 @@
 #pragma once
 #include "../GameObject/GameObject.h"
+#include "../Component/LogicComponents/Monsters/BaseMonster.h"
 
 // BaseEvent
 struct BaseEvent
@@ -12,6 +13,13 @@ struct BaseEvent
 struct CollisionEvent : public BaseEvent
 {
 	Collider::ColliderType fromType_;
+	
+	// Monster -> Player
+	BaseMonster* monster = nullptr;
+	BaseAttack* mtop = nullptr;
+
+	// Player -> Monster
+	BaseAttack* ptom = nullptr;
 };
 
 struct CompassActiveEvent : public BaseEvent {};

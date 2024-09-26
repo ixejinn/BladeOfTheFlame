@@ -1,5 +1,5 @@
 #include "ExpItemManager.h"
-#include "../Component/LogicComponents/ExpItem.h"
+#include "../Component/LogicComponents/Items/ExpItem.h"
 
 void ExpItemManager::Initialize(int maxNum)
 {

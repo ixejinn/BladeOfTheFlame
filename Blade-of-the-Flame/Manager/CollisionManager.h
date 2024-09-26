@@ -28,6 +28,8 @@ private:
 	bool CheckAABBAABB(Collider* colA, Collider* colB);
 	bool CheckOBBOBB(BoxCollider* colA, BoxCollider* colB);
 
+	void SetCollisionEvent(CollisionEvent* event, Collider* fromCol);
+
 	CollisionManager() = default;
 	~CollisionManager() = default;
 

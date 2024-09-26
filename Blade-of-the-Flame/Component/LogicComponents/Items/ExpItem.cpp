@@ -1,8 +1,8 @@
 #include "ExpItem.h"
 
-#include "../../Event/Event.h"
-#include "../../Manager/GameObjectManager.h"
-#include "../../Manager/ExpItemManager.h"
+#include "../../../Event/Event.h"
+#include "../../../Manager/GameObjectManager.h"
+#include "../../../Manager/ExpItemManager.h"
 
 ExpItem::ExpItem(GameObject* owner) : BaseItem(owner)
 {
@@ -17,12 +17,7 @@ ExpItem::ExpItem(GameObject* owner) : BaseItem(owner)
 
 void ExpItem::Update()
 {
-	AEVec2 playerPos = playerTrans_->GetPosition();
-	AEVec2 pos = trans_->GetPosition();
-	AEVec2 dir = playerPos - pos;
-	f32 squareDist = AEVec2SquareLength(&dir);
-
-	if (squareDist > 9 * windowHeight * windowHeight)
+	if (DeactiveIfFar())
 		ExpItemManager::GetInstance().Release(owner_);
 }
 

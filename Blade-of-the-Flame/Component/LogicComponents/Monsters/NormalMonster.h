@@ -3,12 +3,12 @@
 
 #include "../../../Manager/ComponentManager.h"
 
-class Skeleton : public BaseMonster
+class NormalMonster : public BaseMonster
 {
 private:
 	void SetAnimation() override;
 
-	Skeleton(GameObject* owner);
+	NormalMonster(GameObject* owner);
 
 public:
 	void Update() override;

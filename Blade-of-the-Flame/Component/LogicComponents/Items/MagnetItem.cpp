@@ -1,8 +1,8 @@
 #include "MagnetItem.h"
 
-#include "../../Event/Event.h"
-#include "../../Manager/GameObjectManager.h"
-#include "../../Manager/ItemManager.h"
+#include "../../../Event/Event.h"
+#include "../../../Manager/GameObjectManager.h"
+#include "../../../Manager/ItemManager.h"
 
 MagnetItem::MagnetItem(GameObject* owner) : BaseItem(owner)
 {
@@ -39,7 +39,7 @@ void MagnetItem::Update()
 			pos.y += 50;
 			trans_->SetPosition(pos);
 		}
-		
+
 		std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
 		if (dt.count() >= activeTime)
 		{
@@ -52,16 +52,8 @@ void MagnetItem::Update()
 			ItemManager::GetInstance().Release(owner_);
 		}
 	}
-	else
-	{
-		AEVec2 playerPos = playerTrans_->GetPosition();
-		AEVec2 pos = trans_->GetPosition();
-		AEVec2 dir = playerPos - pos;
-		f32 squareDist = AEVec2SquareLength(&dir);
-
-		if (squareDist > 9 * windowHeight * windowHeight)
-			ItemManager::GetInstance().Release(owner_);
-	}
+	else if (DeactiveIfFar())
+		ItemManager::GetInstance().Release(owner_);
 }
 
 void MagnetItem::LoadFromJson(const json&)
@@ -77,12 +69,12 @@ void MagnetItem::OnEvent(BaseEvent* event)
 {
 }
 
-void MagnetItem::OnCollision(CollisionEvent* event)
-{
-	Player* player = event->from_->GetComponent<Player>();
-	if (player)
-		use_ = true;
-}
+//void MagnetItem::OnCollision(CollisionEvent* event)
+//{
+//	Player* player = event->from_->GetComponent<Player>();
+//	if (player)
+//		use_ = true;
+//}
 
 ComponentSerializer* MagnetItem::CreateComponent(GameObject* owner)
 {

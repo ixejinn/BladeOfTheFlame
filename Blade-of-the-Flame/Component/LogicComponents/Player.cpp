@@ -28,6 +28,8 @@ int Player::count = 0;
 #include "../LogicComponents/Skills/bubble.h"
 #include "../../Manager/Camera.h"
 
+#include "Monsters/BaseMonster.h"
+
 void Player::SetAnimation()
 {
 	ani_->AddAnimation("Idle");
@@ -355,6 +357,11 @@ void Player::OnEvent(BaseEvent* event)
 
 void Player::OnCollision(CollisionEvent* event)
 {
+	//if (event->fromLayer_ == Collider::E_BODY)
+	//{
+
+	//}
+
 	FlameAltar* altar = event->from_->GetComponent<FlameAltar>();
 	if (altar)
 	{

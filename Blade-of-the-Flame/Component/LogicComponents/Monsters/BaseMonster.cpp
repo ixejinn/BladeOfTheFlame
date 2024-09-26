@@ -4,7 +4,7 @@
 #include "../../../Manager/ComponentManager.h"
 #include "../../../Manager/GameObjectManager.h"
 #include "../../../Event/Event.h"
-#include "../Skills/Shield.h"
+#include "../Skills/shield.h"
 
 namespace Manager
 {

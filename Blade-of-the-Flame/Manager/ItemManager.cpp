@@ -1,7 +1,7 @@
 #include "ItemManager.h"
 
-#include "../Component/LogicComponents/MagnetItem.h"
-#include "../Component/LogicComponents/HealthItem.h"
+#include "../Component/LogicComponents/Items/MagnetItem.h"
+#include "../Component/LogicComponents/Items/HealthItem.h"
 
 ItemManager::ItemManager() : SpawnManager()
 {

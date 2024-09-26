@@ -1,6 +1,6 @@
 #pragma once
 #include "BaseItem.h"
-#include "../../Manager/ComponentManager.h"
+#include "../../../Manager/ComponentManager.h"
 
 class ExpItem : public BaseItem
 {

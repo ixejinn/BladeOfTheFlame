@@ -10,6 +10,7 @@
 #include "../../Utils/Utils.h"
 #include "../AnimationComp.h"
 #include "../LogicComponents/Skills/shield.h"
+#include "../LogicComponents/Items/ExpItem.h"
 
 
 void Monster::SetAnimation()

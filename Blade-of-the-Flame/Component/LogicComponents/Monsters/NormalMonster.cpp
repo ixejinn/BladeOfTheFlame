@@ -1,7 +1,8 @@
-#include "Skeleton.h"
+#include "NormalMonster.h"
 
 #include <iomanip>	// std::setw, std::setfill
 #include <sstream>	// std::stringstream
+#include "../Items/ExpItem.h"
 #include "../../../GameObject/GameObject.h"
 #include "../../../Manager/ExpItemManager.h"
 #include "../../../Manager/MonsterManager.h"
@@ -12,7 +13,7 @@ namespace Manager
 	extern MonsterManager& monMgr;
 }
 
-Skeleton::Skeleton(GameObject* owner) : BaseMonster(owner)
+NormalMonster::NormalMonster(GameObject* owner) : BaseMonster(owner)
 {
 	maxHp_ = hp_ = 20;
 	exp_ = 5;
@@ -33,7 +34,7 @@ Skeleton::Skeleton(GameObject* owner) : BaseMonster(owner)
 	SetAnimation();
 }
 
-void Skeleton::Update()
+void NormalMonster::Update()
 {
 	AEVec2 playerPos = playerTrans_->GetPosition();
 	AEVec2 pos = trans_->GetPosition();
@@ -83,7 +84,7 @@ void Skeleton::Update()
 	state_ = MOVE;
 }
 
-void Skeleton::SetAnimation()
+void NormalMonster::SetAnimation()
 {
 	ani_->AddAnimation("Walk");
 	for (int i = 0; i <= 12; i++)

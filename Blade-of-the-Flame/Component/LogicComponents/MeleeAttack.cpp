@@ -50,10 +50,16 @@ void MeleeAttack::Update()
 		AEVec2 playerPos = player_->GetComponent<Transform>()->GetPosition();
 		Transform* trans = owner_->GetComponent<Transform>();
 
-		if (!AEInputCheckCurr(AEVK_LBUTTON))
+		if (AEInputCheckCurr(AEVK_LBUTTON))
 		{
 			trans->SetPosition(playerPos + attackDir / 2);
 			trans->SetRotation(unitDir);
+
+			if (unitDir.x >= 0)
+				dir_ = RIGHT;
+			else
+				dir_ = LEFT;
+
 			dmg_ = tempdmg;
 			mode = fire;
 		}

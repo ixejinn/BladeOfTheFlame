@@ -60,6 +60,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 {
 	level_ = 1;
 	SkillGage = 90;
+
 	/* Set Player component */
 	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<BoxCollider>();
@@ -91,11 +92,12 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	audio_->SetLoop(false);
 	audio_->SetPlaying(false);
 
-	owner_->GetComponent<Sprite>()->SetLocalPos(0.15f, 0.f);
+	sp_ = owner_->GetComponent<Sprite>();
+	sp_->SetLocalPos(0.15f, 0.f);
+
 	ani_ = owner_->GetComponent<AnimationComp>();
 	SetAnimation();
 
-	sp_ = owner_->GetComponent<Sprite>();
 	ParticleSystem::getPtr()->SetParticle(50, { 10, 10 }, 1500);
 
 	/* BASIC ATTACK GameObject */
@@ -131,14 +133,8 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
-	std::cout << "스킬 게이지 : " << SkillGage << std::endl;
 	/* CHECK */
-	// Level up
-	if (exp_ >= maxExp_)
-		LevelUp();
-
 	// Death
-	static int preHp = hp_;
 	if (hp_ <= 0)
 	{
 		owner_->active_ = false;
@@ -148,12 +144,21 @@ void Player::Update()
 		return;
 	}
 
+	// Level up
+	if (exp_ >= maxExp_)
+		LevelUp();
+
 	// MOUSE BUTTON & State
 	static State preState = IDLE;
+	static int preHp = hp_;
+
 	State curState = IDLE;
 	Direction curDir = dir_;
 	if (AEInputCheckCurr(AEVK_LBUTTON))
+	{
 		curState = ATTACK;
+		curDir = melee_Attack->GetComponent<MeleeAttack>()->GetDirection();
+	}
 	else if (hp_ < preHp)
 	{
 		curState = HURT;
@@ -299,6 +304,7 @@ void Player::Update()
 	}
 
 	/* SET ANIMATION */
+	std::cout << dir_ << " " << curDir << std::endl;
 	if (dir_ != curDir && (curDir == LEFT || curDir == RIGHT))
 	{
 		trans_->SetFlip();

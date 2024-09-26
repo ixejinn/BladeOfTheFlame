@@ -43,12 +43,12 @@ void SampleSave::Init()
 	boss->AddComponent<Boss1>();
 
 	/* SAMPLE MONSTERS */
-	GameObject* skeleton = Manager::objMgr.CreateObject("skeleton");
-	skeleton->AddComponent<Skeleton>();
-	skeleton->GetComponent<Transform>()->SetPosition({ 100, 100 });
+	//GameObject* skeleton = Manager::objMgr.CreateObject("skeleton");
+	//skeleton->AddComponent<Skeleton>();
+	//skeleton->GetComponent<Transform>()->SetPosition({ 100, 100 });
 
 	/* SPAWN MANAGERS */
-	//MonsterManager::GetInstance().Initialize(230);
+	MonsterManager::GetInstance().Initialize(230);
 	ExpItemManager::GetInstance().Initialize(230);
 	ItemManager::GetInstance().Initialize(20);
 
@@ -88,7 +88,7 @@ void SampleSave::Update()
 	EnvironmentManager::GetInstance().Update();
 #endif
 
-	//MonsterManager::GetInstance().Spawn();
+	MonsterManager::GetInstance().Spawn();
 	ItemManager::GetInstance().Spawn();
 }
 

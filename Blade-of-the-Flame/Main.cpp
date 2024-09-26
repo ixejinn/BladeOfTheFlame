@@ -53,13 +53,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
-	GameState* gameState = new GameState();
-	//SampleSave* sampleSave = new SampleSave();
+	//GameState* gameState = new GameState();
+	SampleSave* sampleSave = new SampleSave();
 	//MainMenu* mainMenu = new MainMenu();
 	//OpeningLogos* opening = new OpeningLogos();
 	//BossSampleSave bossSample;
 
-	Manager::gsMgr.ChangeState(gameState);
+	Manager::gsMgr.ChangeState(sampleSave);
 
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)

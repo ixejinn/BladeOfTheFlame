@@ -60,7 +60,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 4;
+	level_ = 10;
 	SkillGage = 90;
 
 	/* Set Player component */

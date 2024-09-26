@@ -51,10 +51,11 @@ void SampleSave::Init()
 
 	/* SPAWN MANAGERS */
 	MonsterManager::GetInstance().Initialize(230);
-	ExpItemManager::GetInstance().Initialize(230);
+	ExpItemManager::GetInstance().Initialize(500);
 	ItemManager::GetInstance().Initialize(20);
 
 	MonsterManager::GetInstance().SetMaxActiveNum(20);
+
 #ifndef _DEBUG
 	/* SCREEN OVERLAY EFFECT */
 	GameObject* effect = Manager::objMgr.CreateObject("ScreenEffect");

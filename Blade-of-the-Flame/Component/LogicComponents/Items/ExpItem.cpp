@@ -41,26 +41,26 @@ void ExpItem::OnCollision(CollisionEvent* event)
 	{
 		switch (event->fromType_)
 		{
-		case Collider::CIRCLE_TYPE:
-		{
-			AEVec2 playerPos = playerTrans_->GetPosition();
-			AEVec2 pos = trans_->GetPosition();
-			AEVec2 moveDir = playerPos - pos, unitMoveDir;
-			AEVec2Normalize(&unitMoveDir, &moveDir);
-			rb_->AddVelocity(unitMoveDir * attractionSpeed_);
+		//case Collider::CIRCLE_TYPE:
+		//{
+		//	AEVec2 playerPos = playerTrans_->GetPosition();
+		//	AEVec2 pos = trans_->GetPosition();
+		//	AEVec2 moveDir = playerPos - pos, unitMoveDir;
+		//	AEVec2Normalize(&unitMoveDir, &moveDir);
+		//	rb_->AddVelocity(unitMoveDir * attractionSpeed_);
 
-			break;
-		}
+		//	break;
+		//}
 
-		case Collider::AABB_TYPE:
-		{
-			player->AddExp(exp_);
-			owner_->active_ = false;
+		//case Collider::AABB_TYPE:
+		//{
+		//	player->AddExp(exp_);
+		//	owner_->active_ = false;
 
-			ExpItemManager::GetInstance().Release(owner_);
+		//	ExpItemManager::GetInstance().Release(owner_);
 
-			break;
-		}
+		//	break;
+		//}
 		}
 	}
 }

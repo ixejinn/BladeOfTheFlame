@@ -21,7 +21,7 @@ public:
 		OBB_TYPE
 	};
 
-	// LAYER_NUM(line: 8)과 개수 맞춰야 함
+	// LAYER_NUM(line: 10)과 개수 맞춰야 함
 	enum CollisionLayer
 	{
 		P_AABB,

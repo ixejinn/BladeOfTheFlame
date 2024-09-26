@@ -55,12 +55,12 @@ inline void ComponentManager<T>::SwapComponent(T* const compA, T* const compB)
 
 	for (auto it = components_.begin(); it != components_.end(); ++it)
 	{
-		if (it->get() == compA)
+		if (!bA && it->get() == compA)
 		{
 			itA = it;
 			bA = true;
 		}
-		else if (it->get() == compB)
+		else if (!bB && it->get() == compB)
 		{
 			itB = it;
 			bB = true;
@@ -70,7 +70,8 @@ inline void ComponentManager<T>::SwapComponent(T* const compA, T* const compB)
 			break;
 	}
 
-	components_.splice(itA, components_, itB);
+	if (bA && bB)
+		components_.splice(itA, components_, itB);
 }
 
 template<typename T>

@@ -5,6 +5,8 @@
 #include "../Manager/CollisionManager.h"
 #include "../Manager/Camera.h"
 
+#include "LogicComponents/Items/ExpItem.h"
+
 Collider::Collider(GameObject* owner)
 	: EngineComponent(owner), layer_(), collisionHandler_(nullptr), vertices_(), bottomLeft_(), topRight_(), mesh_(), color_()
 {

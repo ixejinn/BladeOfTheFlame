@@ -47,7 +47,7 @@ void SampleSave::Init()
 	/* SAMPLE MONSTERS */
 	//GameObject* skeleton = Manager::objMgr.CreateObject("normal");
 	//skeleton->AddComponent<NormalMonster>();
-	//skeleton->GetComponent<Transform>()->SetPosition({ 100, 100 });
+	//skeleton->GetComponent<Transform>()->SetPosition({ 400, 400 });
 
 	/* SPAWN MANAGERS */
 	MonsterManager::GetInstance().Initialize(230);

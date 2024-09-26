@@ -165,7 +165,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Resource\TextureResource.cpp" />
     <ClCompile Include="Serializer\Registry.cpp" />
     <ClCompile Include="Serializer\StateSerializer.cpp" />
-    <ClCompile Include="State\SampleLoad.cpp" />
     <ClCompile Include="State\SampleSave.cpp" />
     <ClCompile Include="Utils\Utils.cpp" />
   </ItemGroup>
@@ -246,7 +245,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Serializer\ComponentSerializer.h" />
     <ClInclude Include="Serializer\Registry.h" />
     <ClInclude Include="Serializer\StateSerializer.h" />
-    <ClInclude Include="State\SampleLoad.h" />
     <ClInclude Include="State\State.h" />
     <ClInclude Include="State\SampleSave.h" />
     <ClInclude Include="Utils\RandomEngine.h" />

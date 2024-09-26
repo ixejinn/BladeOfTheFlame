@@ -8,6 +8,7 @@ BaseAttack::BaseAttack(GameObject* owner) : LogicComponent(owner)
 
 	player_ = GameObjectManager::GetInstance().GetObjectA("player");
 
+	owner_->attackPtr_ = this;
 }
 
 void BaseAttack::RemoveFromManager()

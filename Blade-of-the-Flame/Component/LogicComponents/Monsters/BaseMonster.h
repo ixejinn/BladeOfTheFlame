@@ -17,7 +17,8 @@ protected:
 	enum State
 	{
 		MOVE,
-		HURT
+		HURT,
+		DIE
 	};
 
 	State state_ = MOVE;
@@ -26,7 +27,6 @@ protected:
 	int maxHp_ = 0;
 
 	int exp_ = 0;
-
 	int dmg_ = 0;
 	float moveSpeed_ = 0.f;
 
@@ -37,17 +37,25 @@ protected:
 
 	Direction dir_ = RIGHT;
 
-	Transform* playerTrans_ = nullptr;
 	Transform* trans_ = nullptr;
 	RigidBody* rb_ = nullptr;
 	AnimationComp* ani_ = nullptr;
 	Sprite* sp_ = nullptr;
 
+	Transform* playerTrans_ = nullptr;
+
 	virtual void SetAnimation() = 0;
+
+	// -1: despawned, 0: alive, 1: dead
+	int CheckDeadState(const AEVec2& pos, const f32& squareDist);
+
+	void MoveToPlayer(AEVec2& moveDir);
 
 	BaseMonster(GameObject* owner);
 
 public:
+	void Update() override;
+
 	void RemoveFromManager() override;
 
 	void LoadFromJson(const json&) override;
@@ -57,8 +65,6 @@ public:
 	void OnCollision(CollisionEvent* event) override;
 
 	const int GetDmg() const { return dmg_; }
-
-	void HitMonster(int dmg) { hp_ -= dmg; }
 
 	// for StateSerializer
 	//static constexpr const char* TypeName = "Monster";

@@ -31,7 +31,6 @@ void Collider::RemoveFromManager()
 void Collider::Update()
 {
 	AEMtx33 transformMatrix = trans_->GetMatrix();
-	//AEMtx33Concat(&transformMatrix, &Camera::GetInstance().GetMatrix(), &transformMatrix);
 
 	if (type_ == CIRCLE_TYPE)
 	{

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <typeindex>
+#include "../Component/LogicComponents/Monsters/NormalMonster.h"
 #include "../Event/Event.h"
 #include "../Manager/EventManager.h"
 
@@ -25,7 +26,7 @@ void MonsterManager::Initialize(int maxNum)
 	for (int i = 0; i < maxNum; i++)
 	{
 		GameObject* obj = gom.CreateObject("monster" + std::to_string(i));
-		obj->AddComponent<Monster>();
+		obj->AddComponent<NormalMonster>();
 		obj->GetComponent<Transform>()->SetPosition(0.1f, 0.1f);
 		obj->active_ = false;
 		pool_.push(obj);

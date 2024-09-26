@@ -11,7 +11,6 @@ private:
 	NormalMonster(GameObject* owner);
 
 public:
-	void Update() override;
 
 	friend class ComponentManager<LogicComponent>;
 };

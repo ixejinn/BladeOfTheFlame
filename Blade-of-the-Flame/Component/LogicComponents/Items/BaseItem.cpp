@@ -1,7 +1,7 @@
 #include "BaseItem.h"
 
-#include "../../../Event/Event.h"
 #include "ExpItem.h"
+#include "../../../Event/Event.h"
 #include "../../../GameObject/GameObject.h"
 
 bool BaseItem::DeactiveIfFar()

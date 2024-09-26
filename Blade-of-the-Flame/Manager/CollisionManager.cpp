@@ -141,6 +141,21 @@ void CollisionManager::SetCollisionEvent(CollisionEvent* event, Collider* fromCo
 {
 	event->from_ = fromCol->owner_;
 	event->fromType_ = fromCol->type_;
+
+	Collider::CollisionLayer layerType = fromCol->layer_;
+	switch (layerType)
+	{
+	case Collider::P_ATTACK:
+		event->ptom = fromCol->owner_->attackPtr_;
+		break;
+
+	case Collider::E_BODY:
+		event->monster = fromCol->owner_->monsterPtr_;
+		break;
+
+	case Collider::E_ATTACK:
+		event->mtop = fromCol->owner_->attackPtr_;
+	}
 }
 
 void CollisionManager::AddCollider(Collider* col)

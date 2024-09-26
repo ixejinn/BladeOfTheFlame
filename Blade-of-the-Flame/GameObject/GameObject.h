@@ -5,6 +5,8 @@
 #include "AEVec2.h"
 
 class Component;
+class BaseMonster;
+class BaseAttack;
 
 /**
 * @brief	Transform ÄÄÆ÷³ÍÆ® ºÎÂø ÇÊ¼ö
@@ -22,6 +24,9 @@ private:
 
 public:
 	bool active_ = true;
+
+	BaseMonster* monsterPtr_ = nullptr;
+	BaseAttack* attackPtr_ = nullptr;
 
 	~GameObject();
 

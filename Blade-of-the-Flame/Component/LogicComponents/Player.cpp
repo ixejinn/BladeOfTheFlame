@@ -60,7 +60,7 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 1;
+	level_ = 4;
 	SkillGage = 90;
 
 	/* Set Player component */
@@ -357,11 +357,6 @@ void Player::OnEvent(BaseEvent* event)
 
 void Player::OnCollision(CollisionEvent* event)
 {
-	//if (event->fromLayer_ == Collider::E_BODY)
-	//{
-
-	//}
-
 	FlameAltar* altar = event->from_->GetComponent<FlameAltar>();
 	if (altar)
 	{

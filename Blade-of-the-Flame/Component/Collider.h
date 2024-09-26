@@ -7,7 +7,7 @@
 #include "../Utils/Utils.h"
 #include "../Event/EventEntity.h"
 
-#define LAYER_NUM 7
+#define LAYER_NUM 8
 
 class Transform;
 
@@ -30,7 +30,8 @@ public:
 		E_BODY,
 		E_ATTACK,
 		ITEM,
-		EXP_ITEM
+		EXP_ITEM,
+		SEARCH
 	};
 
 protected:

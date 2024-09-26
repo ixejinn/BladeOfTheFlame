@@ -18,6 +18,7 @@ class doubleFlameR : public BaseAttack, public EventEntity
 	AEVec2 dir;
 	~doubleFlameR();
 public:
+	void SetRange(float other) { range_ = other; }
 
 	void Update() override;
 

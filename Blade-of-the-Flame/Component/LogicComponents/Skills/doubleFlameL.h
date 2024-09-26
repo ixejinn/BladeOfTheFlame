@@ -19,6 +19,8 @@ class doubleFlameL : public BaseAttack, public EventEntity
 	~doubleFlameL();
 public:
 
+	void SetRange(float other) { range_ = other; }
+
 	void Update() override;
 
 	void On() override { owner_->active_ = true; }

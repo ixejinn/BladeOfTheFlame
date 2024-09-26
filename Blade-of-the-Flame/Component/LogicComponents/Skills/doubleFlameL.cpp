@@ -5,6 +5,7 @@
 
 doubleFlameL::doubleFlameL(GameObject* owner) : BaseAttack(owner)
 {
+	range_ = 80;
 	mode = set;
 	lifetime = 12000;
 	dmg_ = 10;
@@ -87,7 +88,7 @@ void doubleFlameL::Update()
 			// 공격 모드 설정
 			mode = fire;
 			dmg_ = tempdmg;
-			owner_->GetComponent<Transform>()->SetScale({ 80, 50 });
+			owner_->GetComponent<Transform>()->SetScale({ range_, range_*5/8 });
 		}
 	}
 

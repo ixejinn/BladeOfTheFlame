@@ -1,5 +1,29 @@
 #include "Utils.h"
+#include "../Manager/GameStateManager.h"
+#include "../Manager/ResourceManager.h"
+#include "../Manager/ComponentManager.h"
+#include "../Manager/EventManager.h"
 #include "../Manager/GameObjectManager.h"
+#include "../Manager/ExpItemManager.h"
+#include "../Manager/MonsterManager.h"
+
+namespace Manager
+{
+	ResourceManager& rscMgr = ResourceManager::GetInstance();
+
+	ComponentManager<EngineComponent>& compEngMgr = ComponentManager<EngineComponent>::GetInstance();
+	ComponentManager<AudioComponent>& compAudMgr = ComponentManager<AudioComponent>::GetInstance();
+	ComponentManager<GraphicsComponent>& compGfxMgr = ComponentManager<GraphicsComponent>::GetInstance();
+	ComponentManager<LogicComponent>& compLgcMgr = ComponentManager<LogicComponent>::GetInstance();
+
+	GameObjectManager& objMgr = GameObjectManager::GetInstance();
+	GameStateManager& gsMgr = GameStateManager::GetInstance();
+
+	EventManager& evntMgr = EventManager::GetInstance();
+
+	ExpItemManager& expMgr = ExpItemManager::GetInstance();
+	MonsterManager& monMgr = MonsterManager::GetInstance();
+}
 
 AEVec2 convert(AEVec2 a)
 {

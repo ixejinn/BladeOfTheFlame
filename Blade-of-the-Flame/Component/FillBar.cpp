@@ -64,12 +64,12 @@ void FillBar::RemoveFromManager()
 
 void FillBar::Update()
 {
-	//static bool compass = true;
-
 	// fill
 	int value = 0;
 	int maxValue = 1;
 	static int maxMonsterCnt = 50;
+	//static int maxMonsterCnt = 1;
+
 	switch (showType_)
 	{
 	case MONSTER_CNT:
@@ -104,13 +104,7 @@ void FillBar::Update()
 			
 		}
 		maxValue = maxMonsterCnt;
-		//if (compass && value >= maxValue)
-		//{
-		//	CompassActiveEvent* event = new CompassActiveEvent();
-		//	event->from_ = owner_;
-		//	Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
-		//	compass = false;
-		//}
+
 		break;
 	}
 
@@ -130,6 +124,11 @@ void FillBar::Update()
 	case BOSS_HP:
 		value = boss_->GetHp();
 		maxValue = boss_->GetMaxHp();
+		break;
+
+	case SKILL:
+		value = player_->SkillGage;
+		maxValue = player_->maxSkillGage;
 		break;
 	}
 
@@ -157,7 +156,7 @@ void FillBar::OnEvent(BaseEvent*)
 		background_->active_ = true;
 		fill_->active_ = true;
 	}
-	else if (showType_ != PLAYER_HP)
+	else if (showType_ != PLAYER_HP && showType_ != SKILL)
 	{
 		owner_->active_ = false;
 		background_->active_ = false;
@@ -199,18 +198,21 @@ void FillBar::SetShowType(ShowType type)
 		break;
 
 	case PLAYER_HP:
-	{
-		AEVec2 playerScale = Manager::objMgr.GetObjectA("player")->GetComponent<Transform>()->GetScale();
 		relativePos_ = { 0, 40 };
 		scale_ = { 51, 3 };
 		fillColor_ = { 255, 0, 0 };
 		break;
-	}
 
 	case BOSS_HP:
 		relativePos_ = { 0, windowHeight / 2 - 25 };
 		scale_ = { windowWidth / 3, 30 };
 		fillColor_ = { 255, 0, 0 };
+		break;
+
+	case SKILL:
+		relativePos_ = { 0, 35 };
+		scale_ = { 51, 3 };
+		fillColor_ = { 255, 255, 0 };
 		break;
 	}
 	backTrans_->SetScale(scale_);

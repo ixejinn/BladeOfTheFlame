@@ -1,7 +1,7 @@
 #include "boomerang.h"
 
-#include "../../Event/Event.h"
-#include "../../Manager/EventManager.h"
+#include "../../../Event/Event.h"
+#include "../../../Manager/EventManager.h"
 #include "../Monster.h"
 
 

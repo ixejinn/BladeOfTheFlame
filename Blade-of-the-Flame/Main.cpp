@@ -6,10 +6,6 @@
 
 #include "Utils/Utils.h"
 #include "Manager/GameStateManager.h"
-#include "Manager/ResourceManager.h"
-#include "Manager/ComponentManager.h"
-#include "Manager/EventManager.h"
-#include "Manager/GameObjectManager.h"
 #include "State/GameState.h"
 #include "State/SampleSave.h"
 #include "State/MainMenu.h"
@@ -19,17 +15,7 @@
 
 namespace Manager
 {
-	ResourceManager& rscMgr = ResourceManager::GetInstance();
-
-	ComponentManager<EngineComponent>& compEngMgr = ComponentManager<EngineComponent>::GetInstance();
-	ComponentManager<AudioComponent>& compAudMgr = ComponentManager<AudioComponent>::GetInstance();
-	ComponentManager<GraphicsComponent>& compGfxMgr = ComponentManager<GraphicsComponent>::GetInstance();
-	ComponentManager<LogicComponent>& compLgcMgr = ComponentManager<LogicComponent>::GetInstance();
-
-	GameObjectManager& objMgr = GameObjectManager::GetInstance();
-	GameStateManager& gsMgr = GameStateManager::GetInstance();
-
-	EventManager& evntMgr = EventManager::GetInstance();
+	extern GameStateManager& gsMgr;
 }
 
 // ---------------------------------------------------------------------------
@@ -76,6 +62,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)
 	{
+		AEFrameRateControllerReset();
+
 		// Informing the system about the loop's start
 		AESysFrameStart();
 
@@ -93,5 +81,4 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	// free the system
 	AESysExit();
-
 }

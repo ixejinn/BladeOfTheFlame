@@ -74,7 +74,8 @@ public:
 	bool getCompass_ = false;
 	bool findAltar_ = false;
 
-	float SkillGage = 0;
+	int SkillGage = 0;
+	int maxSkillGage = 150;
 
 	void RemoveFromManager() override;
 

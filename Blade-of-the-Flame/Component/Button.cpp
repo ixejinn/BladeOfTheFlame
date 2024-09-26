@@ -35,15 +35,16 @@ void Button::Update()
 	AEVec2 input{ x - 800.f, 450.f - y };
 	AEVec2 halfScl{ scl_.x / 2, scl_.y / 2 };
 
-	// Check if button is pressed
-	if (AEInputCheckCurr(AEVK_LBUTTON) &&
-		input.x >= pos_.x - halfScl.x && input.x <= pos_.x + halfScl.x &&
+	if (input.x >= pos_.x - halfScl.x && input.x <= pos_.x + halfScl.x &&
 		input.y >= pos_.y - halfScl.y && input.y <= pos_.y + halfScl.y)
 	{
 		sp_->SetColor({ 150, 150, 150 });
 
-		clicked = true;
+		if (AEInputCheckCurr(AEVK_LBUTTON))
+			clicked = true;
 	}
+	else
+		sp_->SetColor({ 0, 0, 0 });
 }
 
 void Button::LoadFromJson(const json&)

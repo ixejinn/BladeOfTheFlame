@@ -1,6 +1,6 @@
 #include "Meteor.h"
-#include "../../Event/Event.h"
-#include "../../Manager/EventManager.h"
+#include "../../../Event/Event.h"
+#include "../../../Manager/EventManager.h"
 #include "../../AnimationComp.h"
 #include "MeteorExplosion.h"
 #include <iostream>

@@ -14,12 +14,16 @@ void OpeningLogos::Init()
 {
 	digiLogo = Manager::objMgr.CreateObject("digiLogo");
 	digiLogo->AddComponent<Transform>();
-	digiLogo->GetComponent<Transform>()->SetScale({ 762.5, 222.5 });
+	//digiLogo->GetComponent<Transform>()->SetScale({ 505, 122 });
+	digiLogo->GetComponent<Transform>()->SetScale({ 1500, 362 });
+	// 
+	//digiLogo->GetComponent<Transform>()->SetScale({ 2101 / 2.f, 506 / 2.f });
 	digiLogo->AddComponent<AnimationComp>();
-	digiLogo->GetComponent<Sprite>()->SetTexture("Assets/Logo/DigiPen_Singapore_WEB_BLACK.png");
+	digiLogo->GetComponent<Sprite>()->SetTexture("Assets/Logo/DigiPen_RGB_Red.jpg");
 	digiAni = digiLogo->GetComponent<AnimationComp>();
 	digiAni->SetType(AnimationComp::APPEAR);
-	digiAni->SetTerm(50);
+	digiAni->SetTerm(60);
+	//digiAni->SetTerm(100);
 
 	teamLogo = Manager::objMgr.CreateObject("teamLogo");
 	teamLogo->AddComponent<Transform>();
@@ -28,7 +32,7 @@ void OpeningLogos::Init()
 	teamLogo->GetComponent<Sprite>()->SetTexture("Assets/Logo/TeamLogo.png");
 	teamAni = teamLogo->GetComponent<AnimationComp>();
 	teamAni->SetType(AnimationComp::APPEAR);
-	teamAni->SetTerm(50);
+	teamAni->SetTerm(60);
 	teamLogo->active_ = false;
 }
 
@@ -56,9 +60,9 @@ void OpeningLogos::Update()
 			double dt = AEFrameRateControllerGetFrameRate();
 			elapsedTime += dt;
 
-			if (elapsedTime >= 4500)
+			if (elapsedTime >= 2200)
 				teamAni->SetType(AnimationComp::DISAPPEAR);
-			else if (elapsedTime >= 2500)
+			else if (elapsedTime >= 1000)
 				AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 		}
 		else if (teamAniType == AnimationComp::DISAPPEAR && teamAni->CurrentAnimationOver())

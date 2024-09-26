@@ -4,14 +4,14 @@
 class BaseAttack : public LogicComponent
 {
 protected:
-	GameObject* player_ = nullptr;
-
 	int dmg_ = 0;
+	float dmgGrowthRate_ = 0.f;
+
 	float range_ = 0.f;
 
 	double cooldown_ = 0.0;
-
-	float dmgGrowthRate_ = 0.f;
+	
+	GameObject* player_ = nullptr;
 
 	BaseAttack(GameObject* owner);
 

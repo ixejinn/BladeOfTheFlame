@@ -20,7 +20,7 @@ public:
 
 	int mode;
 
-	float Getlifetime() { return lifetime; }
+	float Getlifetime() const { return lifetime; }
 
 	void Update() override;
 

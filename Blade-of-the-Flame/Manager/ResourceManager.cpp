@@ -48,3 +48,8 @@ void ResourceManager::UnloadAll(bool persistent)
 		//Iterate
 	}
 }
+
+int ResourceManager::ResourceSize()
+{
+	return resources_.size();
+}

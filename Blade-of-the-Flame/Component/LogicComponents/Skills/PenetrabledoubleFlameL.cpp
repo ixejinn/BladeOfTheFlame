@@ -1,6 +1,6 @@
 #include "PenetrabledoubleFlameL.h"
-#include "../../Utils/Utils.h"
-#include "../../Event/Event.h"
+#include "../../../Utils/Utils.h"
+#include "../../../Event/Event.h"
 #include "../Monster.h"
 
 PenetrableDoubleFlameL::PenetrableDoubleFlameL(GameObject* owner) : BaseAttack(owner)

@@ -7,10 +7,12 @@
 MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 {
 	dmg_ = 2;
+	dmgGrowthRate_ = 50.f;
+
 	range_ = 100.f;
+
 	tempdmg = dmg_;
 	cooldown_ = 2000;
-	dmgGrowthRate_ = 50.f;
 	lifetime = 0;
 	mode = set;
 	/* SET COMPONENTS */
@@ -22,7 +24,7 @@ MeleeAttack::MeleeAttack(GameObject* owner) : BaseAttack(owner)
 		owner->GetComponent<AnimationComp>()->AddDetail("Assets/meleeAnime/" + std::to_string(i) + ".png", "Attack");
 	}
 	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
-	owner->GetComponent<AnimationComp>()->SetTerm(300);
+	owner->GetComponent<AnimationComp>()->SetTerm(100);
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetType(Collider::OBB_TYPE);
 	col->SetLayer(Collider::P_ATTACK);
@@ -89,6 +91,7 @@ json MeleeAttack::SaveToJson()
 
 void MeleeAttack::LevelUp()
 {
+	//dmg_ += int(dmg_ * dmgGrowthRate_ / 100);
 	tempdmg += int(tempdmg * dmgGrowthRate_ / 100);
 }
 

@@ -48,10 +48,11 @@ void GameState::Init()
 	ItemManager::GetInstance().Initialize(20);
 
 	MonsterManager::GetInstance().SetMaxActiveNum(20);
-
+#ifndef _DEBUG
 	/* SCREEN OVERLAY EFFECT */
 	GameObject* effect = Manager::objMgr.CreateObject("ScreenEffect");
 	effect->AddComponent<ScreenOverlay>();
+#endif
 
 	SetFillBar();
 }
@@ -87,16 +88,17 @@ void GameState::SetFillBar()
 
 	GameObject* monsterBar = Manager::objMgr.CreateObject("monsterBar");
 	monsterBar->AddComponent<FillBar>();
-	FillBar* monsterBarPtr = monsterBar->GetComponent<FillBar>();
-	monsterBarPtr->SetShowType(FillBar::MONSTER_CNT);
+	monsterBar->GetComponent<FillBar>()->SetShowType(FillBar::MONSTER_CNT);
 
 	GameObject* expBar = Manager::objMgr.CreateObject("expBar");
 	expBar->AddComponent<FillBar>();
-	FillBar* expBarPtr = expBar->GetComponent<FillBar>();
-	expBarPtr->SetShowType(FillBar::PLAYER_EXP);
+	expBar->GetComponent<FillBar>()->SetShowType(FillBar::PLAYER_EXP);
 
 	GameObject* healthBar = Manager::objMgr.CreateObject("healthBar");
 	healthBar->AddComponent<FillBar>();
-	FillBar* healthBarPtr = healthBar->GetComponent<FillBar>();
-	healthBarPtr->SetShowType(FillBar::PLAYER_HP);
+	healthBar->GetComponent<FillBar>()->SetShowType(FillBar::PLAYER_HP);
+
+	GameObject* skillBar = Manager::objMgr.CreateObject("skillBar");
+	skillBar->AddComponent<FillBar>();
+	skillBar->GetComponent<FillBar>()->SetShowType(FillBar::SKILL);
 }

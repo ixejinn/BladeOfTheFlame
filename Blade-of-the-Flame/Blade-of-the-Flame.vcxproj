@@ -108,6 +108,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\FillBar.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseItem.cpp" />
+    <ClCompile Include="Component\LogicComponents\Monsters\BaseMonster.cpp" />
     <ClCompile Include="Component\LogicComponents\Boss2.cpp" />
     <ClCompile Include="Component\LogicComponents\Compass.cpp" />
     <ClCompile Include="Component\LogicComponents\ExpItem.cpp" />
@@ -118,6 +119,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\MagnetItem.cpp" />
     <ClCompile Include="Component\LogicComponents\MeleeAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\Monster.cpp" />
+    <ClCompile Include="Component\LogicComponents\Monsters\Skeleton.cpp" />
     <ClCompile Include="Component\LogicComponents\Particle.cpp" />
     <ClCompile Include="Component\LogicComponents\Player.cpp" />
     <ClCompile Include="Component\LogicComponents\PlayerController.cpp" />
@@ -184,6 +186,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\FillBar.h" />
     <ClInclude Include="Component\LogicComponents\BaseAttack.h" />
     <ClInclude Include="Component\LogicComponents\BaseItem.h" />
+    <ClInclude Include="Component\LogicComponents\Monsters\BaseMonster.h" />
     <ClInclude Include="Component\LogicComponents\Boss2.h" />
     <ClInclude Include="Component\LogicComponents\Compass.h" />
     <ClInclude Include="Component\LogicComponents\ExpItem.h" />
@@ -195,6 +198,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\MagnetItem.h" />
     <ClInclude Include="Component\LogicComponents\MeleeAttack.h" />
     <ClInclude Include="Component\LogicComponents\Monster.h" />
+    <ClInclude Include="Component\LogicComponents\Monsters\Skeleton.h" />
     <ClInclude Include="Component\LogicComponents\Particle.h" />
     <ClInclude Include="Component\LogicComponents\Player.h" />
     <ClInclude Include="Component\LogicComponents\PlayerController.h" />

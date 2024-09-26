@@ -63,8 +63,8 @@ void Player::SetAnimation()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 4;
-	SkillGage = 99;
+	level_ = 1;
+	SkillGage = 0;
 	/* Set Player component */
 	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<BoxCollider>();
@@ -169,12 +169,8 @@ void Player::Update()
 	static State preState = IDLE;
 	State curState = IDLE;
 	Direction curDir = dir_;
-	bool lBtn = false;
 	if (AEInputCheckCurr(AEVK_LBUTTON))
-	{
-		lBtn = true;
 		curState = ATTACK;
-	}
 	else if (hp_ < preHp)
 	{
 		curState = HURT;
@@ -192,7 +188,7 @@ void Player::Update()
 	if (1 <= level_ && level_ < 4)
 	{
 		meleeCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= 100)
+		if (SkillGage >= maxSkillGage)
 		{
 			//쉴드스킬
 			curAttack_ = shield_Attack->GetComponent<Shield>();
@@ -213,9 +209,9 @@ void Player::Update()
 	else if (4 <= level_ && level_ < 7)
 	{
 		flameCool += AEFrameRateControllerGetFrameRate();
-		TimeRecall->active_ = true;
-		if (SkillGage >= 100)
+		if (SkillGage >= maxSkillGage)
 		{
+			TimeRecall->active_ = true;
 			////부메랑 스킬
 			//curAttack_ = boomerang_Attack->GetComponent<boomerang>();
 			//curAttack_->On();
@@ -273,7 +269,7 @@ void Player::Update()
 	{
 		TimeRecall->active_ = false;
 		doubleflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= 100)
+		if (SkillGage >= maxSkillGage)
 		{
 			// 파이어 버블
 			curAttack_ = nullptr;
@@ -311,7 +307,7 @@ void Player::Update()
 	else
 	{
 		pendoubleflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= 100)
+		if (SkillGage >= maxSkillGage)
 		{
 			//메테오
 			curAttack_ = meteor->GetComponent<Meteor>();
@@ -354,9 +350,12 @@ void Player::Update()
 	}
 
 	/* SET ANIMATION */
-	if (dir_ != curDir)
+	if (dir_ != curDir && (curDir == LEFT || curDir == RIGHT))
+	{
 		trans_->SetFlip();
-
+		dir_ = curDir;
+	}
+		
 	if (curState == ATTACK)
 	{
 		ani_->ChangeAnimation("Attack");
@@ -381,8 +380,6 @@ void Player::Update()
 	if (curState != HURT && preState != HURT)
 		sp_->SetColor({ 0, 0, 0 });
 
-	//std::cout << dir_ << " " << curDir << std::endl;
-	dir_ = curDir;
 	preState = curState;
 }
 
@@ -425,6 +422,9 @@ void Player::LevelUp()
 		return;
 
 	level_++;
+
+	if (level_ >= 4)
+		maxSkillGage = 100;
 
 	LevelUpEvent* event = new LevelUpEvent();
 	event->from_ = owner_;

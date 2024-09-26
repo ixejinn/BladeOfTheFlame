@@ -18,9 +18,13 @@ class BulletComp : public LogicComponent, public EventEntity
 	
 	bool check_ = true;
 
+
 	BulletComp(GameObject* ower);
 	
 public:
+	bool isCheck = false;
+	float time = 0.f;
+
 	AEVec2 unitDir;
 	bool phase2On = false;
 	bool returnBullet = false;
@@ -39,6 +43,8 @@ public:
 
 	void FireBullet();
 	void BarrageBullet(bool _bool);
+	void DownBullet();
+	void CurveBullet();
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "BulletComp";

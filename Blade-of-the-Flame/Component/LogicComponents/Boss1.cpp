@@ -23,6 +23,7 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
     trans_->SetPosition({ 400,400 });*/
 
     BoxCollider* col = owner_->GetComponent<BoxCollider>();
+
     col->SetLayer(Collider::E_BODY);
     col->SetHandler(static_cast<EventEntity*>(this));
 

@@ -1,6 +1,6 @@
 #include "Boss2.h"
-#include <typeindex>
 
+#include <typeindex>
 #include "../../Event/Event.h"
 #include "../../Utils/MathUtils.h"
 #include "../../Manager/GameObjectManager.h"
@@ -10,17 +10,27 @@
 #include "../../State/GameClear.h"
 #include "../../Component/AnimationComp.h"
 
-Boss2::Boss2(GameObject* owner):LogicComponent(owner)
+Boss2::Boss2(GameObject* owner) :LogicComponent(owner)
 {
+    hp_ = 0;
+    maxHp_ = 0;
+    moveSpeed_ = 5.f;
+    chaseSpeed_ = 0.f;
+    baseDmg_ = 0.f;
+    skillDmg_ = 0.f;
+    range_ = 0.f;
+    isAction = false;
+
     player = GameObjectManager::GetInstance().GetObjectA("player");
+
     owner_->AddComponent<BoxCollider>();
     owner_->AddComponent<Sprite>();
     owner_->AddComponent<AnimationComp>();
     scale = { 300, 300 };
 
-    owner_->GetComponent<Transform>()  ->SetScale   (scale);
-    owner_->GetComponent<Transform>()  ->SetPosition({ 400, 400 });
-    owner_->GetComponent<BoxCollider>()->SetScale   ({ 0.4f, 0.8f });
+    owner_->GetComponent<Transform>()->SetScale(scale);
+    owner_->GetComponent<Transform>()->SetPosition({ 400, 400 });
+    owner_->GetComponent<BoxCollider>()->SetScale({ 0.4f, 0.8f });
 
     AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
 
@@ -34,6 +44,15 @@ Boss2::Boss2(GameObject* owner):LogicComponent(owner)
 void Boss2::Update()
 {
     BossState();
+    
+    if (AEInputCheckCurr(AEVK_Z))
+    {
+        isAction = true;
+    }
+    if(phase1Count_ < 1)
+    {
+        Phase1();
+    }
 }
 
 void Boss2::RemoveFromManager()
@@ -43,12 +62,39 @@ void Boss2::RemoveFromManager()
 
 void Boss2::OnEvent(BaseEvent* event)
 {
+    AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
+    playerPos.x += 200;
+    owner_->GetComponent<Transform>()->SetPosition(playerPos);
 
+    owner_->active_ = true;
 }
 
 void Boss2::OnCollision(CollisionEvent* event)
 {
+    Player* player = event->from_->GetComponent<Player>();
+    if (player)
+    {
+        std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+        if (dt.count() >= cooldown_)
+        {
+            timeStart_ = std::chrono::system_clock::now();
 
+            player->AddHp(int(-baseDmg_));
+        }
+        return;
+    }
+
+    MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
+    if (melee)
+    {
+        hp_ -= melee->GetDmg();
+
+        RigidBody* rb = owner_->GetComponent<RigidBody>();
+        AEVec2 velocity = rb->GetVelocity();
+        rb->ClearVelocity();
+
+        return;
+    }
 }
 
 GameObject* Boss2::CreateBulletObj()
@@ -62,33 +108,84 @@ GameObject* Boss2::CreateBulletObj()
 
 void Boss2::BossState()
 {
+
+}
+
+void Boss2::BaseChase()
+{
     AnimationComp* bossAnim = owner_->GetComponent<AnimationComp>();
     Transform* bossScale = owner_->GetComponent<Transform>();
 
     bossAnim->SetTerm(150);
     bossAnim->ChangeAnimation("walk");
+
+    Transform* bossTrans = owner_->GetComponent<Transform>();
+    RigidBody* bossRb = owner_->GetComponent<RigidBody>();
+
+    AEVec2     playerPos = player->GetComponent<Transform>()->GetPosition();
+    AEVec2	   bossPos = bossTrans->GetPosition();
+
+    AEVec2	   chaseVec = playerPos - bossPos;
+
+    AEVec2	   unitChaseVec;
+
+    AEVec2Normalize(&unitChaseVec, &chaseVec);
+
+    bossRb->AddVelocity(unitChaseVec * moveSpeed_);
+
+    if (Flip(chaseVec))
+    {
+        bossScale->SetScale(scale);
+    }
+    else
+    {
+        bossScale->SetScale({ scale.x * -1, scale.y });
+    }
 }
 
-void Boss2::BaseChase()
+void Boss2::Phase1()
+{
+    deltaTime_ += 0.1f;
+
+    if (isAction != false)
+    {
+        GameObject* temp = CreateBulletObj();
+        
+        float radian = ((deltaTime_ * PI / 180) * 100);
+
+        AEVec2 currentBulletPos;
+        currentBulletPos.x = deltaTime_;
+        currentBulletPos.y = sin(radian);
+
+        currentBulletPos.y *= 0.5f;
+        
+        temp->GetComponent<BulletComp>()->unitDir = currentBulletPos;
+        phase1Count_ += 1;
+    }
+}
+
+void Boss2::Phase2()
 {
 
 }
 
-void Boss2::Phase1()
+void Boss2::Phase3()
 {
 
 }
 
 float Boss2::Dot(const AEVec2& vec1, const AEVec2& vec2)
 {
-
-    return 0.0f;
+    return vec1.x * vec2.x + vec1.y * vec2.y;
 }
 
 bool Boss2::Flip(AEVec2 flip)
 {
+    AEVec2 vec2 = { 1.0f, 0.0f };
 
-    return false;
+    float flipCheck = Dot(flip, vec2);
+
+    return flipCheck > 0;
 }
 
 

@@ -40,6 +40,7 @@ void SampleSave::Update()
 	//EnvironmentManager::GetInstance().Update();
 	//MonsterManager::GetInstance().Spawn();
 	//darkness->GetComponent<Transform>()->SetPosition(player->GetComponent<Transform>()->GetPosition());
+
 	AnimationComp* ani = digiLogo->GetComponent<AnimationComp>();
 	if (ani->GetType() == AnimationComp::APPEAR && ani->CurrentAnimationOver())
 		ani->SetType(AnimationComp::DISAPPEAR);

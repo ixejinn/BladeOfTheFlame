@@ -69,6 +69,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//SampleSave* sampleSave = new SampleSave();
 	//MainMenu* mainMenu = new MainMenu();
 	//OpeningLogos* opening = new OpeningLogos();
+
 	BossSampleSave* bossSample = new BossSampleSave();
 
 	Manager::gsMgr.ChangeState(bossSample);
@@ -88,7 +89,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		if (AEInputCheckTriggered(AEVK_ESCAPE) || 0 == AESysDoesWindowExist())
 			gGameRunning = 0;
 	}
-
 	Manager::gsMgr.Exit();
 
 	// free the system

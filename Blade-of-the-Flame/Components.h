@@ -20,6 +20,8 @@
 #include "Component/AnimationComp.h"
 
 #include "Component/LogicComponents/Boss1.h"
+#include "Component/LogicComponents/Boss2.h"
 #include "Component/LogicComponents/Bullet.h"
+
 //ui test
 #include "State/UISample/UiComp.h"

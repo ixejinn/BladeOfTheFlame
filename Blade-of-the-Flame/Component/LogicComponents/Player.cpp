@@ -148,7 +148,7 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
-	//std::cout << "스킬 게이지 : " << SkillGage << std::endl;
+	std::cout << "스킬 게이지 : " << SkillGage << std::endl;
 	/* CHECK */
 	// Level up
 	if (exp_ >= maxExp_)
@@ -223,18 +223,18 @@ void Player::Update()
 			//	curAttack_->On();
 			//}
 
-			if (AEInputCheckCurr(AEVK_LBUTTON))
-			{
-				curAttack_ = TimeRecall->GetComponent<Recall>();
-				curAttack_->On();
-			}
-
 			//if (AEInputCheckCurr(AEVK_LBUTTON))
 			//{
-			//	curAttack_ = Pet_->GetComponent<Pet>();
+			//	curAttack_ = TimeRecall->GetComponent<Recall>();
 			//	curAttack_->On();
-			//	SkillGage = 0;
 			//}
+
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				curAttack_ = Pet_->GetComponent<Pet>();
+				curAttack_->On();
+				SkillGage = 0;
+			}
 		}
 		else
 		{

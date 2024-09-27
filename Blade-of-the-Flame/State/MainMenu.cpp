@@ -15,7 +15,7 @@ void MainMenu::Init()
 	InitBackground();
 
 	// START button
-	GameObject* start = Manager::objMgr.CreateObject("start");
+	GameObject* start = Manager::objMgr.CreateObject("restartClear");
 	start->AddComponent<Button>();
 
 	startBtn_ = start->GetComponent<Button>();
@@ -25,7 +25,7 @@ void MainMenu::Init()
 	startBtn_->SetText("GAME");
 
 	// EXIT button
-	GameObject* exit = Manager::objMgr.CreateObject("exit");
+	GameObject* exit = Manager::objMgr.CreateObject("exitClear");
 	exit->AddComponent<Button>();
 
 	exitBtn_ = exit->GetComponent<Button>();

@@ -9,6 +9,8 @@
 
 Text::Text(GameObject* owner) : GraphicsComponent(owner), string_(), fontName_()
 {
+	position_.x = 0.5;
+	position_.y = 0.2;
 }
 
 Text::~Text()

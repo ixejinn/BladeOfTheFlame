@@ -39,8 +39,8 @@ void Button::Update()
 		input.y >= pos_.y - halfScl.y && input.y <= pos_.y + halfScl.y)
 	{
 		sp_->SetColor({ 150, 150, 150 });
-
-		if (AEInputCheckCurr(AEVK_LBUTTON))
+		
+		if (AEInputCheckReleased(AEVK_LBUTTON))
 			clicked = true;
 	}
 	else

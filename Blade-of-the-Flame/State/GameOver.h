@@ -1,12 +1,13 @@
 #pragma once
 #include "State.h"
 
-class GameObject;
+class Button;
 
 class GameOver : public State
 {
 private:
-	GameObject* obj = nullptr;
+	Button* mainBtn_ = nullptr;
+	Button* exitBtn_ = nullptr;
 
 public:
 	void Init() override;

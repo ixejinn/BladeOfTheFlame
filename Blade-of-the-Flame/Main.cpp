@@ -7,6 +7,8 @@
 #include "Utils/Utils.h"
 #include "Manager/GameStateManager.h"
 #include "State/GameState.h"
+#include "State/GameOver.h"
+#include "State/GameClear.h"
 #include "State/SampleSave.h"
 #include "State/MainMenu.h"
 #include "State/GameClear.h"
@@ -54,12 +56,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AESysReset();
 
 	//GameState* gameState = new GameState();
-	SampleSave* sampleSave = new SampleSave();
+	//GameOver* gameOver = new GameOver();
+	GameClear* gameClear = new GameClear();
+	//SampleSave* sampleSave = new SampleSave();
 	//MainMenu* mainMenu = new MainMenu();
 	//OpeningLogos* opening = new OpeningLogos();
 	//BossSampleSave bossSample;
 
-	Manager::gsMgr.ChangeState(sampleSave);
+	Manager::gsMgr.ChangeState(gameClear);
 
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)

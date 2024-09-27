@@ -1,8 +1,8 @@
 #pragma once
 #include "AEEngine.h"
 #include "../../LogicComponent.h"
-#include "../../Component/AnimationComp.h"
-#include "../../Manager/ComponentManager.h"
+#include "../../AnimationComp.h"
+#include "../../../Manager/ComponentManager.h"
 
 class Grab : public BaseAttack, public EventEntity
 {

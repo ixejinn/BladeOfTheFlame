@@ -1,9 +1,9 @@
 #include "Pet.h"
 
 #include "petBullet.h"
-#include "../../Event/Event.h"
+#include "../../../Event/Event.h"
 #include "../Monster.h"
-#include "../../Utils/Utils.h"
+#include "../../../Utils/Utils.h"
 
 Pet::Pet(GameObject* owner) : BaseAttack(owner)
 {

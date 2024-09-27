@@ -1,8 +1,8 @@
 #include "grab.h"
 
-#include "../../Event/Event.h"
+#include "../../../Event/Event.h"
 #include "../Monster.h"
-#include "../../Utils/Utils.h"
+#include "../../../Utils/Utils.h"
 
 Grab::Grab(GameObject* owner) : BaseAttack(owner)
 {

@@ -126,6 +126,8 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	//----------------------------------//
 	curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
+
+	timeStart_ = std::chrono::system_clock::now();
 }
 
 void Player::RemoveFromManager()
@@ -357,6 +359,39 @@ void Player::OnEvent(BaseEvent* event)
 
 void Player::OnCollision(CollisionEvent* event)
 {
+	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
+	if (dt.count() >= damageCooldown_)
+	{
+		bool attacked = false;
+		bool shield = false;
+
+		if (shield_Attack->GetComponent<Shield>()->ac)
+			shield = true;
+
+		int dmg = 0;
+
+		BaseAttack* attack = event->mtop;
+		BaseMonster* monster = event->monster;
+		if (attack)
+			dmg = attack->GetDmg();
+		else if (monster)
+			dmg = monster->GetDmg();
+
+		if (dmg != 0)
+		{
+			if (!shield)
+				hp_ -= dmg;
+			else
+				hp_ -= dmg / 7;	// shield 얼마나 대미지 줄이는지 변수로 만들기
+
+			attacked = true;
+		}
+
+		if (attacked)
+			timeStart_ = std::chrono::system_clock::now();
+	}
+
+	// FlameAltar로 옮기기
 	FlameAltar* altar = event->from_->GetComponent<FlameAltar>();
 	if (altar)
 	{

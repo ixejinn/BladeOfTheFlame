@@ -49,6 +49,10 @@ void ExpItem::OnCollision(CollisionEvent* event)
 			AEVec2 pos = trans_->GetPosition();
 			AEVec2 moveDir = playerPos - pos, unitMoveDir;
 			AEVec2Normalize(&unitMoveDir, &moveDir);
+
+			float distance = AEVec2Distance(&playerPos, &pos);
+			float attractionSize = event->from_->GetComponent<CircleCollider>()->GetRadius();
+			float attractionSpeed = attractionSpeed_ * distance / attractionSize * 100.f;
 			rb_->AddVelocity(unitMoveDir * attractionSpeed_);
 
 			break;

@@ -6,6 +6,8 @@
 
 ExpItem::ExpItem(GameObject* owner) : BaseItem(owner)
 {
+	owner_->active_ = false;
+
 	owner_->GetComponent<Transform>()->SetScale({ 5, 5 });
 	owner_->GetComponent<BoxCollider>()->SetLayer(Collider::EXP_ITEM);
 	owner_->GetComponent<Sprite>()->SetColor({ 0, 255, 0 });
@@ -41,26 +43,26 @@ void ExpItem::OnCollision(CollisionEvent* event)
 	{
 		switch (event->fromType_)
 		{
-		//case Collider::CIRCLE_TYPE:
-		//{
-		//	AEVec2 playerPos = playerTrans_->GetPosition();
-		//	AEVec2 pos = trans_->GetPosition();
-		//	AEVec2 moveDir = playerPos - pos, unitMoveDir;
-		//	AEVec2Normalize(&unitMoveDir, &moveDir);
-		//	rb_->AddVelocity(unitMoveDir * attractionSpeed_);
+		case Collider::CIRCLE_TYPE:
+		{
+			AEVec2 playerPos = playerTrans_->GetPosition();
+			AEVec2 pos = trans_->GetPosition();
+			AEVec2 moveDir = playerPos - pos, unitMoveDir;
+			AEVec2Normalize(&unitMoveDir, &moveDir);
+			rb_->AddVelocity(unitMoveDir * attractionSpeed_);
 
-		//	break;
-		//}
+			break;
+		}
 
-		//case Collider::AABB_TYPE:
-		//{
-		//	player->AddExp(exp_);
-		//	owner_->active_ = false;
+		case Collider::AABB_TYPE:
+		{
+			player->AddExp(exp_);
+			owner_->active_ = false;
 
-		//	ExpItemManager::GetInstance().Release(owner_);
+			ExpItemManager::GetInstance().Release(owner_);
 
-		//	break;
-		//}
+			break;
+		}
 		}
 	}
 }

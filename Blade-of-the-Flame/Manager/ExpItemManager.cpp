@@ -35,6 +35,8 @@ ExpItem* ExpItemManager::Spawn(const AEVec2& pos)
 	item->GetComponent<RigidBody>()->ClearVelocity();
 	item->active_ = true;
 
+	item->GetComponent<BoxCollider>()->Update();
+
 	return item->GetComponent<ExpItem>();
 }
 

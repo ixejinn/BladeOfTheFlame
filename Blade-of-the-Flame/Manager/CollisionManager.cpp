@@ -174,7 +174,8 @@ void CollisionManager::CheckAllCollision()
 	{
 		for (int j = i + 1; j < colliders_.size(); j++)
 		{
-			if (CheckCollision(colliders_[i], colliders_[j]))
+			if ((colliders_[i]->owner_ != colliders_[j]->owner_) &&
+				CheckCollision(colliders_[i], colliders_[j]))
 				collisionPairs_.push({ colliders_[i], colliders_[j] });
 		}
 	}

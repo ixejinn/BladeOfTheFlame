@@ -24,6 +24,8 @@ int BaseMonster::CheckDeadState(const AEVec2& pos, const f32& squareDist)
 	int deadState = 0;	// -1: despawned, 0: alive, 1: dead
 	if (hp_ <= 0)
 	{
+		rb_->ClearVelocity();
+
 		ExpItem* expGem = Manager::expMgr.Spawn(pos);
 		if (expGem)
 			expGem->SetExp(exp_);
@@ -149,11 +151,14 @@ void BaseMonster::OnCollision(CollisionEvent* event)
 		hp_ -= pAttack->GetDmg();
 		Manager::objMgr.GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;
 
-		AEVec2 velocity = rb_->GetVelocity();
-		rb_->ClearVelocity();
-		rb_->AddVelocity(velocity * -knockback_);
+		if (hp_ > 0)
+		{
+			AEVec2 velocity = rb_->GetVelocity();
+			rb_->ClearVelocity();
+			rb_->AddVelocity(velocity * -knockback_);
 
-		state_ = HURT;
+			state_ = HURT;
+		}
 
 		if (dynamic_cast<Flame*>(pAttack) ||
 			dynamic_cast<doubleFlameL*>(pAttack) ||

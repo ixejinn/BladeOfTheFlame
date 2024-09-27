@@ -10,6 +10,8 @@
 #include "../../Utils/Utils.h"
 #include "../AnimationComp.h"
 #include "../LogicComponents/Skills/shield.h"
+#include "../LogicComponents/Items/ExpItem.h"
+#include "Skills/grab.h"
 
 
 void Monster::SetAnimation()
@@ -152,16 +154,14 @@ void Monster::OnCollision(CollisionEvent* event)
 		return;
 	}
 
+<<<<<<< HEAD
 	Monster* other = event->from_->GetComponent<Monster>();
 	if (other)
 	{
 		AEVec2 otherVelocity = event->from_->GetComponent<RigidBody>()->GetVelocity();
 		rb_->ClearVelocity();
 		rb_->AddVelocity(otherVelocity);
-
-		return;
-	}
-
+=======
 	Grab* grab = event->from_->GetComponent<Grab>();
 	if (grab)
 	{
@@ -170,6 +170,7 @@ void Monster::OnCollision(CollisionEvent* event)
 		AEVec2 moveDir = grabpos - pos, unitMoveDir;
 		AEVec2Normalize(&unitMoveDir, &moveDir);
 		rb_->AddVelocity(unitMoveDir * 500);
+>>>>>>> main
 
 		return;
 	}

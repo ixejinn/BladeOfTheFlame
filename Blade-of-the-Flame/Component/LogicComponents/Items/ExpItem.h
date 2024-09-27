@@ -6,7 +6,7 @@ class ExpItem : public BaseItem
 {
 private:
 	int exp_ = 0;
-	float attractionSpeed_ = 70.f;
+	float attractionSpeed_ = 100.f;
 
 	RigidBody* rb_;
 

@@ -18,17 +18,33 @@ void ItemManager::Initialize(int maxNum)
 	maxNum_ = maxNum;
 	maxActiveNum_ = maxNum;
 
+	int magnetNum = 0;
+	int healthNum = 0;
+
 	GameObjectManager& gom = GameObjectManager::GetInstance();
 	for (int i = 0; i < maxNum; i++)
 	{
 		GameObject* obj = gom.CreateObject("item" + std::to_string(i));
 		obj->active_ = false;
 
-		int itemType = itemRate_(engine);
-		if (itemType < magnetProb)
+		if (magnetNum < magnetRate)
+		{
 			obj->AddComponent<MagnetItem>();
-		else if (itemType < healthProb)
+			magnetNum++;
+		}
+		else if (healthNum < healthRate)
+		{
 			obj->AddComponent<HealthItem>();
+			healthNum++;
+
+			if (healthNum == healthRate)
+			{
+				magnetNum = 0;
+				healthNum = 0;
+			}
+		}
+		else
+			std::cerr << "[ERROR] ItemManager::Initialize Create null item" << std::endl;
 
 		pool_.push(obj);
 	}

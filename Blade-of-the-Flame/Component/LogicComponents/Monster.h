@@ -12,14 +12,6 @@ class Sprite;
 class Monster : public LogicComponent, public EventEntity
 {
 private:
-	enum State
-	{
-		MOVE,
-		HURT
-	};
-
-	State state_ = MOVE;
-
 	int hp_ = 0;
 	int maxHp_ = 0;
 
@@ -46,6 +38,14 @@ private:
 	Monster(GameObject* owner);
 
 public:
+	enum State
+	{
+		MOVE,
+		HURT
+	};
+
+	State state_ = MOVE;
+
 	void RemoveFromManager() override;
 
 	void Update() override;

@@ -10,7 +10,6 @@
 #include "../../Utils/Utils.h"
 #include "../AnimationComp.h"
 #include "../LogicComponents/Skills/shield.h"
-#include "../LogicComponents/Items/ExpItem.h"
 
 
 void Monster::SetAnimation()
@@ -163,11 +162,23 @@ void Monster::OnCollision(CollisionEvent* event)
 		return;
 	}
 
+	Grab* grab = event->from_->GetComponent<Grab>();
+	if (grab)
+	{
+		AEVec2 grabpos = grab->GetPos();
+		AEVec2 pos = trans_->GetPosition();
+		AEVec2 moveDir = grabpos - pos, unitMoveDir;
+		AEVec2Normalize(&unitMoveDir, &moveDir);
+		rb_->AddVelocity(unitMoveDir * 500);
+
+		return;
+	}
+
 	MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
 	if (melee != nullptr && melee->mode == MeleeAttack::fire)
 	{
 		hp_ -= melee->GetDmg();
-		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;
+		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage += 0.1;
 
 		AEVec2 velocity = rb_->GetVelocity();
 		rb_->ClearVelocity();

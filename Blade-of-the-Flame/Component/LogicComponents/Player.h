@@ -50,7 +50,10 @@ private:
 	GameObject* penetrable_double_flame_Attack = nullptr;
 
 	//Special_Attack
+	GameObject* Pet_ = nullptr;
+	GameObject* TimeRecall = nullptr;
 	GameObject* boomerang_Attack = nullptr;
+	GameObject* grab_Attack = nullptr;
 	GameObject* fire_bubble_Attack = nullptr;
 
 	Transform* trans_;
@@ -74,8 +77,8 @@ public:
 	bool getCompass_ = false;
 	bool findAltar_ = false;
 
-	int SkillGage = 0;
-	int maxSkillGage = 150;
+	float SkillGage;
+	float maxSkillGage = 150;
 
 	void RemoveFromManager() override;
 
@@ -99,6 +102,7 @@ public:
 	const float& GetMoveSpeed() const { return moveSpeed_; }
 
 	void LevelUp();
+	void SetHp(int hp) { hp_ = hp; }
 	void AddHp(int hp);
 	void AddExp(int exp);
 

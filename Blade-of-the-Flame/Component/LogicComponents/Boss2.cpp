@@ -10,6 +10,9 @@
 #include "../../State/GameClear.h"
 #include "../../Component/AnimationComp.h"
 
+
+//중간보스입니다
+
 Boss2::Boss2(GameObject* owner) :LogicComponent(owner)
 {
     hp_ = 0;
@@ -26,6 +29,7 @@ Boss2::Boss2(GameObject* owner) :LogicComponent(owner)
     owner_->AddComponent<BoxCollider>();
     owner_->AddComponent<Sprite>();
     owner_->AddComponent<AnimationComp>();
+
     scale = { 300, 300 };
 
     owner_->GetComponent<Transform>()->SetScale(scale);
@@ -49,9 +53,10 @@ void Boss2::Update()
     {
         isAction = true;
     }
-    if(phase1Count_ < 1)
+    if(phase1Count_ < 100)
     {
         Phase1();
+        isAction = false;
     }
 }
 
@@ -63,6 +68,7 @@ void Boss2::RemoveFromManager()
 void Boss2::OnEvent(BaseEvent* event)
 {
     AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
+
     playerPos.x += 200;
     owner_->GetComponent<Transform>()->SetPosition(playerPos);
 
@@ -103,6 +109,8 @@ GameObject* Boss2::CreateBulletObj()
     GameObject* addBullet = GameObjectManager::GetInstance().CreateObject(unique_bullet_name);
     bullet.push_back(addBullet);
     addBullet->AddComponent<BulletComp>();
+    //addBullet->GetComponent<Transform>()->SetPosition(owner_->GetComponent<Transform>()->GetPosition());
+   
     return addBullet;
 }
 
@@ -145,22 +153,16 @@ void Boss2::BaseChase()
 
 void Boss2::Phase1()
 {
-    deltaTime_ += 0.1f;
+    AEVec2 boss2Pos = owner_->GetComponent<Transform>()->GetPosition();
 
+    deltaTime_ += 0.1f;
+    
     if (isAction != false)
     {
         GameObject* temp = CreateBulletObj();
-        
-        float radian = ((deltaTime_ * PI / 180) * 100);
-
-        AEVec2 currentBulletPos;
-        currentBulletPos.x = deltaTime_;
-        currentBulletPos.y = sin(radian);
-
-        currentBulletPos.y *= 0.5f;
-        
-        temp->GetComponent<BulletComp>()->unitDir = currentBulletPos;
+        temp->GetComponent<Transform>()->SetPosition(boss2Pos);
         phase1Count_ += 1;
+        isAction = true;
     }
 }
 

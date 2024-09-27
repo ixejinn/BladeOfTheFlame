@@ -20,11 +20,13 @@ void BossSampleSave::Init()
 	
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
+	// 
+	//BOSS_1 
+	//GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss1");
+	//boss1->AddComponent<Boss1>();
+	//BOSS_2
 	GameObject* boss2 = GameObjectManager::GetInstance().CreateObject("boss2");
 	boss2->AddComponent<Boss2>();
-
-	/*GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss1");
-	boss1->AddComponent<Boss1>();*/
 
 	/*for (int i = 0; i < 6; i++)
 	{
@@ -43,7 +45,6 @@ void BossSampleSave::Init()
 	 
 	boss1->GetComponent<Transform>()->SetScale({ 400, 400 });
 	boss1->GetComponent<Transform>()->SetPosition({ 400,400 });*/
-
 
 	// -----------------------------------------------------------------------------------------
 	//BULLET_TEST

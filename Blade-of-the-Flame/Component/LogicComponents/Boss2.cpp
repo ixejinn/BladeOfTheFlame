@@ -53,7 +53,7 @@ void Boss2::Update()
     {
         isAction = true;
     }
-    if(phase1Count_ < 100)
+    if(phase1Count_ < 1000)
     {
         Phase1();
         isAction = false;
@@ -109,7 +109,6 @@ GameObject* Boss2::CreateBulletObj()
     GameObject* addBullet = GameObjectManager::GetInstance().CreateObject(unique_bullet_name);
     bullet.push_back(addBullet);
     addBullet->AddComponent<BulletComp>();
-    //addBullet->GetComponent<Transform>()->SetPosition(owner_->GetComponent<Transform>()->GetPosition());
    
     return addBullet;
 }
@@ -151,7 +150,7 @@ void Boss2::BaseChase()
     }
 }
 
-void Boss2::Phase1()
+void Boss2::Phase1()//curveBullet
 {
     AEVec2 boss2Pos = owner_->GetComponent<Transform>()->GetPosition();
 
@@ -166,9 +165,19 @@ void Boss2::Phase1()
     }
 }
 
-void Boss2::Phase2()
+void Boss2::Phase2()//downBullet
 {
-
+    if (isAction != false)
+    {
+        GameObject* temp = CreateBulletObj();
+        Transform* pT = player->GetComponent<Transform>();
+        AEVec2 _p;
+        _p.x = pT->GetPosition().x;
+        _p.y = pT->GetPosition().y + 150;
+        temp->GetComponent<Transform>()->SetPosition(_p.x, _p.y);
+        phase2Count_ += 1;
+        isAction = true;
+    }
 }
 
 void Boss2::Phase3()

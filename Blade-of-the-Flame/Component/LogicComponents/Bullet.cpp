@@ -54,16 +54,21 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 }
 
 void BulletComp::Update()
-{	//boss2 test
-    time += 0.1f;
-    CurveBullet();
+{	
+    //boss2 test
+    //time += 0.1f;
+    //CurveBullet();
+
+    DownBullet();
 
     //RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
     //bulletRigd->AddVelocity(unitDir * bulletSpeed_);
+
 }
 
 void BulletComp::OnEvent(BaseEvent* event)
 {
+
 }
 
 void BulletComp::OnCollision(CollisionEvent* event)
@@ -111,6 +116,20 @@ void BulletComp::BarrageBullet(bool _bool = false)
 
 void BulletComp::DownBullet()
 {
+    Transform* playerTrans = player->GetComponent<Transform>();
+    Transform* bulletTrans = owner_->GetComponent<Transform>();
+    RigidBody* bulletRigd  = owner_->GetComponent<RigidBody>();
+    
+    AEVec2 playerPos;
+    playerPos.x = playerTrans->GetPosition().x;
+    playerPos.y = playerTrans->GetPosition().y;
+   
+    bulletTrans->SetPosition(playerPos.x, bulletTrans->GetPosition().y);
+
+    bulletRigd->AddVelocity(0, -bulletSpeed_);
+
+    //¸ØÃß´Â°Å
+
 
 }
 
@@ -130,27 +149,30 @@ void BulletComp::CurveBullet()
     AEVec2 direction;
     direction.x = cos(angle) * bulletSpeed;
     direction.y = sin(angle) * bulletSpeed;
+
     currentBulletPos.x = Boss2Pos.x + direction.x * time;
     currentBulletPos.y = Boss2Pos.y + direction.y * time + sin(radian) * 100;
 
     unitDir = currentBulletPos;
     
-    //1. x = time * xspeed, y = sin(radian)*yspeed
+    //1. x = time * xspeed, y = sin(radian)*y speed
     float x = time * bulletSpeed;
     float y = sin(radian) * bulletSpeed;
+
     //2. x, y rotation angle
     float rotated_x = cos(angle) * x - sin(angle) * y;
     float rotated_y = sin(angle) * x + cos(angle) * y;
+
     //3. bosspos + (x,y)
     float trans_x = Boss2Pos.x + rotated_x;
     float trans_y = Boss2Pos.y + rotated_y;
+
     //4. pos = (3)
     unitDir.x = trans_x;
     unitDir.y = trans_y;
     
     bulletTrans->SetPosition(unitDir);  
 }
-
 
 void BulletComp::LoadFromJson(const json&)
 {

@@ -15,14 +15,18 @@ class BulletComp : public LogicComponent, public EventEntity
 	std::chrono::system_clock::time_point timeStart_;
 
 	GameObject* player;
-	GameObject* boss;
+	GameObject* boss1;
 	GameObject* boss2;
 
 	bool check_ = true;
 
+
 	BulletComp(GameObject* ower);
 	
 public:
+	bool isCheck = false;
+	float time = 0.f;
+
 	AEVec2 unitDir;
 	bool phase2On = false;
 	bool returnBullet = false;
@@ -41,6 +45,9 @@ public:
 
 	void FireBullet();
 	void BarrageBullet(bool _bool);
+	void DownBullet();
+	void CurveBullet();
+	void CircleBullet();
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "BulletComp";

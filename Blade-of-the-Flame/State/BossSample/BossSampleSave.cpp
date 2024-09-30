@@ -15,8 +15,10 @@ void BossSampleSave::Init()
 	AEGfxSetBackgroundColor(0.3f, 0.3f, 0.3f);
 	// -----------------------------------------------------------------------------------------
 	//PLAYER_TEST
-	GameObject* obj = GameObjectManager::GetInstance().CreateObject("TestObj");
+	GameObject* obj = GameObjectManager::GetInstance().CreateObject("player");
+	obj->AddComponent<Player>();
 	
+
 	obj->AddComponent<Transform>();
 	obj->GetComponent<Transform>()->SetScale({ 50, 50 });
 	
@@ -36,13 +38,17 @@ void BossSampleSave::Init()
 
 	obj->AddComponent<Audio>();
 	obj->GetComponent<Audio>()->SetAudio("Assets/FallingRain.mp3");
+
+
 	// -----------------------------------------------------------------------------------------
 	//BOSS_TEST
-	//GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss");
+	// 
+	//BOSS_1 
+	//GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss1");
 	//boss1->AddComponent<Boss1>();
-
-	GameObject* boss2 = GameObjectManager::GetInstance().CreateObject("boss2");
-	boss2->AddComponent<Boss2>();
+	//BOSS_2
+	//GameObject* boss2 = GameObjectManager::GetInstance().CreateObject("boss2");
+	//boss2->AddComponent<Boss2>();
 
 	/*for (int i = 0; i < 6; i++)
 	{
@@ -62,10 +68,7 @@ void BossSampleSave::Init()
 	boss1->GetComponent<Transform>()->SetScale({ 400, 400 });
 	boss1->GetComponent<Transform>()->SetPosition({ 400,400 });*/
 
-
-	// -----------------------------------------------------------------------------------------
-	//BULLET_TEST
-	
+	// -----------------------------------------------------------------------------------------	
 }
 
 void BossSampleSave::Update()

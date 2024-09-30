@@ -71,6 +71,8 @@ public:
 	GameObject* CreateBulletObj();
 
 	void BossState();
+	
+
 	void BaseChase();
 
 	void Phase1();

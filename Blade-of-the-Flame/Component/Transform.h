@@ -12,6 +12,8 @@ private:
 	AEVec2 scale_;
 	AEVec2 localScale_ = { 1.f, 1.f };
 
+
+
 	AEMtx33 transformMatrix_;
 
 	bool useLimit_ = false;
@@ -39,7 +41,7 @@ public:
 	const AEMtx33& GetMatrix() const { return transformMatrix_; }
 
 	void SetPosition(const AEVec2& pos);
-	void SetPosition(const float& x, const float& y);
+	void SetPosition(const float& x, const float& y); 
 	void SetScale(const AEVec2& scl);
 	void SetLocalScale(const AEVec2& scl);
 	void SetRotation(const AEVec2& pos);

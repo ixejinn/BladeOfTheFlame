@@ -13,12 +13,11 @@ private:
 
 	enum E_bossState
 	{
-		_baseChase,
-		_fastChase,
-		_rangeAttack,
-		_barrage,
+		_currentState,
+		_Phase1,
+		_Phase2,
+		_Phase3,
 	};
-
 	E_bossState current_state;
 
 	int hp_ = 0;
@@ -30,7 +29,7 @@ private:
 	float range_ = 0.f;
 
 	double nomalphaseTime_ = 0.f;
-	double DelayTime_ = 0.f;
+	double deltaTime_ = 0.f;
 	double shootTime_ = AEFrameRateControllerGetFrameTime();
 
 	int phase1Count_ = 0;
@@ -74,8 +73,10 @@ public:
 
 	void BossState();
 	void BaseChase();
-
+	
 	void Phase1();
+	void Phase2();
+	void Phase3();
 
 	float Dot(const AEVec2& vec1, const AEVec2& vec2);
 

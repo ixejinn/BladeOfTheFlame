@@ -1,19 +1,19 @@
-#include "NormalMonster.h"
+#include "InstakillMonster.h"
 
 #include <iomanip>	// std::setw, std::setfill
 #include <sstream>	// std::stringstream
 #include "../../../GameObject/GameObject.h"
 
-NormalMonster::NormalMonster(GameObject* owner) : BaseMonster(owner)
+InstakillMonster::InstakillMonster(GameObject* owner) : BaseMonster(owner)
 {
-	maxHp_ = hp_ = 20;
-	exp_ = 5;
-	dmg_ = 8;
-	moveSpeed_ = 10.f;
-	
+	maxHp_ = hp_ = 200;
+	exp_ = 50;
+	dmg_ = 9999;
+	moveSpeed_ = 3.f;
+
 	owner_->AddComponent<AnimationComp>();
 
-	trans_->SetScale({ 30, 100 });
+	trans_->SetScale({ 45, 150 });
 
 	BoxCollider* col = owner_->GetComponent<BoxCollider>();
 	col->SetScale({ 0.8f, 0.7f });
@@ -22,7 +22,7 @@ NormalMonster::NormalMonster(GameObject* owner) : BaseMonster(owner)
 	SetAnimation();
 }
 
-void NormalMonster::SetAnimation()
+void InstakillMonster::SetAnimation()
 {
 	ani_->AddAnimation("Walk");
 	for (int i = 0; i <= 12; i++)

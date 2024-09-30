@@ -39,7 +39,7 @@ void GameState::Init()
 	compass->GetComponent<Compass>()->SetDestination(altar);
 
 	/* BOSS */
-	GameObject* boss1 = Manager::objMgr.CreateObject("boss1");
+	GameObject* boss1 = Manager::objMgr.CreateObject("boss");
 	boss1->AddComponent<Boss1>();
 
 	///////////////////////////지울수도 있음/////////////////////////////

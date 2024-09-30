@@ -77,6 +77,8 @@ Boss1::Boss1(GameObject* owner) : LogicComponent(owner)
 
     col->SetScale({ 0.22f, 0.45f });
     col->SetCenter({ 0.f, -0.15f });
+
+    owner_->active_ = false;
 }
 
 void Boss1::Update()

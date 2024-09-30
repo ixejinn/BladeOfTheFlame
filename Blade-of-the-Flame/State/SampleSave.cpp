@@ -10,6 +10,7 @@
 #include "../Manager/EnvironmentManager.h"
 
 #include "../Component/LogicComponents/Monsters/NormalMonster.h"
+#include "../Component/LogicComponents/Monsters/InstakillMonster.h"
 
 namespace Manager
 {
@@ -45,12 +46,12 @@ void SampleSave::Init()
 	boss->AddComponent<Boss1>();
 
 	/* SAMPLE MONSTERS */
-	//GameObject* skeleton = Manager::objMgr.CreateObject("normal");
-	//skeleton->AddComponent<NormalMonster>();
-	//skeleton->GetComponent<Transform>()->SetPosition({ 400, 400 });
+	GameObject* skeleton = Manager::objMgr.CreateObject("instakill");
+	skeleton->AddComponent<InstakillMonster>();
+	skeleton->GetComponent<Transform>()->SetPosition({ 400, 400 });
 
 	/* SPAWN MANAGERS */
-	MonsterManager::GetInstance().Initialize(230);
+	//MonsterManager::GetInstance().Initialize(230);
 	ExpItemManager::GetInstance().Initialize(500);
 	ItemManager::GetInstance().Initialize(20);
 
@@ -91,7 +92,7 @@ void SampleSave::Update()
 	EnvironmentManager::GetInstance().Update();
 #endif
 
-	MonsterManager::GetInstance().Spawn();
+	//MonsterManager::GetInstance().Spawn();
 	ItemManager::GetInstance().Spawn();
 }
 

@@ -48,7 +48,7 @@ void GameState::Init()
 	////////////////////////////////////////////////////////////////////
 
 	/* SPAWN MANAGERS */
-	MonsterManager::GetInstance().Initialize(230);
+	//MonsterManager::GetInstance().Initialize(230);
 	ExpItemManager::GetInstance().Initialize(230);
 	ItemManager::GetInstance().Initialize(20);
 
@@ -68,7 +68,7 @@ void GameState::Update()
 	EnvironmentManager::GetInstance().Update();
 #endif
 
-	MonsterManager::GetInstance().Spawn();
+	//MonsterManager::GetInstance().Spawn();
 	ItemManager::GetInstance().Spawn();
 }
 

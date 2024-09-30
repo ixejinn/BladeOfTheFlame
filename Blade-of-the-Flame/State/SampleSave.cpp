@@ -45,10 +45,16 @@ void SampleSave::Init()
 	GameObject* boss = Manager::objMgr.CreateObject("boss");
 	boss->AddComponent<Boss1>();
 
+	///////////////////////////지울수도 있음/////////////////////////////
+	GameObject* boss2 = Manager::objMgr.CreateObject("boss2");
+	boss2->AddComponent<Boss2>();
+	boss2->active_ = true;
+	////////////////////////////////////////////////////////////////////
+
 	/* SAMPLE MONSTERS */
-	GameObject* skeleton = Manager::objMgr.CreateObject("instakill");
-	skeleton->AddComponent<InstakillMonster>();
-	skeleton->GetComponent<Transform>()->SetPosition({ 400, 400 });
+	//GameObject* skeleton = Manager::objMgr.CreateObject("instakill");
+	//skeleton->AddComponent<InstakillMonster>();
+	//skeleton->GetComponent<Transform>()->SetPosition({ 400, 400 });
 
 	/* SPAWN MANAGERS */
 	//MonsterManager::GetInstance().Initialize(230);

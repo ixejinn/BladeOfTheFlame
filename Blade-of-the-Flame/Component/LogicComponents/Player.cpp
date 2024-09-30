@@ -62,6 +62,10 @@ void Player::SetAnimation()
 	ani_->SetTerm(300);
 }
 
+void Player::SetAttack()
+{
+	
+}
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
@@ -91,7 +95,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	pCtrl_ = owner_->GetComponent<PlayerController>();
 	pCtrl_->SetDashKey(AEVK_SPACE);
-	pCtrl_->MultiplyMoveSpeed(moveSpeed_);
+	pCtrl_->SetMoveSpeed(moveSpeed_);
 
 	audio_ = owner_->GetComponent<Audio>();
 	audio_->SetAudio("Assets/ore.mp3");
@@ -153,6 +157,14 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
+	if (overlapMonster)
+	{
+		pCtrl_->SetMoveSpeed(moveSpeed_ / 2.f);
+		overlapMonster = false;
+	}
+	else
+		pCtrl_->SetMoveSpeed(moveSpeed_);
+
 	/* CHECK */
 	// Death
 	if (hp_ <= 0)
@@ -193,6 +205,7 @@ void Player::Update()
 		curState = IDLE;
 
 	/* ATTACK */
+	//SetAttack();
 	if (1 <= level_ && level_ < 4)
 	{
 		meleeCool += AEFrameRateControllerGetFrameRate();
@@ -358,7 +371,6 @@ void Player::Update()
 	}
 
 	/* SET ANIMATION */
-	std::cout << dir_ << " " << curDir << std::endl;
 	if (dir_ != curDir && (curDir == LEFT || curDir == RIGHT))
 	{
 		trans_->SetFlip();
@@ -409,6 +421,9 @@ void Player::OnEvent(BaseEvent* event)
 
 void Player::OnCollision(CollisionEvent* event)
 {
+	if (event->monster)
+		overlapMonster = true;
+
 	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
 	if (dt.count() >= damageCooldown_)
 	{
@@ -425,7 +440,10 @@ void Player::OnCollision(CollisionEvent* event)
 		if (attack)
 			dmg = attack->GetDmg();
 		else if (monster)
+		{
 			dmg = monster->GetDmg();
+			overlapMonster = true;
+		}
 
 		if (dmg != 0)
 		{
@@ -476,9 +494,7 @@ void Player::LevelUp()
 
 void Player::AddHp(int hp)
 {
-	std::cout << hp_ << " ";
 	hp_ += hp;
-	std::cout << hp_ << std::endl;
 	
 	if (hp_ > maxHp_)
 		hp_ = maxHp_;

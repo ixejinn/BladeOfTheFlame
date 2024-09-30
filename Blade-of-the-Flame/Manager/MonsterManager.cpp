@@ -2,17 +2,23 @@
 
 #include <string>
 #include <typeindex>
+#include "EventManager.h"
 #include "../Component/LogicComponents/Monsters/NormalMonster.h"
 #include "../Event/Event.h"
-#include "../Manager/EventManager.h"
+
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+	extern EventManager& evntMgr;
+}
 
 MonsterManager::MonsterManager() : SpawnManager()
 {
 	spawnPeriod_ = 5.0;
 	spawnNumPerWave_ = 20;
 
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(LevelUpEvent)), static_cast<EventEntity*>(this));
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
+	Manager::evntMgr.RegisterEntity(std::type_index(typeid(LevelUpEvent)), static_cast<EventEntity*>(this));
+	Manager::evntMgr.RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
 }
 
 void MonsterManager::Initialize(int maxNum)
@@ -22,10 +28,9 @@ void MonsterManager::Initialize(int maxNum)
 	maxNum_ = maxNum;
 	maxActiveNum_ = maxNum;
 
-	GameObjectManager& gom = GameObjectManager::GetInstance();
 	for (int i = 0; i < maxNum; i++)
 	{
-		GameObject* obj = gom.CreateObject("monster" + std::to_string(i));
+		GameObject* obj = Manager::objMgr.CreateObject("monster" + std::to_string(i));
 		obj->AddComponent<NormalMonster>();
 		obj->GetComponent<Transform>()->SetPosition(0.1f, 0.1f);
 		obj->active_ = false;
@@ -48,7 +53,7 @@ void MonsterManager::Spawn()
 
 	firstSpawn = false;
 	timeStart_ = std::chrono::system_clock::now();
-	static Transform* playerTrans = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
+	static Transform* playerTrans = Manager::objMgr.GetObjectA("player")->GetComponent<Transform>();
 	static auto& engine = RandomEngine::GetInstance().GetEngine();
 
 	for (int i = 0; i < spawnNumPerWave_; i++)

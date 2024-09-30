@@ -39,8 +39,13 @@ void GameState::Init()
 	compass->GetComponent<Compass>()->SetDestination(altar);
 
 	/* BOSS */
-	GameObject* boss = Manager::objMgr.CreateObject("boss");
-	boss->AddComponent<Boss1>();
+	GameObject* boss1 = Manager::objMgr.CreateObject("boss1");
+	boss1->AddComponent<Boss1>();
+
+	///////////////////////////지울수도 있음/////////////////////////////
+	GameObject* boss2 = Manager::objMgr.CreateObject("boss2");
+	boss2->AddComponent<Boss2>();
+	////////////////////////////////////////////////////////////////////
 
 	/* SPAWN MANAGERS */
 	MonsterManager::GetInstance().Initialize(230);

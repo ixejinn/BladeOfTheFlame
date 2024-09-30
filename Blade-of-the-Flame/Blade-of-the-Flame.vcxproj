@@ -161,6 +161,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Resource\FontResource.cpp" />
     <ClCompile Include="State\BossSample\BossSampleLoad.cpp" />
     <ClCompile Include="State\BossSample\BossSampleSave.cpp" />
+    <ClCompile Include="State\BossSample\BossStateManager.cpp" />
     <ClCompile Include="State\GameClear.cpp" />
     <ClCompile Include="State\GameOver.cpp" />
     <ClCompile Include="State\GameState.cpp" />
@@ -245,6 +246,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Resource\FontResource.h" />
     <ClInclude Include="State\BossSample\BossSampleLoad.h" />
     <ClInclude Include="State\BossSample\BossSampleSave.h" />
+    <ClInclude Include="State\BossSample\BossStateManager.h" />
     <ClInclude Include="State\GameClear.h" />
     <ClInclude Include="State\GameOver.h" />
     <ClInclude Include="State\GameState.h" />

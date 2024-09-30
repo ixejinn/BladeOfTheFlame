@@ -89,9 +89,7 @@ void Boss1::Update()
         GameStateManager::GetInstance().ChangeState(newState);
         return;
     }
-
     BossState();
-
 }
 
 void Boss1::RemoveFromManager()

@@ -56,14 +56,15 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 void BulletComp::Update()
 {	
     //boss2 test
-    //time += 0.1f;
+    time += 0.1f;
     //CurveBullet();
 
-    DownBullet();
+    //DownBullet();
+
+    CircleBullet();
 
     //RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
     //bulletRigd->AddVelocity(unitDir * bulletSpeed_);
-
 }
 
 void BulletComp::OnEvent(BaseEvent* event)
@@ -129,8 +130,6 @@ void BulletComp::DownBullet()
     bulletRigd->AddVelocity(0, -bulletSpeed_);
 
     //¸ØÃß´Â°Å
-
-
 }
 
 void BulletComp::CurveBullet()
@@ -172,6 +171,26 @@ void BulletComp::CurveBullet()
     unitDir.y = trans_y;
     
     bulletTrans->SetPosition(unitDir);  
+}
+
+void BulletComp::CircleBullet()
+{
+    Transform* bulletTrans = owner_->GetComponent<Transform>();
+
+    AEVec2 Boss2Pos  = boss2->GetComponent<Transform>()->GetPosition();
+    AEVec2 playerPos = player->GetComponent<Transform>()->GetPosition();
+    
+    float radian = ((time * PI / 180) * 100);
+
+    float bulletSpeed = 100.f;
+
+    AEVec2 direction;
+    direction.x = cos(radian) * bulletSpeed;
+    direction.y = sin(radian) * bulletSpeed;
+
+    unitDir = direction;
+
+    bulletTrans->SetPosition(unitDir);
 }
 
 void BulletComp::LoadFromJson(const json&)

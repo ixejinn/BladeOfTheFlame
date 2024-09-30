@@ -180,9 +180,17 @@ void Boss2::Phase2()//downBullet
     }
 }
 
-void Boss2::Phase3()
+void Boss2::Phase3() //CircleBullet
 {
+    AEVec2 boss2Pos = owner_->GetComponent<Transform>()->GetPosition();
 
+    if (isAction != false)
+    {
+        GameObject* temp = CreateBulletObj();
+        temp->GetComponent<Transform>()->SetPosition(boss2Pos);
+        phase1Count_ += 1;
+        isAction = true;
+    }
 }
 
 float Boss2::Dot(const AEVec2& vec1, const AEVec2& vec2)

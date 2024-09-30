@@ -47,6 +47,7 @@ public:
 	void BarrageBullet(bool _bool);
 	void DownBullet();
 	void CurveBullet();
+	void CircleBullet();
 
 	// for StateSerializer
 	static constexpr const char* TypeName = "BulletComp";

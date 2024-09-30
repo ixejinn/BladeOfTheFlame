@@ -2,7 +2,14 @@
 
 #include <iomanip>	// std::setw, std::setfill
 #include <sstream>	// std::stringstream
+#include "../../../Manager/MonsterManager.h"
 #include "../../../GameObject/GameObject.h"
+
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+	extern MonsterManager& monMgr;
+}
 
 InstakillMonster::InstakillMonster(GameObject* owner) : BaseMonster(owner)
 {
@@ -35,4 +42,10 @@ void InstakillMonster::SetAnimation()
 	ani_->SetTerm(200);
 
 	ani_->ChangeAnimation("Walk");
+}
+
+void InstakillMonster::Dead()
+{
+	hp_ = maxHp_;
+	Manager::monMgr.Release(MonsterManager::INSTAKILL, owner_);
 }

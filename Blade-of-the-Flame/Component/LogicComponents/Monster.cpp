@@ -91,7 +91,7 @@ void Monster::Update()
 	if (death)
 	{
 		hp_ = maxHp_;
-		MonsterManager::GetInstance().Release(owner_);
+		//MonsterManager::GetInstance().Release(owner_);
 		return;
 	}
 

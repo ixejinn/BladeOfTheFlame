@@ -48,6 +48,7 @@ protected:
 
 	// -1: despawned, 0: alive, 1: dead
 	int CheckDeadState(const AEVec2& pos, const f32& squareDist);
+	virtual void Dead() = 0;
 
 	void MoveToPlayer(AEVec2& moveDir);
 

@@ -59,9 +59,9 @@ void SampleSave::Init()
 	/* SPAWN MANAGERS */
 	//MonsterManager::GetInstance().Initialize(230);
 	ExpItemManager::GetInstance().Initialize(500);
-	ItemManager::GetInstance().Initialize(20);
+	//ItemManager::GetInstance().Initialize(20);
 
-	MonsterManager::GetInstance().SetMaxActiveNum(20);
+	//MonsterManager::GetInstance().SetMaxActiveNum(20);
 
 #ifndef _DEBUG
 	/* SCREEN OVERLAY EFFECT */
@@ -99,7 +99,7 @@ void SampleSave::Update()
 #endif
 
 	//MonsterManager::GetInstance().Spawn();
-	ItemManager::GetInstance().Spawn();
+	//ItemManager::GetInstance().Spawn();
 }
 
 void SampleSave::Exit()

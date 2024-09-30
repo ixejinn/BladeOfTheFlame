@@ -1,15 +1,22 @@
 #pragma once
+#include "Spawner.h"
 #include "SpawnManager.h"
+
+class HealthItem;
+class MagnetItem;
 
 class ItemManager : public SpawnManager
 {
-private:
-	//std::uniform_int_distribution<int> itemRate_{ 0, 99 };
-	//int magnetProb = 66;
-	//int healthProb = 100;
+public:
+	enum ItemType
+	{
+		HEALTH,
+		MAGNET
+	};
 
-	int magnetRate = 2;
-	int healthRate = 1;
+private:
+	Spawner<HealthItem> healthSpawner_;
+	Spawner<MagnetItem> magnetSpawner_;
 
 	ItemManager();
 	~ItemManager() = default;
@@ -26,10 +33,10 @@ public:
 		return instance;
 	}
 
-	void Initialize(int maxNum) override;
+	void Initialize(int maxNum, int maxActiveNum, double spawnPeriod, int spawnNumPerWave) override;
 
 	void Spawn() override;
-	void Release(GameObject* obj) override;
+	void Release(ItemType type, GameObject* obj);
 
 	void Clear() override;
 

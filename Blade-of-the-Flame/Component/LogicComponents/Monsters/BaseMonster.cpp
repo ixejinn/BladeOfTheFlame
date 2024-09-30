@@ -93,8 +93,7 @@ void BaseMonster::Update()
 
 	if (CheckDeadState(pos, squareDist) != 0)
 	{
-		hp_ = maxHp_;
-		Manager::monMgr.Release(owner_);
+		Dead();
 		return;
 	}
 

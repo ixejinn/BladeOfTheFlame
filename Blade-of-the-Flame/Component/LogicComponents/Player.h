@@ -37,7 +37,7 @@ private:
 	float moveSpeed_ = 25.f;
 	float attractionRadius_ = 40.f;
 
-	double damageCooldown_ = 0.5;
+	double damageCooldown_ = 0.2;
 	std::chrono::system_clock::time_point timeStart_;
 
 	// Level up�� ���� �ʿ��� ����ġ ������ (%)

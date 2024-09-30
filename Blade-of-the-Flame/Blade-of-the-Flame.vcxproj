@@ -157,7 +157,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Manager\MonsterManager.cpp" />
     <ClCompile Include="Manager\ParticleSystem.cpp" />
     <ClCompile Include="Manager\ResourceManager.cpp" />
-    <ClCompile Include="Manager\SpawnManager.cpp" />
     <ClCompile Include="Resource\FontResource.cpp" />
     <ClCompile Include="State\BossSample\BossSampleLoad.cpp" />
     <ClCompile Include="State\BossSample\BossSampleSave.cpp" />
@@ -242,6 +241,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Manager\MonsterManager.h" />
     <ClInclude Include="Manager\ParticleSystem.h" />
     <ClInclude Include="Manager\ResourceManager.h" />
+    <ClInclude Include="Manager\Spawner.h" />
     <ClInclude Include="Manager\SpawnManager.h" />
     <ClInclude Include="Resource\FontResource.h" />
     <ClInclude Include="State\BossSample\BossSampleLoad.h" />

@@ -10,7 +10,11 @@ private:
 
 	NormalMonster(GameObject* owner);
 
+	void Dead() override;
+
 public:
+
+	static constexpr const char* TypeName = "NormalMonster";
 
 	friend class ComponentManager<LogicComponent>;
 };

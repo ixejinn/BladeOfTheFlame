@@ -49,11 +49,11 @@ void MagnetItem::Update()
 			firstUse_ = true;
 			use_ = false;
 			owner_->active_ = false;
-			ItemManager::GetInstance().Release(owner_);
+			ItemManager::GetInstance().Release(ItemManager::MAGNET, owner_);
 		}
 	}
 	else if (DeactiveIfFar())
-		ItemManager::GetInstance().Release(owner_);
+		ItemManager::GetInstance().Release(ItemManager::MAGNET, owner_);
 }
 
 void MagnetItem::LoadFromJson(const json&)

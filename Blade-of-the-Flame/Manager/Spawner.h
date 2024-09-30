@@ -16,6 +16,8 @@ class Spawner
 private:
 	std::stack<GameObject*> pool_;
 
+	bool noCondition = false;
+
 	int activeNum_ = 0;
 	int maxActiveNum_ = 0;
 	int maxNum_ = 0;

@@ -127,23 +127,6 @@ void BaseMonster::OnEvent(BaseEvent* event)
 
 void BaseMonster::OnCollision(CollisionEvent* event)
 {
-	//Player* player = event->from_->GetComponent<Player>();
-	//if (player)
-	//{
-	//	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-	//	if (dt.count() >= cooldown_)
-	//	{
-	//		timeStart_ = std::chrono::system_clock::now();
-
-	//		if (player->shield_Attack->GetComponent<Shield>()->ac == true)
-	//			player->AddHp(-dmg_ / 7);
-	//		else
-	//			player->AddHp(-dmg_);
-	//	}
-
-	//	return;
-	//}
-
 	BaseAttack* pAttack = event->ptom;
 	if (pAttack)
 	{
@@ -153,8 +136,7 @@ void BaseMonster::OnCollision(CollisionEvent* event)
 		if (hp_ > 0)
 		{
 			AEVec2 velocity = rb_->GetVelocity();
-			rb_->ClearVelocity();
-			rb_->AddVelocity(velocity * -knockback_);
+			rb_->SetVelocity(velocity * -knockback_);
 
 			state_ = HURT;
 		}

@@ -48,6 +48,11 @@ void GameState::Init()
 	boss2->active_ = false;
 	////////////////////////////////////////////////////////////////////
 
+	/* SAMPLE MONSTERS */
+	//GameObject* skeleton = Manager::objMgr.CreateObject("instakill");
+	//skeleton->AddComponent<NormalMonster>();
+	//skeleton->GetComponent<Transform>()->SetPosition({ 400, 400 });
+
 	/* SPAWN MANAGERS */
 	MonsterManager::GetInstance().Initialize(320, 20, 5.0, 10);
 	ExpItemManager::GetInstance().Initialize(230);

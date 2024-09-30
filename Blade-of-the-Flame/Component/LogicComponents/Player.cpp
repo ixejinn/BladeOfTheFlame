@@ -223,6 +223,7 @@ void Player::Update()
 				AEInputCheckCurr(AEVK_LBUTTON))
 			{
 				curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
+				std::cout << "on" << std::endl;
 				curAttack_->On();
 			}
 		}

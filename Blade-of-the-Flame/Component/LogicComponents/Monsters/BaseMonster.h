@@ -30,6 +30,7 @@ protected:
 	int dmg_ = 0;
 	float moveSpeed_ = 0.f;
 
+	bool curKnockback_ = false;
 	float knockback_ = 0.f;
 
 	double cooldown_ = 0.0;

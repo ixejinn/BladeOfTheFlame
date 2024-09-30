@@ -175,19 +175,19 @@ void Monster::OnCollision(CollisionEvent* event)
 	}
 
 	MeleeAttack* melee = event->from_->GetComponent<MeleeAttack>();
-	if (melee != nullptr && melee->mode == MeleeAttack::fire)
-	{
-		hp_ -= melee->GetDmg();
-		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage += 0.1;
+	//if (melee != nullptr && melee->mode == MeleeAttack::fire)
+	//{
+	//	hp_ -= melee->GetDmg();
+	//	GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage += 0.1;
 
-		AEVec2 velocity = rb_->GetVelocity();
-		rb_->ClearVelocity();
-		rb_->AddVelocity(velocity * -knockback_);
+	//	AEVec2 velocity = rb_->GetVelocity();
+	//	rb_->ClearVelocity();
+	//	rb_->AddVelocity(velocity * -knockback_);
 
-		state_ = HURT;
+	//	state_ = HURT;
 
-		return;
-	}
+	//	return;
+	//}
 }
 
 void Monster::ReserveDmg(int dmg)

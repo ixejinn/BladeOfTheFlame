@@ -41,12 +41,14 @@ int BaseMonster::CheckDeadState(const AEVec2& pos, const f32& squareDist)
 
 void BaseMonster::MoveToPlayer(AEVec2& moveDir)
 {
-	// Change velocity
-	AEVec2 velocity = rb_->GetVelocity();
-	f32 dotProduct = moveDir.x * velocity.x + moveDir.y * velocity.y;
-	if (dotProduct < 0)
-		rb_->ClearVelocity();
+	if (curKnockback_)
+	{
+		curKnockback_ = false;
+		return;
+	}
 
+	AEVec2 velocity = rb_->GetVelocity();
+	
 	AEVec2 unitMoveDir;
 	AEVec2Normalize(&unitMoveDir, &moveDir);
 	rb_->AddVelocity(unitMoveDir * moveSpeed_);
@@ -60,7 +62,7 @@ void BaseMonster::MoveToPlayer(AEVec2& moveDir)
 
 BaseMonster::BaseMonster(GameObject* owner) : LogicComponent(owner)
 {
-	knockback_ = 10.f;
+	knockback_ = 5.f;
 
 	cooldown_ = 1.0;
 	timeStart_ = std::chrono::system_clock::now();
@@ -131,12 +133,14 @@ void BaseMonster::OnCollision(CollisionEvent* event)
 	if (pAttack)
 	{
 		hp_ -= pAttack->GetDmg();
+		std::cout << hp_ << " " << pAttack->GetDmg() << std::endl;
 		Manager::objMgr.GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;
 
 		if (hp_ > 0)
 		{
 			AEVec2 velocity = rb_->GetVelocity();
 			rb_->SetVelocity(velocity * -knockback_);
+			curKnockback_ = true;
 
 			state_ = HURT;
 		}

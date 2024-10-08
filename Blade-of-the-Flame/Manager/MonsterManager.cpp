@@ -20,6 +20,7 @@ MonsterManager::MonsterManager() : normalSpawner_(), instakillSpawner_()
 
 void MonsterManager::Initialize(int maxNum, int maxActiveNum, double spawnPeriod, int spawnNumPerWave)
 {
+	capturedCount_ = 0;
 	normalSpawner_.Initialize(maxNum, maxActiveNum, spawnPeriod, spawnNumPerWave);
 	instakillSpawner_.Initialize(5, 1, 10, 1);
 }

@@ -16,7 +16,7 @@ NormalMonster::NormalMonster(GameObject* owner) : BaseMonster(owner)
 	maxHp_ = hp_ = 20;
 	exp_ = 5;
 	dmg_ = 8;
-	moveSpeed_ = 10.f;
+	moveSpeed_ = 13.f;
 	
 	owner_->AddComponent<AnimationComp>();
 

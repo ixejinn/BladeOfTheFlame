@@ -133,7 +133,7 @@ void Pet::OnCollision(CollisionEvent* event)
 	Boss1* boss = event->from_->GetComponent<Boss1>();
 	if (boss && fire == true)
 	{
-		AEVec2 bossPos = monster->GetOwner()->GetComponent<Transform>()->GetPosition();
+		AEVec2 bossPos = boss->GetOwner()->GetComponent<Transform>()->GetPosition();
 		GameObject* p = GameObjectManager::GetInstance().CreateObject();
 		p->AddComponent<PB>();
 		p->GetComponent<PB>()->goalPos = bossPos;

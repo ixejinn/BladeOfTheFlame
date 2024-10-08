@@ -35,7 +35,7 @@ void InstakillMonster::SetAnimation()
 	for (int i = 0; i <= 12; i++)
 	{
 		std::stringstream ss;
-		ss << "Assets/Monster_anime/tile" << std::setw(3) << std::setfill('0') << i << ".png";
+		ss << "Assets/HardMonster_anime/tile" << std::setw(3) << std::setfill('0') << i << ".png";
 		std::string name = ss.str();
 		ani_->AddDetail(name, "Walk");
 	}

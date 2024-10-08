@@ -37,6 +37,8 @@ private:
 	Transform* backTrans_ = nullptr;
 	Transform* fillTrans_ = nullptr;
 
+	int monsterCntLvl = 0;
+
 	Player* player_ = nullptr;
 	Transform* playerTrans_ = nullptr;
 

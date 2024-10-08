@@ -47,7 +47,7 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 
     player = GameObjectManager::GetInstance().GetObjectA("player");
 
-    //boss1 = GameObjectManager::GetInstance().GetObjectA("boss");
+    boss1 = GameObjectManager::GetInstance().GetObjectA("boss");
     boss2 = GameObjectManager::GetInstance().GetObjectA("boss2");
 
     col->SetScale({ 0.4f, 0.4f });

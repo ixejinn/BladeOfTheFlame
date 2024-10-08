@@ -37,8 +37,10 @@ MeteorExplosion::MeteorExplosion(GameObject* owner) : BaseAttack(owner)
 	col->SetLayer(Collider::P_ATTACK);
 	col->SetType(Collider::AABB_TYPE);
 	col->SetHandler(static_cast<EventEntity*>(this));
+	col->SetRadius(100);
 
-	dmg_ = 20;
+	//dmg_ = 20;
+	dmg_ = 3;
 	dmgGrowthRate_ = 10.f;
 }
 

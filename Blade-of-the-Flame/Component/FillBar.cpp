@@ -68,14 +68,14 @@ void FillBar::Update()
 	int value = 0;
 	int maxValue = 1;
 	static int maxMonsterCnt = 50;
-	//static int maxMonsterCnt = 1;
+
+	if (monsterCntLvl == 0)
+		maxMonsterCnt = 50;
 
 	switch (showType_)
 	{
 	case MONSTER_CNT:
 	{
-		static int lvl = 0;
-
 		value = MonsterManager::GetInstance().GetCapturedCount();
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxMonsterCnt)));
 		text_->SetPosition({ -0.05f, 0.93f });
@@ -84,16 +84,17 @@ void FillBar::Update()
 
 		if (value >= maxMonsterCnt)
 		{
-			lvl++;
+			monsterCntLvl++;
 
-			if (lvl < 4)
+			if (monsterCntLvl < 4)
 			{
 				IncreaseBrightness* event = new IncreaseBrightness();
 				event->from_ = owner_;
-				event->level = lvl;
+				event->level = monsterCntLvl;
 				Manager::evntMgr.AddEvent(static_cast<BaseEvent*>(event));
 
 				maxMonsterCnt *= 2.8;
+				maxMonsterCnt -= maxMonsterCnt % 5;
 			}
 			else
 			{

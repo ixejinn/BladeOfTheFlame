@@ -148,6 +148,8 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
 
 	timeStart_ = std::chrono::system_clock::now();
+
+	level_ = 4;
 }
 
 void Player::RemoveFromManager()
@@ -330,7 +332,7 @@ void Player::Update()
 	else
 	{
 		pendoubleflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= maxSkillGage)
+		if (SkillGage >= maxSkillGage*2.0f)
 		{
 			//╦чев©ю
 			curAttack_ = meteor->GetComponent<Meteor>();

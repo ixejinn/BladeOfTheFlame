@@ -9,7 +9,7 @@ Grab::Grab(GameObject* owner) : BaseAttack(owner)
 	mode = set;
 	lifetime = 9000;
 	range_ = 500;
-	dmg_ = 0.05;
+	dmg_ = 1;
 	tempdmg = dmg_;
 	cooldown_ = 2000;
 	dmgGrowthRate_ = 5.f;

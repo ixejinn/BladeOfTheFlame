@@ -7,7 +7,8 @@ PenetrableDoubleFlameL::PenetrableDoubleFlameL(GameObject* owner) : BaseAttack(o
 {
 	mode = set;
 	lifetime = 12000;
-	dmg_ = 10;
+	//dmg_ = 10;
+	dmg_ = 2;
 	tempdmg = dmg_;
 	cooldown_ = 2000;
 	dmgGrowthRate_ = 5.f;

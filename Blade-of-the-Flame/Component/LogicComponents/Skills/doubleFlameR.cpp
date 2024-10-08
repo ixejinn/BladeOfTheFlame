@@ -64,7 +64,7 @@ void doubleFlameR::Update()
 		AEVec2 mousePosF({ static_cast<float>(x), static_cast<float>(y) });
 		AEVec2 worldMousePos = convert(mousePosF);
 
-		if (!AEInputCheckCurr(AEVK_LBUTTON))
+		if (AEInputCheckCurr(AEVK_LBUTTON))
 		{
 			// 공격 방향 벡터 계산 (탱크에서 마우스까지의 방향)
 			AEVec2 attackDir = worldMousePos - owner_->GetComponent<Transform>()->GetPosition();

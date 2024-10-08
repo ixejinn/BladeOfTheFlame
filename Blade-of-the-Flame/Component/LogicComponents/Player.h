@@ -34,15 +34,17 @@ private:
 	int maxHp_ = 100;
 	int maxExp_ = 50;
 
-	float moveSpeed_ = 5.f;
+	float moveSpeed_ = 25.f;
 	float attractionRadius_ = 40.f;
 
-	double damageCooldown_ = 0.5;
+	double damageCooldown_ = 0.2;
 	std::chrono::system_clock::time_point timeStart_;
 
 	// Level up�� ���� �ʿ��� ����ġ ������ (%)
 	float expRequirement_ = 30.f;
 	float hpGrowthRate_ = 20.f;
+
+	bool overlapMonster = false;
 
 	//Basic_Attack
 	GameObject* melee_Attack = nullptr;
@@ -64,6 +66,8 @@ private:
 
 	Direction dir_ = RIGHT;
 	void SetAnimation();
+
+	void SetAttack();
 
 	Player(GameObject* owner);
 

@@ -44,7 +44,7 @@ Boss2::Boss2(GameObject* owner) :LogicComponent(owner)
     owner_->GetComponent<Transform>()->SetScale(scale);
     owner_->GetComponent<Transform>()->SetPosition({ 400,400 });
 
-    owner_->active_ = true;
+    //owner_->active_ = false;
 }
 
 void Boss2::Update()
@@ -57,7 +57,9 @@ void Boss2::Update()
     }
     if(phase1Count_ < 1000)
     {
-        Phase1();
+        //Phase1();
+        //Phase2();
+        Phase3();
         isAction = false;
     }
 }

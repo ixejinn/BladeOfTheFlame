@@ -30,6 +30,7 @@ protected:
 	int dmg_ = 0;
 	float moveSpeed_ = 0.f;
 
+	bool curKnockback_ = false;
 	float knockback_ = 0.f;
 
 	double cooldown_ = 0.0;
@@ -48,6 +49,7 @@ protected:
 
 	// -1: despawned, 0: alive, 1: dead
 	int CheckDeadState(const AEVec2& pos, const f32& squareDist);
+	virtual void Dead() = 0;
 
 	void MoveToPlayer(AEVec2& moveDir);
 

@@ -23,31 +23,33 @@ void Camera::UpdatePositionBasedOnPlayer()
 	{
 		AEVec2 playerPos = obj->GetComponent<Transform>()->GetPosition();
 		SetPos(playerPos.x, playerPos.y);
+
+		obj = Manager::objMgr.GetObjectA("ScreenEffect");
+		if (obj)
+			obj->GetComponent<ScreenOverlay>()->Update();
+
+		obj = Manager::objMgr.GetObjectA("bossBar");
+		if (obj)
+			obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+		obj = Manager::objMgr.GetObjectA("monsterBar");
+		if (obj)
+			obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+		obj = Manager::objMgr.GetObjectA("expBar");
+		if (obj)
+			obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+		obj = Manager::objMgr.GetObjectA("healthBar");
+		if (obj)
+			obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+
+		obj = Manager::objMgr.GetObjectA("skillBar");
+		if (obj)
+			obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
 	}
-
-	obj = Manager::objMgr.GetObjectA("ScreenEffect");
-	if (obj)
-		obj->GetComponent<ScreenOverlay>()->Update();
-
-	obj = Manager::objMgr.GetObjectA("bossBar");
-	if (obj)
-		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
-
-	obj = Manager::objMgr.GetObjectA("monsterBar");
-	if (obj)
-		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
-
-	obj = Manager::objMgr.GetObjectA("expBar");
-	if (obj)
-		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
-
-	obj = Manager::objMgr.GetObjectA("healthBar");
-	if (obj)
-		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
-
-	obj = Manager::objMgr.GetObjectA("skillBar");
-	if (obj)
-		obj->GetComponent<FillBar>()->UpdatePositionBasedOnPlayer();
+	else
+		SetPos(0.f, 0.f);
 }
 
 void Camera::Update()

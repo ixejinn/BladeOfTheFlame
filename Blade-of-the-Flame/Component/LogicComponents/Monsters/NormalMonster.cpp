@@ -2,7 +2,14 @@
 
 #include <iomanip>	// std::setw, std::setfill
 #include <sstream>	// std::stringstream
+#include "../../../Manager/MonsterManager.h"
 #include "../../../GameObject/GameObject.h"
+
+namespace Manager
+{
+	extern GameObjectManager& objMgr;
+	extern MonsterManager& monMgr;
+}
 
 NormalMonster::NormalMonster(GameObject* owner) : BaseMonster(owner)
 {
@@ -20,6 +27,12 @@ NormalMonster::NormalMonster(GameObject* owner) : BaseMonster(owner)
 	col->SetCenter({ -0.1f, -0.1f });
 
 	SetAnimation();
+}
+
+void NormalMonster::Dead()
+{
+	hp_ = maxHp_;
+	Manager::monMgr.Release(MonsterManager::NORMAL, owner_);
 }
 
 void NormalMonster::SetAnimation()

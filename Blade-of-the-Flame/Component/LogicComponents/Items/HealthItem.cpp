@@ -27,10 +27,10 @@ void HealthItem::Update()
 
 		use_ = false;
 		owner_->active_ = false;
-		ItemManager::GetInstance().Release(owner_);
+		ItemManager::GetInstance().Release(ItemManager::HEALTH, owner_);
 	}
 	else if (DeactiveIfFar())
-		ItemManager::GetInstance().Release(owner_);
+		ItemManager::GetInstance().Release(ItemManager::HEALTH, owner_);
 }
 
 void HealthItem::LoadFromJson(const json&)

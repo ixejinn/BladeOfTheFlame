@@ -1,19 +1,14 @@
 #pragma once
-#include <stack>
-#include "GameObjectManager.h"
+#include "Spawner.h"
 
 class ExpItem;
 
 class ExpItemManager
 {
 private:
-	std::stack<GameObject*> pool_;
+	Spawner<ExpItem> expSpawner_;
 
-	int maxNum_ = 0;
-	int activeNum_ = 0;
-	int maxActiveNum_ = 0;
-
-	ExpItemManager() = default;
+	ExpItemManager();
 	~ExpItemManager() = default;
 
 	ExpItemManager(const ExpItemManager&) = delete;

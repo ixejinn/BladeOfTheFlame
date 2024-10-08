@@ -35,6 +35,7 @@ public:
 		return instance;
 	}
 
+	void SetEnvironment();
 	void SetPlayerTransform();
 
 	void Update();

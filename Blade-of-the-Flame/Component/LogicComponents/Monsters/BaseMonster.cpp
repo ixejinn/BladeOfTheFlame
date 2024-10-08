@@ -41,12 +41,8 @@ int BaseMonster::CheckDeadState(const AEVec2& pos, const f32& squareDist)
 
 void BaseMonster::MoveToPlayer(AEVec2& moveDir)
 {
-	// Change velocity
 	AEVec2 velocity = rb_->GetVelocity();
-	f32 dotProduct = moveDir.x * velocity.x + moveDir.y * velocity.y;
-	if (dotProduct < 0)
-		rb_->ClearVelocity();
-
+	
 	AEVec2 unitMoveDir;
 	AEVec2Normalize(&unitMoveDir, &moveDir);
 	rb_->AddVelocity(unitMoveDir * moveSpeed_);
@@ -60,7 +56,7 @@ void BaseMonster::MoveToPlayer(AEVec2& moveDir)
 
 BaseMonster::BaseMonster(GameObject* owner) : LogicComponent(owner)
 {
-	knockback_ = 10.f;
+	knockback_ = 5.f;
 
 	cooldown_ = 1.0;
 	timeStart_ = std::chrono::system_clock::now();
@@ -93,8 +89,7 @@ void BaseMonster::Update()
 
 	if (CheckDeadState(pos, squareDist) != 0)
 	{
-		hp_ = maxHp_;
-		Manager::monMgr.Release(owner_);
+		Dead();
 		return;
 	}
 
@@ -128,34 +123,25 @@ void BaseMonster::OnEvent(BaseEvent* event)
 
 void BaseMonster::OnCollision(CollisionEvent* event)
 {
-	//Player* player = event->from_->GetComponent<Player>();
-	//if (player)
-	//{
-	//	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-	//	if (dt.count() >= cooldown_)
-	//	{
-	//		timeStart_ = std::chrono::system_clock::now();
-
-	//		if (player->shield_Attack->GetComponent<Shield>()->ac == true)
-	//			player->AddHp(-dmg_ / 7);
-	//		else
-	//			player->AddHp(-dmg_);
-	//	}
-
-	//	return;
-	//}
-
 	BaseAttack* pAttack = event->ptom;
 	if (pAttack)
 	{
 		hp_ -= pAttack->GetDmg();
+		std::cout << hp_ << " " << pAttack->GetDmg() << std::endl;
 		Manager::objMgr.GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;
 
 		if (hp_ > 0)
 		{
-			AEVec2 velocity = rb_->GetVelocity();
-			rb_->ClearVelocity();
-			rb_->AddVelocity(velocity * -knockback_);
+			if (dynamic_cast<MeleeAttack*>(pAttack))
+			{
+				AEVec2 velocity = rb_->GetVelocity();
+				AEVec2 playerPos = playerTrans_->GetPosition();
+				AEVec2 pos = trans_->GetPosition();
+				AEVec2 direction = playerPos - pos;
+				f32 dotProduct = AEVec2DotProduct(&velocity, &direction);
+				if (dotProduct > 0)
+					rb_->SetVelocity(velocity * -knockback_);
+			}
 
 			state_ = HURT;
 		}

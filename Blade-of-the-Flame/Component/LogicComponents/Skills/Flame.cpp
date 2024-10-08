@@ -42,9 +42,10 @@ Flame::~Flame()
 
 void Flame::Update()
 {
+	dmg_ = 100;
 	if (mode == set)
 	{
-		dmg_ = 0;
+		//dmg_ = 0;
 		owner_->GetComponent<Transform>()->SetPosition(player_->GetComponent<Transform>()->GetPosition());
 		AEInputInit();
 		s32 x, y;
@@ -56,7 +57,7 @@ void Flame::Update()
 			AEVec2Normalize(&dir, &attackDir);
 			owner_->GetComponent<Transform>()->SetRotation(dir);
 			mode = fire;
-			dmg_ = tempdmg;
+			//dmg_ = tempdmg;
 			owner_->GetComponent<Transform>()->SetScale({ 80, 50 });
 		}
 	}
@@ -99,6 +100,7 @@ void Flame::OnEvent(BaseEvent*)
 
 void Flame::OnCollision(CollisionEvent* event)
 {
+	dmg_ = 100;
 	Monster* monster = event->from_->GetComponent<Monster>();
 	if (monster)
 	{

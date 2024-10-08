@@ -118,6 +118,8 @@ void FillBar::Update()
 
 	case PLAYER_HP:
 		value = player_->GetHp();
+		if (value <= 0)
+			value = 0;
 		maxValue = player_->GetMaxHp();
 		break;
 

@@ -16,18 +16,18 @@ namespace Manager
 
 void GameState::Init()
 {
-#ifndef _DEBUG
-	//InitBackground();
+//#ifndef _DEBUG
 	EnvironmentManager& envMgr = EnvironmentManager::GetInstance();
-#endif
+	envMgr.SetEnvironment();
+//#endif
 
 	/* PLAYER */
 	GameObject* player = Manager::objMgr.CreateObject("player");
 	player->AddComponent<Player>();
 
-#ifndef _DEBUG
+//#ifndef _DEBUG
 	envMgr.SetPlayerTransform();
-#endif
+//#endif
 
 	/* FLAME ALTAR */
 	GameObject* altar = Manager::objMgr.CreateObject("flameAltar");
@@ -45,14 +45,14 @@ void GameState::Init()
 	///////////////////////////지울수도 있음/////////////////////////////
 	GameObject* boss2 = Manager::objMgr.CreateObject("boss2");
 	boss2->AddComponent<Boss2>();
+	boss2->active_ = false;
 	////////////////////////////////////////////////////////////////////
 
 	/* SPAWN MANAGERS */
-	MonsterManager::GetInstance().Initialize(230);
+	MonsterManager::GetInstance().Initialize(320, 10, 5.0, 10);
 	ExpItemManager::GetInstance().Initialize(230);
-	ItemManager::GetInstance().Initialize(20);
+	ItemManager::GetInstance().Initialize(20, 6, 20.0, 3);
 
-	MonsterManager::GetInstance().SetMaxActiveNum(20);
 #ifndef _DEBUG
 	/* SCREEN OVERLAY EFFECT */
 	GameObject* effect = Manager::objMgr.CreateObject("ScreenEffect");
@@ -64,9 +64,9 @@ void GameState::Init()
 
 void GameState::Update()
 {
-#ifndef _DEBUG
+//#ifndef _DEBUG
 	EnvironmentManager::GetInstance().Update();
-#endif
+//#endif
 
 	MonsterManager::GetInstance().Spawn();
 	ItemManager::GetInstance().Spawn();

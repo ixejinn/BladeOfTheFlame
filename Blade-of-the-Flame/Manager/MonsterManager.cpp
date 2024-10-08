@@ -2,112 +2,52 @@
 
 #include <string>
 #include <typeindex>
+#include "EventManager.h"
 #include "../Component/LogicComponents/Monsters/NormalMonster.h"
 #include "../Event/Event.h"
-#include "../Manager/EventManager.h"
 
-MonsterManager::MonsterManager() : SpawnManager()
+namespace Manager
 {
-	spawnPeriod_ = 5.0;
-	spawnNumPerWave_ = 20;
-
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(LevelUpEvent)), static_cast<EventEntity*>(this));
-	EventManager::GetInstance().RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
+	extern GameObjectManager& objMgr;
+	extern EventManager& evntMgr;
 }
 
-void MonsterManager::Initialize(int maxNum)
+MonsterManager::MonsterManager() : normalSpawner_(), instakillSpawner_()
 {
-	if (!pool_.empty())
-		Clear();
-	maxNum_ = maxNum;
-	maxActiveNum_ = maxNum;
+	Manager::evntMgr.RegisterEntity(std::type_index(typeid(LevelUpEvent)), static_cast<EventEntity*>(this));
+	Manager::evntMgr.RegisterEntity(std::type_index(typeid(SpawnBossEvent)), static_cast<EventEntity*>(this));
+}
 
-	GameObjectManager& gom = GameObjectManager::GetInstance();
-	for (int i = 0; i < maxNum; i++)
-	{
-		GameObject* obj = gom.CreateObject("monster" + std::to_string(i));
-		obj->AddComponent<NormalMonster>();
-		obj->GetComponent<Transform>()->SetPosition(0.1f, 0.1f);
-		obj->active_ = false;
-		pool_.push(obj);
-	}
-
-	timeStart_ = std::chrono::system_clock::now();
+void MonsterManager::Initialize(int maxNum, int maxActiveNum, double spawnPeriod, int spawnNumPerWave)
+{
+	normalSpawner_.Initialize(maxNum, maxActiveNum, spawnPeriod, spawnNumPerWave);
+	instakillSpawner_.Initialize(5, 1, 10, 1);
 }
 
 void MonsterManager::Spawn()
 {
-	static bool firstSpawn = true;
-
-	if (activeNum_ >= maxActiveNum_)
-		return;
-
-	std::chrono::duration<double> dt = std::chrono::system_clock::now() - timeStart_;
-	if (dt.count() < spawnPeriod_ && !firstSpawn)
-		return;
-
-	firstSpawn = false;
-	timeStart_ = std::chrono::system_clock::now();
-	static Transform* playerTrans = GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Transform>();
-	static auto& engine = RandomEngine::GetInstance().GetEngine();
-
-	for (int i = 0; i < spawnNumPerWave_; i++)
-	{
-		if (pool_.empty())
-			return;
-
-		GameObject* monster = pool_.top();
-		pool_.pop();
-		activeNum_++;
-
-		int zone = spawnZone_(engine);
-		int x = 0, y = 0;
-		int halfWidth = windowWidth / 2, halfHeight = windowHeight / 2;
-
-		switch (zone)
-		{
-		case 0:	// Up side
-			x = spawnX_(engine);
-			y = halfHeight + spawnOffset_ + x / 100;
-			break;
-
-		case 1:	// Right side
-			y = spawnY_(engine);
-			x = halfWidth + spawnOffset_ + y / 100;
-			break;
-
-		case 2:	// Down side
-			x = spawnX_(engine);
-			y = -halfHeight - spawnOffset_ - x / 100;
-			break;
-
-		case 3:	// Left side
-			y = spawnY_(engine);
-			x = -halfWidth - spawnOffset_ - y / 100;
-			break;
-		}
-
-		AEVec2 playerPos = playerTrans->GetPosition();
-		x += int(playerPos.x);
-		y += int(playerPos.y);
-
-		monster->GetComponent<Transform>()->SetPosition(float(x), float(y));
-		monster->active_ = true;
-	}
+	normalSpawner_.Spawn();
+	instakillSpawner_.Spawn();
 }
 
-void MonsterManager::Release(GameObject* obj)
+void MonsterManager::Release(MonsterType type, GameObject* obj)
 {
-	obj->GetComponent<RigidBody>()->ClearVelocity();
-	obj->active_ = false;
-	pool_.push(obj);
-	activeNum_--;
+	switch (type)
+	{
+	case NORMAL:
+		normalSpawner_.Release(obj);
+		break;
+
+	case INSTAKILL:
+		instakillSpawner_.Release(obj);
+		break;
+	}
 }
 
 void MonsterManager::Clear()
 {
-	while (!pool_.empty())
-		pool_.pop();
+	normalSpawner_.Clear();
+	instakillSpawner_.Clear();
 }
 
 void MonsterManager::OnEvent(BaseEvent* event)
@@ -115,11 +55,11 @@ void MonsterManager::OnEvent(BaseEvent* event)
 	if (dynamic_cast<LevelUpEvent*>(event))
 	{
 		LevelUpEvent* lvlUp = static_cast<LevelUpEvent*>(event);
-		maxActiveNum_ = maxActiveNum_ * lvlUp->level;
+		normalSpawner_.SetMaxActiveNum(normalSpawner_.GetMaxActiveNum() * lvlUp->level);
 	}
 	else if (dynamic_cast<SpawnBossEvent*>(event))
 	{
-		maxActiveNum_ = 100;
+		normalSpawner_.SetMaxActiveNum(100);
 	}
 }
 

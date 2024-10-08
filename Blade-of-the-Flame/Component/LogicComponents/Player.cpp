@@ -148,8 +148,6 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
 
 	timeStart_ = std::chrono::system_clock::now();
-
-	level_ = 4;
 }
 
 void Player::RemoveFromManager()

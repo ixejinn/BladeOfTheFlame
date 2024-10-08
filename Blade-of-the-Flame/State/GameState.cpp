@@ -16,18 +16,18 @@ namespace Manager
 
 void GameState::Init()
 {
-#ifndef _DEBUG
-	//InitBackground();
+//#ifndef _DEBUG
 	EnvironmentManager& envMgr = EnvironmentManager::GetInstance();
-#endif
+	envMgr.SetEnvironment();
+//#endif
 
 	/* PLAYER */
 	GameObject* player = Manager::objMgr.CreateObject("player");
 	player->AddComponent<Player>();
 
-#ifndef _DEBUG
+//#ifndef _DEBUG
 	envMgr.SetPlayerTransform();
-#endif
+//#endif
 
 	/* FLAME ALTAR */
 	GameObject* altar = Manager::objMgr.CreateObject("flameAltar");
@@ -48,13 +48,8 @@ void GameState::Init()
 	boss2->active_ = false;
 	////////////////////////////////////////////////////////////////////
 
-	/* SAMPLE MONSTERS */
-	//GameObject* skeleton = Manager::objMgr.CreateObject("instakill");
-	//skeleton->AddComponent<NormalMonster>();
-	//skeleton->GetComponent<Transform>()->SetPosition({ 400, 400 });
-
 	/* SPAWN MANAGERS */
-	MonsterManager::GetInstance().Initialize(320, 20, 5.0, 10);
+	MonsterManager::GetInstance().Initialize(320, 10, 5.0, 10);
 	ExpItemManager::GetInstance().Initialize(230);
 	ItemManager::GetInstance().Initialize(20, 6, 20.0, 3);
 
@@ -69,9 +64,9 @@ void GameState::Init()
 
 void GameState::Update()
 {
-#ifndef _DEBUG
+//#ifndef _DEBUG
 	EnvironmentManager::GetInstance().Update();
-#endif
+//#endif
 
 	MonsterManager::GetInstance().Spawn();
 	ItemManager::GetInstance().Spawn();

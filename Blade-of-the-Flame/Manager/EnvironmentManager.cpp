@@ -9,11 +9,13 @@ namespace Manager
 	extern GameObjectManager& objMgr;
 }
 
-EnvironmentManager::EnvironmentManager()
+void EnvironmentManager::SetEnvironment()
 {
-	Transform* trans = nullptr;
+	up_.clear();
+	center_.clear();
+	down_.clear();
 
-	//zoom_ = 1.f;
+	Transform* trans = nullptr;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -50,6 +52,11 @@ EnvironmentManager::EnvironmentManager()
 	bgm_ = Manager::objMgr.CreateObject("_BGM");
 	bgm_->AddComponent<Audio>();
 	bgm_->GetComponent<Audio>()->SetAudio("Assets/FallingRain.mp3");
+}
+
+EnvironmentManager::EnvironmentManager()
+{
+	SetEnvironment();
 }
 
 void EnvironmentManager::SetPlayerTransform()

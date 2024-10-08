@@ -65,8 +65,9 @@ inline Spawner<T>::~Spawner()
 template<typename T>
 inline void Spawner<T>::Initialize(int maxNum, int maxActiveNum, double spawnPeriod, int spawnNumPerWave)
 {
+	activeNum_ = 0;
 	maxNum_ = maxNum;
-	maxActiveNum_ = maxNum;
+	maxActiveNum_ = maxActiveNum;
 	spawnPeriod_ = spawnPeriod;
 	spawnNumPerWave_ = spawnNumPerWave;
 

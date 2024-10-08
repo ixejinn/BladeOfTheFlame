@@ -41,12 +41,6 @@ int BaseMonster::CheckDeadState(const AEVec2& pos, const f32& squareDist)
 
 void BaseMonster::MoveToPlayer(AEVec2& moveDir)
 {
-	if (curKnockback_)
-	{
-		curKnockback_ = false;
-		return;
-	}
-
 	AEVec2 velocity = rb_->GetVelocity();
 	
 	AEVec2 unitMoveDir;
@@ -138,9 +132,16 @@ void BaseMonster::OnCollision(CollisionEvent* event)
 
 		if (hp_ > 0)
 		{
-			AEVec2 velocity = rb_->GetVelocity();
-			rb_->SetVelocity(velocity * -knockback_);
-			curKnockback_ = true;
+			if (dynamic_cast<MeleeAttack*>(pAttack))
+			{
+				AEVec2 velocity = rb_->GetVelocity();
+				AEVec2 playerPos = playerTrans_->GetPosition();
+				AEVec2 pos = trans_->GetPosition();
+				AEVec2 direction = playerPos - pos;
+				f32 dotProduct = AEVec2DotProduct(&velocity, &direction);
+				if (dotProduct > 0)
+					rb_->SetVelocity(velocity * -knockback_);
+			}
 
 			state_ = HURT;
 		}

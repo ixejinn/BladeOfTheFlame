@@ -148,6 +148,8 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
 
 	timeStart_ = std::chrono::system_clock::now();
+
+	level_ = 4;
 }
 
 void Player::RemoveFromManager()
@@ -219,12 +221,13 @@ void Player::Update()
 		else
 		{
 			curAttack_ = nullptr;
-			if (melee_Attack->GetComponent<MeleeAttack>()->GetCooldown() <= meleeCool &&
-				AEInputCheckCurr(AEVK_LBUTTON))
+			if (AEInputCheckCurr(AEVK_LBUTTON) && melee_Attack->GetComponent<MeleeAttack>()->GetCooldown() <= meleeCool)
 			{
+				meleeCool = 0.0;
 				curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
-				std::cout << "on" << std::endl;
+				//std::cout << "on" << std::endl;
 				curAttack_->On();
+				//audio_->SetPlaying(true);
 			}
 		}
 	}

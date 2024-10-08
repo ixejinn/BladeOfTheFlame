@@ -47,6 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, showConsole, 60, true, NULL);
 #ifndef _DEBUG
 	AESysSetFullScreen(1);
+	ShowCursor(false);
 #endif
 	
 	// Changing the window title

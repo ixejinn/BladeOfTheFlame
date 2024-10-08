@@ -69,13 +69,13 @@ void FillBar::Update()
 	int maxValue = 1;
 	static int maxMonsterCnt = 50;
 
-	if (monsterCntLvl == 0)
-		maxMonsterCnt = 50;
-
 	switch (showType_)
 	{
 	case MONSTER_CNT:
 	{
+		if (monsterCntLvl == 0)
+			maxMonsterCnt = 50;
+
 		value = MonsterManager::GetInstance().GetCapturedCount();
 		text_->SetString(std::to_string(int(value)) + " / " + std::to_string(int(maxMonsterCnt)));
 		text_->SetPosition({ -0.05f, 0.93f });

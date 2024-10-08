@@ -56,16 +56,16 @@ BulletComp::BulletComp(GameObject* owner) : LogicComponent(owner), unitDir()
 
 void BulletComp::Update()
 {	
-    //boss2 test
-    time += 0.1f;
-    //CurveBullet();
+    ////boss2 test
+    //time += 0.1f;
+    ////CurveBullet();
 
-    //DownBullet();
+    ////DownBullet();
 
-    CircleBullet();
+    //CircleBullet();
 
-    //RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
-    //bulletRigd->AddVelocity(unitDir * bulletSpeed_);
+    RigidBody* bulletRigd = owner_->GetComponent<RigidBody>();
+    bulletRigd->AddVelocity(unitDir * bulletSpeed_);
 }
 
 void BulletComp::OnEvent(BaseEvent* event)

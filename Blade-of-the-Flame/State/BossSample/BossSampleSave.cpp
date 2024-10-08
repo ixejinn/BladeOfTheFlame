@@ -47,8 +47,8 @@ void BossSampleSave::Init()
 	//GameObject* boss1 = GameObjectManager::GetInstance().CreateObject("boss1");
 	//boss1->AddComponent<Boss1>();
 	//BOSS_2
-	//GameObject* boss2 = GameObjectManager::GetInstance().CreateObject("boss2");
-	//boss2->AddComponent<Boss2>();
+	GameObject* boss2 = GameObjectManager::GetInstance().CreateObject("boss2");
+	boss2->AddComponent<Boss2>();
 
 	/*for (int i = 0; i < 6; i++)
 	{

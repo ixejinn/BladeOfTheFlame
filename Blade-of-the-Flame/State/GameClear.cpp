@@ -4,6 +4,7 @@
 #include "../Component/Button.h"
 #include "../Manager/GameObjectManager.h"
 #include "../Manager/GameStateManager.h"
+#include "../Utils/Utils.h"
 
 namespace Manager
 {
@@ -16,12 +17,14 @@ void GameClear::Init()
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	GameObject* message = GameObjectManager::GetInstance().CreateObject();
-	message->AddComponent<Text>();
+	message->AddComponent<Transform>();
+	message->AddComponent<Sprite>();
 
-	Text* messageText = message->GetComponent<Text>();
-	messageText->SetFont("Assets/Roboto-Bold.ttf");
-	messageText->SetSize(1.f);
-	messageText->SetString("GAME CLEAR!");
+	Transform* trans = message->GetComponent<Transform>();
+	trans->SetPosition(0, 0);
+	trans->SetScale({ windowWidth, 849.42});
+
+	message->GetComponent<Sprite>()->SetTexture("Assets/gameclear.png");
 
 	// MAINMENU button
 	GameObject* main = Manager::objMgr.CreateObject("restart");

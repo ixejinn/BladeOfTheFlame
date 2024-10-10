@@ -56,7 +56,7 @@ void BaseMonster::MoveToPlayer(AEVec2& moveDir)
 
 BaseMonster::BaseMonster(GameObject* owner) : LogicComponent(owner)
 {
-	knockback_ = 5.f;
+	knockback_ = 2.f;
 
 	cooldown_ = 1.0;
 	timeStart_ = std::chrono::system_clock::now();

@@ -6,7 +6,7 @@
 
 MagnetItem::MagnetItem(GameObject* owner) : BaseItem(owner)
 {
-	activeTime = 5.0;
+	activeTime = 3.0;
 
 	owner_->GetComponent<Transform>()->SetScale({ 50, 50 });
 	owner_->GetComponent<BoxCollider>()->SetLayer(Collider::ITEM);

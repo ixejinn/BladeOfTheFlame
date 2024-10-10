@@ -3,11 +3,15 @@
 #include "../../Manager/ComponentManager.h"
 #include "../../Utils/Utils.h"
 
+class GameObject;
+
 class MeleeAttack : public BaseAttack
 {
 private:
 	Direction dir_ = RIGHT;
 	AEVec2 attackDir;
+
+	GameObject* aniObj_ = nullptr;
 
 	MeleeAttack(GameObject* owner);
 

@@ -98,7 +98,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	pCtrl_->SetMoveSpeed(moveSpeed_);
 
 	audio_ = owner_->GetComponent<Audio>();
-	audio_->SetAudio("Assets/ore.mp3");
+	audio_->SetAudio("Assets/Sounds/fireSound.mp3");
 	audio_->SetLoop(false);
 	audio_->SetPlaying(false);
 
@@ -205,10 +205,21 @@ void Player::Update()
 		curState = IDLE;
 
 	/* ATTACK */
+	curAttack_ = nullptr;
+	meleeCool += AEFrameRateControllerGetFrameRate();
+	if (AEInputCheckCurr(AEVK_LBUTTON) && melee_Attack->GetComponent<MeleeAttack>()->GetCooldown() <= meleeCool)
+	{
+		meleeCool = 0.0;
+		//curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
+		////std::cout << "on" << std::endl;
+		//curAttack_->On();
+		melee_Attack->GetComponent<MeleeAttack>()->On();
+		audio_->SetPlaying(true);
+	}
+
 	//SetAttack();
 	if (1 <= level_ && level_ < 4)
 	{
-		meleeCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= maxSkillGage)
 		{
 			//쉴드스킬
@@ -216,29 +227,38 @@ void Player::Update()
 			curAttack_->On();
 			SkillGage = 0;
 		}
-		else
-		{
-			curAttack_ = nullptr;
-			if (AEInputCheckCurr(AEVK_LBUTTON) && melee_Attack->GetComponent<MeleeAttack>()->GetCooldown() <= meleeCool)
-			{
-				meleeCool = 0.0;
-				curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
-				//std::cout << "on" << std::endl;
-				curAttack_->On();
-				//audio_->SetPlaying(true);
-			}
-		}
+		//else
+		//{
+		//	curAttack_ = nullptr;
+		//	if (AEInputCheckCurr(AEVK_LBUTTON) && melee_Attack->GetComponent<MeleeAttack>()->GetCooldown() <= meleeCool)
+		//	{
+		//		meleeCool = 0.0;
+		//		curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
+		//		//std::cout << "on" << std::endl;
+		//		curAttack_->On();
+		//		//audio_->SetPlaying(true);
+		//	}
+		//}
 	}
 	else if (4 <= level_ && level_ < 7)
 	{
 		flameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= maxSkillGage)
 		{
-			TimeRecall->active_ = true;
+			//TimeRecall->active_ = true;
 			////부메랑 스킬
 			//curAttack_ = boomerang_Attack->GetComponent<boomerang>();
 			//curAttack_->On();
 			//SkillGage = 0;
+
+			// 파이어 버블
+			curAttack_ = nullptr;
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
+				curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
+				curAttack_->On();
+			}
 
 			//if (AEInputCheckCurr(AEVK_LBUTTON))
 			//{
@@ -252,12 +272,12 @@ void Player::Update()
 			//	curAttack_->On();
 			//}
 
-			if (AEInputCheckCurr(AEVK_LBUTTON))
-			{
-				curAttack_ = Pet_->GetComponent<Pet>();
-				curAttack_->On();
-				SkillGage = 0;
-			}
+			//if (AEInputCheckCurr(AEVK_LBUTTON))
+			//{
+			//	curAttack_ = Pet_->GetComponent<Pet>();
+			//	curAttack_->On();
+			//	SkillGage = 0;
+			//}
 		}
 		else
 		{
@@ -294,14 +314,19 @@ void Player::Update()
 		doubleflameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= maxSkillGage)
 		{
-			// 파이어 버블
-			curAttack_ = nullptr;
-			if (AEInputCheckCurr(AEVK_LBUTTON))
-			{
-				fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
-				curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
-				curAttack_->On();
-			}
+			//// 파이어 버블
+			//curAttack_ = nullptr;
+			//if (AEInputCheckCurr(AEVK_LBUTTON))
+			//{
+			//	fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
+			//	curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
+			//	curAttack_->On();
+			//}
+			TimeRecall->active_ = true;
+			//부메랑 스킬
+			curAttack_ = boomerang_Attack->GetComponent<boomerang>();
+			curAttack_->On();
+			SkillGage = 0;
 		}
 		else
 		{

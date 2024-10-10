@@ -16,12 +16,14 @@ void GameOver::Init()
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	GameObject* message = GameObjectManager::GetInstance().CreateObject();
-	message->AddComponent<Text>();
+	message->AddComponent<Transform>();
+	message->AddComponent<Sprite>();
 
-	Text* messageText = message->GetComponent<Text>();
-	messageText->SetFont("Assets/Roboto-Bold.ttf");
-	messageText->SetSize(1.f);
-	messageText->SetString("GAME OVER!");
+	Transform* trans = message->GetComponent<Transform>();
+	trans->SetPosition(0, 0);
+	trans->SetScale({ 682, 260 });
+
+	message->GetComponent<Sprite>()->SetTexture("Assets/gameover.png");
 
 	// MAINMENU button
 	GameObject* main = Manager::objMgr.CreateObject("restartOver");

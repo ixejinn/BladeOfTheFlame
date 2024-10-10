@@ -30,7 +30,7 @@ private:
 	int hp_ = 100;
 	int exp_ = 0;
 
-	int maxLevel_ = 10;
+	int maxLevel_ = 100;
 	int maxHp_ = 100;
 	int maxExp_ = 50;
 

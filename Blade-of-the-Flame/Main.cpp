@@ -47,7 +47,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AESysInit(hInstance, nCmdShow, windowWidth, windowHeight, showConsole, 60, true, NULL);
 #ifndef _DEBUG
 	AESysSetFullScreen(1);
-	ShowCursor(false);
+	//ShowCursor(false);
 #endif
 	
 	// Changing the window title
@@ -57,14 +57,14 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	AESysReset();
 
 	//GameState* gameState = new GameState();
-	//GameOver* gameOver = new GameOver();
+	GameOver* gameOver = new GameOver();
 	//GameClear* gameClear = new GameClear();
 	//SampleSave* sampleSave = new SampleSave();
-	MainMenu* mainMenu = new MainMenu();
+	//MainMenu* mainMenu = new MainMenu();
 	//OpeningLogos* opening = new OpeningLogos();
 	//BossSampleSave* bossSample = new BossSampleSave();
 
-	Manager::gsMgr.ChangeState(mainMenu);
+	Manager::gsMgr.ChangeState(gameOver);
 
 	// Game Loop
 	while (Manager::gsMgr.ShouldExit() == false && gGameRunning)

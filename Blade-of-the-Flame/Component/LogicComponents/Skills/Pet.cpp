@@ -4,6 +4,7 @@
 #include "../../../Event/Event.h"
 #include "../Monster.h"
 #include "../../../Utils/Utils.h"
+#include <iostream>
 
 Pet::Pet(GameObject* owner) : BaseAttack(owner)
 {
@@ -17,24 +18,21 @@ Pet::Pet(GameObject* owner) : BaseAttack(owner)
 	owner_->AddComponent<RigidBody>();
 	owner_->AddComponent<Sprite>();
 	owner->AddComponent<AnimationComp>();
-	for (int i = 0; i < 16; i++)
-	{
-		owner->GetComponent<AnimationComp>()->AddDetail("Assets/gtae__Anime/" + std::to_string(i) + ".png", "Attack");
-	}
+	owner->GetComponent<AnimationComp>()->AddDetail("Assets/pet.png", "Attack");
 	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
-	owner->GetComponent<AnimationComp>()->SetTerm(100);
 
 	owner_->AddComponent<CircleCollider>();
 	CircleCollider* col = owner_->GetComponent<CircleCollider>();
 	col->SetLayer(Collider::SEARCH);
 	col->SetType(Collider::CIRCLE_TYPE);
 	col->SetHandler(static_cast<EventEntity*>(this));
-	col->SetRadius(100);
+	col->SetRadius(500);
 
-	for(int i = 0;i<10;i++)
+	for(int i = 0;i<13;i++)
 	{
 		GameObject* p = GameObjectManager::GetInstance().CreateObject(std::to_string(i));
 		p->AddComponent<PB>();
+		p->GetComponent<PB>()->SetPlayer(player_);
 		pbs.push_back(p);
 	}
 }
@@ -129,7 +127,7 @@ void Pet::OnCollision(CollisionEvent* event)
 	if (monster && fire == true)
 	{
 		AEVec2 monsterPos = monster->GetOwner()->GetComponent<Transform>()->GetPosition();
-		if (count >= 10)
+		if (count >= 13)
 			count = 0;
 		pbs[count]->GetComponent<Transform>()->SetPosition(owner_->GetComponent<Transform>()->GetPosition());
 		pbs[count]->GetComponent<PB>()->goalPos = monsterPos;
@@ -143,7 +141,7 @@ void Pet::OnCollision(CollisionEvent* event)
 	if (boss && fire == true)
 	{
 		AEVec2 bossPos = boss->GetOwner()->GetComponent<Transform>()->GetPosition();
-		if (count >= 10)
+		if (count >= 13)
 			count = 0;
 		pbs[count]->GetComponent<Transform>()->SetPosition(owner_->GetComponent<Transform>()->GetPosition());
 		pbs[count]->GetComponent<PB>()->goalPos = bossPos;

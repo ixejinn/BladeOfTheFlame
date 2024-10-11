@@ -9,7 +9,7 @@ Melee2Attack::Melee2Attack(GameObject* owner) : BaseAttack(owner)
 	dmg_ = 2;
 	dmgGrowthRate_ = 50.f;
 
-	range_ = 200.f;
+	range_ = 350.f;
 
 	tempdmg = dmg_;
 	cooldown_ = 2000;

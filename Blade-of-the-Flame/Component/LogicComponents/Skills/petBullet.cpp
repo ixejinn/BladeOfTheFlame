@@ -8,7 +8,7 @@ PB::PB(GameObject* owner) : BaseAttack(owner)
 {
 	goalPos = { 0, 0 };
 	range_ = 80;
-	lifetime = 12000;
+	lifetime = 3000;
 	mode = set;
 	dmg_ = 10;
 	dmgGrowthRate_ = 5.f;
@@ -40,6 +40,8 @@ void PB::Update()
 {
 	if(mode == set)
 	{
+		lifetime = 3000;
+		owner_->GetComponent<RigidBody>()->ClearVelocity();
 		AEVec2 attackDir{ goalPos - owner_->GetComponent<Transform>()->GetPosition() };
 		AEVec2Normalize(&dir, &attackDir);
 		owner_->GetComponent<Transform>()->SetRotation(dir);
@@ -55,6 +57,7 @@ void PB::Update()
 		}
 		else
 		{
+			mode = set;
 			owner_->active_ = false;
 		}
 	}
@@ -83,10 +86,10 @@ void PB::OnEvent(BaseEvent*)
 
 void PB::OnCollision(CollisionEvent* event)
 {
-	Monster* monster = event->from_->GetComponent<Monster>();
+	BaseMonster* monster = event->monster;
 	if (monster)
 	{
-		monster->ReserveDmg(dmg_);
+		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage -= 1;
 		owner_->active_ = false;
 		owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<PB>())));
 	}
@@ -94,6 +97,7 @@ void PB::OnCollision(CollisionEvent* event)
 	Boss1* boss = event->from_->GetComponent<Boss1>();
 	if (boss)
 	{
+		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage -= 1;
 		boss->ReserveDmg(dmg_);
 		owner_->active_ = false;
 		owner_->DeleteComponent(std::type_index(typeid(owner_->GetComponent<PB>())));

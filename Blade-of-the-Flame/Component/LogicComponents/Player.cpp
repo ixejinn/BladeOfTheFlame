@@ -73,8 +73,8 @@ void Player::SetAttack()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 18;
-	SkillGage = 120;
+	level_ = 10;
+	SkillGage = 0;
 	/* Set Player component */
 	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<BoxCollider>();
@@ -155,6 +155,14 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	Pet_ = GameObjectManager::GetInstance().CreateObject("Pet");
 	Pet_->AddComponent<Pet>();
 	Pet_->GetComponent<Pet>()->SetPlayer(owner_);
+
+	meleeCool = 99999;
+	flameCool = 99999;
+	doubleflameCool = 99999;
+	pendoubleflameCool = 99999;
+	oflameCool = 99999;
+	mel2Cool = 99999;
+	gtaeCool = 99999;
 
 	//----------------------------------//
 	curAttack_ = melee_Attack->GetComponent<MeleeAttack>();

@@ -11,7 +11,7 @@ Gtae::Gtae(GameObject* owner) : BaseAttack(owner)
 	mode = df;
 	range_ = 200;
 	dmgGrowthRate_ = 5.f;
-	dmg_ = 0.1;
+	dmg_ = 1;
 	tempdmg = dmg_;
 	cooldown_ = 3000;
 	owner_->AddComponent<Transform>();
@@ -151,19 +151,18 @@ void Gtae::OnEvent(BaseEvent*)
 
 void Gtae::OnCollision(CollisionEvent* event)
 {
-	Monster* monster = event->from_->GetComponent<Monster>();
+	BaseMonster* monster = event->monster;
 	if (monster && delay >= 100)
 	{
 		delay = 0;
-		player_->GetComponent<Player>()->SkillGage += 0.01;
-		monster->ReserveDmg(dmg_);
+		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage -= 1;
 	}
 
 	Boss1* boss = event->from_->GetComponent<Boss1>();
 	if (boss && delay >= 100)
 	{
 		delay = 0;
-		player_->GetComponent<Player>()->SkillGage += 0.01;
+		GameObjectManager::GetInstance().GetObjectA("player")->GetComponent<Player>()->SkillGage -= 1;
 		boss->ReserveDmg(dmg_);
 	}
 }

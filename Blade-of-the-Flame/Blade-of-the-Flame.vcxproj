@@ -106,6 +106,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\Button.cpp" />
     <ClCompile Include="Component\Collider.cpp" />
     <ClCompile Include="Component\FillBar.cpp" />
+    <ClCompile Include="Component\LogicComponents\aim.cpp" />
     <ClCompile Include="Component\LogicComponents\BaseAttack.cpp" />
     <ClCompile Include="Component\LogicComponents\Items\BaseItem.cpp" />
     <ClCompile Include="Component\LogicComponents\Monsters\BaseMonster.cpp" />
@@ -131,8 +132,10 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClCompile Include="Component\LogicComponents\Skills\Flame.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\grab.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\gtae.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\Melee2.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\Meteor.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\MeteorExplosion.cpp" />
+    <ClCompile Include="Component\LogicComponents\Skills\oppositeFlame.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\PenetrabledoubleFlameL.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\PenetrabledoubleFlameR.cpp" />
     <ClCompile Include="Component\LogicComponents\Skills\petBullet.cpp" />
@@ -183,6 +186,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\Collider.h" />
     <ClInclude Include="Component\Component.h" />
     <ClInclude Include="Component\FillBar.h" />
+    <ClInclude Include="Component\LogicComponents\aim.h" />
     <ClInclude Include="Component\LogicComponents\BaseAttack.h" />
     <ClInclude Include="Component\LogicComponents\Items\BaseItem.h" />
     <ClInclude Include="Component\LogicComponents\Monsters\BaseMonster.h" />
@@ -213,8 +217,10 @@ xcopy "$(SolutionDir)Extern\AlphaEngine\lib\fmod.dll" "$(OutDir)" /s /r /y /q</C
     <ClInclude Include="Component\LogicComponents\Skills\grab.h" />
     <ClInclude Include="Component\LogicComponents\Skills\gtae.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Inferno.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\Melee2.h" />
     <ClInclude Include="Component\LogicComponents\Skills\Meteor.h" />
     <ClInclude Include="Component\LogicComponents\Skills\MeteorExplosion.h" />
+    <ClInclude Include="Component\LogicComponents\Skills\oppositeFlame.h" />
     <ClInclude Include="Component\LogicComponents\Skills\PenetrabledoubleFlameL.h" />
     <ClInclude Include="Component\LogicComponents\Skills\PenetrabledoubleFlameR.h" />
     <ClInclude Include="Component\LogicComponents\Skills\petBullet.h" />

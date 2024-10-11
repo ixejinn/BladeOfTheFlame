@@ -7,6 +7,7 @@
 
 Pet::Pet(GameObject* owner) : BaseAttack(owner)
 {
+	count = 0;
 	cState = ready;
 	lifetime = 30000;
 	range_ = 100;
@@ -23,12 +24,19 @@ Pet::Pet(GameObject* owner) : BaseAttack(owner)
 	owner->GetComponent<AnimationComp>()->ChangeAnimation("Attack");
 	owner->GetComponent<AnimationComp>()->SetTerm(100);
 
-	owner_->AddComponent<BoxCollider>();
-	BoxCollider* col = owner_->GetComponent<BoxCollider>();
+	owner_->AddComponent<CircleCollider>();
+	CircleCollider* col = owner_->GetComponent<CircleCollider>();
 	col->SetLayer(Collider::SEARCH);
-	col->SetType(Collider::AABB_TYPE);
+	col->SetType(Collider::CIRCLE_TYPE);
 	col->SetHandler(static_cast<EventEntity*>(this));
-	col->SetScale({ 500, 500 });
+	col->SetRadius(100);
+
+	for(int i = 0;i<10;i++)
+	{
+		GameObject* p = GameObjectManager::GetInstance().CreateObject(std::to_string(i));
+		p->AddComponent<PB>();
+		pbs.push_back(p);
+	}
 }
 
 Pet::~Pet() 
@@ -81,7 +89,7 @@ void Pet::Update()
 			AEVec2 mousePosF({ static_cast<float>(x), static_cast<float>(y) });
 			AEVec2 worldMousePos = convert(mousePosF);
 
-			if (summon >= 500)
+			if (summon >= 1000)
 			{
 				fire = true;
 			}
@@ -117,29 +125,32 @@ void Pet::OnEvent(BaseEvent*)
 
 void Pet::OnCollision(CollisionEvent* event)
 {
-	Monster* monster = event->from_->GetComponent<Monster>();
+	BaseMonster* monster = event->monster;
 	if (monster && fire == true)
 	{
 		AEVec2 monsterPos = monster->GetOwner()->GetComponent<Transform>()->GetPosition();
-		GameObject* p = GameObjectManager::GetInstance().CreateObject();
-		p->AddComponent<PB>();
-		p->GetComponent<Transform>()->SetPosition(owner_->GetComponent<Transform>()->GetPosition());
-		p->GetComponent<PB>()->goalPos = monsterPos;
-		p->active_ = true;
+		if (count >= 10)
+			count = 0;
+		pbs[count]->GetComponent<Transform>()->SetPosition(owner_->GetComponent<Transform>()->GetPosition());
+		pbs[count]->GetComponent<PB>()->goalPos = monsterPos;
+		pbs[count]->active_ = true;
 		fire = false;
 		summon = 0;
+		count++;
 	}
 
 	Boss1* boss = event->from_->GetComponent<Boss1>();
 	if (boss && fire == true)
 	{
 		AEVec2 bossPos = boss->GetOwner()->GetComponent<Transform>()->GetPosition();
-		GameObject* p = GameObjectManager::GetInstance().CreateObject();
-		p->AddComponent<PB>();
-		p->GetComponent<PB>()->goalPos = bossPos;
-		p->active_ = true;
+		if (count >= 10)
+			count = 0;
+		pbs[count]->GetComponent<Transform>()->SetPosition(owner_->GetComponent<Transform>()->GetPosition());
+		pbs[count]->GetComponent<PB>()->goalPos = bossPos;
+		pbs[count]->active_ = true;
 		fire = false;
 		summon = 0;
+		count++;
 	}
 }
 

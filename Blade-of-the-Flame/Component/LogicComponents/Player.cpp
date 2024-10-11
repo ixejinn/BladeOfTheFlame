@@ -30,6 +30,10 @@ int Player::count = 0;
 #include "Skills/grab.h"
 #include "Skills/Recall.h"
 #include "Skills/Pet.h"
+#include "Skills/oppositeFlame.h"
+#include "Skills/Melee2.h"
+
+#include "aim.h"
 
 #include "../../Manager/Camera.h"
 
@@ -69,8 +73,8 @@ void Player::SetAttack()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 1;
-	SkillGage = 0;
+	level_ = 18;
+	SkillGage = 120;
 	/* Set Player component */
 	owner_->AddComponent<CircleCollider>();
 	owner_->AddComponent<BoxCollider>();
@@ -110,7 +114,14 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 
 	ParticleSystem::getPtr()->SetParticle(50, { 10, 10 }, 1500);
 
+	aimobj = GameObjectManager::GetInstance().CreateObject("aim");
+	aimobj->AddComponent<aim>();
+
 	/* BASIC ATTACK GameObject */
+	melee2_Attack = GameObjectManager::GetInstance().CreateObject("Melee2Attack");
+	melee2_Attack->AddComponent<Melee2Attack>();
+	melee2_Attack->GetComponent<Melee2Attack>()->SetPlayer(owner_);
+
 	melee_Attack = GameObjectManager::GetInstance().CreateObject("MeleeAttack");
 	melee_Attack->AddComponent<MeleeAttack>();
 	melee_Attack->GetComponent<MeleeAttack>()->SetPlayer(owner_);
@@ -139,6 +150,7 @@ Player::Player(GameObject* owner) : LogicComponent(owner)
 	TimeRecall = GameObjectManager::GetInstance().CreateObject("TimeRecall");
 	TimeRecall->AddComponent<Recall>();
 	TimeRecall->GetComponent<Recall>()->SetPlayer(owner_);
+	TimeRecall->active_ = true;
 
 	Pet_ = GameObjectManager::GetInstance().CreateObject("Pet");
 	Pet_->AddComponent<Pet>();
@@ -157,6 +169,7 @@ void Player::RemoveFromManager()
 
 void Player::Update()
 {
+	std::cout << SkillGage << std::endl;
 	if (overlapMonster)
 	{
 		pCtrl_->SetMoveSpeed(moveSpeed_ / 2.f);
@@ -217,8 +230,7 @@ void Player::Update()
 		audio_->SetPlaying(true);
 	}
 
-	//SetAttack();
-	if (1 <= level_ && level_ < 4)
+	if (1 <= level_ && level_ < 4)////////////////////////////////////////////////////////////////////////////////////////1
 	{
 		if (SkillGage >= maxSkillGage)
 		{
@@ -227,31 +239,94 @@ void Player::Update()
 			curAttack_->On();
 			SkillGage = 0;
 		}
-		//else
-		//{
-		//	curAttack_ = nullptr;
-		//	if (AEInputCheckCurr(AEVK_LBUTTON) && melee_Attack->GetComponent<MeleeAttack>()->GetCooldown() <= meleeCool)
-		//	{
-		//		meleeCool = 0.0;
-		//		curAttack_ = melee_Attack->GetComponent<MeleeAttack>();
-		//		//std::cout << "on" << std::endl;
-		//		curAttack_->On();
-		//		//audio_->SetPlaying(true);
-		//	}
-		//}
 	}
-	else if (4 <= level_ && level_ < 7)
+
+	else if (4 <= level_ && level_ < 7)////////////////////////////////////////////////////////////////////////////////////////2
 	{
 		flameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= maxSkillGage)
 		{
-			//TimeRecall->active_ = true;
-			////부메랑 스킬
-			//curAttack_ = boomerang_Attack->GetComponent<boomerang>();
-			//curAttack_->On();
-			//SkillGage = 0;
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				curAttack_ = TimeRecall->GetComponent<Recall>();
+				curAttack_->On();
+			}
+		}
+		else
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 3000)
+			{
+				GameObject* flame_Attack = nullptr;
+				flame_Attack = GameObjectManager::GetInstance().CreateObject("FlameAttack" + std::to_string(count));
+				count++;
+				flame_Attack->AddComponent<Flame>();
+				flame_Attack->GetComponent<Flame>()->SetPlayer(owner_);
+				curAttack_ = flame_Attack->GetComponent<Flame>();
+				curAttack_->On();
 
-			// 파이어 버블
+				flameCool = 0;
+			}
+		}
+	}
+	else if (7 <= level_ && level_ < 10)////////////////////////////////////////////////////////////////////////////////////////3
+	{
+		mel2Cool += AEFrameRateControllerGetFrameRate();
+		if (SkillGage >= maxSkillGage)
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				curAttack_ = grab_Attack->GetComponent<Grab>();
+				curAttack_->On();
+			}
+		}
+		else
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON) && mel2Cool >= 2000)
+			{
+				curAttack_ = melee2_Attack->GetComponent<Melee2Attack>();
+				curAttack_->On();
+			}
+		}
+	}
+	else if (10 <= level_ && level_ < 14)////////////////////////////////////////////////////////////////////////////////////////4
+	{
+		oflameCool += AEFrameRateControllerGetFrameRate();
+		if (SkillGage >= maxSkillGage*2.0f)
+		{
+			//부메랑 스킬
+			curAttack_ = boomerang_Attack->GetComponent<boomerang>();
+			curAttack_->On();
+			SkillGage = 0;
+		}
+		else
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON) && oflameCool >= 3000)
+			{
+				GameObject* flame_Attack = nullptr;
+				flame_Attack = GameObjectManager::GetInstance().CreateObject("FlameAttack" + std::to_string(count));
+				count++;
+				flame_Attack->AddComponent<Flame>();
+				flame_Attack->GetComponent<Flame>()->SetPlayer(owner_);
+				curAttack_ = flame_Attack->GetComponent<Flame>();
+				curAttack_->On();
+
+				GameObject* oflame_Attack = nullptr;
+				oflame_Attack = GameObjectManager::GetInstance().CreateObject("oFlameAttack" + std::to_string(count));
+				count++;
+				oflame_Attack->AddComponent<oFlame>();
+				oflame_Attack->GetComponent<oFlame>()->SetPlayer(owner_);
+				curAttack_ = oflame_Attack->GetComponent<oFlame>();
+				curAttack_->On();
+
+				oflameCool = 0;
+			}
+		}
+	}
+	else if (14 <= level_ && level_ < 18)////////////////////////////////////////////////////////////////////////////////////////5
+	{
+		doubleflameCool += AEFrameRateControllerGetFrameRate();
+		if (SkillGage >= maxSkillGage * 2.0f)
+		{
 			curAttack_ = nullptr;
 			if (AEInputCheckCurr(AEVK_LBUTTON))
 			{
@@ -259,74 +334,6 @@ void Player::Update()
 				curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
 				curAttack_->On();
 			}
-
-			//if (AEInputCheckCurr(AEVK_LBUTTON))
-			//{
-			//	curAttack_ = grab_Attack->GetComponent<Grab>();
-			//	curAttack_->On();
-			//}
-
-			//if (AEInputCheckCurr(AEVK_LBUTTON))
-			//{
-			//	curAttack_ = TimeRecall->GetComponent<Recall>();
-			//	curAttack_->On();
-			//}
-
-			//if (AEInputCheckCurr(AEVK_LBUTTON))
-			//{
-			//	curAttack_ = Pet_->GetComponent<Pet>();
-			//	curAttack_->On();
-			//	SkillGage = 0;
-			//}
-		}
-		else
-		{
-			//if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 3000)
-			//{
-			//	GameObject* flame_Attack = nullptr;
-			//	flame_Attack = GameObjectManager::GetInstance().CreateObject("FlameAttack" + std::to_string(count));
-			//	count++;
-			//	flame_Attack->AddComponent<Flame>();
-			//	flame_Attack->GetComponent<Flame>()->SetPlayer(owner_);
-			//	curAttack_ = flame_Attack->GetComponent<Flame>();
-			//	curAttack_->On();
-
-			//	flameCool = 0;
-			//}
-
-			if (AEInputCheckCurr(AEVK_LBUTTON) && flameCool >= 8000)
-			{
-				GameObject* gtae_Attack = nullptr;
-				gtae_Attack = GameObjectManager::GetInstance().CreateObject("GtaeAttack" + std::to_string(count));
-				count++;
-				gtae_Attack->AddComponent<Gtae>();
-				gtae_Attack->GetComponent<Gtae>()->SetPlayer(owner_);
-				curAttack_ = gtae_Attack->GetComponent<Gtae>();
-				curAttack_->On();
-
-				flameCool = 0;
-			}
-		}
-	}
-	else if (7 <= level_ && level_ < 10)
-	{
-		TimeRecall->active_ = false;
-		doubleflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= maxSkillGage)
-		{
-			//// 파이어 버블
-			//curAttack_ = nullptr;
-			//if (AEInputCheckCurr(AEVK_LBUTTON))
-			//{
-			//	fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
-			//	curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
-			//	curAttack_->On();
-			//}
-			TimeRecall->active_ = true;
-			//부메랑 스킬
-			curAttack_ = boomerang_Attack->GetComponent<boomerang>();
-			curAttack_->On();
-			SkillGage = 0;
 		}
 		else
 		{
@@ -352,10 +359,38 @@ void Player::Update()
 			}
 		}
 	}
-	else
+	else if (18 <= level_ && level_ < 22)////////////////////////////////////////////////////////////////////////////////////////6
+	{
+		gtaeCool += AEFrameRateControllerGetFrameRate();
+		if (SkillGage >= maxSkillGage * 2.0f)
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				curAttack_ = Pet_->GetComponent<Pet>();
+				curAttack_->On();
+				SkillGage = 0;
+			}
+		}
+		else
+		{
+			if (AEInputCheckCurr(AEVK_LBUTTON) && gtaeCool >= 8000)
+			{
+				GameObject* gtae_Attack = nullptr;
+				gtae_Attack = GameObjectManager::GetInstance().CreateObject("GtaeAttack" + std::to_string(count));
+				count++;
+				gtae_Attack->AddComponent<Gtae>();
+				gtae_Attack->GetComponent<Gtae>()->SetPlayer(owner_);
+				curAttack_ = gtae_Attack->GetComponent<Gtae>();
+				curAttack_->On();
+
+				gtaeCool = 0;
+			}
+		}
+	}
+	else////////////////////////////////////////////////////////////////////////////////////////7
 	{
 		pendoubleflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= maxSkillGage*2.0f)
+		if (SkillGage >= maxSkillGage * 2.0f)
 		{
 			//메테오
 			curAttack_ = meteor->GetComponent<Meteor>();
@@ -385,6 +420,7 @@ void Player::Update()
 			}
 		}
 	}
+	
 
 	/* NEXT STAGE */
 	static bool callBoss = true;
@@ -497,6 +533,7 @@ void Player::OnCollision(CollisionEvent* event)
 
 void Player::LevelUp()
 {
+
 	ParticleSystem::getPtr()->Update();
 
 	maxExp_ += int(maxExp_ * expRequirement_ / 100);

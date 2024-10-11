@@ -27,11 +27,11 @@ private:
 	static int count;
 
 	int level_;
-	int hp_ = 100;
+	float hp_ = 100;
 	int exp_ = 0;
 
-	int maxLevel_ = 100;
-	int maxHp_ = 100;
+	int maxLevel_ = 22;
+	float maxHp_ = 100;
 	int maxExp_ = 50;
 
 	float moveSpeed_ = 25.f;
@@ -46,10 +46,11 @@ private:
 
 	bool overlapMonster = false;
 
+	GameObject* aimobj = nullptr;
+	
 	//Basic_Attack
 	GameObject* melee_Attack = nullptr;
-	GameObject* double_flame_Attack = nullptr;
-	GameObject* penetrable_double_flame_Attack = nullptr;
+	GameObject* melee2_Attack = nullptr;
 
 	//Special_Attack
 	GameObject* Pet_ = nullptr;
@@ -77,6 +78,9 @@ public:
 	double flameCool = 0;
 	double doubleflameCool = 0;
 	double pendoubleflameCool = 0;
+	double oflameCool = 0;
+	double mel2Cool = 0;
+	double gtaeCool = 0;
 
 	bool getCompass_ = false;
 	bool findAltar_ = false;

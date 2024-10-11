@@ -9,7 +9,7 @@ Grab::Grab(GameObject* owner) : BaseAttack(owner)
 	mode = set;
 	lifetime = 9000;
 	range_ = 500;
-	dmg_ = 1;
+	dmg_ = 0;
 	tempdmg = dmg_;
 	cooldown_ = 2000;
 	dmgGrowthRate_ = 5.f;
@@ -100,16 +100,20 @@ void Grab::OnEvent(BaseEvent*)
 
 void Grab::OnCollision(CollisionEvent* event)
 {
-	Monster* monster = event->from_->GetComponent<Monster>();
+	BaseMonster* monster = event->monster;
 	if (monster)
 	{
-		monster->ReserveDmg(dmg_);
+		AEVec2 p = owner_->GetComponent<Transform>()->GetPosition() - monster->GetOwner()->GetComponent<Transform>()->GetPosition();
+		monster->GetOwner()->GetComponent<RigidBody>()->AddVelocity(p*20);
+		player_->GetComponent<Player>()->SkillGage = 0;
 	}
 
 	Boss1* boss = event->from_->GetComponent<Boss1>();
 	if (boss)
 	{
-		boss->ReserveDmg(dmg_);
+		AEVec2 p = owner_->GetComponent<Transform>()->GetPosition() - boss->GetOwner()->GetComponent<Transform>()->GetPosition();
+		boss->GetOwner()->GetComponent<RigidBody>()->AddVelocity(p *20);
+		player_->GetComponent<Player>()->SkillGage = 0;
 	}
 }
 

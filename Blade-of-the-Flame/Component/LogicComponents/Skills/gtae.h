@@ -1,23 +1,31 @@
 #pragma once
 #include "AEEngine.h"
 #include "../../LogicComponent.h"
-#include "../../AnimationComp.h"
-#include "../../../Manager/ComponentManager.h"
+#include "../../Component/AnimationComp.h"
+#include "../../Manager/ComponentManager.h"
 
 class Gtae : public BaseAttack, public EventEntity
 {
-	enum
+	enum State
 	{
+		df,
 		set,
 		fire
 	};
 
 	Gtae(GameObject* owner);
-	float lifetime;
+	~Gtae();
+	AEVec2 convertPos;
+	AEVec2 halfPos;
+	AEVec2 attackDir;
+	AEVec2 dir;
+	float delay;
+	float scaleA, scaleB;
 	int mode;
 	float tempdmg;
-	AEVec2 dir;
-	~Gtae();
+	float spin;
+	float speed;
+	float lifetime;
 public:
 
 	void Update() override;

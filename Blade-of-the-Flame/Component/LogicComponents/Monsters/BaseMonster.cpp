@@ -9,6 +9,8 @@
 #include "../../../Event/Event.h"
 #include "../Skills/shield.h"
 #include "../Skills/Flame.h"
+#include "../Skills/gtae.h"
+#include "../Skills/Melee2.h"
 #include "../Skills/doubleFlameL.h"
 #include "../Skills/doubleFlameR.h"
 

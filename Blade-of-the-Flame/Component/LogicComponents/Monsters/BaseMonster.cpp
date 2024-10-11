@@ -129,7 +129,6 @@ void BaseMonster::OnCollision(CollisionEvent* event)
 	if (pAttack)
 	{
 		hp_ -= pAttack->GetDmg();
-		std::cout << hp_ << " " << pAttack->GetDmg() << std::endl;
 		Manager::objMgr.GetObjectA("player")->GetComponent<Player>()->SkillGage += 1;
 
 		if (hp_ > 0)

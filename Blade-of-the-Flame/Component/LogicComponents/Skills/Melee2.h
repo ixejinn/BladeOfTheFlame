@@ -1,6 +1,6 @@
 #pragma once
 #include "../BaseAttack.h"
-#include "../../Manager/ComponentManager.h"
+#include "../../../Manager/ComponentManager.h"
 
 class Melee2Attack : public BaseAttack, public EventEntity
 {

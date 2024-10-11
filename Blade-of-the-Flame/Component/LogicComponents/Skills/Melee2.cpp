@@ -1,8 +1,8 @@
 #include "Melee2.h"
 
 #include "AEVec2.h"
-#include "../../Event/Event.h"
-#include "../../Manager/EventManager.h"
+#include "../../../Event/Event.h"
+#include "../../../Manager/EventManager.h"
 
 Melee2Attack::Melee2Attack(GameObject* owner) : BaseAttack(owner)
 {

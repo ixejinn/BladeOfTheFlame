@@ -1,9 +1,9 @@
 #include "gtae.h"
 
 #include <iostream>
-#include "../../Event/Event.h"
+#include "../../../Event/Event.h"
 #include "../Monster.h"
-#include "../../Utils/Utils.h"
+#include "../../../Utils/Utils.h"
 #include <cmath>
 
 Gtae::Gtae(GameObject* owner) : BaseAttack(owner)

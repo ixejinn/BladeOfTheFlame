@@ -56,7 +56,7 @@ void MonsterManager::OnEvent(BaseEvent* event)
 	if (dynamic_cast<LevelUpEvent*>(event))
 	{
 		LevelUpEvent* lvlUp = static_cast<LevelUpEvent*>(event);
-		normalSpawner_.SetMaxActiveNum(normalSpawner_.GetMaxActiveNum() * lvlUp->level);
+		normalSpawner_.SetMaxActiveNum(10 * lvlUp->level);
 	}
 	else if (dynamic_cast<SpawnBossEvent*>(event))
 	{

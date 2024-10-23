@@ -73,7 +73,7 @@ void Player::SetAttack()
 
 Player::Player(GameObject* owner) : LogicComponent(owner)
 {
-	level_ = 10;
+	level_ = 1;
 	SkillGage = 0;
 	/* Set Player component */
 	owner_->AddComponent<CircleCollider>();
@@ -254,7 +254,7 @@ void Player::Update()
 		flameCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= maxSkillGage)
 		{
-			if (AEInputCheckCurr(AEVK_LBUTTON))
+			if (AEInputCheckCurr(AEVK_RBUTTON))
 			{
 				curAttack_ = TimeRecall->GetComponent<Recall>();
 				curAttack_->On();
@@ -281,7 +281,7 @@ void Player::Update()
 		mel2Cool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= maxSkillGage)
 		{
-			if (AEInputCheckCurr(AEVK_LBUTTON))
+			if (AEInputCheckCurr(AEVK_RBUTTON))
 			{
 				curAttack_ = grab_Attack->GetComponent<Grab>();
 				curAttack_->On();
@@ -336,7 +336,7 @@ void Player::Update()
 		if (SkillGage >= maxSkillGage * 2.0f)
 		{
 			curAttack_ = nullptr;
-			if (AEInputCheckCurr(AEVK_LBUTTON))
+			if (AEInputCheckCurr(AEVK_RBUTTON))
 			{
 				fire_bubble_Attack->GetComponent<bubble>()->SetPlayer(owner_);
 				curAttack_ = fire_bubble_Attack->GetComponent<bubble>();
@@ -372,7 +372,7 @@ void Player::Update()
 		gtaeCool += AEFrameRateControllerGetFrameRate();
 		if (SkillGage >= maxSkillGage * 2.0f)
 		{
-			if (AEInputCheckCurr(AEVK_LBUTTON))
+			if (AEInputCheckCurr(AEVK_RBUTTON))
 			{
 				curAttack_ = Pet_->GetComponent<Pet>();
 				curAttack_->On();

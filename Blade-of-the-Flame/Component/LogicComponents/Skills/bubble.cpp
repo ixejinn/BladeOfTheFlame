@@ -65,7 +65,7 @@ void bubble::Update()
 		s32 x, y;
 		AEInputGetCursorPosition(&x, &y);
 		AEVec2 mousePosF({ static_cast<float>(x), static_cast<float>(y) });
-		if (!AEInputCheckCurr(AEVK_LBUTTON))
+		if (!AEInputCheckCurr(AEVK_RBUTTON))
 		{
 			AEVec2 attackDir{ convert(mousePosF) - owner_->GetComponent<Transform>()->GetPosition() };
 			AEVec2Normalize(&dir, &attackDir);

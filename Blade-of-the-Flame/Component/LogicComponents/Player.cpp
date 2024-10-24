@@ -240,7 +240,7 @@ void Player::Update()
 
 	if (1 <= level_ && level_ < 4)////////////////////////////////////////////////////////////////////////////////////////1
 	{
-		if (SkillGage >= maxSkillGage)
+		if (SkillGage >= maxSkillGage && AEInputCheckCurr(AEVK_RBUTTON))
 		{
 			//½¯µå½ºÅ³
 			curAttack_ = shield_Attack->GetComponent<Shield>();
@@ -299,7 +299,7 @@ void Player::Update()
 	else if (10 <= level_ && level_ < 14)////////////////////////////////////////////////////////////////////////////////////////4
 	{
 		oflameCool += AEFrameRateControllerGetFrameRate();
-		if (SkillGage >= maxSkillGage*2.0f)
+		if (SkillGage >= maxSkillGage*2.0f && AEInputCheckCurr(AEVK_RBUTTON))
 		{
 			//ºÎ¸Þ¶û ½ºÅ³
 			curAttack_ = boomerang_Attack->GetComponent<boomerang>();

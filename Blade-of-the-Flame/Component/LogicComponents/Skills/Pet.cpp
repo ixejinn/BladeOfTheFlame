@@ -57,7 +57,7 @@ void Pet::Update()
 		lifetime = 30000;
 		owner_->GetComponent<Transform>()->SetScale({ 0, 0 });
 
-		if (!AEInputCheckCurr(AEVK_LBUTTON))
+		if (!AEInputCheckCurr(AEVK_RBUTTON))
 		{
 			owner_->GetComponent<Transform>()->SetScale({ range_, range_ });
 			cState = shoot;
